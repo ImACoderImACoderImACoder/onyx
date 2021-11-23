@@ -4,6 +4,7 @@ import VolcanoSerialNumber from "./features/SerialNumber/SerialNumberContainer";
 import HoursOfOperation from "./features/HoursOfOperation/HoursOfOperationContainer";
 import VolcanoFirmwareVersion from "./features/VolcanoFirmwareVersion/VolcanoFirmwareVersionContainer";
 import BleFirmwareVersion from "./features/BleFirmwareVersion/BleFirmwareVersionContainer";
+import HeatOn from "./features/HeatOn/HeatOnContainer";
 
 function Volcano(props) {
   return (
@@ -12,6 +13,7 @@ function Volcano(props) {
       <HoursOfOperation bleDevice={props.bleDevice} />
       <VolcanoFirmwareVersion bleDevice={props.bleDevice} />
       <BleFirmwareVersion bleDevice={props.bleDevice} />
+      <HeatOn bleDevice={props.bleDevice} />
       <DisconnectButton
         bleDevice={props.bleDevice}
         setBleDevice={props.setBleDevice}
