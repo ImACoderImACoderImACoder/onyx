@@ -71,15 +71,6 @@ export default function GetBluetoothDevice(onConnected) {
       options.filters = filters;
       options.acceptAllDevices = false;
     }
-
-    /*   Number.prototype.pad = function (size) {
-      var s = String(this);
-      while (s.length < (size || 2)) {
-        s = "0" + s;
-      }
-      return s;
-    }; */
-
     navigator.bluetooth
       .requestDevice(options)
       .then((device) => {
