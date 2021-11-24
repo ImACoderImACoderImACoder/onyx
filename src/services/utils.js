@@ -78,6 +78,7 @@ export const getToggleOnClick =
             const heatPumpCharacteristic =
               heatPumpCharacteristicDictionary[characteristicUuid];
             if (heatPumpCharacteristic) {
+              console.log("resloving characteristic from cache");
               return clickPayload(
                 heatPumpCharacteristic,
                 setIsToggleOn,

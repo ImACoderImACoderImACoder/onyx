@@ -2,5 +2,7 @@
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/7cd30011-3868-49e6-a84c-db90c246b872/resourceGroups/SANDBOX-USEAST-LUISAPP/providers/Microsoft.Web/sites/imacoderimacoderimacoder",
+    "appService.deploySubpath": "."
 }

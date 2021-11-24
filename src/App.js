@@ -9,7 +9,15 @@ function App() {
   const [bleDevice, setBleDevice] = useState(undefined);
 
   const onBleConnectClick = () => {
-    Ble((bleDevice) => setBleDevice(bleDevice));
+    Promise.resolve()
+      .then(() => Ble)
+      .then((bleDevice) => {
+        console.log(`setting ble device to ${bleDevice}`);
+        setBleDevice(bleDevice);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

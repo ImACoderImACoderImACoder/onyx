@@ -5,13 +5,15 @@ import {
   serviceUuidVolcano4,
 } from "../constants/uuids";
 
+let primaryServiceUuidVolcano1;
+let primaryServiceUuidVolcano2;
+let primaryServiceUuidVolcano3;
+let primaryServiceUuidVolcano4;
+let bleServer;
+
 export default function BleGattOverhead(bleDevice) {
-  let primaryServiceUuidVolcano1;
-  let primaryServiceUuidVolcano2;
-  let primaryServiceUuidVolcano3;
-  let primaryServiceUuidVolcano4;
-  let bleServer;
   if (primaryServiceUuidVolcano1) {
+    console.log("resloving bleGattOverhead Via cache");
     return {
       then: (resolve) => {
         resolve(
@@ -26,11 +28,6 @@ export default function BleGattOverhead(bleDevice) {
   }
   return {
     then: (resolve) => {
-      let primaryServiceUuidVolcano1;
-      let primaryServiceUuidVolcano2;
-      let primaryServiceUuidVolcano3;
-      let primaryServiceUuidVolcano4;
-      let bleServer;
       bleDevice.gatt
         .connect()
         .then((server) => {
