@@ -33,7 +33,35 @@ export function convertToggleCharacteristicToBool(value, mask) {
   }
   return true;
 }
+let heatPumpCharacteristicDictionary = {};
 
+const clickPayload = (
+  characteristic,
+  setIsToggleOn,
+  resolve,
+  toggleOnUuid,
+  characteristicUuid
+) => {
+  var buffer = convertToUInt8BLE(0);
+  characteristic
+    .writeValue(buffer)
+    .then((service) => {
+      const newState = characteristicUuid === toggleOnUuid;
+      console.log(`Setting toggle state to ${newState}`);
+      setIsToggleOn(newState);
+      resolve(`toggled ${characteristicUuid === toggleOnUuid ? "On" : "Off"}`);
+    })
+    .catch((error) => {
+      alert(
+        "hey check this thing out" +
+          "\n" +
+          error.toString() +
+          "\n" +
+          error.stack
+      );
+      resolve("error!");
+    });
+};
 export const getToggleOnClick =
   (bleDevice, isToggleOn, setIsToggleOn, toggleOffUuid, toggleOnUuid) => () => {
     const characteristicUuid = isToggleOn ? toggleOffUuid : toggleOnUuid;
@@ -47,33 +75,31 @@ export const getToggleOnClick =
             primaryServiceUuidVolcano3,
             primaryServiceUuidVolcano4
           ) => {
-            return primaryServiceUuidVolcano4
-              .getCharacteristic(characteristicUuid)
-              .then((characteristic) => {
-                var buffer = convertToUInt8BLE(0);
-                characteristic
-                  .writeValue(buffer)
-                  .then((service) => {
-                    const newState = characteristicUuid === toggleOnUuid;
-                    console.log(`Setting toggle state to ${newState}`);
-                    setIsToggleOn(newState);
-                    resolve(
-                      `toggled ${
-                        characteristicUuid === toggleOnUuid ? "On" : "Off"
-                      }`
-                    );
-                  })
-                  .catch((error) => {
-                    alert(
-                      "hey check this thing out" +
-                        "\n" +
-                        error.toString() +
-                        "\n" +
-                        error.stack
-                    );
-                    resolve("error!");
-                  });
-              });
+            const heatPumpCharacteristic =
+              heatPumpCharacteristicDictionary[characteristicUuid];
+            if (heatPumpCharacteristic) {
+              return clickPayload(
+                heatPumpCharacteristic,
+                setIsToggleOn,
+                resolve,
+                toggleOnUuid,
+                characteristicUuid
+              );
+            } else {
+              return primaryServiceUuidVolcano4
+                .getCharacteristic(characteristicUuid)
+                .then((characteristic) => {
+                  heatPumpCharacteristicDictionary[characteristicUuid] =
+                    characteristic;
+                  clickPayload(
+                    characteristic,
+                    setIsToggleOn,
+                    resolve,
+                    toggleOnUuid,
+                    characteristicUuid
+                  );
+                });
+            }
           }
         );
       },

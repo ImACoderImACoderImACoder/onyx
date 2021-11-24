@@ -6,8 +6,8 @@ export default function VolcanoLoader(props) {
   const navigate = useNavigate();
   useEffect(() => {
     if (!props.bleDevice) {
-      navigate("/");
-      return <div>redirect</div>;
+      //navigate("/");
+      return <div>Loading...</div>;
     }
   });
   return <VolcanoContainer {...props} />;
