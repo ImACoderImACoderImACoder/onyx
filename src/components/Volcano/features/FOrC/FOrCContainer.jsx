@@ -81,8 +81,7 @@ export default function FOrCContainer(props) {
             bleServer,
             primaryServiceUuidVolcano1,
             primaryServiceUuidVolcano2,
-            primaryServiceUuidVolcano3,
-            primaryServiceUuidVolcano4
+            primaryServiceUuidVolcano3
           ) => {
             return primaryServiceUuidVolcano3
               .getCharacteristic(register2Uuid)

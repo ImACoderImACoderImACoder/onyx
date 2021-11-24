@@ -6,6 +6,24 @@ import {
 } from "../constants/uuids";
 
 export default function BleGattOverhead(bleDevice) {
+  let primaryServiceUuidVolcano1;
+  let primaryServiceUuidVolcano2;
+  let primaryServiceUuidVolcano3;
+  let primaryServiceUuidVolcano4;
+  let bleServer;
+  if (primaryServiceUuidVolcano1) {
+    return {
+      then: (resolve) => {
+        resolve(
+          bleServer,
+          primaryServiceUuidVolcano1,
+          primaryServiceUuidVolcano2,
+          primaryServiceUuidVolcano3,
+          primaryServiceUuidVolcano4
+        );
+      },
+    };
+  }
   return {
     then: (resolve) => {
       let primaryServiceUuidVolcano1;
