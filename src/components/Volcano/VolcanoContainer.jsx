@@ -4,11 +4,7 @@ import Volcano from "./Volcano";
 
 function VolcanoContainer(props) {
   return (
-    <Volcano
-      setBleDevice={props.setBleDevice}
-      bleDevice={props.bleDevice}
-      serialNumber={"Place holder serial number"}
-    />
+    <Volcano setBleDevice={props.setBleDevice} bleDevice={props.bleDevice} />
   );
 }
 

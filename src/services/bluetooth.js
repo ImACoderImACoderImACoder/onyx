@@ -6,7 +6,6 @@ import {
   serviceUuidVolcano5,
 } from "../constants/uuids";
 
-//import { volcanoConnect } from "./volcano";
 let bluetoothDevice;
 
 function onDisconnected() {
