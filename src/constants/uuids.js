@@ -12,3 +12,8 @@ export const heatOnUuid = "1011000f-5354-4f52-5a26-4249434b454c";
 
 export const fanOffUuid = "10110014-5354-4f52-5a26-4249434b454c";
 export const fanOnUuid = "10110013-5354-4f52-5a26-4249434b454c";
+
+export const bleFirmwareVersionUuid = "10100004-5354-4f52-5a26-4249434b454c";
+export const serialNumberUuid = "10100008-5354-4f52-5a26-4249434b454c";
+export const volcanoFirmwareVersionUuid =
+  "10100003-5354-4f52-5a26-4249434b454c";
