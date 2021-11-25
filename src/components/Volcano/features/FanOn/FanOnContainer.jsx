@@ -5,22 +5,16 @@ import FanOn from "./FanOn";
 import {
   getToggleOnClick,
   initializeEffectForToggle,
-} from "../../../../services/utils";
+} from "../Shared/HeatPumpSharedHandlers/heatPumpSharedCode";
 
 export default function FanOnContainer(props) {
   const [isFanOn, setIsFanOn] = useState(false);
 
   useEffect(() => {
-    initializeEffectForToggle(props.bleDevice, setIsFanOn, fanMask);
+    initializeEffectForToggle(setIsFanOn, fanMask);
   }, [props.bleDevice]);
 
-  const onClick = getToggleOnClick(
-    props.bleDevice,
-    isFanOn,
-    setIsFanOn,
-    fanOffUuid,
-    fanOnUuid
-  );
+  const onClick = getToggleOnClick(isFanOn, setIsFanOn, fanOffUuid, fanOnUuid);
 
   return <FanOn onClick={onClick} isFanOn={isFanOn} />;
 }

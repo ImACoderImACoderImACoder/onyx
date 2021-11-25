@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import VolcanoContainer from "./VolcanoContainer";
-
-export default function VolcanoLoader(props) {
+import Volcano from "./Volcano";
+import { cacheContainsCharacteristic } from "../../services/BleCharacteristicCache";
+import { heatOffUuid } from "../../constants/uuids";
+export default function VolcanoLoader() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!props.bleDevice) {
+    const characteristic = cacheContainsCharacteristic(heatOffUuid);
+    if (!characteristic) {
       navigate("/");
     }
-  }, [props.bleDevice, navigate]);
+  });
 
-  return props.bleDevice ? (
-    <VolcanoContainer {...props} />
+  return cacheContainsCharacteristic(heatOffUuid) ? (
+    <Volcano />
   ) : (
     <div>Loading...</div>
   );

@@ -1,4 +1,3 @@
-import propTypes from "prop-types";
 import DisconnectButton from "./DisconnectButton";
 import VolcanoSerialNumber from "./features/SerialNumber/SerialNumberContainer";
 import HoursOfOperation from "./features/HoursOfOperation/HoursOfOperationContainer";
@@ -11,24 +10,16 @@ import FOrC from "./features/FOrC/FOrCContainer";
 function Volcano(props) {
   return (
     <div>
-      <VolcanoSerialNumber bleDevice={props.bleDevice} />
-      <HoursOfOperation bleDevice={props.bleDevice} />
-      <VolcanoFirmwareVersion bleDevice={props.bleDevice} />
-      <BleFirmwareVersion bleDevice={props.bleDevice} />
-      <FOrC bleDevice={props.bleDevice} />
-      <HeatOn bleDevice={props.bleDevice} />
-      <FanOn bleDevice={props.bleDevice} />
-      <DisconnectButton
-        bleDevice={props.bleDevice}
-        setBleDevice={props.setBleDevice}
-      />
+      <VolcanoSerialNumber />
+      <HoursOfOperation />
+      <VolcanoFirmwareVersion />
+      <BleFirmwareVersion />
+      <FOrC />
+      <HeatOn />
+      <FanOn />
+      <DisconnectButton />
     </div>
   );
 }
-
-Volcano.propTypes = {
-  setBleDevice: propTypes.func.isRequired,
-  bleDevice: propTypes.object.isRequired,
-};
 
 export default Volcano;

@@ -5,17 +5,16 @@ import HeatOn from "./HeatOn";
 import {
   getToggleOnClick,
   initializeEffectForToggle,
-} from "../../../../services/utils";
+} from "../Shared/HeatPumpSharedHandlers/heatPumpSharedCode";
 
 export default function HeatOnContainer(props) {
   const [isHeatOn, setIsHeatOn] = useState(false);
 
   useEffect(() => {
-    initializeEffectForToggle(props.bleDevice, setIsHeatOn, heatingMask);
-  }, [props.bleDevice]);
+    initializeEffectForToggle(setIsHeatOn, heatingMask);
+  }, []);
 
   const onClick = getToggleOnClick(
-    props.bleDevice,
     isHeatOn,
     setIsHeatOn,
     heatOffUuid,

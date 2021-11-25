@@ -1,7 +1,3 @@
 export default function Ble(props) {
-  return (
-    <button onClick={props.onClick}>
-      {props.isConnected ? "Connected!" : "Connect"}
-    </button>
-  );
+  return <button onClick={props.onClick}>Connect</button>;
 }

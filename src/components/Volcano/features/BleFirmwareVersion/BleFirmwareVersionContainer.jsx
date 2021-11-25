@@ -1,42 +1,25 @@
 import { useState, useEffect } from "react";
-import { bleFirmwareVersionUuid } from "../../../../constants/uuids";
 import BleFirmwareVersion from "./BleFirmwareVersion";
 import { AddToQueue } from "../../../../services/bleQueueing";
-import BleGattOverhead from "../../../../services/BleGattOverhead";
+import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
+import { bleFirmwareVersionUuid } from "../../../../constants/uuids";
 
-export default function VolcanoFirmwareVersionContainer(props) {
+export default function VolcanoFirmwareVersionContainer() {
   const [bleFirmwareVersion, setBleFirmwareVersion] = useState(undefined);
   useEffect(() => {
-    if (!props.bleDevice || bleFirmwareVersion) {
-    } else {
-      const blePayload = {
-        then: (resolve) => {
-          BleGattOverhead(props.bleDevice).then(
-            (
-              bleService,
-              primaryServiceUuidVolcano1,
-              primaryServiceUuidVolcano2,
-              primaryServiceUuidVolcano3
-            ) => {
-              return primaryServiceUuidVolcano3
-                .getCharacteristic(bleFirmwareVersionUuid)
-                .then((characteristic) => {
-                  return characteristic.readValue();
-                })
-
-                .then((value) => {
-                  let decoder = new TextDecoder("utf-8");
-                  let firmwareBLEVersion = decoder.decode(value);
-                  setBleFirmwareVersion(firmwareBLEVersion);
-                  resolve(firmwareBLEVersion);
-                });
-            }
-          );
-        },
-      };
-      AddToQueue(blePayload);
-    }
-  }, [props.bleDevice, bleFirmwareVersion]);
+    const blePayload = {
+      then: (resolve) => {
+        const characteristic = getCharacteristic(bleFirmwareVersionUuid);
+        return characteristic.readValue().then((value) => {
+          let decoder = new TextDecoder("utf-8");
+          let firmwareBLEVersion = decoder.decode(value);
+          setBleFirmwareVersion(firmwareBLEVersion);
+          resolve(firmwareBLEVersion);
+        });
+      },
+    };
+    AddToQueue(blePayload);
+  });
 
   return <BleFirmwareVersion bleFirmwareVersion={bleFirmwareVersion} />;
 }

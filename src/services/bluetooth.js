@@ -1,10 +1,12 @@
 import {
-  serviceUuidVolcano1,
-  serviceUuidVolcano2,
-  serviceUuidVolcano3,
-  serviceUuidVolcano4,
-  serviceUuidVolcano5,
+  primaryServiceUuidVolcano1,
+  primaryServiceUuidVolcano2,
+  primaryServiceUuidVolcano3,
+  primaryServiceUuidVolcano4,
+  primaryServiceUuidVolcano5,
 } from "../constants/uuids";
+
+import { buildCacheFromBleDevice } from "../services/BleCharacteristicCache";
 
 let bluetoothDevice;
 
@@ -49,11 +51,11 @@ const bluetoothThenable = {
       ) {
         filters.push({
           services: [
-            serviceUuidVolcano1,
-            serviceUuidVolcano2,
-            serviceUuidVolcano3,
-            serviceUuidVolcano4,
-            serviceUuidVolcano5,
+            primaryServiceUuidVolcano1,
+            primaryServiceUuidVolcano2,
+            primaryServiceUuidVolcano3,
+            primaryServiceUuidVolcano4,
+            primaryServiceUuidVolcano5,
           ],
         });
         options.filters = filters;
@@ -61,11 +63,11 @@ const bluetoothThenable = {
       } else {
         filters.push({
           services: [
-            serviceUuidVolcano1,
-            serviceUuidVolcano2,
-            serviceUuidVolcano3,
-            serviceUuidVolcano4,
-            serviceUuidVolcano5,
+            primaryServiceUuidVolcano1,
+            primaryServiceUuidVolcano2,
+            primaryServiceUuidVolcano3,
+            primaryServiceUuidVolcano4,
+            primaryServiceUuidVolcano5,
           ],
         });
         options.filters = filters;
@@ -81,7 +83,9 @@ const bluetoothThenable = {
               "gattserverdisconnected",
               onDisconnected
             );
-            resolve(bluetoothDevice);
+            buildCacheFromBleDevice(bluetoothDevice).then(() => {
+              resolve("Adapter resolved. Cache built");
+            });
           }
         })
         .catch((error) => {

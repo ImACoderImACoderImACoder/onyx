@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import propTypes from "prop-types";
 
 function DisconnectButton(props) {
   const navigate = useNavigate();
@@ -12,9 +11,4 @@ function DisconnectButton(props) {
 
   return <button onClick={onClick}>Disconnect</button>;
 }
-DisconnectButton.propTypes = {
-  bleDevice: propTypes.object.isRequired,
-  setBleDevice: propTypes.func.isRequired,
-};
-
 export default DisconnectButton;
