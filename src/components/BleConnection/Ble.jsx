@@ -1,3 +1,10 @@
+import "./Ble.css";
 export default function Ble(props) {
-  return <button onClick={props.onClick}>Connect</button>;
+  return (
+    <div className="container">
+      <button className="connect-button" onClick={props.onClick}>
+        Tap anywhere to connect
+      </button>
+    </div>
+  );
 }

@@ -1,2 +1,9 @@
 .connect-button {
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  font-size: 30px;
+  text-align: left;
+  flex-direction: column;
+  color: antiquewhite;
 }

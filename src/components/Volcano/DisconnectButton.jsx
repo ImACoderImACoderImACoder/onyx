@@ -15,6 +15,10 @@ function DisconnectButton() {
     window.location.reload();
   };
 
-  return <button onClick={onClick}>Disconnect</button>;
+  return (
+    <div>
+      <button onClick={onClick}>Disconnect</button>
+    </div>
+  );
 }
 export default DisconnectButton;

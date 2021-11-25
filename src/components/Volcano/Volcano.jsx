@@ -7,7 +7,7 @@ import HeatOn from "./features/HeatOn/HeatOnContainer";
 import FanOn from "./features/FanOn/FanOnContainer";
 import FOrC from "./features/FOrC/FOrCContainer";
 
-function Volcano(props) {
+function Volcano() {
   return (
     <div>
       <VolcanoSerialNumber />

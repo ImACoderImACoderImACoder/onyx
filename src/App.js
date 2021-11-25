@@ -5,12 +5,14 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<BleConnectButtonContainer />} />
-        <Route path="/Volcano" element={<VolcanoLoader />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<BleConnectButtonContainer />} />
+          <Route path="/Volcano" element={<VolcanoLoader />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
