@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom";
-
-function DisconnectButton(props) {
+import {
+  clearCache,
+  getCharacteristic,
+} from "../../services/BleCharacteristicCache";
+import * as uuIds from "../../constants/uuids";
+function DisconnectButton() {
   const navigate = useNavigate();
   const onClick = () => {
-    props.bleDevice.gatt.disconnect();
-    props.setBleDevice(undefined);
+    const bleServer = getCharacteristic(uuIds.bleServer);
+    console.log(bleServer);
+    bleServer.device.gatt.disconnect();
+    clearCache();
     navigate("/");
     window.location.reload();
   };
