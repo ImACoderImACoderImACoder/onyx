@@ -1,7 +1,7 @@
 import proptypes from "prop-types";
 
 function BleFirmwareVersion(props) {
-  return <div>Ble firmware: {props.bleFirmwareVersion}</div>;
+  return <div>Ble Firmware: {props.bleFirmwareVersion}</div>;
 }
 
 BleFirmwareVersion.propTypes = {
