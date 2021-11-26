@@ -84,16 +84,16 @@ export default function WriteTemperatureContainer(props) {
         )}
       />
       <WriteTemperature
-        onClick={onClick(MAX_CELSIUS_TEMP)}
-        targetTemperature={getDisplayTemperature(MAX_CELSIUS_TEMP, props.isF)}
-      />
-      <WriteTemperature
         onClick={onClick(aTempIWantRightNow)}
         targetTemperature={getDisplayTemperature(aTempIWantRightNow, props.isF)}
       />
       <WriteTemperature
         onClick={onClick(bTempIWantRightNow)}
         targetTemperature={getDisplayTemperature(bTempIWantRightNow, props.isF)}
+      />
+      <WriteTemperature
+        onClick={onClick(MAX_CELSIUS_TEMP)}
+        targetTemperature={getDisplayTemperature(MAX_CELSIUS_TEMP, props.isF)}
       />
     </div>
   );
