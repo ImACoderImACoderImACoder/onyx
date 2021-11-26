@@ -10,9 +10,12 @@ import {
   getDisplayTemperature,
 } from "../../../../services/utils";
 import WriteTemperature from "./WriteTemperature";
-import { MAX_CELSIUS_TEMP } from "../../../../constants/temperature";
+import {
+  MAX_CELSIUS_TEMP,
+  MIN_CELSIUS_TEMP,
+} from "../../../../constants/temperature";
 import { AddToQueue } from "../../../../services/bleQueueing";
-
+import CurrentTargetTemperature from "./CurrentTargetTemperature";
 export default function WriteTemperatureContainer(props) {
   const [currentTargetTemperature, setCurrentTargetTemperature] =
     useState(undefined);
@@ -42,20 +45,22 @@ export default function WriteTemperatureContainer(props) {
     };
   }, []);
 
-  const onClick = () => {
+  const onClick = (value) => () => {
+    if (value > MAX_CELSIUS_TEMP || value < MIN_CELSIUS_TEMP) {
+      return;
+    }
+
     const blePayload = {
       then: (resolve, reject) => {
         const bleServer = getCharacteristic(bleServerUuid);
         const characteristic = getCharacteristic(writeTemperatureUuid);
         if (bleServer.device.name.includes("S&B VOLCANO")) {
-          let buffer = convertToUInt32BLE(MAX_CELSIUS_TEMP * 10);
+          let buffer = convertToUInt32BLE(value * 10);
           characteristic
             .writeValue(buffer)
             .then((service) => {
-              setCurrentTargetTemperature(MAX_CELSIUS_TEMP);
-              resolve(
-                `Wrote Max temperature of ${MAX_CELSIUS_TEMP}C to device`
-              );
+              setCurrentTargetTemperature(value);
+              resolve(`Wrote Max temperature of ${value}C to device`);
             })
             .catch((error) => {
               console.log(error);
@@ -67,13 +72,23 @@ export default function WriteTemperatureContainer(props) {
     AddToQueue(blePayload);
   };
 
+  const aTempIWantRightNow = 185;
   return (
-    <WriteTemperature
-      onClick={onClick}
-      currentTargetTemperature={getDisplayTemperature(
-        currentTargetTemperature,
-        props.isF
-      )}
-    />
+    <div>
+      <CurrentTargetTemperature
+        currentTargetTemperature={getDisplayTemperature(
+          currentTargetTemperature,
+          props.isF
+        )}
+      />
+      <WriteTemperature
+        onClick={onClick(MAX_CELSIUS_TEMP)}
+        targetTemperature={MAX_CELSIUS_TEMP}
+      />
+      <WriteTemperature
+        onClick={onClick(aTempIWantRightNow)}
+        targetTemperature={aTempIWantRightNow}
+      />
+    </div>
   );
 }

@@ -1,8 +1,9 @@
 export default function WriteTemperature(props) {
   return (
     <div>
-      <button onClick={props.onClick}>Set Max Temp</button>
-      <div>Current Target Temp: {props.currentTargetTemperature}</div>
+      <button onClick={props.onClick}>
+        Set Temp to{props.targetTemperature}
+      </button>
     </div>
   );
 }
