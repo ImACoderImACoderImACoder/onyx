@@ -30,22 +30,22 @@ export function buildCacheFromBleDevice(bleDevice) {
       bleDevice.gatt
         .connect()
         .then((server) => {
-          writeCharacteristicToCache(server, uuIds.bleServer);
+          writeCharacteristicToCache(server, uuIds.bleServerUuid);
           return server.getPrimaryService(uuIds.primaryServiceUuidVolcano1);
         })
         .then((service) => {
           writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano1);
-          const bleServer = getCharacteristic(uuIds.bleServer);
+          const bleServer = getCharacteristic(uuIds.bleServerUuid);
           return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano2);
         })
         .then((service) => {
           writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano2);
-          const bleServer = getCharacteristic(uuIds.bleServer);
+          const bleServer = getCharacteristic(uuIds.bleServerUuid);
           return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano3);
         })
         .then((service) => {
           writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano3);
-          const bleServer = getCharacteristic(uuIds.bleServer);
+          const bleServer = getCharacteristic(uuIds.bleServerUuid);
           return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano4);
         })
         .then((service) => {
@@ -149,6 +149,18 @@ export function buildCacheFromBleDevice(bleDevice) {
           writeCharacteristicToCache(
             characteristic,
             uuIds.currentTemperatureUuid
+          );
+          const primaryServiceUuidVolcano4 = getCharacteristic(
+            uuIds.primaryServiceUuidVolcano4
+          );
+          return primaryServiceUuidVolcano4.getCharacteristic(
+            uuIds.writeTemperatureUuid
+          );
+        })
+        .then((characteristic) => {
+          writeCharacteristicToCache(
+            characteristic,
+            uuIds.writeTemperatureUuid
           );
           resolve("cache built");
         });

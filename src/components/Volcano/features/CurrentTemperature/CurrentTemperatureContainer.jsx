@@ -4,8 +4,10 @@ import { currentTemperatureUuid } from "../../../../constants/uuids";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import CurrentTemperature from "./CurrentTemperature";
 import { MIN_CELSIUS_TEMP } from "../../../../constants/temperature";
-import { convertCurrentTemperatureCharacteristicToCelcius } from "../../../../services/utils";
-import { convertToFahrenheitFromCelsius } from "../../../../services/utils";
+import {
+  convertCurrentTemperatureCharacteristicToCelcius,
+  getDisplayTemperature,
+} from "../../../../services/utils";
 
 export default function CurrentTemperatureContainer(props) {
   const [currentTemperature, setCurrentTemperature] =
@@ -41,16 +43,9 @@ export default function CurrentTemperatureContainer(props) {
     };
   }, []);
 
-  const displayTemperature = props.isF
-    ? convertToFahrenheitFromCelsius(currentTemperature)
-    : currentTemperature;
-
-  const temperatureScaleAbbreviation = props.isF ? "F" : "C";
-
   return (
     <CurrentTemperature
-      currentTemperature={displayTemperature}
-      temperatureScaleAbbreviation={temperatureScaleAbbreviation}
+      currentTemperature={getDisplayTemperature(currentTemperature, props.isF)}
     />
   );
 }

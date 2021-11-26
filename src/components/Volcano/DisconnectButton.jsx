@@ -7,8 +7,7 @@ import * as uuIds from "../../constants/uuids";
 function DisconnectButton() {
   const navigate = useNavigate();
   const onClick = () => {
-    const bleServer = getCharacteristic(uuIds.bleServer);
-    console.log(bleServer);
+    const bleServer = getCharacteristic(uuIds.bleServerUuid);
     bleServer.device.gatt.disconnect();
     clearCache();
     navigate("/");

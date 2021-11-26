@@ -23,8 +23,9 @@ export const serialNumberUuid = "10100008-5354-4f52-5a26-4249434b454c";
 export const volcanoFirmwareVersionUuid =
   "10100003-5354-4f52-5a26-4249434b454c";
 
-export const bleServer = "00000000-0000-0000-0000-000000000069";
+export const bleServerUuid = "00000000-0000-0000-0000-000000000069";
 
 export const hoursOfOperationUuid = "10110015-5354-4f52-5a26-4249434b454c";
 
 export const currentTemperatureUuid = "10110001-5354-4f52-5a26-4249434b454c";
+export const writeTemperatureUuid = "10110003-5354-4f52-5a26-4249434b454c";

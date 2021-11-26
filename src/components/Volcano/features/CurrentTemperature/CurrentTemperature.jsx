@@ -1,9 +1,8 @@
 export default function CurrentTemperature(props) {
   return (
     <div>
-      Current Temp: {"\u00B0"}
+      {"Current Temp: "}
       {props.currentTemperature}
-      {props.temperatureScaleAbbreviation}
     </div>
   );
 }

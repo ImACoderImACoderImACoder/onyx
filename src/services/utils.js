@@ -44,3 +44,13 @@ export function convertCurrentTemperatureCharacteristicToCelcius(value) {
 export function convertToFahrenheitFromCelsius(celsius) {
   return Math.round(celsius * 1.8 + 32);
 }
+
+export function getDisplayTemperature(temperature, isF) {
+  const normalizedTemperature = isF
+    ? convertToFahrenheitFromCelsius(temperature)
+    : temperature;
+  const degreeSymbol = "\u00B0";
+  const temperatureAbbreviation = isF ? "F" : "C";
+
+  return `${normalizedTemperature}${degreeSymbol}${temperatureAbbreviation}`;
+}

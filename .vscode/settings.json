@@ -1,8 +1,5 @@
 {
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/7cd30011-3868-49e6-a84c-db90c246b872/resourceGroups/SANDBOX-USEAST-LUISAPP/providers/Microsoft.Web/sites/imacoderimacoderimacoder",
-    "appService.deploySubpath": "."
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.deploySubpath": ".",
+  "appService.defaultWebAppToDeploy": "/subscriptions/24b10228-1909-43af-9a40-43ce0170c420/resourceGroups/Onyx/providers/Microsoft.Web/sites/projectOnyx"
 }
