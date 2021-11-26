@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'projectOnyx'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5007D4E9B4C64F609C9BF078B0A821B9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A13B073C1D684962B24C861731B077E8 }}
           package: .
