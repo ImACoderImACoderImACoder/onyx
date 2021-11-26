@@ -138,6 +138,18 @@ export function buildCacheFromBleDevice(bleDevice) {
             characteristic,
             uuIds.volcanoFirmwareVersionUuid
           );
+          const primaryServiceUuidVolcano4 = getCharacteristic(
+            uuIds.primaryServiceUuidVolcano4
+          );
+          return primaryServiceUuidVolcano4.getCharacteristic(
+            uuIds.currentTemperatureUuid
+          );
+        })
+        .then((characteristic) => {
+          writeCharacteristicToCache(
+            characteristic,
+            uuIds.currentTemperatureUuid
+          );
           resolve("cache built");
         });
     },

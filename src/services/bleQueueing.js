@@ -19,6 +19,7 @@ function ProcessQueue() {
     isQueueProcessing = false;
     return;
   }
+
   const func = queue.shift();
   Promise.resolve()
     .then(() => func)

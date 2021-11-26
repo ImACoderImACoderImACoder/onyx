@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { register2Uuid } from "../../../../constants/uuids";
 import { fahrenheitMask, celciusMask } from "../../../../constants/masks";
 import {
@@ -11,8 +11,7 @@ import { AddToQueue } from "../../../../services/bleQueueing";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 
 export default function FOrCContainer(props) {
-  const [isF, setIsF] = useState(undefined);
-
+  const { isF, setIsF } = props;
   useEffect(() => {
     function handlePrj2ChangedVolcano(event) {
       let currentVal = convertBLEtoUint16(event.target.value);
@@ -49,7 +48,7 @@ export default function FOrCContainer(props) {
         handlePrj2ChangedVolcano
       );
     };
-  }, []);
+  }, [setIsF]);
 
   const onClick = () => {
     if (isF === undefined) {

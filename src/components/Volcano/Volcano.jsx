@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DisconnectButton from "./DisconnectButton";
 import VolcanoSerialNumber from "./features/SerialNumber/SerialNumberContainer";
 import HoursOfOperation from "./features/HoursOfOperation/HoursOfOperationContainer";
@@ -6,15 +7,18 @@ import BleFirmwareVersion from "./features/BleFirmwareVersion/BleFirmwareVersion
 import HeatOn from "./features/HeatOn/HeatOnContainer";
 import FanOn from "./features/FanOn/FanOnContainer";
 import FOrC from "./features/FOrC/FOrCContainer";
+import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 
 function Volcano() {
+  const [isF, setIsF] = useState(undefined);
   return (
     <div>
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
-      <FOrC />
+      <FOrC setIsF={setIsF} isF={isF} />
+      <CurrentTemperature isF={isF} />
       <HeatOn />
       <FanOn />
       <DisconnectButton />
