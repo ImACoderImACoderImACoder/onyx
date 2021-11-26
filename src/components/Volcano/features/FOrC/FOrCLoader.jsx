@@ -1,7 +1,8 @@
 import FOrC from "./FOrC";
 export default function FOrCLoader(props) {
-  if (props.isF === undefined || props.isF === null) {
+  const { isLoading, ...restProps } = props;
+  if (props.isLoading) {
     return <div>Loading...</div>;
   }
-  return <FOrC {...props} />;
+  return <FOrC {...restProps} />;
 }

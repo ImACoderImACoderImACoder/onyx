@@ -67,5 +67,12 @@ export default function FOrCContainer(props) {
     };
     AddToQueue(blePayload);
   };
-  return <FOrC isF={isF} onClick={onClick} />;
+  const nextTemperatureScaleAbbreviation = isF ? "C" : "F";
+  return (
+    <FOrC
+      isLoading={isF === undefined}
+      temperatureScaleAbbreviation={nextTemperatureScaleAbbreviation}
+      onClick={onClick}
+    />
+  );
 }
