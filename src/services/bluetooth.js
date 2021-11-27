@@ -37,11 +37,11 @@ const bluetoothThenable = {
       let filterNamePrefixVolcano = "S&B";
 
       filters.push({ namePrefix: filterNamePrefixVolcano });
-
+      console.log(window.navigator.userAgent);
       let options = {};
       if (
         window.navigator.userAgent.includes("iPhone") ||
-        window.navigator.userAgent.includes("AppleWebKit")
+        window.navigator.userAgent.includes("Macintosh")
       ) {
         options.filters = filters;
         options.acceptAllDevices = false;
