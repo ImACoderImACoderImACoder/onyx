@@ -3,13 +3,23 @@ import BleConnectButtonContainer from "./components/BleConnection/BleContainer";
 import VolcanoLoader from "./components/Volcano/VolcanoLoader";
 import "./App.css";
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<BleConnectButtonContainer />} />
-          <Route path="/Volcano" element={<VolcanoLoader />} />
+          <Route
+            path="/"
+            element={
+              <BleConnectButtonContainer
+                renderTimestamp={props.renderTimestamp}
+              />
+            }
+          />
+          <Route
+            path="/Volcano"
+            element={<VolcanoLoader renderTimestamp={props.renderTimestamp} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

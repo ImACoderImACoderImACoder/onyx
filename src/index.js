@@ -4,9 +4,24 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const currentdate = new Date();
+const dateTime =
+  "Last Synced: " +
+  currentdate.getDate() +
+  "/" +
+  (currentdate.getMonth() + 1) +
+  "/" +
+  currentdate.getFullYear() +
+  " @ " +
+  currentdate.getHours() +
+  ":" +
+  currentdate.getMinutes() +
+  ":" +
+  currentdate.getSeconds();
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App renderTimestamp={dateTime} />
   </React.StrictMode>,
   document.getElementById("root")
 );

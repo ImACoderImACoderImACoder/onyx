@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Volcano from "./Volcano";
 import { cacheContainsCharacteristic } from "../../services/BleCharacteristicCache";
 import { heatOffUuid } from "../../constants/uuids";
-export default function VolcanoLoader() {
+export default function VolcanoLoader(props) {
   const navigate = useNavigate();
   useEffect(() => {
     const characteristic = cacheContainsCharacteristic(heatOffUuid);
@@ -13,7 +13,7 @@ export default function VolcanoLoader() {
   });
 
   return cacheContainsCharacteristic(heatOffUuid) ? (
-    <Volcano />
+    <Volcano {...props} />
   ) : (
     <div>Loading...</div>
   );

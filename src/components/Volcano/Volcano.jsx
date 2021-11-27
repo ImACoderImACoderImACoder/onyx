@@ -9,15 +9,17 @@ import FanOn from "./features/FanOn/FanOnContainer";
 import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
-import LastAppServerRefresh from "./features/LastAppServerRefresh/LastAppServerRefresh";
+import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
 import "./Volcano.css";
 
-function Volcano() {
+function Volcano(props) {
   const [isF, setIsF] = useState(undefined);
   return (
     <div>
-      <DisconnectButton />
-      <LastAppServerRefresh />
+      <div className="disconnect-last-synced-div">
+        <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
+        <DisconnectButton />
+      </div>
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />

@@ -1,6 +1,7 @@
 import BleConnectionButton from "./Ble";
 import { useNavigate } from "react-router-dom";
 import Ble from "../../services/bluetooth";
+import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
 
 export default function BleContainer(props) {
   const navigate = useNavigate();
@@ -15,5 +16,10 @@ export default function BleContainer(props) {
         console.log(error);
       });
   };
-  return <BleConnectionButton onClick={onClick} />;
+  return (
+    <div>
+      <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
+      <BleConnectionButton onClick={onClick} />;
+    </div>
+  );
 }

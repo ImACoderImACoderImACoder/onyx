@@ -18,6 +18,11 @@
   display: flex;
 }
 
+.disconnect-last-synced-div {
+  display: flex;
+  justify-content: space-between;
+}
+
 .temperature-write-div {
   display: flex;
   flex-flow: wrap;
