@@ -9,7 +9,7 @@ import FanOn from "./features/FanOn/FanOnContainer";
 import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
-
+import LastAppServerRefresh from "./features/LastAppServerRefresh/LastAppServerRefresh";
 import "./Volcano.css";
 
 function Volcano() {
@@ -17,6 +17,7 @@ function Volcano() {
   return (
     <div>
       <DisconnectButton />
+      <LastAppServerRefresh />
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />
