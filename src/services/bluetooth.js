@@ -39,10 +39,9 @@ const bluetoothThenable = {
       filters.push({ namePrefix: filterNamePrefixVolcano });
 
       let options = {};
-
       if (
         window.navigator.userAgent.includes("iPhone") ||
-        window.navigator.userAgent.includes("iPad")
+        window.navigator.userAgent.includes("AppleWebKit")
       ) {
         options.filters = filters;
         options.acceptAllDevices = false;
