@@ -1,0 +1,43 @@
+.footer {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-main-div {
+  display: flex;
+  flex-direction: column;
+}
+.heat-air-button {
+  width: 50vw;
+  height: 20vh;
+}
+
+.heat-air-div {
+  display: flex;
+}
+
+.temperature-write-div {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.temperature-write-header {
+  text-align: center;
+  font-size: 30px;
+  min-width: 100vw;
+}
+
+.temperature-write-button-div {
+  display: flex;
+  flex-grow: 1;
+  padding-bottom: 5px;
+}
+
+.temperature-write-button {
+  min-width: 48vw;
+  max-width: 50vw;
+  height: 5vh;
+  flex-grow: 1;
+}

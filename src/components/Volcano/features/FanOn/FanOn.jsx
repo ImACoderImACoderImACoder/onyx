@@ -1,8 +1,10 @@
 export default function HeatOn(props) {
   return (
     <div>
-      <button onClick={props.onClick}>Fan</button>
       {props.isFanOn ? " On" : " Off"}
+      <button className="heat-air-button" onClick={props.onClick}>
+        Fan
+      </button>
     </div>
   );
 }

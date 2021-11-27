@@ -73,10 +73,11 @@ export default function WriteTemperatureContainer(props) {
   };
 
   const aTempIWantRightNow = 185;
-  const bTempIWantRightNow = 204;
+  const bTempIWantRightNow = 193;
+  const cTempIWantRightNow = 204;
 
   return (
-    <div>
+    <div className="temperature-write-div">
       <CurrentTargetTemperature
         currentTargetTemperature={getDisplayTemperature(
           currentTargetTemperature,
@@ -89,6 +90,10 @@ export default function WriteTemperatureContainer(props) {
       />
       <WriteTemperature
         onClick={onClick(bTempIWantRightNow)}
+        targetTemperature={getDisplayTemperature(bTempIWantRightNow, props.isF)}
+      />
+      <WriteTemperature
+        onClick={onClick(cTempIWantRightNow)}
         targetTemperature={getDisplayTemperature(bTempIWantRightNow, props.isF)}
       />
       <WriteTemperature

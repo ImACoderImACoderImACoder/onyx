@@ -10,20 +10,29 @@ import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
 
+import "./Volcano.css";
+
 function Volcano() {
   const [isF, setIsF] = useState(undefined);
   return (
     <div>
+      <DisconnectButton />
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
       <FOrC setIsF={setIsF} isF={isF} />
       <CurrentTemperature isF={isF} />
-      <WriteTemperature isF={isF} />
-      <HeatOn />
-      <FanOn />
-      <DisconnectButton />
+      <div className="footer">
+        <div className="footer-main-div">
+          <WriteTemperature isF={isF} />
+
+          <div className="heat-air-div">
+            <HeatOn />
+            <FanOn />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
