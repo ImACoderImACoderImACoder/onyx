@@ -15,6 +15,20 @@ export default function FanOnContainer(props) {
   useEffect(() => {
     initializeEffectForToggle(setIsFanOn, fanMask);
   }, []);
+  const spaceBarKeycode = 32;
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.keyCode === spaceBarKeycode) {
+        onChange(!isFanOn);
+      }
+    };
+    document.addEventListener("keyup", handler);
+
+    return () => {
+      document.removeEventListener("keyup", handler);
+    };
+  });
 
   const blePayloadDebounce = debounce(
     getToggleOnClick(isFanOn, setIsFanOn, fanOffUuid, fanOnUuid),
