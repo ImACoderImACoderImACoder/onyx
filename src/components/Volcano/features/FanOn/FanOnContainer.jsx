@@ -6,15 +6,29 @@ import {
   getToggleOnClick,
   initializeEffectForToggle,
 } from "../Shared/HeatPumpSharedHandlers/heatPumpSharedCode";
+import debounce from "lodash/debounce";
+import { bleDebounceTime } from "../../../../constants/constants";
 
 export default function FanOnContainer(props) {
   const [isFanOn, setIsFanOn] = useState(false);
 
   useEffect(() => {
     initializeEffectForToggle(setIsFanOn, fanMask);
-  }, [props.bleDevice]);
+  }, []);
 
-  const onClick = getToggleOnClick(isFanOn, setIsFanOn, fanOffUuid, fanOnUuid);
+  const blePayloadDebounce = debounce(
+    getToggleOnClick(isFanOn, setIsFanOn, fanOffUuid, fanOnUuid),
+    bleDebounceTime,
+    { isFanOn }
+  );
 
-  return <FanOn onClick={onClick} isFanOn={isFanOn} />;
+  const onChange = (checked) => {
+    if (checked === isFanOn) {
+      console.log("Fan skipped spam click");
+    } else {
+      blePayloadDebounce();
+    }
+  };
+
+  return <FanOn onChange={onChange} isFanOn={isFanOn} />;
 }

@@ -6,6 +6,8 @@ import {
   getToggleOnClick,
   initializeEffectForToggle,
 } from "../Shared/HeatPumpSharedHandlers/heatPumpSharedCode";
+import debounce from "lodash/debounce";
+import { bleDebounceTime } from "../../../../constants/constants";
 
 export default function HeatOnContainer(props) {
   const [isHeatOn, setIsHeatOn] = useState(false);
@@ -14,12 +16,19 @@ export default function HeatOnContainer(props) {
     initializeEffectForToggle(setIsHeatOn, heatingMask);
   }, []);
 
-  const onClick = getToggleOnClick(
-    isHeatOn,
-    setIsHeatOn,
-    heatOffUuid,
-    heatOnUuid
+  const blePayloadDebounce = debounce(
+    getToggleOnClick(isHeatOn, setIsHeatOn, heatOffUuid, heatOnUuid),
+    bleDebounceTime,
+    { isHeatOn }
   );
 
-  return <HeatOn onClick={onClick} isHeatOn={isHeatOn} />;
+  const onChange = (checked) => {
+    if (checked === isHeatOn) {
+      console.log("Heat skipped spam click");
+    } else {
+      blePayloadDebounce();
+    }
+  };
+
+  return <HeatOn onChange={onChange} isHeatOn={isHeatOn} />;
 }

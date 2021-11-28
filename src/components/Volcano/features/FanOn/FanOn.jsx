@@ -1,10 +1,18 @@
-export default function HeatOn(props) {
+import BootstrapSwitchButton from "bootstrap-switch-button-react";
+
+export default function FanOn(props) {
   return (
     <div>
-      {props.isFanOn ? " On" : " Off"}
-      <button className="heat-air-button" onClick={props.onClick}>
-        Fan
-      </button>
+      <BootstrapSwitchButton
+        onlabel="Fan On"
+        offlabel="Fan Off"
+        checked={props.isFanOn}
+        onstyle="success"
+        offstyle="danger"
+        // eslint-disable-next-line
+        style="heat-air-button"
+        onChange={props.onChange}
+      />
     </div>
   );
 }
