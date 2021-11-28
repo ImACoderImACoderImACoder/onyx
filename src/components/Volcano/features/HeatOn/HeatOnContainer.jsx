@@ -12,6 +12,21 @@ import { bleDebounceTime } from "../../../../constants/constants";
 export default function HeatOnContainer(props) {
   const [isHeatOn, setIsHeatOn] = useState(false);
 
+  //since the heat and air buttons share code this event will sync the fan changes too
+  //that worked coincidentally and it was throwing me off when testing since I did not expect that
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === "visible") {
+        initializeEffectForToggle(setIsHeatOn, heatingMask);
+      }
+    };
+    document.addEventListener("visibilitychange", handler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+    };
+  });
+
   useEffect(() => {
     initializeEffectForToggle(setIsHeatOn, heatingMask);
   }, []);
