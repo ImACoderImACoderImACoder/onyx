@@ -72,10 +72,26 @@ export default function WriteTemperatureContainer(props) {
     AddToQueue(blePayload);
   };
 
-  const aTempIWantRightNow = 185;
-  const bTempIWantRightNow = 193;
-  const cTempIWantRightNow = 204;
-
+  const volcanoClassictemperatures = [
+    130,
+    142,
+    154,
+    166,
+    178,
+    190,
+    202,
+    214,
+    226,
+    MAX_CELSIUS_TEMP,
+  ];
+  const temperatureButtons = volcanoClassictemperatures.map((item) => {
+    return (
+      <WriteTemperature
+        onClick={onClick(item)}
+        targetTemperature={getDisplayTemperature(item, props.isF)}
+      />
+    );
+  });
   return (
     <div className="temperature-write-div">
       <CurrentTargetTemperature
@@ -84,22 +100,7 @@ export default function WriteTemperatureContainer(props) {
           props.isF
         )}
       />
-      <WriteTemperature
-        onClick={onClick(aTempIWantRightNow)}
-        targetTemperature={getDisplayTemperature(aTempIWantRightNow, props.isF)}
-      />
-      <WriteTemperature
-        onClick={onClick(bTempIWantRightNow)}
-        targetTemperature={getDisplayTemperature(bTempIWantRightNow, props.isF)}
-      />
-      <WriteTemperature
-        onClick={onClick(cTempIWantRightNow)}
-        targetTemperature={getDisplayTemperature(cTempIWantRightNow, props.isF)}
-      />
-      <WriteTemperature
-        onClick={onClick(MAX_CELSIUS_TEMP)}
-        targetTemperature={getDisplayTemperature(MAX_CELSIUS_TEMP, props.isF)}
-      />
+      {temperatureButtons}
     </div>
   );
 }
