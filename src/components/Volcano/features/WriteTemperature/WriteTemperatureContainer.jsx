@@ -117,17 +117,17 @@ export default function WriteTemperatureContainer(props) {
 
   temperatureButtons.push(
     <WriteTemperature
-      key="incrementTemperatureButton"
-      onClick={onClickIncrement(1)}
-      buttonText={`Up one ${displayTemperatureType}`}
+      key="decrementTemperatureButton"
+      onClick={onClickIncrement(-1)}
+      buttonText={`Down one ${displayTemperatureType}`}
     />
   );
 
   temperatureButtons.push(
     <WriteTemperature
-      key="decrementTemperatureButton"
-      onClick={onClickIncrement(-1)}
-      buttonText={`Down one ${displayTemperatureType}`}
+      key="incrementTemperatureButton"
+      onClick={onClickIncrement(1)}
+      buttonText={`Up one ${displayTemperatureType}`}
     />
   );
 
