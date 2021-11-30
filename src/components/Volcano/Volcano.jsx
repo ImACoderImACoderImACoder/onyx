@@ -25,9 +25,9 @@ function Volcano(props) {
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
       <FOrC setIsF={setIsF} isF={isF} />
-      <CurrentTemperature isF={isF} />
       <div className="footer">
         <div className="footer-main-div">
+          <CurrentTemperature isF={isF} />
           <WriteTemperature isF={isF} />
 
           <div className="heat-air-div">

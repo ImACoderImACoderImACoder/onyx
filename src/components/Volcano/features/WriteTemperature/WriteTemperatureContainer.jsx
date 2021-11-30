@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 import {
   bleServerUuid,
@@ -8,14 +8,17 @@ import {
   convertToUInt32BLE,
   convertCurrentTemperatureCharacteristicToCelcius,
   getDisplayTemperature,
+  isValueInValidVolcanoCelciusRange,
 } from "../../../../services/utils";
 import WriteTemperature from "./WriteTemperature";
 import {
   MAX_CELSIUS_TEMP,
-  MIN_CELSIUS_TEMP,
+  DEGREE_SYMBOL,
 } from "../../../../constants/temperature";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import CurrentTargetTemperature from "./CurrentTargetTemperature";
+import debounce from "lodash/debounce";
+import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
 export default function WriteTemperatureContainer(props) {
   const [currentTargetTemperature, setCurrentTargetTemperature] =
     useState(undefined);
@@ -45,8 +48,24 @@ export default function WriteTemperatureContainer(props) {
     };
   }, []);
 
+  // we have to use refs for debounce to work properly in react functional components
+  const onTemperatureIncrementDecrementDebounceRef = useRef(
+    debounce((newTemp) => {
+      onClick(newTemp)();
+    }, temperatureIncrementedDecrementedDebounceTime)
+  );
+
+  const onClickIncrement = (incrementValue) => () => {
+    const nextTemp = currentTargetTemperature + incrementValue;
+    if (!isValueInValidVolcanoCelciusRange(nextTemp)) {
+      return;
+    }
+    setCurrentTargetTemperature(nextTemp);
+    onTemperatureIncrementDecrementDebounceRef.current(nextTemp);
+  };
+
   const onClick = (value) => () => {
-    if (value > MAX_CELSIUS_TEMP || value < MIN_CELSIUS_TEMP) {
+    if (!isValueInValidVolcanoCelciusRange(value)) {
       return;
     }
 
@@ -84,14 +103,34 @@ export default function WriteTemperatureContainer(props) {
     226,
     MAX_CELSIUS_TEMP,
   ];
-  const temperatureButtons = volcanoClassictemperatures.map((item) => {
+  const temperatureButtons = volcanoClassictemperatures.map((item, index) => {
     return (
       <WriteTemperature
+        key={index}
         onClick={onClick(item)}
-        targetTemperature={getDisplayTemperature(item, props.isF)}
+        buttonText={getDisplayTemperature(item, props.isF)}
       />
     );
   });
+  const temperatureType = props.isF ? "F" : "C";
+  const displayTemperatureType = `${DEGREE_SYMBOL}${temperatureType}`;
+
+  temperatureButtons.push(
+    <WriteTemperature
+      key="incrementTemperatureButton"
+      onClick={onClickIncrement(1)}
+      buttonText={`Up one ${displayTemperatureType}`}
+    />
+  );
+
+  temperatureButtons.push(
+    <WriteTemperature
+      key="decrementTemperatureButton"
+      onClick={onClickIncrement(-1)}
+      buttonText={`Down one ${displayTemperatureType}`}
+    />
+  );
+
   return (
     <div className="temperature-write-div">
       <CurrentTargetTemperature

@@ -1,6 +1,8 @@
 import {
   TEMPERATURE_OVERFLOW_THRESHOLD,
   MIN_CELSIUS_TEMP,
+  MAX_CELSIUS_TEMP,
+  DEGREE_SYMBOL,
 } from "../constants/temperature";
 
 export function convertToUInt8BLE(val) {
@@ -49,8 +51,11 @@ export function getDisplayTemperature(temperature, isF) {
   const normalizedTemperature = isF
     ? convertToFahrenheitFromCelsius(temperature)
     : temperature;
-  const degreeSymbol = "\u00B0";
   const temperatureAbbreviation = isF ? "F" : "C";
 
-  return `${normalizedTemperature}${degreeSymbol}${temperatureAbbreviation}`;
+  return `${normalizedTemperature}${DEGREE_SYMBOL}${temperatureAbbreviation}`;
+}
+
+export function isValueInValidVolcanoCelciusRange(value) {
+  return !(value > MAX_CELSIUS_TEMP || value < MIN_CELSIUS_TEMP);
 }

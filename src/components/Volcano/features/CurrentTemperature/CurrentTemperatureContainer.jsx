@@ -30,7 +30,7 @@ export default function CurrentTemperatureContainer(props) {
           const normalizedValue =
             convertCurrentTemperatureCharacteristicToCelcius(value);
           setCurrentTemperature(normalizedValue);
-          resolve("The value of initial temp read is " + value);
+          resolve("The value of temp read is " + normalizedValue);
         });
       },
     };
