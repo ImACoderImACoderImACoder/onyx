@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .heat-air-button {
   display: flex;
   width: 50vw;
@@ -46,4 +47,30 @@
   max-width: 50vw;
   height: 5vh;
   flex-grow: 1;
+  background-color: black;
+  color: darkgray;
+  border-radius: 15px;
+  border-color: darkgray;
+}
+
+.f-or-c-button {
+  background-color: black;
+  color: darkgray;
+  border-radius: 5px;
+  border-color: darkgray;
+}
+
+.f-or-c-button:active {
+  background-color: darkgray;
+  color: white;
+}
+
+.temperature-write-button:active {
+  background-color: darkgray;
+  color: white;
+}
+
+.temperature-write-button-active-temperature {
+  background-color: darkgray;
+  color: white;
 }

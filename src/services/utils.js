@@ -44,7 +44,7 @@ export function convertCurrentTemperatureCharacteristicToCelcius(value) {
 }
 
 export function convertToFahrenheitFromCelsius(celsius) {
-  return Math.round(celsius * 1.8 + 32);
+  return Math.floor(celsius * 1.8 + 32); //when you sacrifice accuracy for memes
 }
 
 export function getDisplayTemperature(temperature, isF) {

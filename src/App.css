@@ -17,13 +17,6 @@
   font-size: xx-large;
 }
 
-.switch-on.btn.btn-success {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: xx-large;
-}
-
 .switch-off.btn.btn-danger {
   display: flex;
   justify-content: center;

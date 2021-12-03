@@ -16,7 +16,9 @@ function DisconnectButton() {
 
   return (
     <div>
-      <button onClick={onClick}>Disconnect</button>
+      <button className="f-or-c-button" onClick={onClick}>
+        Disconnect
+      </button>
     </div>
   );
 }

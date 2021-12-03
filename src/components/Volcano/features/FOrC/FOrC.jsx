@@ -1,7 +1,7 @@
 export default function FOrC(props) {
   return (
     <div>
-      <button onClick={props.onClick}>
+      <button className="f-or-c-button" onClick={props.onClick}>
         Change To: {props.temperatureScaleAbbreviation}
       </button>
     </div>

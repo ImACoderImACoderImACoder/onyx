@@ -99,7 +99,7 @@ export default function WriteTemperatureContainer(props) {
     178,
     190,
     202,
-    214,
+    216,
     226,
     MAX_CELSIUS_TEMP,
   ];
@@ -109,6 +109,11 @@ export default function WriteTemperatureContainer(props) {
         key={index}
         onClick={onClick(item)}
         buttonText={getDisplayTemperature(item, props.isF)}
+        className={
+          item === currentTargetTemperature
+            ? "temperature-write-button-active-temperature"
+            : ""
+        }
       />
     );
   });
