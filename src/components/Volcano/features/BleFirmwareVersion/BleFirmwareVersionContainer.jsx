@@ -7,19 +7,16 @@ import { bleFirmwareVersionUuid } from "../../../../constants/uuids";
 export default function VolcanoFirmwareVersionContainer() {
   const [bleFirmwareVersion, setBleFirmwareVersion] = useState(undefined);
   useEffect(() => {
-    const blePayload = {
-      then: (resolve) => {
-        const characteristic = getCharacteristic(bleFirmwareVersionUuid);
-        return characteristic.readValue().then((value) => {
-          let decoder = new TextDecoder("utf-8");
-          let firmwareBLEVersion = decoder.decode(value);
-          setBleFirmwareVersion(firmwareBLEVersion);
-          resolve(firmwareBLEVersion);
-        });
-      },
+    const blePayload = async () => {
+      const characteristic = getCharacteristic(bleFirmwareVersionUuid);
+      const value = await characteristic.readValue();
+      let decoder = new TextDecoder("utf-8");
+      let firmwareBLEVersion = decoder.decode(value);
+      setBleFirmwareVersion(firmwareBLEVersion);
+      return firmwareBLEVersion;
     };
     AddToQueue(blePayload);
-  });
+  }, []);
 
   return <BleFirmwareVersion bleFirmwareVersion={bleFirmwareVersion} />;
 }

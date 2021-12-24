@@ -12,7 +12,7 @@ export function AddToQueue(func) {
   }
 }
 
-function ProcessQueue() {
+async function ProcessQueue() {
   isQueueProcessing = true;
   if (queue.length === 0) {
     console.log("queue cleared!");
@@ -20,13 +20,14 @@ function ProcessQueue() {
     return;
   }
 
-  const func = queue.shift();
-  Promise.resolve()
-    .then(() => func)
-    .then((r) =>
-      setTimeout(() => {
-        console.log(`Result of queue promise: ${r}`);
-        ProcessQueue();
-      }, 0)
-    );
+  try {
+    const func = queue.shift();
+    const r = await func();
+    console.log(`The result of the ble payload is: ${r}`);
+    setTimeout(() => {
+      ProcessQueue();
+    }, 0);
+  } catch (error) {
+    console.log(`QUEUE ERROR: ${error.toString()}`);
+  }
 }

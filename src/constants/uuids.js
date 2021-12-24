@@ -24,6 +24,7 @@ export const volcanoFirmwareVersionUuid =
   "10100003-5354-4f52-5a26-4249434b454c";
 
 export const bleServerUuid = "00000000-0000-0000-0000-000000000069";
+export const bleDeviceUuid = "00000000-0000-0000-0000-000000000420";
 
 export const hoursOfOperationUuid = "10110015-5354-4f52-5a26-4249434b454c";
 

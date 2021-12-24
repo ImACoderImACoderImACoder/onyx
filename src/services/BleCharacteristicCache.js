@@ -24,146 +24,138 @@ function writeCharacteristicToCache(characteristic, characteristicId) {
   cache[characteristicId] = characteristic;
 }
 
-export function buildCacheFromBleDevice(bleDevice) {
-  return {
-    then: (resolve) => {
-      bleDevice.gatt
-        .connect()
-        .then((server) => {
-          writeCharacteristicToCache(server, uuIds.bleServerUuid);
-          return server.getPrimaryService(uuIds.primaryServiceUuidVolcano1);
-        })
-        .then((service) => {
-          writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano1);
-          const bleServer = getCharacteristic(uuIds.bleServerUuid);
-          return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano2);
-        })
-        .then((service) => {
-          writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano2);
-          const bleServer = getCharacteristic(uuIds.bleServerUuid);
-          return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano3);
-        })
-        .then((service) => {
-          writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano3);
-          const bleServer = getCharacteristic(uuIds.bleServerUuid);
-          return bleServer.getPrimaryService(uuIds.primaryServiceUuidVolcano4);
-        })
-        .then((service) => {
-          writeCharacteristicToCache(service, uuIds.primaryServiceUuidVolcano4);
-          return service.getCharacteristic(uuIds.heatOffUuid);
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.heatOffUuid);
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(uuIds.heatOnUuid);
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.heatOnUuid);
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(uuIds.fanOffUuid);
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.fanOffUuid);
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(uuIds.fanOnUuid);
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.fanOnUuid);
-          const primaryServiceUuidVolcano3 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano3
-          );
-          return primaryServiceUuidVolcano3.getCharacteristic(
-            uuIds.bleFirmwareVersionUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(
-            characteristic,
-            uuIds.bleFirmwareVersionUuid
-          );
-          const primaryServiceUuidVolcano3 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano3
-          );
-          return primaryServiceUuidVolcano3.getCharacteristic(
-            uuIds.register2Uuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.register2Uuid);
-          const primaryServiceUuidVolcano3 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano3
-          );
-          return primaryServiceUuidVolcano3.getCharacteristic(
-            uuIds.register1Uuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.register1Uuid);
-          const primaryServiceUuidVolcano3 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano3
-          );
-          return primaryServiceUuidVolcano3.getCharacteristic(
-            uuIds.serialNumberUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(characteristic, uuIds.serialNumberUuid);
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(
-            uuIds.hoursOfOperationUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(
-            characteristic,
-            uuIds.hoursOfOperationUuid
-          );
-          const primaryServiceUuidVolcano3 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano3
-          );
-          return primaryServiceUuidVolcano3.getCharacteristic(
-            uuIds.volcanoFirmwareVersionUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(
-            characteristic,
-            uuIds.volcanoFirmwareVersionUuid
-          );
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(
-            uuIds.currentTemperatureUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(
-            characteristic,
-            uuIds.currentTemperatureUuid
-          );
-          const primaryServiceUuidVolcano4 = getCharacteristic(
-            uuIds.primaryServiceUuidVolcano4
-          );
-          return primaryServiceUuidVolcano4.getCharacteristic(
-            uuIds.writeTemperatureUuid
-          );
-        })
-        .then((characteristic) => {
-          writeCharacteristicToCache(
-            characteristic,
-            uuIds.writeTemperatureUuid
-          );
-          resolve("cache built");
-        });
-    },
-  };
+export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
+  try {
+    writeCharacteristicToCache(bleDevice, uuIds.bleDeviceUuid);
+
+    let bleServer = await bleDevice.gatt.connect();
+    writeCharacteristicToCache(bleServer, uuIds.bleServerUuid);
+    const primaryServiceUuidVolcano1 = await bleServer.getPrimaryService(
+      uuIds.primaryServiceUuidVolcano1
+    );
+
+    writeCharacteristicToCache(
+      primaryServiceUuidVolcano1,
+      uuIds.primaryServiceUuidVolcano1
+    );
+
+    const primaryServiceUuidVolcano2 = await bleServer.getPrimaryService(
+      uuIds.primaryServiceUuidVolcano2
+    );
+    writeCharacteristicToCache(
+      primaryServiceUuidVolcano2,
+      uuIds.primaryServiceUuidVolcano2
+    );
+
+    const primaryServiceUuidVolcano3 = await bleServer.getPrimaryService(
+      uuIds.primaryServiceUuidVolcano3
+    );
+    writeCharacteristicToCache(
+      primaryServiceUuidVolcano3,
+      uuIds.primaryServiceUuidVolcano3
+    );
+
+    const primaryServiceUuidVolcano4 = await bleServer.getPrimaryService(
+      uuIds.primaryServiceUuidVolcano4
+    );
+    writeCharacteristicToCache(
+      primaryServiceUuidVolcano4,
+      uuIds.primaryServiceUuidVolcano4
+    );
+
+    const heatOffCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(uuIds.heatOffUuid);
+    writeCharacteristicToCache(heatOffCharacteristic, uuIds.heatOffUuid);
+
+    const heatOnCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(uuIds.heatOnUuid);
+    writeCharacteristicToCache(heatOnCharacteristic, uuIds.heatOnUuid);
+
+    const fanOffCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(uuIds.fanOffUuid);
+    writeCharacteristicToCache(fanOffCharacteristic, uuIds.fanOffUuid);
+
+    const fanOnCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(uuIds.fanOnUuid);
+    writeCharacteristicToCache(fanOnCharacteristic, uuIds.fanOnUuid);
+
+    const hoursOfOperationCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.hoursOfOperationUuid
+      );
+    writeCharacteristicToCache(
+      hoursOfOperationCharacteristic,
+      uuIds.hoursOfOperationUuid
+    );
+
+    const bleFirmwareVersionCharacteristic =
+      await primaryServiceUuidVolcano3.getCharacteristic(
+        uuIds.bleFirmwareVersionUuid
+      );
+    writeCharacteristicToCache(
+      bleFirmwareVersionCharacteristic,
+      uuIds.bleFirmwareVersionUuid
+    );
+
+    const register2Characteristic =
+      await primaryServiceUuidVolcano3.getCharacteristic(uuIds.register2Uuid);
+    writeCharacteristicToCache(register2Characteristic, uuIds.register2Uuid);
+
+    const register1Characteristic =
+      await primaryServiceUuidVolcano3.getCharacteristic(uuIds.register1Uuid);
+    writeCharacteristicToCache(register1Characteristic, uuIds.register1Uuid);
+
+    const serialNumberCharacteristic =
+      await primaryServiceUuidVolcano3.getCharacteristic(
+        uuIds.serialNumberUuid
+      );
+    writeCharacteristicToCache(
+      serialNumberCharacteristic,
+      uuIds.serialNumberUuid
+    );
+
+    const volcanoFirmwareVersionCharacteristic =
+      await primaryServiceUuidVolcano3.getCharacteristic(
+        uuIds.volcanoFirmwareVersionUuid
+      );
+    writeCharacteristicToCache(
+      volcanoFirmwareVersionCharacteristic,
+      uuIds.volcanoFirmwareVersionUuid
+    );
+
+    const currentTemperatureCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.currentTemperatureUuid
+      );
+    writeCharacteristicToCache(
+      currentTemperatureCharacteristic,
+      uuIds.currentTemperatureUuid
+    );
+
+    const writeTemperatureCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.writeTemperatureUuid
+      );
+    writeCharacteristicToCache(
+      writeTemperatureCharacteristic,
+      uuIds.writeTemperatureUuid
+    );
+
+    return "Cache Built!";
+  } catch (error) {
+    console.warn(
+      `Error while building BLE caching on attempt #${
+        gattRetryCount + 1
+      }... Trying to establish cache again`
+    );
+    if (gattRetryCount < 3) {
+      await buildCacheFromBleDevice(bleDevice, gattRetryCount + 1);
+    } else {
+      throw new Error(
+        `Could not establish Ble connection after ${
+          gattRetryCount + 1
+        } attemps.  Refresh your browser and try again`
+      );
+    }
+  }
 }

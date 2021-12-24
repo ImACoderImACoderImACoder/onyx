@@ -6,12 +6,11 @@ import {
 import * as uuIds from "../../constants/uuids";
 function DisconnectButton() {
   const navigate = useNavigate();
-  const onClick = () => {
-    const bleServer = getCharacteristic(uuIds.bleServerUuid);
-    bleServer.device.gatt.disconnect();
+  const onClick = async () => {
+    const bleDevice = getCharacteristic(uuIds.bleDeviceUuid);
+    await bleDevice.gatt.disconnect();
     clearCache();
     navigate("/");
-    window.location.reload();
   };
 
   return (

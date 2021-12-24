@@ -7,19 +7,15 @@ import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 export default function ReadSerialNumber(props) {
   const [serialNumber, setSerialNumber] = useState(undefined);
   useEffect(() => {
-    const blePayload = {
-      then: (resolve) => {
-        const characteristic = getCharacteristic(serialNumberUuid);
-        characteristic.readValue().then((value) => {
-          let decoder = new TextDecoder("utf-8");
-          let serialNumber = decoder.decode(value);
-          const normalizedSerialNumber = serialNumber.substring(0, 8);
-          setSerialNumber(normalizedSerialNumber);
-          resolve(normalizedSerialNumber);
-        });
-      },
+    const blePayload = async () => {
+      const characteristic = getCharacteristic(serialNumberUuid);
+      const value = await characteristic.readValue();
+      let decoder = new TextDecoder("utf-8");
+      let serialNumber = decoder.decode(value);
+      const normalizedSerialNumber = serialNumber.substring(0, 8);
+      setSerialNumber(normalizedSerialNumber);
+      return normalizedSerialNumber;
     };
-
     AddToQueue(blePayload);
   }, []);
 

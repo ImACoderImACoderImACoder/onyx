@@ -9,15 +9,12 @@ import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 export default function HoursOfOperationContainer() {
   const [hoursOfOperation, setHoursOfOperation] = useState(undefined);
   useEffect(() => {
-    const blePayload = {
-      then: (resolve) => {
-        const characteristic = getCharacteristic(hoursOfOperationUuid);
-        characteristic.readValue().then((value) => {
-          const useHoursVolcano = (convertBLEtoUint16(value) / 10).toString();
-          setHoursOfOperation(useHoursVolcano);
-          resolve(useHoursVolcano);
-        });
-      },
+    const blePayload = async () => {
+      const characteristic = getCharacteristic(hoursOfOperationUuid);
+      const value = await characteristic.readValue();
+      const useHoursVolcano = (convertBLEtoUint16(value) / 10).toString();
+      setHoursOfOperation(useHoursVolcano);
+      return useHoursVolcano;
     };
     AddToQueue(blePayload);
   }, []);

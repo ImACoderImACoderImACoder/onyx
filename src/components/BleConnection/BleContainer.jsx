@@ -9,17 +9,15 @@ export default function BleContainer(props) {
     useState(false);
 
   const navigate = useNavigate();
-  const onClick = () => {
-    Promise.resolve()
-      .then(() => Ble(() => setIsBleConnectionBeingEstablished(true)))
-      .then((response) => {
-        console.log(response);
-        navigate("/Volcano");
-      })
-      .catch((error) => {
-        setIsBleConnectionBeingEstablished(false);
-        console.log(error);
-      });
+  const onClick = async () => {
+    try {
+      const result = await Ble(() => setIsBleConnectionBeingEstablished(true));
+      console.log(result);
+      navigate("/Volcano");
+    } catch (error) {
+      setIsBleConnectionBeingEstablished(false);
+      console.log(error);
+    }
   };
   return (
     <div>

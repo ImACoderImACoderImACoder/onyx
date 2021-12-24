@@ -8,19 +8,16 @@ export default function VolcanoFirmwareVersionContainer(props) {
   const [volcanoFirmwareVersion, setVolcanoFirmwareVersion] =
     useState(undefined);
   useEffect(() => {
-    const blePayload = {
-      then: (resolve) => {
-        const characteristic = getCharacteristic(
-          uuIds.volcanoFirmwareVersionUuid
-        );
-        characteristic.readValue().then((value) => {
-          let decoder = new TextDecoder("utf-8");
-          let firmwareV = decoder.decode(value);
-          const normalizedFirmwareVersion = firmwareV.substring(0, 8);
-          setVolcanoFirmwareVersion(normalizedFirmwareVersion);
-          resolve(normalizedFirmwareVersion);
-        });
-      },
+    const blePayload = async () => {
+      const characteristic = getCharacteristic(
+        uuIds.volcanoFirmwareVersionUuid
+      );
+      const value = await characteristic.readValue();
+      let decoder = new TextDecoder("utf-8");
+      let firmwareV = decoder.decode(value);
+      const normalizedFirmwareVersion = firmwareV.substring(0, 8);
+      setVolcanoFirmwareVersion(normalizedFirmwareVersion);
+      return normalizedFirmwareVersion;
     };
 
     AddToQueue(blePayload);

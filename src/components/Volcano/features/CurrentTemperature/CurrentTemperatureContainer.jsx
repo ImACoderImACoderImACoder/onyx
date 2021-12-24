@@ -19,20 +19,17 @@ export default function CurrentTemperatureContainer(props) {
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
       setCurrentTemperature(currentTemperature);
     };
-    const BlePayload = {
-      then: (resolve) => {
-        characteristic.addEventListener(
-          "characteristicvaluechanged",
-          onCharacteristicChange
-        );
-        characteristic.startNotifications();
-        characteristic.readValue().then((value) => {
-          const normalizedValue =
-            convertCurrentTemperatureCharacteristicToCelcius(value);
-          setCurrentTemperature(normalizedValue);
-          resolve("The value of temp read is " + normalizedValue);
-        });
-      },
+    const BlePayload = async () => {
+      characteristic.addEventListener(
+        "characteristicvaluechanged",
+        onCharacteristicChange
+      );
+      characteristic.startNotifications();
+      const value = await characteristic.readValue();
+      const normalizedValue =
+        convertCurrentTemperatureCharacteristicToCelcius(value);
+      setCurrentTemperature(normalizedValue);
+      return "The value of temp read is " + normalizedValue;
     };
     AddToQueue(BlePayload);
     return () => {

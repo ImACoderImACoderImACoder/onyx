@@ -22,23 +22,20 @@ export default function FOrCContainer(props) {
       }
     }
     const characteristicPrj2V = getCharacteristic(register2Uuid);
-    const blePayload = {
-      then: (resolve) => {
-        characteristicPrj2V.readValue().then((value) => {
-          let currentVal = convertBLEtoUint16(value);
-          characteristicPrj2V.addEventListener(
-            "characteristicvaluechanged",
-            handlePrj2ChangedVolcano
-          );
-          characteristicPrj2V.startNotifications();
-          const isFValue = convertToggleCharacteristicToBool(
-            currentVal,
-            fahrenheitMask
-          );
-          setIsF(isFValue);
-          resolve(isFValue);
-        });
-      },
+    const blePayload = async () => {
+      const value = await characteristicPrj2V.readValue();
+      let currentVal = convertBLEtoUint16(value);
+      characteristicPrj2V.addEventListener(
+        "characteristicvaluechanged",
+        handlePrj2ChangedVolcano
+      );
+      characteristicPrj2V.startNotifications();
+      const isFValue = convertToggleCharacteristicToBool(
+        currentVal,
+        fahrenheitMask
+      );
+      setIsF(isFValue);
+      return isFValue;
     };
     AddToQueue(blePayload);
 
@@ -54,16 +51,13 @@ export default function FOrCContainer(props) {
     if (isF === undefined) {
       return;
     }
-    const blePayload = {
-      then: (resolve) => {
-        const characteristicPrj2V = getCharacteristic(register2Uuid);
-        const mask = isF ? celciusMask : fahrenheitMask;
-        const buffer = convertToUInt32BLE(mask);
-        characteristicPrj2V.writeValue(buffer).then((service) => {
-          setIsF(!isF);
-          resolve(`Toggle F or C set to ${isF ? "C" : "F"}`);
-        });
-      },
+    const blePayload = async () => {
+      const characteristicPrj2V = getCharacteristic(register2Uuid);
+      const mask = isF ? celciusMask : fahrenheitMask;
+      const buffer = convertToUInt32BLE(mask);
+      await characteristicPrj2V.writeValue(buffer);
+      setIsF(!isF);
+      return `Toggle F or C set to ${isF ? "C" : "F"}`;
     };
     AddToQueue(blePayload);
   };

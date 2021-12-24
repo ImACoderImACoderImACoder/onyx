@@ -35,11 +35,12 @@ export default function WriteTemperatureContainer(props) {
       handleTargetTemperatureChanged
     );
     characteristic.startNotifications();
-    characteristic.readValue().then((value) => {
+    (async () => {
+      const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
       setCurrentTargetTemperature(targetTemperature);
-    });
+    })();
     return () => {
       characteristic.removeEventListener(
         "characteristicvaluechanged",
@@ -69,24 +70,16 @@ export default function WriteTemperatureContainer(props) {
       return;
     }
 
-    const blePayload = {
-      then: (resolve, reject) => {
-        const bleServer = getCharacteristic(bleServerUuid);
-        const characteristic = getCharacteristic(writeTemperatureUuid);
-        if (bleServer.device.name.includes("S&B VOLCANO")) {
-          let buffer = convertToUInt32BLE(value * 10);
-          characteristic
-            .writeValue(buffer)
-            .then((service) => {
-              setCurrentTargetTemperature(value);
-              resolve(`Wrote Max temperature of ${value}C to device`);
-            })
-            .catch((error) => {
-              console.log(error);
-              reject(error);
-            });
-        }
-      },
+    const blePayload = async () => {
+      const bleServer = getCharacteristic(bleServerUuid);
+      const characteristic = getCharacteristic(writeTemperatureUuid);
+      if (bleServer.device.name.includes("S&B VOLCANO")) {
+        let buffer = convertToUInt32BLE(value * 10);
+        await characteristic.writeValue(buffer);
+
+        setCurrentTargetTemperature(value);
+        return `Wrote Max temperature of ${value}C to device`;
+      }
     };
     AddToQueue(blePayload);
   };
