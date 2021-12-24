@@ -143,12 +143,15 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
 
     return "Cache Built!";
   } catch (error) {
+    console.warn(error);
     console.warn(
       `Error while building BLE caching on attempt #${
         gattRetryCount + 1
       }... Trying to establish cache again`
     );
     if (gattRetryCount < 3) {
+      await bleDevice.gatt.disconnect();
+      clearCache();
       await buildCacheFromBleDevice(bleDevice, gattRetryCount + 1);
     } else {
       throw new Error(
