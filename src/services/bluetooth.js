@@ -4,22 +4,10 @@ import {
   primaryServiceUuidVolcano3,
   primaryServiceUuidVolcano4,
   primaryServiceUuidVolcano5,
-  heatOffUuid,
 } from "../constants/uuids";
-import { cacheContainsCharacteristic } from "../services/BleCharacteristicCache";
 import { buildCacheFromBleDevice } from "../services/BleCharacteristicCache";
 
-let bluetoothDevice;
-
 const bluetoothConnectFunction = async (onConnected) => {
-  if (bluetoothDevice) {
-    if (!cacheContainsCharacteristic(heatOffUuid)) {
-      onConnected();
-      await buildCacheFromBleDevice(bluetoothDevice);
-    }
-    return bluetoothDevice;
-  }
-
   if (navigator.bluetooth) {
     var pieces = navigator.userAgent.match(
       /Chrom(?:e|ium)\/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/
@@ -74,11 +62,8 @@ const bluetoothConnectFunction = async (onConnected) => {
     try {
       const device = await navigator.bluetooth.requestDevice(options);
       if (device.name.includes("S&B VOLCANO")) {
-        bluetoothDevice = device;
-
         onConnected();
-
-        await buildCacheFromBleDevice(bluetoothDevice);
+        await buildCacheFromBleDevice(device);
         return "Adapter resolved. Cache built";
       }
     } catch (error) {
@@ -86,7 +71,6 @@ const bluetoothConnectFunction = async (onConnected) => {
         error.toString().includes("User cancelled") ||
         error.toString().includes("a user gesture")
       ) {
-        bluetoothDevice = undefined;
         return "Ble canceled";
       } else {
         const alertMessage =
