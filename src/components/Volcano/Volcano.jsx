@@ -10,10 +10,15 @@ import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
 import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
+import CurrentTargetTemperature from "./features/WriteTemperature/CurrentTargetTemperature";
+import { getDisplayTemperature } from "../../services/utils";
 import "./Volcano.css";
 
 function Volcano(props) {
   const [isF, setIsF] = useState(undefined);
+  const [currentTargetTemperature, setCurrentTargetTemperature] =
+    useState(undefined);
+
   return (
     <div className="main-div">
       <div>
@@ -29,7 +34,17 @@ function Volcano(props) {
       </div>
       <div>
         <CurrentTemperature isF={isF} />
-        <WriteTemperature isF={isF} />
+        <CurrentTargetTemperature
+          currentTargetTemperature={getDisplayTemperature(
+            currentTargetTemperature,
+            isF
+          )}
+        />
+        <WriteTemperature
+          isF={isF}
+          currentTargetTemperature={currentTargetTemperature}
+          setCurrentTargetTemperature={setCurrentTargetTemperature}
+        />
 
         <div className="heat-air-div">
           <HeatOn />

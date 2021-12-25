@@ -1,11 +1,12 @@
-.heat-air-button {
-  display: flex;
-  width: 50vw;
-  height: 20vh;
-}
-
 .heat-air-div {
   display: flex;
+  min-height: 100px;
+}
+
+.heat-air-button {
+  display: flex;
+  flex-grow: 1;
+  font: x-large;
 }
 
 .disconnect-last-synced-div {
@@ -21,19 +22,16 @@
 .temperature-write-header {
   text-align: center;
   font-size: 30px;
-  min-width: 100vw;
 }
 
 .temperature-write-button-div {
   display: flex;
-  flex-grow: 1;
-  padding-bottom: 5px;
+  flex: 50%;
+  margin-bottom: 5px;
 }
 
 .temperature-write-button {
-  min-width: 48vw;
-  max-width: 50vw;
-  height: 5vh;
+  font-size: x-large;
   min-height: 35px;
   flex-grow: 1;
   background-color: black;

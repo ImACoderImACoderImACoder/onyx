@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 import {
   bleServerUuid,
@@ -16,12 +16,10 @@ import {
   DEGREE_SYMBOL,
 } from "../../../../constants/temperature";
 import { AddToQueue } from "../../../../services/bleQueueing";
-import CurrentTargetTemperature from "./CurrentTargetTemperature";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
 export default function WriteTemperatureContainer(props) {
-  const [currentTargetTemperature, setCurrentTargetTemperature] =
-    useState(undefined);
+  const { setCurrentTargetTemperature } = props;
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
 
@@ -47,7 +45,7 @@ export default function WriteTemperatureContainer(props) {
         handleTargetTemperatureChanged
       );
     };
-  }, []);
+  }, [setCurrentTargetTemperature]);
 
   // we have to use refs for debounce to work properly in react functional components
   const onTemperatureIncrementDecrementDebounceRef = useRef(
@@ -57,11 +55,11 @@ export default function WriteTemperatureContainer(props) {
   );
 
   const onClickIncrement = (incrementValue) => () => {
-    const nextTemp = currentTargetTemperature + incrementValue;
+    const nextTemp = props.currentTargetTemperature + incrementValue;
     if (!isValueInValidVolcanoCelciusRange(nextTemp)) {
       return;
     }
-    setCurrentTargetTemperature(nextTemp);
+    props.setCurrentTargetTemperature(nextTemp);
     onTemperatureIncrementDecrementDebounceRef.current(nextTemp);
   };
 
@@ -77,7 +75,7 @@ export default function WriteTemperatureContainer(props) {
         let buffer = convertToUInt32BLE(value * 10);
         await characteristic.writeValue(buffer);
 
-        setCurrentTargetTemperature(value);
+        props.setCurrentTargetTemperature(value);
         return `Wrote Max temperature of ${value}C to device`;
       }
     };
@@ -103,7 +101,7 @@ export default function WriteTemperatureContainer(props) {
         onClick={onClick(item)}
         buttonText={getDisplayTemperature(item, props.isF)}
         className={
-          item === currentTargetTemperature
+          item === props.currentTargetTemperature
             ? "temperature-write-button-active-temperature"
             : ""
         }
@@ -129,15 +127,5 @@ export default function WriteTemperatureContainer(props) {
     />
   );
 
-  return (
-    <div className="temperature-write-div">
-      <CurrentTargetTemperature
-        currentTargetTemperature={getDisplayTemperature(
-          currentTargetTemperature,
-          props.isF
-        )}
-      />
-      {temperatureButtons}
-    </div>
-  );
+  return <div className="temperature-write-div">{temperatureButtons}</div>;
 }

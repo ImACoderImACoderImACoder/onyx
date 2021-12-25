@@ -2,7 +2,7 @@ import BootstrapSwitchButton from "bootstrap-switch-button-react";
 
 export default function FanOn(props) {
   return (
-    <div>
+    <div className="heat-air-button">
       <BootstrapSwitchButton
         onlabel="Fan On"
         offlabel="Fan Off"
