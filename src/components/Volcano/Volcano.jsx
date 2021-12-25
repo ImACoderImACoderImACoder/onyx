@@ -15,25 +15,25 @@ import "./Volcano.css";
 function Volcano(props) {
   const [isF, setIsF] = useState(undefined);
   return (
-    <div>
-      <div className="disconnect-last-synced-div">
-        <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
-        <DisconnectButton />
+    <div className="main-div">
+      <div>
+        <div className="disconnect-last-synced-div">
+          <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
+          <DisconnectButton />
+        </div>
+        <VolcanoSerialNumber />
+        <HoursOfOperation />
+        <VolcanoFirmwareVersion />
+        <BleFirmwareVersion />
+        <FOrC setIsF={setIsF} isF={isF} />
       </div>
-      <VolcanoSerialNumber />
-      <HoursOfOperation />
-      <VolcanoFirmwareVersion />
-      <BleFirmwareVersion />
-      <FOrC setIsF={setIsF} isF={isF} />
-      <div className="footer">
-        <div className="footer-main-div">
-          <CurrentTemperature isF={isF} />
-          <WriteTemperature isF={isF} />
+      <div>
+        <CurrentTemperature isF={isF} />
+        <WriteTemperature isF={isF} />
 
-          <div className="heat-air-div">
-            <HeatOn />
-            <FanOn />
-          </div>
+        <div className="heat-air-div">
+          <HeatOn />
+          <FanOn />
         </div>
       </div>
     </div>

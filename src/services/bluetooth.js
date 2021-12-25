@@ -7,7 +7,7 @@ import {
 } from "../constants/uuids";
 import { buildCacheFromBleDevice } from "../services/BleCharacteristicCache";
 
-const bluetoothConnectFunction = async (onConnected) => {
+const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
   if (navigator.bluetooth) {
     var pieces = navigator.userAgent.match(
       /Chrom(?:e|ium)\/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/
@@ -63,6 +63,7 @@ const bluetoothConnectFunction = async (onConnected) => {
       const device = await navigator.bluetooth.requestDevice(options);
       if (device.name.includes("S&B VOLCANO")) {
         onConnected();
+        device.addEventListener("gattserverdisconnected", onDisconnected);
         await buildCacheFromBleDevice(device);
         return "Adapter resolved. Cache built";
       }

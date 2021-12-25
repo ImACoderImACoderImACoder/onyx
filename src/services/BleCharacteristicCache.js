@@ -3,7 +3,9 @@ let cache = {};
 
 export function clearCache() {
   cache = {};
+  console.log("Cache Cleared!");
 }
+
 export function cacheContainsCharacteristic(characteristicId) {
   const characteristic = cache[characteristicId];
   if (characteristic) {

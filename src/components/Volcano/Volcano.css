@@ -1,15 +1,3 @@
-.footer {
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.footer-main-div {
-  display: flex;
-  flex-direction: column;
-}
-
 .heat-air-button {
   display: flex;
   width: 50vw;
@@ -46,6 +34,7 @@
   min-width: 48vw;
   max-width: 50vw;
   height: 5vh;
+  min-height: 35px;
   flex-grow: 1;
   background-color: black;
   color: darkgray;
@@ -73,4 +62,13 @@
 .temperature-write-button-active-temperature {
   background-color: darkgray;
   color: white;
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  justify-content: space-between;
+  overflow: auto;
 }
