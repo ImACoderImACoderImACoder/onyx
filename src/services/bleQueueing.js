@@ -28,6 +28,7 @@ async function ProcessQueue() {
       ProcessQueue();
     }, 0);
   } catch (error) {
+    window.location.reload();
     console.log(`QUEUE ERROR: ${error.toString()}`);
   }
 }
