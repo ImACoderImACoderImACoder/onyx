@@ -28,6 +28,7 @@ function writeCharacteristicToCache(characteristic, characteristicId) {
 
 export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
   try {
+    clearCache();
     writeCharacteristicToCache(bleDevice, uuIds.bleDeviceUuid);
 
     let bleServer = await bleDevice.gatt.connect();
@@ -153,7 +154,6 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
     );
     if (gattRetryCount < 3) {
       await bleDevice.gatt.disconnect();
-      clearCache();
       await buildCacheFromBleDevice(bleDevice, gattRetryCount + 1);
     } else {
       throw new Error(
