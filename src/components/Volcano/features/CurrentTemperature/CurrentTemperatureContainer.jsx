@@ -8,8 +8,10 @@ import {
   convertCurrentTemperatureCharacteristicToCelcius,
   getDisplayTemperature,
 } from "../../../../services/utils";
+import { useSelector } from "react-redux";
 
-export default function CurrentTemperatureContainer(props) {
+export default function CurrentTemperatureContainer() {
+  const isF = useSelector((state) => state.settings.isF);
   const [currentTemperature, setCurrentTemperature] =
     useState(MIN_CELSIUS_TEMP);
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function CurrentTemperatureContainer(props) {
 
   return (
     <CurrentTemperature
-      currentTemperature={getDisplayTemperature(currentTemperature, props.isF)}
+      currentTemperature={getDisplayTemperature(currentTemperature, isF)}
     />
   );
 }

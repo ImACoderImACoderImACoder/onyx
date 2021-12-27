@@ -22,7 +22,7 @@ export default function BleContainer(props) {
     try {
       const result = await Ble(onConnected, onDisconnected);
       console.log(result);
-      navigate("/Volcano");
+      navigate("/Volcano/App");
     } catch (error) {
       setIsBleConnectionBeingEstablished(false);
       console.log(error);

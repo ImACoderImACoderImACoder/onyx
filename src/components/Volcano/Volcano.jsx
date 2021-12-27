@@ -1,39 +1,26 @@
 import { useState } from "react";
-import DisconnectButton from "./DisconnectButton";
-import VolcanoSerialNumber from "./features/SerialNumber/SerialNumberContainer";
-import HoursOfOperation from "./features/HoursOfOperation/HoursOfOperationContainer";
-import VolcanoFirmwareVersion from "./features/VolcanoFirmwareVersion/VolcanoFirmwareVersionContainer";
-import BleFirmwareVersion from "./features/BleFirmwareVersion/BleFirmwareVersionContainer";
 import HeatOn from "./features/HeatOn/HeatOnContainer";
 import FanOn from "./features/FanOn/FanOnContainer";
 import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
-import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
 import CurrentTargetTemperature from "./features/WriteTemperature/CurrentTargetTemperature";
 import { getDisplayTemperature } from "../../services/utils";
-import "./Volcano.css";
 
-function Volcano(props) {
-  const [isF, setIsF] = useState(undefined);
+import { useSelector } from "react-redux";
+
+function Volcano() {
+  const isF = useSelector((state) => state.settings.isF);
   const [currentTargetTemperature, setCurrentTargetTemperature] =
     useState(undefined);
 
   return (
     <div className="main-div">
       <div>
-        <div className="disconnect-last-synced-div">
-          <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
-          <DisconnectButton />
-        </div>
-        <VolcanoSerialNumber />
-        <HoursOfOperation />
-        <VolcanoFirmwareVersion />
-        <BleFirmwareVersion />
-        <FOrC setIsF={setIsF} isF={isF} />
+        <FOrC />
       </div>
       <div>
-        <CurrentTemperature isF={isF} />
+        <CurrentTemperature />
         <CurrentTargetTemperature
           currentTargetTemperature={getDisplayTemperature(
             currentTargetTemperature,
@@ -41,7 +28,6 @@ function Volcano(props) {
           )}
         />
         <WriteTemperature
-          isF={isF}
           currentTargetTemperature={currentTargetTemperature}
           setCurrentTargetTemperature={setCurrentTargetTemperature}
         />

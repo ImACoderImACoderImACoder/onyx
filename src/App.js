@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BleConnectButtonContainer from "./components/BleConnection/BleContainer";
 import VolcanoLoader from "./components/Volcano/VolcanoLoader";
+import Volcano from "./components/Volcano/Volcano";
+import DeviceInformation from "./features/deviceInformation/DeviceInformation";
 import { clearCache } from "./services/BleCharacteristicCache";
-
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -27,9 +28,12 @@ function App(props) {
             }
           />
           <Route
-            path="/Volcano"
+            path="Volcano"
             element={<VolcanoLoader renderTimestamp={props.renderTimestamp} />}
-          />
+          >
+            <Route path="App" element={<Volcano />} />
+            <Route path="DeviceInformation" element={<DeviceInformation />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
