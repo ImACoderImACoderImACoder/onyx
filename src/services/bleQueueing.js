@@ -1,6 +1,3 @@
-import { getCharacteristic } from "../services/BleCharacteristicCache";
-
-import * as uuIds from "../constants/uuids";
 const queue = [];
 
 let isQueueProcessing = false;
@@ -32,7 +29,6 @@ async function ProcessQueue() {
     }, 0);
   } catch (error) {
     console.log(`QUEUE ERROR: ${error.toString()}`);
-    const bleDevice = getCharacteristic(uuIds.bleDeviceUuid);
-    await bleDevice.gatt.disconnect();
+    ProcessQueue();
   }
 }

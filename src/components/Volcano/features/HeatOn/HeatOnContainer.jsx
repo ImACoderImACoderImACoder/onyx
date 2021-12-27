@@ -25,7 +25,7 @@ export default function HeatOnContainer(props) {
     return () => {
       document.removeEventListener("visibilitychange", handler);
     };
-  });
+  }, []);
 
   useEffect(() => {
     initializeEffectForToggle(setIsHeatOn, heatingMask);
