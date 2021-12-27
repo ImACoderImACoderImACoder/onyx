@@ -102,14 +102,14 @@ export default function WriteTemperatureContainer(props) {
   };
 
   const volcanoClassictemperatures = [
-    130,
-    142,
-    154,
-    166,
-    178,
+    180,
+    185,
     190,
-    202,
-    216,
+    195,
+    200,
+    206,
+    212,
+    220,
     226,
     MAX_CELSIUS_TEMP,
   ];
