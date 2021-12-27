@@ -47,6 +47,25 @@ export default function WriteTemperatureContainer(props) {
     };
   }, [setCurrentTargetTemperature]);
 
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === "visible") {
+        const characteristic = getCharacteristic(writeTemperatureUuid);
+        (async () => {
+          const value = await characteristic.readValue();
+          const targetTemperature =
+            convertCurrentTemperatureCharacteristicToCelcius(value);
+          setCurrentTargetTemperature(targetTemperature);
+        })();
+      }
+    };
+    document.addEventListener("visibilitychange", handler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+    };
+  }, [setCurrentTargetTemperature]);
+
   // we have to use refs for debounce to work properly in react functional components
   const onTemperatureIncrementDecrementDebounceRef = useRef(
     debounce((newTemp) => {
