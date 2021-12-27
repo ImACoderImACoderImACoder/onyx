@@ -47,6 +47,28 @@ export default function FOrCContainer(props) {
     };
   }, [setIsF]);
 
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === "visible") {
+        const characteristicPrj2V = getCharacteristic(register2Uuid);
+        (async () => {
+          const value = await characteristicPrj2V.readValue();
+          const currentVal = convertBLEtoUint16(value);
+          const isFValue = convertToggleCharacteristicToBool(
+            currentVal,
+            fahrenheitMask
+          );
+          setIsF(isFValue);
+        })();
+      }
+    };
+    document.addEventListener("visibilitychange", handler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+    };
+  }, [setIsF]);
+
   const onClick = () => {
     if (isF === undefined) {
       return;
