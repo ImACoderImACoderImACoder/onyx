@@ -1,7 +1,6 @@
 import { useState } from "react";
 import HeatOn from "./features/HeatOn/HeatOnContainer";
 import FanOn from "./features/FanOn/FanOnContainer";
-import FOrC from "./features/FOrC/FOrCContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
 import CurrentTargetTemperature from "./features/WriteTemperature/CurrentTargetTemperature";
@@ -16,9 +15,7 @@ function Volcano() {
 
   return (
     <div className="main-div">
-      <div>
-        <FOrC />
-      </div>
+      <div></div>
       <div>
         <CurrentTemperature />
         <CurrentTargetTemperature

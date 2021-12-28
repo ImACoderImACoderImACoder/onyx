@@ -7,6 +7,7 @@ import DeviceInformation from "./features/deviceInformation/DeviceInformation";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Settings from "./features/settings/Settings";
 
 function App(props) {
   useEffect(() => {
@@ -33,6 +34,7 @@ function App(props) {
           >
             <Route path="App" element={<Volcano />} />
             <Route path="DeviceInformation" element={<DeviceInformation />} />
+            <Route path="Settings" element={<Settings />} />
           </Route>
         </Routes>
       </BrowserRouter>

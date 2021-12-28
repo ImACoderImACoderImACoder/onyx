@@ -77,3 +77,10 @@ svg {
   margin-right: 20px;
   margin-left: 20px;
 }
+
+.icon-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rebeccapurple;
+}

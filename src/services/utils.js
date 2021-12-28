@@ -48,10 +48,13 @@ export function convertToFahrenheitFromCelsius(celsius) {
 }
 
 export function getDisplayTemperature(temperature, isF) {
+  const temperatureAbbreviation = isF ? "F" : "C";
+  if (!temperature) {
+    return `0${temperatureAbbreviation}`;
+  }
   const normalizedTemperature = isF
     ? convertToFahrenheitFromCelsius(temperature)
     : temperature;
-  const temperatureAbbreviation = isF ? "F" : "C";
 
   return `${normalizedTemperature}${DEGREE_SYMBOL}${temperatureAbbreviation}`;
 }
