@@ -31,8 +31,9 @@ export default function WriteTemperatureContainer(props) {
       "characteristicvaluechanged",
       handleTargetTemperatureChanged
     );
-    characteristic.startNotifications();
+
     (async () => {
+      characteristic.startNotifications();
       const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
@@ -49,8 +50,8 @@ export default function WriteTemperatureContainer(props) {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        const characteristic = getCharacteristic(writeTemperatureUuid);
         (async () => {
+          const characteristic = getCharacteristic(writeTemperatureUuid);
           const value = await characteristic.readValue();
           const targetTemperature =
             convertCurrentTemperatureCharacteristicToCelcius(value);

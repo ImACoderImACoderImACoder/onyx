@@ -19,10 +19,12 @@ export default function FOrCContainer() {
   useEffect(() => {
     function handlePrj2ChangedVolcano(event) {
       let currentVal = convertBLEtoUint16(event.target.value);
-      if (convertToggleCharacteristicToBool(currentVal, fahrenheitMask)) {
-        dispatch(setIsF(true));
-      } else {
-        dispatch(setIsF(false));
+      const changedValue = convertToggleCharacteristicToBool(
+        currentVal,
+        fahrenheitMask
+      );
+      if (changedValue !== isF) {
+        dispatch(setIsF(changedValue));
       }
     }
     const characteristicPrj2V = getCharacteristic(register2Uuid);
@@ -49,14 +51,13 @@ export default function FOrCContainer() {
         handlePrj2ChangedVolcano
       );
     };
-  }, [dispatch]);
+  }, [dispatch, isF]);
 
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
         const blePayload = async () => {
           const characteristicPrj2V = getCharacteristic(register2Uuid);
-
           const value = await characteristicPrj2V.readValue();
           const currentVal = convertBLEtoUint16(value);
           const isFValue = convertToggleCharacteristicToBool(
@@ -85,7 +86,6 @@ export default function FOrCContainer() {
       const mask = isF ? celciusMask : fahrenheitMask;
       const buffer = convertToUInt32BLE(mask);
       await characteristicPrj2V.writeValue(buffer);
-      dispatch(setIsF(!isF));
       return `Toggle F or C set to ${isF ? "C" : "F"}`;
     };
     AddToQueue(blePayload);

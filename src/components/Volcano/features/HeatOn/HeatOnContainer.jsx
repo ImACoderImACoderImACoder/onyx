@@ -1,23 +1,44 @@
-import { useState, useEffect } from "react";
-import { heatOnUuid, heatOffUuid } from "../../../../constants/uuids";
+import { useEffect, useRef } from "react";
+import {
+  heatOnUuid,
+  heatOffUuid,
+  register1Uuid,
+} from "../../../../constants/uuids";
 import { heatingMask } from "../../../../constants/masks";
 import HeatOn from "./HeatOn";
-import {
-  getToggleOnClick,
-  initializeEffectForToggle,
-} from "../Shared/HeatPumpSharedHandlers/heatPumpSharedCode";
 import debounce from "lodash/debounce";
 import { bleDebounceTime } from "../../../../constants/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsHeatOn } from "../../../../features/deviceInteraction/deviceInteractionSlice";
+import { AddToQueue } from "../../../../services/bleQueueing";
+import {
+  convertToUInt8BLE,
+  convertBLEtoUint16,
+  convertToggleCharacteristicToBool,
+} from "../../../../services/utils";
+import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 
-export default function HeatOnContainer(props) {
-  const [isHeatOn, setIsHeatOn] = useState(false);
+export default function HeatOnContainer() {
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const dispatch = useDispatch();
 
-  //since the heat and air buttons share code this event will sync the fan changes too
-  //that worked coincidentally and it was throwing me off when testing since I did not expect that
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        initializeEffectForToggle(setIsHeatOn, heatingMask);
+        const blePayload = async () => {
+          const characteristicPrj1V = getCharacteristic(register1Uuid);
+          const value = await characteristicPrj1V.readValue();
+          const currentVal = convertBLEtoUint16(value);
+          const newHeatValue = convertToggleCharacteristicToBool(
+            currentVal,
+            heatingMask
+          );
+          if (isHeatOn !== newHeatValue) {
+            dispatch(setIsHeatOn(newHeatValue));
+          }
+          return newHeatValue;
+        };
+        AddToQueue(blePayload);
       }
     };
     document.addEventListener("visibilitychange", handler);
@@ -25,23 +46,73 @@ export default function HeatOnContainer(props) {
     return () => {
       document.removeEventListener("visibilitychange", handler);
     };
-  }, []);
+  }, [dispatch, isHeatOn]);
 
   useEffect(() => {
-    initializeEffectForToggle(setIsHeatOn, heatingMask);
-  }, []);
+    const handlePrj1ChangedVolcano = (event) => {
+      let currentVal = convertBLEtoUint16(event.target.value);
+      const newHeatValue = convertToggleCharacteristicToBool(
+        currentVal,
+        heatingMask
+      );
+      if (newHeatValue !== isHeatOn) {
+        dispatch(setIsHeatOn(newHeatValue));
+      }
+    };
 
-  const blePayloadDebounce = debounce(
-    getToggleOnClick(isHeatOn, setIsHeatOn, heatOffUuid, heatOnUuid),
-    bleDebounceTime,
-    { isHeatOn }
+    const characteristicPrj1V = getCharacteristic(register1Uuid);
+    const blePayload = async () => {
+      characteristicPrj1V.addEventListener(
+        "characteristicvaluechanged",
+        handlePrj1ChangedVolcano
+      );
+      await characteristicPrj1V.startNotifications();
+      const value = await characteristicPrj1V.readValue();
+      const currentVal = convertBLEtoUint16(value);
+      const newHeatValue = convertToggleCharacteristicToBool(
+        currentVal,
+        heatingMask
+      );
+      if (newHeatValue !== isHeatOn) {
+        dispatch(setIsHeatOn(newHeatValue));
+      }
+    };
+    AddToQueue(blePayload);
+
+    return () => {
+      characteristicPrj1V?.removeEventListener(
+        "characteristicvaluechanged",
+        handlePrj1ChangedVolcano
+      );
+    };
+  }, [dispatch, isHeatOn]);
+
+  const onClick = () => {
+    const blePayload = async () => {
+      const targetCharacteristicUuid = isHeatOn ? heatOffUuid : heatOnUuid;
+      const characteristic = getCharacteristic(targetCharacteristicUuid);
+      const buffer = convertToUInt8BLE(0);
+      await characteristic.writeValue(buffer);
+      const newHeatValue = !isHeatOn;
+      return `The heat is now ${newHeatValue}`;
+    };
+    AddToQueue(blePayload);
+  };
+  const onClickDebounceRef = useRef(
+    debounce(
+      (onClick) => {
+        onClick();
+      },
+      bleDebounceTime,
+      { isHeatOn }
+    )
   );
 
   const onChange = (checked) => {
     if (checked === isHeatOn) {
       console.log("Heat skipped spam click");
     } else {
-      blePayloadDebounce();
+      onClickDebounceRef.current(onClick);
     }
   };
 
