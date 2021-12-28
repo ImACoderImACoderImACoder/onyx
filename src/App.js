@@ -20,18 +20,8 @@ function App(props) {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <BleConnectButtonContainer
-                renderTimestamp={props.renderTimestamp}
-              />
-            }
-          />
-          <Route
-            path="Volcano"
-            element={<VolcanoLoader renderTimestamp={props.renderTimestamp} />}
-          >
+          <Route path="/" element={<BleConnectButtonContainer />} />
+          <Route path="Volcano" element={<VolcanoLoader />}>
             <Route path="App" element={<Volcano />} />
             <Route path="DeviceInformation" element={<DeviceInformation />} />
             <Route path="Settings" element={<Settings />} />

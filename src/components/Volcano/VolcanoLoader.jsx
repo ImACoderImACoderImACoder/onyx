@@ -2,7 +2,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cacheContainsCharacteristic } from "../../services/BleCharacteristicCache";
-import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
 import { heatOffUuid } from "../../constants/uuids";
 import DisconnectButton from "./DisconnectButton";
 
@@ -30,13 +29,10 @@ export default function VolcanoLoader(props) {
           <FOrC />
         </div>
         <div className="disconnect-last-synced-div">
-          <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
-
           <Link className="icon-links" to={"/Volcano/App"}>
             <ControlsIcon />
             App
           </Link>
-
           <Link className="icon-links" to={"/Volcano/DeviceInformation"}>
             <InformationIcon />
             Device Info

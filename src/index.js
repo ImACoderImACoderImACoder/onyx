@@ -6,25 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import store from "./store";
 import { Provider } from "react-redux";
 
-const currentdate = new Date();
-const dateTime =
-  "Last Synced: " +
-  currentdate.getDate() +
-  "/" +
-  (currentdate.getMonth() + 1) +
-  "/" +
-  currentdate.getFullYear() +
-  " @ " +
-  currentdate.getHours() +
-  ":" +
-  currentdate.getMinutes() +
-  ":" +
-  currentdate.getSeconds();
-
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App renderTimestamp={dateTime} />
+      <App />
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")

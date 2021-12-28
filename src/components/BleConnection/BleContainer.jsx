@@ -1,7 +1,7 @@
 import BleConnectionButton from "./Ble";
 import { useNavigate } from "react-router-dom";
 import Ble from "../../services/bluetooth";
-import LastAppServerRefresh from "../LastAppRefresh/LastAppServerRefresh";
+import LastAppServerRefresh from "../../features/lastAppRefresh/LastAppRefresh/LastAppServerRefresh";
 import Loading from "./LoadingConnection";
 import { clearCache } from "../../services/BleCharacteristicCache";
 import { useState } from "react";
@@ -30,7 +30,7 @@ export default function BleContainer(props) {
   };
   return (
     <div>
-      <LastAppServerRefresh renderTimestamp={props.renderTimestamp} />
+      <LastAppServerRefresh />
       {isBleConnectionBeingEstablished ? (
         <Loading />
       ) : (
