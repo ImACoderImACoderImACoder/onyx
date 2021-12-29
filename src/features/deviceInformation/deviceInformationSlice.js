@@ -10,6 +10,7 @@ export const deviceInformationSlice = createSlice({
       lastUpdated: undefined,
     },
     volcanoFirmwareVersion: undefined,
+    autoOffTimeInSeconds: 0,
   },
   reducers: {
     setSerialNumber: (state, action) => {
@@ -25,6 +26,9 @@ export const deviceInformationSlice = createSlice({
     setVolcanoFirmwareVersion: (state, action) => {
       state.volcanoFirmwareVersion = action.payload;
     },
+    setAutoOffTimeInSeconds: (state, action) => {
+      state.autoOffTimeInSeconds = action.payload;
+    },
   },
 });
 
@@ -34,6 +38,7 @@ export const {
   setBleFirmwareVersion,
   setHoursOfOperation,
   setVolcanoFirmwareVersion,
+  setAutoOffTimeInSeconds,
 } = deviceInformationSlice.actions;
 
 export default deviceInformationSlice.reducer;

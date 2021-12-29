@@ -14,8 +14,7 @@ function Volcano() {
     useState(undefined);
 
   return (
-    <div className="main-div">
-      <div></div>
+    <div>
       <div>
         <CurrentTemperature />
         <CurrentTargetTemperature
