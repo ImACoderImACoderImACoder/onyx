@@ -32,13 +32,14 @@ export default function WriteTemperatureContainer(props) {
       handleTargetTemperatureChanged
     );
 
-    (async () => {
-      characteristic.startNotifications();
+    characteristic.startNotifications();
+    const blePayload = async () => {
       const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
       setCurrentTargetTemperature(targetTemperature);
-    })();
+    };
+    AddToQueue(blePayload);
     return () => {
       characteristic.removeEventListener(
         "characteristicvaluechanged",
@@ -50,13 +51,15 @@ export default function WriteTemperatureContainer(props) {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        const characteristic = getCharacteristic(writeTemperatureUuid);
-        (async () => {
+        const blePayload = async () => {
+          const characteristic = getCharacteristic(writeTemperatureUuid);
           const value = await characteristic.readValue();
           const targetTemperature =
             convertCurrentTemperatureCharacteristicToCelcius(value);
           setCurrentTargetTemperature(targetTemperature);
-        })();
+          return `The current target temperature is ${targetTemperature}`;
+        };
+        AddToQueue(blePayload);
       }
     };
     document.addEventListener("visibilitychange", handler);
