@@ -16,9 +16,9 @@ export default function RestoreDefaultTemperature() {
   const resetConfigToDefaultTemperatures = () => {
     WriteNewConfigToLocalStorage({
       ...config,
-      temperatureControlValues: defaultTemperatureArray,
+      temperatureControlValues: [...defaultTemperatureArray],
     });
-    dispatch(setTemperatureControls(defaultTemperatureArray));
+    dispatch(setTemperatureControls([...defaultTemperatureArray]));
   };
   const handleSave = () => {
     handleClose();
