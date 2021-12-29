@@ -26,6 +26,7 @@
 
 .temperature-write-button-div {
   display: flex;
+  max-width: 50%;
   flex: 50%;
   margin-bottom: 5px;
 }

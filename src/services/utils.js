@@ -4,6 +4,10 @@ import {
   MAX_CELSIUS_TEMP,
   DEGREE_SYMBOL,
 } from "../constants/temperature";
+import {
+  localStorageKey,
+  defaultTemperatureArray,
+} from "../constants/constants";
 
 export function convertToUInt8BLE(val) {
   var buffer = new ArrayBuffer(1);
@@ -47,6 +51,10 @@ export function convertToFahrenheitFromCelsius(celsius) {
   return Math.round(celsius * 1.8 + 32);
 }
 
+export function convertToCelsiusFromFahrenheit(fahrenheit) {
+  return Math.round((fahrenheit - 32) * (5 / 9));
+}
+
 export function getDisplayTemperature(temperature, isF) {
   const temperatureAbbreviation = isF ? "F" : "C";
   if (!temperature) {
@@ -61,4 +69,32 @@ export function getDisplayTemperature(temperature, isF) {
 
 export function isValueInValidVolcanoCelciusRange(value) {
   return !(value > MAX_CELSIUS_TEMP || value < MIN_CELSIUS_TEMP);
+}
+
+export function ReadConfigFromLocalStorage() {
+  let config = JSON.parse(window.localStorage.getItem(localStorageKey));
+  if (!config) {
+    const defaultConfig = {
+      temperatureControlValues: defaultTemperatureArray,
+    };
+    window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));
+    config = defaultConfig;
+  }
+  return config;
+}
+
+export function WriteNewConfigToLocalStorage(config) {
+  const comparer = function (a, b) {
+    return a - b;
+  };
+
+  const sortedTemperatureConfig = {
+    ...config,
+    temperatureControlValues: config.temperatureControlValues.sort(comparer),
+  };
+
+  window.localStorage.setItem(
+    localStorageKey,
+    JSON.stringify(sortedTemperatureConfig)
+  );
 }

@@ -11,13 +11,15 @@ import {
   isValueInValidVolcanoCelciusRange,
 } from "../../../../services/utils";
 import WriteTemperature from "./WriteTemperature";
-import { MAX_CELSIUS_TEMP } from "../../../../constants/temperature";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
 import { useSelector } from "react-redux";
 export default function WriteTemperatureContainer(props) {
   const isF = useSelector((state) => state.settings.isF);
+  const temperatureControlValues = useSelector(
+    (state) => state.settings.config.temperatureControlValues
+  );
   const { setCurrentTargetTemperature } = props;
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
@@ -104,19 +106,7 @@ export default function WriteTemperatureContainer(props) {
     AddToQueue(blePayload);
   };
 
-  const volcanoClassictemperatures = [
-    180,
-    185,
-    190,
-    195,
-    200,
-    206,
-    212,
-    220,
-    226,
-    MAX_CELSIUS_TEMP,
-  ];
-  const temperatureButtons = volcanoClassictemperatures.map((item, index) => {
+  const temperatureButtons = temperatureControlValues.map((item, index) => {
     return (
       <WriteTemperature
         key={index}
@@ -131,31 +121,7 @@ export default function WriteTemperatureContainer(props) {
     );
   });
 
-  temperatureButtons.push(
-    <WriteTemperature
-      key="decrementTemperatureButton"
-      onClick={onClickIncrement(-1)}
-      buttonText={
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fas"
-          data-icon="minus"
-          className="svg-inline--fa fa-minus fa-w-14"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-        >
-          <path
-            fill="currentColor"
-            d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
-          ></path>
-        </svg>
-      }
-    />
-  );
-
-  temperatureButtons.push(
+  temperatureButtons.unshift(
     <WriteTemperature
       key="incrementTemperatureButton"
       onClick={onClickIncrement(1)}
@@ -173,6 +139,30 @@ export default function WriteTemperatureContainer(props) {
           <path
             fill="currentColor"
             d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+          ></path>
+        </svg>
+      }
+    />
+  );
+
+  temperatureButtons.unshift(
+    <WriteTemperature
+      key="decrementTemperatureButton"
+      onClick={onClickIncrement(-1)}
+      buttonText={
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="minus"
+          className="svg-inline--fa fa-minus fa-w-14"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
+          <path
+            fill="currentColor"
+            d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
           ></path>
         </svg>
       }
