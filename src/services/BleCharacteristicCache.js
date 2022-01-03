@@ -149,6 +149,11 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
 
     writeCharacteristicToCache(autoOffCharacteristic, uuIds.autoShutoffUuid);
 
+    const register3 = await primaryServiceUuidVolcano3.getCharacteristic(
+      uuIds.register3Uuid
+    );
+    writeCharacteristicToCache(register3, uuIds.register3Uuid);
+
     return "Cache Built!";
   } catch (error) {
     console.warn(error);

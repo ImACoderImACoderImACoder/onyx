@@ -11,6 +11,7 @@ export const primaryServiceUuidVolcano5 =
 
 export const register1Uuid = "1010000c-5354-4f52-5a26-4249434b454c";
 export const register2Uuid = "1010000d-5354-4f52-5a26-4249434b454c";
+export const register3Uuid = "1010000e-5354-4f52-5a26-4249434b454c";
 
 export const heatOffUuid = "10110010-5354-4f52-5a26-4249434b454c";
 export const heatOnUuid = "1011000f-5354-4f52-5a26-4249434b454c";

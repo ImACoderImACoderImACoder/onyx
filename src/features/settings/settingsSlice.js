@@ -6,6 +6,7 @@ export const settingsSlice = createSlice({
   initialState: {
     isF: undefined,
     config: ReadConfigFromLocalStorage(),
+    isVibrationEnabled: undefined,
   },
   reducers: {
     setIsF: (state, action) => {
@@ -14,10 +15,14 @@ export const settingsSlice = createSlice({
     setTemperatureControls: (state, action) => {
       state.config.temperatureControlValues = action.payload;
     },
+    setIsVibrationEnabled: (state, action) => {
+      state.isVibrationEnabled = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsF, setTemperatureControls } = settingsSlice.actions;
+export const { setIsF, setTemperatureControls, setIsVibrationEnabled } =
+  settingsSlice.actions;
 
 export default settingsSlice.reducer;
