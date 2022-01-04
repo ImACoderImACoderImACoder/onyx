@@ -1,4 +1,5 @@
 import FOrC from "../../components/Volcano/features/FOrC/FOrCContainer";
+import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnCoolingToggleContainer";
 
 import "./Settings.css";
 import TemperatureControlSettings from "./TemperatureControlValues.jsx/TemperatureControlSettingsContainer";
@@ -9,6 +10,7 @@ export default function Settings() {
     <div className="settings-main">
       <FOrC />
       <VibrationToggleContainer />
+      <DisplayOnCoolingToggleContainer />
       <TemperatureControlSettings />
     </div>
   );
