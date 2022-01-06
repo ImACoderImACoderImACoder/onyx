@@ -6,7 +6,6 @@ export const deviceInteractionSlice = createSlice({
     currentTemperature: undefined,
     targetTemperature: undefined,
     isFanOn: undefined,
-    isFanToggleInProgress: false,
     isHeatOn: undefined,
   },
   reducers: {
@@ -15,7 +14,6 @@ export const deviceInteractionSlice = createSlice({
     },
     setTargetTemperature: (state, action) => {
       state.targetTemperature = action.payload;
-      state.isFanToggleInProgress = false;
     },
     setIsFanOn: (state, action) => {
       state.isFanOn = action.payload;

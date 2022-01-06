@@ -15,19 +15,25 @@ import { AddToQueue } from "../../../../services/bleQueueing";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
 import { useSelector } from "react-redux";
+import { setTargetTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
+import { useDispatch } from "react-redux";
+import AdjustLEDbrightness from "../../../../features/deviceInteraction/TargetTemperatureRange/TargetTemperatureRange";
+
+import "./WriteTemperature.css";
+
 export default function WriteTemperatureContainer(props) {
   const isF = useSelector((state) => state.settings.isF);
   const temperatureControlValues = useSelector(
     (state) => state.settings.config.temperatureControlValues
   );
-  const { setCurrentTargetTemperature } = props;
+  const dispatch = useDispatch();
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
 
     function handleTargetTemperatureChanged(event) {
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
-      setCurrentTargetTemperature(targetTemperature);
+      dispatch(setTargetTemperature(targetTemperature));
     }
     characteristic.addEventListener(
       "characteristicvaluechanged",
@@ -39,7 +45,7 @@ export default function WriteTemperatureContainer(props) {
       const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
-      setCurrentTargetTemperature(targetTemperature);
+      dispatch(setTargetTemperature(targetTemperature));
     };
     AddToQueue(blePayload);
     return () => {
@@ -48,7 +54,7 @@ export default function WriteTemperatureContainer(props) {
         handleTargetTemperatureChanged
       );
     };
-  }, [setCurrentTargetTemperature]);
+  }, [dispatch]);
 
   useEffect(() => {
     const handler = () => {
@@ -58,7 +64,7 @@ export default function WriteTemperatureContainer(props) {
           const value = await characteristic.readValue();
           const targetTemperature =
             convertCurrentTemperatureCharacteristicToCelcius(value);
-          setCurrentTargetTemperature(targetTemperature);
+          dispatch(setTargetTemperature(targetTemperature));
           return `The current target temperature is ${targetTemperature}`;
         };
         AddToQueue(blePayload);
@@ -69,7 +75,7 @@ export default function WriteTemperatureContainer(props) {
     return () => {
       document.removeEventListener("visibilitychange", handler);
     };
-  }, [setCurrentTargetTemperature]);
+  }, [dispatch]);
 
   // we have to use refs for debounce to work properly in react functional components
   const onTemperatureIncrementDecrementDebounceRef = useRef(
@@ -83,7 +89,7 @@ export default function WriteTemperatureContainer(props) {
     if (!isValueInValidVolcanoCelciusRange(nextTemp)) {
       return;
     }
-    props.setCurrentTargetTemperature(nextTemp);
+    dispatch(setTargetTemperature(nextTemp));
     onTemperatureIncrementDecrementDebounceRef.current(nextTemp);
   };
 
@@ -99,7 +105,7 @@ export default function WriteTemperatureContainer(props) {
         let buffer = convertToUInt32BLE(value * 10);
         await characteristic.writeValue(buffer);
 
-        props.setCurrentTargetTemperature(value);
+        dispatch(setTargetTemperature(value));
         return `Wrote Max temperature of ${value}C to device`;
       }
     };
@@ -167,6 +173,12 @@ export default function WriteTemperatureContainer(props) {
         </svg>
       }
     />
+  );
+
+  temperatureButtons.push(
+    <div key="temperatureRange" className="temperature-range-root-div">
+      <AdjustLEDbrightness />
+    </div>
   );
 
   return <div className="temperature-write-div">{temperatureButtons}</div>;

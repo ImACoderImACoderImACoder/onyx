@@ -1,4 +1,3 @@
-import { useState } from "react";
 import HeatOn from "./features/HeatOn/HeatOnContainer";
 import FanOn from "./features/FanOn/FanOnContainer";
 import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperatureContainer";
@@ -10,8 +9,9 @@ import { useSelector } from "react-redux";
 
 function Volcano() {
   const isF = useSelector((state) => state.settings.isF);
-  const [currentTargetTemperature, setCurrentTargetTemperature] =
-    useState(undefined);
+  const currentTargetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
 
   return (
     <div>
@@ -23,10 +23,7 @@ function Volcano() {
             isF
           )}
         />
-        <WriteTemperature
-          currentTargetTemperature={currentTargetTemperature}
-          setCurrentTargetTemperature={setCurrentTargetTemperature}
-        />
+        <WriteTemperature currentTargetTemperature={currentTargetTemperature} />
 
         <div className="heat-air-div">
           <HeatOn />
