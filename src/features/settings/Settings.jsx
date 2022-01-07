@@ -1,4 +1,5 @@
 import FOrC from "../../components/Volcano/features/FOrC/FOrCContainer";
+import AdjustLEDbrightnessContainer from "./AdjustLEDbrightness/AdjustLEDbrightnessContainer";
 import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnCoolingToggleContainer";
 
 import "./Settings.css";
@@ -9,6 +10,7 @@ export default function Settings() {
   return (
     <div className="settings-main">
       <FOrC />
+      <AdjustLEDbrightnessContainer />
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />
       <TemperatureControlSettings />

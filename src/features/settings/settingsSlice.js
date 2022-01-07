@@ -8,6 +8,7 @@ export const settingsSlice = createSlice({
     config: ReadConfigFromLocalStorage(),
     isVibrationEnabled: undefined,
     isDisplayOnCooling: undefined,
+    LEDbrightness: undefined,
   },
   reducers: {
     setIsF: (state, action) => {
@@ -22,6 +23,9 @@ export const settingsSlice = createSlice({
     setIsDisplayOnCooling: (state, action) => {
       state.isDisplayOnCooling = action.payload;
     },
+    setLEDbrightness: (state, action) => {
+      state.LEDbrightness = action.payload;
+    },
   },
 });
 
@@ -31,6 +35,7 @@ export const {
   setTemperatureControls,
   setIsVibrationEnabled,
   setIsDisplayOnCooling,
+  setLEDbrightness,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

@@ -20,6 +20,15 @@ export function convertBLEtoUint16(bleBuf) {
   return bleBuf.getUint8(0) + bleBuf.getUint8(1) * 256;
 }
 
+export function convertToUInt16BLE(val) {
+  var buffer = new ArrayBuffer(2);
+  var dataView = new DataView(buffer);
+  dataView.setUint8(0, val % 256);
+  dataView.setUint8(1, Math.floor(val / 256));
+
+  return buffer;
+}
+
 export function convertToUInt32BLE(val) {
   var buffer = new ArrayBuffer(4);
   var dataView = new DataView(buffer);

@@ -72,7 +72,9 @@ export default function TargetTemperatureRange() {
               ...props.style,
               height: "42px",
               width: "42px",
-              backgroundColor: "#0d6efd",
+              backgroundColor: "black",
+              borderColor: "orange",
+              borderStyle: "solid",
               borderRadius: ".25rem",
             }}
           />

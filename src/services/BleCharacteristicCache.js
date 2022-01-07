@@ -154,6 +154,15 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
     );
     writeCharacteristicToCache(register3, uuIds.register3Uuid);
 
+    const LEDbrightnessCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.LEDbrightnessUuid
+      );
+    writeCharacteristicToCache(
+      LEDbrightnessCharacteristic,
+      uuIds.LEDbrightnessUuid
+    );
+
     return "Cache Built!";
   } catch (error) {
     console.warn(error);
