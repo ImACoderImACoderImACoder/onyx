@@ -5,10 +5,13 @@ import LastAppServerRefresh from "../../features/lastAppRefresh/LastAppRefresh/L
 import Loading from "./LoadingConnection";
 import { clearCache } from "../../services/BleCharacteristicCache";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { RE_INITIALIZE_STORE } from "../../constants/actions";
 export default function BleContainer(props) {
   const [isBleConnectionBeingEstablished, setIsBleConnectionBeingEstablished] =
     useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onDisconnected = () => {
     clearCache();
@@ -22,6 +25,7 @@ export default function BleContainer(props) {
     try {
       const result = await Ble(onConnected, onDisconnected);
       console.log(result);
+      dispatch(RE_INITIALIZE_STORE());
       navigate("/Volcano/App");
     } catch (error) {
       setIsBleConnectionBeingEstablished(false);

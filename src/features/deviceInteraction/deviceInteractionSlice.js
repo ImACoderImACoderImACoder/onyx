@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RE_INITIALIZE_STORE } from "../../constants/actions";
 
 export const deviceInteractionSlice = createSlice({
   name: "deviceInteraction",
@@ -21,6 +22,16 @@ export const deviceInteractionSlice = createSlice({
     setIsHeatOn: (state, action) => {
       state.isHeatOn = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(RE_INITIALIZE_STORE, () => {
+      return {
+        currentTemperature: undefined,
+        targetTemperature: undefined,
+        isFanOn: undefined,
+        isHeatOn: undefined,
+      };
+    });
   },
 });
 

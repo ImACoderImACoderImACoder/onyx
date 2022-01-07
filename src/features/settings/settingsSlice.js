@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReadConfigFromLocalStorage } from "../../services/utils";
+import { RE_INITIALIZE_STORE } from "../../constants/actions";
 
 export const settingsSlice = createSlice({
   name: "settings",
@@ -26,6 +27,17 @@ export const settingsSlice = createSlice({
     setLEDbrightness: (state, action) => {
       state.LEDbrightness = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(RE_INITIALIZE_STORE, (state) => {
+      return {
+        isF: undefined,
+        isVibrationEnabled: undefined,
+        isDisplayOnCooling: undefined,
+        LEDbrightness: undefined,
+        config: state.config,
+      };
+    });
   },
 });
 
