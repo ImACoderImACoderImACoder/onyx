@@ -13,17 +13,16 @@ function Volcano() {
     (state) => state.deviceInteraction.targetTemperature
   );
 
+  const temperature = currentTargetTemperature
+    ? getDisplayTemperature(currentTargetTemperature, isF)
+    : currentTargetTemperature;
+
   return (
     <div>
       <div>
         <CurrentTemperature />
-        <CurrentTargetTemperature
-          currentTargetTemperature={getDisplayTemperature(
-            currentTargetTemperature,
-            isF
-          )}
-        />
-        <WriteTemperature currentTargetTemperature={currentTargetTemperature} />
+        <CurrentTargetTemperature currentTargetTemperature={temperature} />
+        <WriteTemperature currentTargetTemperature={temperature} />
 
         <div className="heat-air-div">
           <HeatOn />

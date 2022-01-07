@@ -24,6 +24,11 @@
   font-size: 30px;
 }
 
+.temperature-write-header > .spinner-border {
+  text-align: center;
+  font-size: 20px;
+}
+
 .temperature-write-button-div {
   display: flex;
   max-width: 50%;

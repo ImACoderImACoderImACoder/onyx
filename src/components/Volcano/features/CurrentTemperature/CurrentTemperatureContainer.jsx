@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 import { currentTemperatureUuid } from "../../../../constants/uuids";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import CurrentTemperature from "./CurrentTemperature";
-import { MIN_CELSIUS_TEMP } from "../../../../constants/temperature";
 import {
   convertCurrentTemperatureCharacteristicToCelcius,
   getDisplayTemperature,
 } from "../../../../services/utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
 
 export default function CurrentTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);
-  const [currentTemperature, setCurrentTemperature] =
-    useState(MIN_CELSIUS_TEMP);
+  const currentTemperature = useSelector(
+    (state) => state.deviceInteraction.currentTemperature
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
     const characteristic = getCharacteristic(currentTemperatureUuid);
     const onCharacteristicChange = (event) => {
@@ -30,7 +32,7 @@ export default function CurrentTemperatureContainer() {
       const value = await characteristic.readValue();
       const normalizedValue =
         convertCurrentTemperatureCharacteristicToCelcius(value);
-      setCurrentTemperature(normalizedValue);
+      dispatch(setCurrentTemperature(normalizedValue));
       return "The value of temp read is " + normalizedValue;
     };
     AddToQueue(BlePayload);
@@ -40,11 +42,11 @@ export default function CurrentTemperatureContainer() {
         onCharacteristicChange
       );
     };
-  }, []);
+  }, [dispatch]);
 
-  return (
-    <CurrentTemperature
-      currentTemperature={getDisplayTemperature(currentTemperature, isF)}
-    />
-  );
+  const temperature = currentTemperature
+    ? getDisplayTemperature(currentTemperature, isF)
+    : currentTemperature;
+
+  return <CurrentTemperature currentTemperature={temperature} />;
 }
