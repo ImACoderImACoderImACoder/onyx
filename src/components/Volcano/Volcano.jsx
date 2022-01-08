@@ -22,7 +22,7 @@ function Volcano() {
       <div>
         <CurrentTemperature />
         <CurrentTargetTemperature currentTargetTemperature={temperature} />
-        <WriteTemperature currentTargetTemperature={temperature} />
+        <WriteTemperature />
 
         <div className="heat-air-div">
           <HeatOn />

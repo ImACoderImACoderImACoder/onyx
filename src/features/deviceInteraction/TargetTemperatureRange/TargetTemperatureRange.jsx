@@ -1,5 +1,3 @@
-import debounce from "lodash/debounce";
-import { useRef } from "react";
 import { Range } from "react-range";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -37,16 +35,16 @@ export default function TargetTemperatureRange() {
     dispatch(setTargetTemperature(e[0]));
   };
 
-  const setStateDebounceRef = useRef(debounce(onMouseUp, 500));
+  const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
   return (
     <div>
       <Range
         step={1}
         min={MIN_CELSIUS_TEMP}
         max={MAX_CELSIUS_TEMP}
-        values={[targetTemperature || MIN_CELSIUS_TEMP]}
+        values={[targetTemperature || middleValue]}
         onChange={(values) => onChange(values)}
-        onFinalChange={setStateDebounceRef.current}
+        onFinalChange={onMouseUp}
         renderTrack={({ props, children }) => (
           <div
             {...props}

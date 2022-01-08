@@ -26,6 +26,10 @@ export default function WriteTemperatureContainer(props) {
   const temperatureControlValues = useSelector(
     (state) => state.settings.config.temperatureControlValues
   );
+  const targetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
+
   const dispatch = useDispatch();
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
@@ -85,7 +89,7 @@ export default function WriteTemperatureContainer(props) {
   );
 
   const onClickIncrement = (incrementValue) => () => {
-    const nextTemp = props.currentTargetTemperature + incrementValue;
+    const nextTemp = targetTemperature + incrementValue;
     if (!isValueInValidVolcanoCelciusRange(nextTemp)) {
       return;
     }
@@ -119,7 +123,7 @@ export default function WriteTemperatureContainer(props) {
         onClick={onClick(item)}
         buttonText={getDisplayTemperature(item, isF)}
         className={
-          item === props.currentTargetTemperature
+          item === targetTemperature
             ? "temperature-write-button-active-temperature"
             : ""
         }
