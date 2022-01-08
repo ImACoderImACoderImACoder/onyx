@@ -6,10 +6,11 @@ import { heatOffUuid } from "../../constants/uuids";
 import DisconnectButton from "./DisconnectButton";
 
 import "./Volcano.css";
-import FOrC from "./features/FOrC/FOrCContainer";
 import ControlsIcon from "./icons/ControlsIcon";
 import InformationIcon from "./icons/InformationIcon";
 import SettingsIcon from "./icons/SettingsIcon";
+import FOrCLoader from "./features/FOrC/FOrCLoader";
+
 export default function VolcanoLoader(props) {
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,12 +23,7 @@ export default function VolcanoLoader(props) {
   return (
     cacheContainsCharacteristic(heatOffUuid) && (
       <div className="main-div">
-        <div style={{ display: "none" }}>
-          {
-            //this is a cool little hack to get the events bound that this component registers
-          }
-          <FOrC />
-        </div>
+        <FOrCLoader />
         <div className="disconnect-last-synced-div">
           <Link className="icon-links" to={"/Volcano/App"}>
             <ControlsIcon />

@@ -1,4 +1,6 @@
 import FOrC from "../../components/Volcano/features/FOrC/FOrCContainer";
+import FOrCLoader from "../../components/Volcano/features/FOrC/FOrCLoader";
+import HoursOfOperationContainer from "../deviceInformation/HoursOfOperation/HoursOfOperationContainer";
 import AdjustLEDbrightnessContainer from "./AdjustLEDbrightness/AdjustLEDbrightnessContainer";
 import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnCoolingToggleContainer";
 
@@ -9,7 +11,10 @@ import VibrationToggleContainer from "./VibrationToggle/VibrationToggleContainer
 export default function Settings() {
   return (
     <div className="settings-main">
-      <FOrC />
+      <HoursOfOperationContainer />
+      <FOrCLoader useSpinnerToShowLoader>
+        <FOrC />
+      </FOrCLoader>
       <AdjustLEDbrightnessContainer />
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />

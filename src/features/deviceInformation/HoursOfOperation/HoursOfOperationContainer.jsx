@@ -17,7 +17,7 @@ export default function HoursOfOperationContainer() {
     (state) => state.deviceInformation.hoursOfOperation.hours
   );
   useEffect(() => {
-    const hour = 1000 * 60 * 60;
+    const hour = 1000 * 60 * 10;
     const anHourAgo = Date.now() - hour;
 
     const hasAnHourPassedSinceLastUpdate = lastUpdated < anHourAgo;
