@@ -33,4 +33,6 @@ export const currentTemperatureUuid = "10110001-5354-4f52-5a26-4249434b454c";
 export const writeTemperatureUuid = "10110003-5354-4f52-5a26-4249434b454c";
 
 export const autoShutoffUuid = "1011000c-5354-4f52-5a26-4249434b454c";
+export const autoShutoffSettingUuid = "1011000d-5354-4f52-5a26-4249434b454c";
+
 export const LEDbrightnessUuid = "10110005-5354-4f52-5a26-4249434b454c";

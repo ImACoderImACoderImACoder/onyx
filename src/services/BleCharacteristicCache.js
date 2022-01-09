@@ -163,6 +163,16 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
       uuIds.LEDbrightnessUuid
     );
 
+    const autoShutoffSettingCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.autoShutoffSettingUuid
+      );
+
+    writeCharacteristicToCache(
+      autoShutoffSettingCharacteristic,
+      uuIds.autoShutoffSettingUuid
+    );
+
     return "Cache Built!";
   } catch (error) {
     console.warn(error);
