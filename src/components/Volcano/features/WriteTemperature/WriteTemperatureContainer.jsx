@@ -39,13 +39,14 @@ export default function WriteTemperatureContainer(props) {
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
       dispatch(setTargetTemperature(targetTemperature));
     }
-    characteristic.addEventListener(
-      "characteristicvaluechanged",
-      handleTargetTemperatureChanged
-    );
 
-    characteristic.startNotifications();
     const blePayload = async () => {
+      await characteristic.addEventListener(
+        "characteristicvaluechanged",
+        handleTargetTemperatureChanged
+      );
+
+      await characteristic.startNotifications();
       const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
@@ -53,10 +54,13 @@ export default function WriteTemperatureContainer(props) {
     };
     AddToQueue(blePayload);
     return () => {
-      characteristic.removeEventListener(
-        "characteristicvaluechanged",
-        handleTargetTemperatureChanged
-      );
+      const blePayload = async () => {
+        await characteristic.removeEventListener(
+          "characteristicvaluechanged",
+          handleTargetTemperatureChanged
+        );
+      };
+      AddToQueue(blePayload);
     };
   }, [dispatch]);
 

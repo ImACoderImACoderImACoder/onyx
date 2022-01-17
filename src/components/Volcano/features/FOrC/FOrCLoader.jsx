@@ -43,17 +43,23 @@ export default function FOrCLoader(props) {
       }
     }
     const characteristicPrj2V = getCharacteristic(register2Uuid);
-    characteristicPrj2V.addEventListener(
-      "characteristicvaluechanged",
-      handlePrj2ChangedVolcano
-    );
-    characteristicPrj2V.startNotifications();
-
-    return () => {
-      characteristicPrj2V?.removeEventListener(
+    const blePayload = async () => {
+      await characteristicPrj2V.addEventListener(
         "characteristicvaluechanged",
         handlePrj2ChangedVolcano
       );
+      await characteristicPrj2V.startNotifications();
+    };
+
+    AddToQueue(blePayload);
+    return () => {
+      const blePayload = async () => {
+        await characteristicPrj2V?.removeEventListener(
+          "characteristicvaluechanged",
+          handlePrj2ChangedVolcano
+        );
+      };
+      AddToQueue(blePayload);
     };
   }, [dispatch, isF]);
 

@@ -10,6 +10,7 @@ import {
   MIN_CELSIUS_TEMP,
 } from "../../../constants/temperature";
 import { setTargetTemperature } from "../deviceInteractionSlice";
+import { useTheme } from "styled-components";
 
 export default function TargetTemperatureRange() {
   const targetTemperature = useSelector(
@@ -36,6 +37,7 @@ export default function TargetTemperatureRange() {
   };
 
   const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
+  const theme = useTheme();
   return (
     <div>
       <Range
@@ -57,7 +59,7 @@ export default function TargetTemperatureRange() {
               height: "6px",
               width: "80vw",
               backgroundColor: "#f53803",
-              background: "linear-gradient(315deg, #f53803 0%, #f5d020 74%)",
+              background: `linear-gradient(315deg, ${theme.temperatureRange.lowTemperatureColor} 0%, ${theme.temperatureRange.highTemperatureColor} 74%)`,
             }}
           >
             {children}
@@ -70,8 +72,8 @@ export default function TargetTemperatureRange() {
               ...props.style,
               height: "42px",
               width: "42px",
-              backgroundColor: "black",
-              borderColor: "orange",
+              backgroundColor: theme.temperatureRange.rangeBoxColor,
+              borderColor: theme.temperatureRange.rangeBoxBorderColor,
               borderStyle: "solid",
               borderRadius: ".25rem",
             }}

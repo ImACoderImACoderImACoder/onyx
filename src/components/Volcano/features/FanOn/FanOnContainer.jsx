@@ -48,17 +48,23 @@ export default function FanOnContainer() {
       isDisabled.current = false;
     };
     const characteristicPrj1V = getCharacteristic(register1Uuid);
-    characteristicPrj1V.addEventListener(
-      "characteristicvaluechanged",
-      handlePrj1ChangedVolcano
-    );
-    characteristicPrj1V.startNotifications();
-
-    return () => {
-      characteristicPrj1V?.removeEventListener(
+    const blePayload = async () => {
+      await characteristicPrj1V.addEventListener(
         "characteristicvaluechanged",
         handlePrj1ChangedVolcano
       );
+      await characteristicPrj1V.startNotifications();
+    };
+
+    AddToQueue(blePayload);
+    return () => {
+      const blePayload = async () => {
+        await characteristicPrj1V?.removeEventListener(
+          "characteristicvaluechanged",
+          handlePrj1ChangedVolcano
+        );
+      };
+      AddToQueue(blePayload);
     };
   }, [dispatch]);
   const spaceBarKeycode = 32;

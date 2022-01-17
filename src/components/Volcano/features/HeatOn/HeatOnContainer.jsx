@@ -62,7 +62,7 @@ export default function HeatOnContainer() {
 
     const characteristicPrj1V = getCharacteristic(register1Uuid);
     const blePayload = async () => {
-      characteristicPrj1V.addEventListener(
+      await characteristicPrj1V.addEventListener(
         "characteristicvaluechanged",
         handlePrj1ChangedVolcano
       );
@@ -80,10 +80,13 @@ export default function HeatOnContainer() {
     AddToQueue(blePayload);
 
     return () => {
-      characteristicPrj1V?.removeEventListener(
-        "characteristicvaluechanged",
-        handlePrj1ChangedVolcano
-      );
+      const blePayload = async () => {
+        await characteristicPrj1V?.removeEventListener(
+          "characteristicvaluechanged",
+          handlePrj1ChangedVolcano
+        );
+      };
+      AddToQueue(blePayload);
     };
   }, [dispatch, isHeatOn]);
 

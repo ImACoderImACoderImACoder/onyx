@@ -1,15 +1,22 @@
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
-import { autoShutoffUuid } from "../../../../constants/uuids";
+import {
+  autoShutoffUuid,
+  autoShutoffSettingUuid,
+} from "../../../../constants/uuids";
 import { useEffect } from "react";
 import { convertBLEtoUint16 } from "../../../../services/utils";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import { useSelector } from "react-redux";
+import ProgressBar from "react-bootstrap/ProgressBar";
 import { useDispatch } from "react-redux";
 import { setAutoOffTimeInSeconds } from "../../../../features/deviceInformation/deviceInformationSlice";
-
+import { setAutoShutoffTime } from "../../../../features/settings/settingsSlice";
 export default function AutoOff() {
-  const autoOffTime = useSelector(
+  const autoOffTimeInSeconds = useSelector(
     (state) => state.deviceInformation.autoOffTimeInSeconds
+  );
+  const autoShutoffTimeSetting = useSelector(
+    (state) => state.settings.autoShutoffTime
   );
   const dispatch = useDispatch();
 
@@ -22,7 +29,15 @@ export default function AutoOff() {
         dispatch(setAutoOffTimeInSeconds(actualValue));
         return `auto off value is ${actualValue} seconds`;
       };
+      const blePayload2 = async () => {
+        const characteristic = getCharacteristic(autoShutoffSettingUuid);
+        const value = await characteristic.readValue();
+        const normalizedValue = convertBLEtoUint16(value) / 60;
+        dispatch(setAutoShutoffTime(normalizedValue));
+        return `Auto shutoff time of ${normalizedValue} read from device`;
+      };
       AddToQueue(blePayload);
+      AddToQueue(blePayload2);
     };
     intervalFunction();
     const intervalId = setInterval(() => {
@@ -33,5 +48,18 @@ export default function AutoOff() {
       clearInterval(intervalId);
     };
   });
-  return <div>{`Turning off in ${Math.round(autoOffTime / 60)} minutes`} </div>;
+  const autoShutoffTimeInMinutes = Math.floor(autoOffTimeInSeconds / 60);
+  const now = Math.floor(
+    (autoShutoffTimeInMinutes / autoShutoffTimeSetting) * 100
+  );
+  return (
+    <ProgressBar
+      now={now}
+      style={{
+        maxWidth: "70%",
+        marginLeft: "30px",
+      }}
+      label={`Auto off in ${autoShutoffTimeInMinutes} minutes`}
+    />
+  );
 }

@@ -33,16 +33,23 @@ export default function DisplayOnCoolingToggleContainer() {
       );
       dispatch(setIsDisplayOnCooling(isDisplayOnCooling));
     };
-    characteristic.addEventListener(
-      "characteristicvaluechanged",
-      handleRegister2Change
-    );
-    characteristic.startNotifications();
-    return () => {
-      characteristic?.removeEventListener(
+    const blePayload = async () => {
+      await characteristic.addEventListener(
         "characteristicvaluechanged",
         handleRegister2Change
       );
+      characteristic.startNotifications();
+    };
+    AddToQueue(blePayload);
+    return () => {
+      const blePayload = async () => {
+        await characteristic?.removeEventListener(
+          "characteristicvaluechanged",
+          handleRegister2Change
+        );
+      };
+
+      AddToQueue(blePayload);
     };
   });
 

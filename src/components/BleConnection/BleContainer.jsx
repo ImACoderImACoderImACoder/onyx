@@ -7,6 +7,7 @@ import { clearCache } from "../../services/BleCharacteristicCache";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
+
 export default function BleContainer(props) {
   const [isBleConnectionBeingEstablished, setIsBleConnectionBeingEstablished] =
     useState(false);
@@ -32,6 +33,7 @@ export default function BleContainer(props) {
       console.log(error);
     }
   };
+
   return (
     <div>
       <LastAppServerRefresh />

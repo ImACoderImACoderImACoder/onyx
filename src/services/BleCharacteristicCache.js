@@ -1,6 +1,6 @@
 import * as uuIds from "../constants/uuids";
-let cache = {};
 
+let cache = {};
 export function cacheContainsCharacteristic(characteristicId) {
   const characteristic = cache[characteristicId];
   if (characteristic) {

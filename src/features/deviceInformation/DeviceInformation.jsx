@@ -3,16 +3,23 @@ import HoursOfOperation from "./HoursOfOperation/HoursOfOperationContainer";
 import VolcanoFirmwareVersion from "./VolcanoFirmwareVersion/VolcanoFirmwareVersionContainer";
 import BleFirmwareVersion from "./BleFirmwareVersion/BleFirmwareVersionContainer";
 import LastAppServerRefresh from "../../features/lastAppRefresh/LastAppRefresh/LastAppServerRefresh";
-import "./DeviceInformation.css";
+import styled from "styled-components";
+
+const Div = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  color: ${(props) => props.theme.primaryFontColor};
+`;
 
 export default function DeviceInformation() {
   return (
-    <div className="device-information-main">
+    <Div>
       <LastAppServerRefresh />
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
-    </div>
+    </Div>
   );
 }

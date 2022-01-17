@@ -6,6 +6,7 @@ import CurrentTargetTemperature from "./features/WriteTemperature/CurrentTargetT
 import { getDisplayTemperature } from "../../services/utils";
 
 import { useSelector } from "react-redux";
+import AutoOff from "./features/AutoOff/AutoOff";
 
 function Volcano() {
   const isF = useSelector((state) => state.settings.isF);
