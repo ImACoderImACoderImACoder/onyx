@@ -13,7 +13,6 @@ const Button = styled.button`
 export default function Ble(props) {
   return (
     <div>
-      <div>{window.navigator.userAgent}</div>
       <Button onClick={props.onClick}>Tap anywhere to connect</Button>
     </div>
   );
