@@ -17,6 +17,8 @@ export default function FOrCLoader(props) {
   const isF = useSelector((state) => state.settings.isF);
 
   useEffect(() => {
+    if (isF !== undefined) return;
+
     const characteristicPrj2V = getCharacteristic(register2Uuid);
     const blePayload = async () => {
       const value = await characteristicPrj2V.readValue();
@@ -29,7 +31,7 @@ export default function FOrCLoader(props) {
       return isFValue;
     };
     AddToQueue(blePayload);
-  }, [dispatch]);
+  }, [dispatch, isF]);
 
   useEffect(() => {
     function handlePrj2ChangedVolcano(event) {

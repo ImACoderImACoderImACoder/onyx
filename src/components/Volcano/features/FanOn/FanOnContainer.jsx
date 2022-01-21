@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   fanOnUuid,
   fanOffUuid,
@@ -19,7 +19,6 @@ import { useCallback } from "react";
 
 export default function FanOnContainer() {
   const isFanOn = useSelector((state) => state.deviceInteraction.isFanOn);
-  const isDisabled = useRef(false);
 
   const dispatch = useDispatch();
 
@@ -45,7 +44,6 @@ export default function FanOnContainer() {
         fanMask
       );
       dispatch(setIsFanOn(newFanValue));
-      isDisabled.current = false;
     };
     const characteristicPrj1V = getCharacteristic(register1Uuid);
     const blePayload = async () => {
@@ -70,12 +68,6 @@ export default function FanOnContainer() {
   const spaceBarKeycode = 32;
 
   const onClick = useCallback(() => {
-    if (isDisabled.current) {
-      console.log("Spam click prevented on fan");
-      return;
-    }
-    dispatch(setIsFanOn(!isFanOn));
-    isDisabled.current = true;
     const blePayload = async () => {
       const targetCharacteristicUuid = isFanOn ? fanOffUuid : fanOnUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);
@@ -85,7 +77,7 @@ export default function FanOnContainer() {
       return `The fan is now ${newFanValue}`;
     };
     AddToQueue(blePayload);
-  }, [isFanOn, isDisabled, dispatch]);
+  }, [isFanOn]);
 
   const onChange = useCallback(() => {
     onClick();
@@ -104,11 +96,5 @@ export default function FanOnContainer() {
     };
   }, [onChange, isFanOn]);
 
-  return (
-    <FanOn
-      onChange={onChange}
-      isFanOn={isFanOn}
-      isLoading={isDisabled.current}
-    />
-  );
+  return <FanOn onChange={onChange} isFanOn={isFanOn} />;
 }

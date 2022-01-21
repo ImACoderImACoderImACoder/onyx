@@ -34,13 +34,14 @@ export default function VibrationToggleContainer() {
     AddToQueue(blePayload);
   }, [dispatch, isVibrationEnabled]);
 
-  const onChange = (checked) => {
+  const onChange = () => {
     const blePayload = async () => {
       const characteristic = getCharacteristic(register3Uuid);
-      const value = checked ? vibrationOnMask : vibrationOffMask;
+      const nextState = !isVibrationEnabled;
+      const value = nextState ? vibrationOnMask : vibrationOffMask;
       const buffer = convertToUInt32BLE(value);
       await characteristic.writeValue(buffer);
-      dispatch(setIsVibrationEnabled(checked));
+      dispatch(setIsVibrationEnabled(nextState));
     };
 
     AddToQueue(blePayload);

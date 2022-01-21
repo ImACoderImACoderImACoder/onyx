@@ -1,17 +1,13 @@
-import BootstrapSwitchButton from "bootstrap-switch-button-react";
+import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
+import Div from "../Shared/StyledComponents/Div";
 
 export default function VibrationToggle(props) {
   return (
-    <div>
+    <Div>
       <h2>Vibrate Fan when Volcano reaches temperature </h2>
-      <BootstrapSwitchButton
-        onlabel="On"
-        offlabel="Off"
-        checked={props.isVibrationEnabled}
-        onstyle="success"
-        offstyle="danger"
-        onChange={props.onChange}
-      />
-    </div>
+      <div onClick={props.onChange}>
+        <StyledToggleSwitch isToggleOn={props.isVibrationEnabled} />
+      </div>
+    </Div>
   );
 }

@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from "../../shared/styledComponents/Button";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -14,10 +14,20 @@ import {
   DEGREE_SYMBOL,
 } from "../../../constants/temperature";
 import RestoreDefaultTemperature from "./RestoreDefaultTemperature";
+import styled, { useTheme } from "styled-components";
+
+const StyledButton = styled(Button)`
+  color: ${(props) => props.theme.settingsPageColor};
+`;
+
+const StyledFormText = styled(Form.Text)`
+  color: ${(props) => props.theme.settingsPageColor};
+`;
 
 export default function AddTemperatureControl() {
   const config = useSelector((state) => state.settings.config);
   const isF = useSelector((state) => state.settings.isF);
+  const theme = useTheme();
   const dispatch = useDispatch();
 
   const fOrCMessage = isF
@@ -68,16 +78,19 @@ export default function AddTemperatureControl() {
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>{`Temperature in ${fOrC}`}</Form.Label>
         <Form.Control
-          style={{ maxWidth: "250px" }}
+          style={{
+            maxWidth: "250px",
+            color: theme.settingsPageColor,
+            backgroundColor: theme.backgroundColor,
+            borderColor: theme.borderColor,
+          }}
           type="number"
           placeholder={`E.g ${isF ? "420" : "69"} ${fOrC}`}
           pattern="[0-9]*"
         />
-        <Form.Text className="text-muted">{inputHelperText}</Form.Text>
+        <StyledFormText>{inputHelperText}</StyledFormText>
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>{" "}
+      <StyledButton type="submit">Submit</StyledButton>{" "}
       <RestoreDefaultTemperature />
     </Form>
   );

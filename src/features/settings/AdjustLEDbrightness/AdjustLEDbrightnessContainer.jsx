@@ -11,6 +11,7 @@ import { LEDbrightnessUuid } from "../../../constants/uuids";
 import { setLEDbrightness } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
+import Div from "../../../features/settings/Shared/StyledComponents/Div";
 
 export default function AdjustLEDbrightnessContainer() {
   const LEDbrightness = useSelector((state) => state.settings.LEDbrightness);
@@ -44,7 +45,7 @@ export default function AdjustLEDbrightnessContainer() {
   };
 
   return (
-    <div>
+    <Div>
       <h2>LED Brightness</h2>
       Current Brightness Level: {LEDbrightness}
       <SettingsRange
@@ -55,6 +56,6 @@ export default function AdjustLEDbrightnessContainer() {
         onChange={onChange}
         onFinalChange={onMouseUp}
       />
-    </div>
+    </Div>
   );
 }

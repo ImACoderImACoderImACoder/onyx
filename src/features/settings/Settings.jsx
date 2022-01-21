@@ -7,26 +7,19 @@ import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnC
 import TemperatureControlSettings from "./TemperatureControlValues.jsx/TemperatureControlSettingsContainer";
 import VibrationToggleContainer from "./VibrationToggle/VibrationToggleContainer";
 import styled from "styled-components";
-import { setCurrentTheme } from "./settingsSlice";
-import { useDispatch } from "react-redux";
+import ThemesContainer from "./Theming/ThemesContainer";
 
 const Div = styled.div`
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  color: ${(props) => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.settingsPageColor};
 `;
 
 export default function Settings() {
-  const dispatch = useDispatch();
-
   return (
     <Div>
-      <button
-        onClick={() => {
-          dispatch(setCurrentTheme("light"));
-        }}
-      />
+      <ThemesContainer />
       <FOrCLoader useSpinnerToShowLoader>
         <FOrC />
       </FOrCLoader>

@@ -11,6 +11,7 @@ import { autoShutoffSettingUuid } from "../../../constants/uuids";
 import { setAutoShutoffTime } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
+import Div from "../Shared/StyledComponents/Div";
 
 export default function AdjustAutoShutoffTimeContainer() {
   const autoShutoffTime = useSelector(
@@ -46,7 +47,7 @@ export default function AdjustAutoShutoffTimeContainer() {
   };
 
   return (
-    <div>
+    <Div>
       <h2>Auto Shutoff Time</h2>
       Current Auto Shutoff Time: {autoShutoffTime}
       <SettingsRange
@@ -57,6 +58,6 @@ export default function AdjustAutoShutoffTimeContainer() {
         onChange={onChange}
         onFinalChange={onMouseUp}
       />
-    </div>
+    </Div>
   );
 }

@@ -76,6 +76,7 @@ export default function TargetTemperatureRange() {
               borderColor: theme.temperatureRange.rangeBoxBorderColor,
               borderStyle: "solid",
               borderRadius: ".25rem",
+              borderWidth: "3px",
             }}
           />
         )}

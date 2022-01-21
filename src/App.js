@@ -10,11 +10,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "./features/settings/Settings";
 import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
-import themeProvider from "./themes/ThemeProvider";
 import { useSelector } from "react-redux";
+import GetTheme from "./themes/ThemeProvider";
 
 const Div = styled.div`
-  color: ${(props) => props.theme.primaryFontcolor};
+  color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   width: 100vw;
   height: 100vh;
@@ -29,9 +29,16 @@ function App() {
     };
   }, []);
 
-  const theme = useSelector((state) => state.settings.currentTheme);
+  const theme = useSelector(
+    (state) => state.settings.config?.currentTheme || GetTheme()
+  );
+
+  useEffect(() => {
+    document.body.style = `background: ${GetTheme(theme).backgroundColor};`;
+  }, [theme]);
+
   return (
-    <ThemeProvider theme={themeProvider(theme)}>
+    <ThemeProvider theme={GetTheme(theme)}>
       <Div>
         <BrowserRouter>
           <Routes>

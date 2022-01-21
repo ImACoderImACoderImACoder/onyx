@@ -11,13 +11,14 @@ import {
   isValueInValidVolcanoCelciusRange,
 } from "../../../../services/utils";
 import WriteTemperature from "./WriteTemperature";
+import PlusMinusButton from "./PlusMinusButton";
 import { AddToQueue } from "../../../../services/bleQueueing";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
 import { useSelector } from "react-redux";
 import { setTargetTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
 import { useDispatch } from "react-redux";
-import AdjustLEDbrightness from "../../../../features/deviceInteraction/TargetTemperatureRange/TargetTemperatureRange";
+import TargetTemperatureRange from "../../../../features/deviceInteraction/TargetTemperatureRange/TargetTemperatureRange";
 
 import "./WriteTemperature.css";
 
@@ -26,6 +27,7 @@ export default function WriteTemperatureContainer(props) {
   const temperatureControlValues = useSelector(
     (state) => state.settings.config.temperatureControlValues
   );
+
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
@@ -126,17 +128,13 @@ export default function WriteTemperatureContainer(props) {
         key={index}
         onClick={onClick(item)}
         buttonText={getDisplayTemperature(item, isF)}
-        className={
-          item === targetTemperature
-            ? "temperature-write-button-active-temperature"
-            : ""
-        }
+        isActive={item === targetTemperature}
       />
     );
   });
 
   temperatureButtons.unshift(
-    <WriteTemperature
+    <PlusMinusButton
       key="incrementTemperatureButton"
       onClick={onClickIncrement(1)}
       buttonText={
@@ -160,7 +158,7 @@ export default function WriteTemperatureContainer(props) {
   );
 
   temperatureButtons.unshift(
-    <WriteTemperature
+    <PlusMinusButton
       key="decrementTemperatureButton"
       onClick={onClickIncrement(-1)}
       buttonText={
@@ -185,7 +183,7 @@ export default function WriteTemperatureContainer(props) {
 
   temperatureButtons.push(
     <div key="temperatureRange" className="temperature-range-root-div">
-      <AdjustLEDbrightness />
+      <TargetTemperatureRange />
     </div>
   );
 

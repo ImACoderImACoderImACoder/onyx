@@ -9,6 +9,8 @@ import {
   defaultTemperatureArray,
 } from "../constants/constants";
 
+import GetTheme from "../themes/ThemeProvider";
+
 export function convertToUInt8BLE(val) {
   var buffer = new ArrayBuffer(1);
   var dataView = new DataView(buffer);
@@ -82,10 +84,12 @@ export function ReadConfigFromLocalStorage() {
   if (!config) {
     const defaultConfig = {
       temperatureControlValues: defaultTemperatureArray,
+      currentTheme: GetTheme(),
     };
     window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));
     config = defaultConfig;
   }
+
   return config;
 }
 
@@ -94,9 +98,12 @@ export function WriteNewConfigToLocalStorage(config) {
     return a - b;
   };
 
+  const sortedTemperatureControlValues = [
+    ...config.temperatureControlValues,
+  ].sort(comparer);
   const sortedTemperatureConfig = {
     ...config,
-    temperatureControlValues: config.temperatureControlValues.sort(comparer),
+    temperatureControlValues: sortedTemperatureControlValues,
   };
 
   window.localStorage.setItem(

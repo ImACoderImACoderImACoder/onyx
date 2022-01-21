@@ -54,7 +54,7 @@ export const initializeEffectForToggle = (setIsToggleOn, registerMask) => {
       "characteristicvaluechanged",
       handlePrj1ChangedVolcano(registerMask)
     );
-    //characteristicPrj1V.startNotifications();
+    await characteristicPrj1V.startNotifications();
     const value = await characteristicPrj1V.readValue();
     const currentVal = convertBLEtoUint16(value);
     if (convertToggleCharacteristicToBool(currentVal, registerMask)) {
@@ -68,9 +68,12 @@ export const initializeEffectForToggle = (setIsToggleOn, registerMask) => {
   AddToQueue(blePayload);
 
   return () => {
-    // await characteristicPrj1V?.removeEventListener(
-    //   "characteristicvaluechanged",
-    //   handlePrj1ChangedVolcano
-    // );
+    const blePayload = async () => {
+      await characteristicPrj1V?.removeEventListener(
+        "characteristicvaluechanged",
+        handlePrj1ChangedVolcano
+      );
+    };
+    AddToQueue(blePayload);
   };
 };

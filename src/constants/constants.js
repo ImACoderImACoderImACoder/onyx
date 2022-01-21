@@ -1,8 +1,8 @@
 import { MAX_CELSIUS_TEMP } from "./temperature";
 
-export const bleDebounceTime = 100;
 export const temperatureIncrementedDecrementedDebounceTime = 1000;
 export const localStorageKey = "projectOnyxVapeApp";
+export const patreonLink = "https://www.patreon.com/ImACoderImACoderImACoder";
 export const defaultTemperatureArray = [
   180,
   185,

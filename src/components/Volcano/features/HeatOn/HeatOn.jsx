@@ -1,17 +1,11 @@
-import BootstrapSwitchButton from "bootstrap-switch-button-react";
-
+import ToggleSwitch from "../../../Switch/Switch";
 export default function HeatOn(props) {
   return (
-    <div className="heat-air-button">
-      <BootstrapSwitchButton
-        onlabel="Heat On"
-        offlabel="Heat Off"
-        checked={props.isHeatOn}
-        onstyle="success"
-        offstyle="danger"
-        // eslint-disable-next-line
-        style="heat-air-button"
-        onChange={props.onChange}
+    <div onClick={props.onChange} className="heat-air-button">
+      <ToggleSwitch
+        isToggleOn={props.isHeatOn}
+        onText="Heat On"
+        offText="Heat Off"
       />
     </div>
   );

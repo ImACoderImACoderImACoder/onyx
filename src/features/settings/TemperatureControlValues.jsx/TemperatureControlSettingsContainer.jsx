@@ -7,6 +7,12 @@ import {
 } from "../../../services/utils";
 import { useDispatch } from "react-redux";
 import { setTemperatureControls } from "../settingsSlice";
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default function TemperatureControlSettingsContainer() {
   const config = useSelector((state) => state.settings.config);
@@ -36,9 +42,9 @@ export default function TemperatureControlSettingsContainer() {
   });
 
   return (
-    <div>
+    <StyledDiv>
       {temperatures}
       <AddTemperatureControl />
-    </div>
+    </StyledDiv>
   );
 }

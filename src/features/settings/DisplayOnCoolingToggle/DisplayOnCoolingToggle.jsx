@@ -1,17 +1,13 @@
-import BootstrapSwitchButton from "bootstrap-switch-button-react";
+import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
+import Div from "../Shared/StyledComponents/Div";
 
 export default function DisplayOnCoolingToggle(props) {
   return (
-    <div>
+    <Div>
       <h2>Volcano shows temperature when the heat is turned off</h2>
-      <BootstrapSwitchButton
-        onlabel="On"
-        offlabel="Off"
-        checked={props.isDisplayOnCooling}
-        onstyle="success"
-        offstyle="danger"
-        onChange={props.onChange}
-      />
-    </div>
+      <div onClick={props.onChange}>
+        <StyledToggleSwitch isToggleOn={props.isDisplayOnCooling} />
+      </div>
+    </Div>
   );
 }

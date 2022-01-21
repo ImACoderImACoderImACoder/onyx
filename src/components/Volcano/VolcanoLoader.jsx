@@ -16,7 +16,7 @@ const StyledLink = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.iconTextColor};
 `;
 
 export default function VolcanoLoader(props) {

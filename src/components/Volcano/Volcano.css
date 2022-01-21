@@ -29,13 +29,6 @@
   font-size: 20px;
 }
 
-.temperature-write-button-div {
-  display: flex;
-  max-width: 50%;
-  flex: 50%;
-  margin-bottom: 5px;
-}
-
 .temperature-write-button {
   font-size: x-large;
   min-height: 35px;
@@ -44,18 +37,6 @@
   color: darkgray;
   border-radius: 15px;
   border-color: darkgray;
-}
-
-.f-or-c-button {
-  background-color: black;
-  color: darkgray;
-  border-radius: 5px;
-  border-color: darkgray;
-}
-
-.f-or-c-button:active {
-  background-color: darkgray;
-  color: white;
 }
 
 .temperature-write-button:active {

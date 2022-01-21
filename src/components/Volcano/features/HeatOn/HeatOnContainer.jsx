@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   heatOnUuid,
   heatOffUuid,
@@ -6,8 +6,6 @@ import {
 } from "../../../../constants/uuids";
 import { heatingMask } from "../../../../constants/masks";
 import HeatOn from "./HeatOn";
-import debounce from "lodash/debounce";
-import { bleDebounceTime } from "../../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsHeatOn } from "../../../../features/deviceInteraction/deviceInteractionSlice";
 import { AddToQueue } from "../../../../services/bleQueueing";
@@ -101,23 +99,6 @@ export default function HeatOnContainer() {
     };
     AddToQueue(blePayload);
   };
-  const onClickDebounceRef = useRef(
-    debounce(
-      (onClick) => {
-        onClick();
-      },
-      bleDebounceTime,
-      { isHeatOn }
-    )
-  );
 
-  const onChange = (checked) => {
-    if (checked === isHeatOn) {
-      console.log("Heat skipped spam click");
-    } else {
-      onClickDebounceRef.current(onClick);
-    }
-  };
-
-  return <HeatOn onChange={onChange} isHeatOn={isHeatOn} />;
+  return <HeatOn onChange={onClick} isHeatOn={isHeatOn} />;
 }

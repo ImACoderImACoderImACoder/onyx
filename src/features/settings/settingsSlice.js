@@ -7,7 +7,6 @@ export const settingsSlice = createSlice({
   initialState: {
     isF: undefined,
     config: ReadConfigFromLocalStorage(),
-    currentTheme: "dark",
     isVibrationEnabled: undefined,
     isDisplayOnCooling: undefined,
     LEDbrightness: undefined,
@@ -33,7 +32,7 @@ export const settingsSlice = createSlice({
       state.autoShutoffTime = action.payload;
     },
     setCurrentTheme: (state, action) => {
-      state.currentTheme = action.payload;
+      state.config.currentTheme = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -45,7 +44,6 @@ export const settingsSlice = createSlice({
         LEDbrightness: undefined,
         config: state.config,
         autoShutoffTime: undefined,
-        currentTheme: "dark",
       };
     });
   },

@@ -25,59 +25,31 @@ export default function DisplayOnCoolingToggleContainer() {
   useEffect(() => {
     const characteristic = getCharacteristic(register2Uuid);
 
-    const handleRegister2Change = (event) => {
-      let currentVal = convertBLEtoUint16(event.target.value);
-      const isDisplayOnCooling = !convertToggleCharacteristicToBool(
-        currentVal,
-        displayOnCoolingMask
-      );
-      dispatch(setIsDisplayOnCooling(isDisplayOnCooling));
-    };
     const blePayload = async () => {
-      await characteristic.addEventListener(
-        "characteristicvaluechanged",
-        handleRegister2Change
-      );
-      characteristic.startNotifications();
-    };
-    AddToQueue(blePayload);
-    return () => {
-      const blePayload = async () => {
-        await characteristic?.removeEventListener(
-          "characteristicvaluechanged",
-          handleRegister2Change
-        );
-      };
+      if (isDisplayOnCooling !== undefined) {
+        return;
+      }
 
-      AddToQueue(blePayload);
-    };
-  });
-
-  useEffect(() => {
-    if (isDisplayOnCooling !== undefined) return;
-
-    const characteristic = getCharacteristic(register2Uuid);
-
-    const blePayload = async () => {
       const value = await characteristic.readValue();
       const currentVal = convertBLEtoUint16(value);
 
-      const isDisplayOnCooling = !convertToggleCharacteristicToBool(
+      const initialState = !convertToggleCharacteristicToBool(
         currentVal,
         displayOnCoolingMask
       );
-      dispatch(setIsDisplayOnCooling(isDisplayOnCooling));
+      dispatch(setIsDisplayOnCooling(initialState));
     };
     AddToQueue(blePayload);
-  }, [isDisplayOnCooling, dispatch]);
+  }, [dispatch, isDisplayOnCooling]);
 
-  const onChange = (checked) => {
+  const onChange = () => {
     const blePayload = async () => {
       const characteristic = getCharacteristic(register2Uuid);
-      const value = checked ? displayOnCoolingMask : displayOffCoolingMask;
+      const nextState = !isDisplayOnCooling;
+      const value = nextState ? displayOnCoolingMask : displayOffCoolingMask;
       const buffer = convertToUInt32BLE(value);
       await characteristic.writeValue(buffer);
-      dispatch(setIsDisplayOnCooling(checked));
+      dispatch(setIsDisplayOnCooling(nextState));
     };
 
     AddToQueue(blePayload);
