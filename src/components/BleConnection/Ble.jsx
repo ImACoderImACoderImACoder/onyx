@@ -40,7 +40,7 @@ export default function Ble(props) {
         <StyledLastSynced>
           <LastAppServerRefresh />
         </StyledLastSynced>
-        Tap anywhere to connect!
+        Tap anywhere to connect
       </Button>
     </div>
   );
