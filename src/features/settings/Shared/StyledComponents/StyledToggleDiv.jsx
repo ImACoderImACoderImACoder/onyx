@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ToggleSwitch from "../../../../components/Switch/Switch";
+import ToggleSwitch from "../../../shared/styledComponents/Switch";
 
 const StyledToggleDiv = styled.div`
   min-height: 40px;

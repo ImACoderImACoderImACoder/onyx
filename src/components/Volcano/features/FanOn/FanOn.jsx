@@ -1,4 +1,4 @@
-import ToggleSwitch from "../../../Switch/Switch";
+import ToggleSwitch from "../../../../features/shared/styledComponents/Switch";
 export default function FanOn(props) {
   return (
     <div onClick={props.onChange} className="heat-air-button">
