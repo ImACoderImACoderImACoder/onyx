@@ -18,7 +18,6 @@ export default function FOrCContainer() {
       const buffer = convertToUInt32BLE(mask);
       await characteristicPrj2V.writeValue(buffer);
       dispatch(setIsF(!isF));
-      return `Toggle F or C set to ${isF ? "C" : "F"}`;
     };
     AddToQueue(blePayload);
   };

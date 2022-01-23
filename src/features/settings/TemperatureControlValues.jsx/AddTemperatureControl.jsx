@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import Button from "../../shared/styledComponents/Button";
+import Button from "../../settings/Shared/StyledComponents/Button";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -15,10 +15,6 @@ import {
 } from "../../../constants/temperature";
 import RestoreDefaultTemperature from "./RestoreDefaultTemperature";
 import styled, { useTheme } from "styled-components";
-
-const StyledButton = styled(Button)`
-  color: ${(props) => props.theme.settingsPageColor};
-`;
 
 const StyledFormText = styled(Form.Text)`
   color: ${(props) => props.theme.settingsPageColor};
@@ -90,8 +86,7 @@ export default function AddTemperatureControl() {
         />
         <StyledFormText>{inputHelperText}</StyledFormText>
       </Form.Group>
-      <StyledButton type="submit">Submit</StyledButton>{" "}
-      <RestoreDefaultTemperature />
+      <Button type="submit">Submit</Button> <RestoreDefaultTemperature />
     </Form>
   );
 }

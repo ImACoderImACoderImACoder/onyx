@@ -11,14 +11,13 @@ import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 import { setIsF } from "../../../../features/settings/settingsSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useCallback } from "react";
 
 export default function FOrCLoader(props) {
   const dispatch = useDispatch();
   const isF = useSelector((state) => state.settings.isF);
 
-  useEffect(() => {
-    if (isF !== undefined) return;
-
+  const readFOrCToStore = useCallback(() => {
     const characteristicPrj2V = getCharacteristic(register2Uuid);
     const blePayload = async () => {
       const value = await characteristicPrj2V.readValue();
@@ -28,10 +27,15 @@ export default function FOrCLoader(props) {
         fahrenheitMask
       );
       dispatch(setIsF(isFValue));
-      return isFValue;
     };
     AddToQueue(blePayload);
-  }, [dispatch, isF]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isF !== undefined) return;
+
+    readFOrCToStore();
+  }, [dispatch, isF, readFOrCToStore]);
 
   useEffect(() => {
     function handlePrj2ChangedVolcano(event) {
@@ -68,18 +72,7 @@ export default function FOrCLoader(props) {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        const blePayload = async () => {
-          const characteristicPrj2V = getCharacteristic(register2Uuid);
-          const value = await characteristicPrj2V.readValue();
-          const currentVal = convertBLEtoUint16(value);
-          const isFValue = convertToggleCharacteristicToBool(
-            currentVal,
-            fahrenheitMask
-          );
-          dispatch(setIsF(isFValue));
-          return isFValue;
-        };
-        AddToQueue(blePayload);
+        readFOrCToStore();
       }
     };
     document.addEventListener("visibilitychange", handler);
@@ -87,7 +80,7 @@ export default function FOrCLoader(props) {
     return () => {
       document.removeEventListener("visibilitychange", handler);
     };
-  }, [dispatch]);
+  }, [dispatch, readFOrCToStore]);
 
   const loadingSpinner = props.useSpinnerToShowLoader && (
     <Spinner animation="border" variant="dark" />

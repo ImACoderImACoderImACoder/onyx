@@ -65,7 +65,6 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
         onConnected();
         device.addEventListener("gattserverdisconnected", onDisconnected);
         await buildCacheFromBleDevice(device);
-        return "Adapter resolved. Cache built";
       }
     } catch (error) {
       if (

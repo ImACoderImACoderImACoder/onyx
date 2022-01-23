@@ -10,8 +10,8 @@ const Button = styled.button`
   font-size: 30px;
   color: ${(props) => props.theme.homePageColor};
   border-width: 0px;
-  border-style: ${(props) => props.theme.borderStyle}
-  border-color: ${(props) => props.theme.borderColor}
+  border-style: ${(props) => props.theme.borderStyle};
+  border-color: ${(props) => props.theme.borderColor};
 `;
 
 const StyledPatreon = styled.div`

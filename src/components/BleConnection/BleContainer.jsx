@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
 
-export default function BleContainer(props) {
+export default function BleContainer() {
   const [isBleConnectionBeingEstablished, setIsBleConnectionBeingEstablished] =
     useState(false);
 
@@ -23,8 +23,7 @@ export default function BleContainer(props) {
   };
   const onClick = async () => {
     try {
-      const result = await Ble(onConnected, onDisconnected);
-      console.log(result);
+      await Ble(onConnected, onDisconnected);
       dispatch(RE_INITIALIZE_STORE());
       navigate("/Volcano/App");
     } catch (error) {

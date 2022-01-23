@@ -7,7 +7,6 @@ export function AddToQueue(func) {
 
   if (!isQueueProcessing) {
     isQueueProcessing = true;
-    console.log("called process queue");
     ProcessQueue();
   }
 }
@@ -15,15 +14,13 @@ export function AddToQueue(func) {
 async function ProcessQueue() {
   isQueueProcessing = true;
   if (queue.length === 0) {
-    console.log("queue cleared!");
     isQueueProcessing = false;
     return;
   }
 
   try {
     const func = queue.shift();
-    const r = await func();
-    console.log(`The result of the ble payload is: ${r}`);
+    await func();
     setTimeout(() => {
       ProcessQueue();
     }, 0);

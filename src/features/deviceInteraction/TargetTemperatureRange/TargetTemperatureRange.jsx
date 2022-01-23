@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { convertToUInt32BLE } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { bleServerUuid, writeTemperatureUuid } from "../../../constants/uuids";
+import { writeTemperatureUuid } from "../../../constants/uuids";
 import {
   MAX_CELSIUS_TEMP,
   MIN_CELSIUS_TEMP,
@@ -21,13 +21,9 @@ export default function TargetTemperatureRange() {
 
   const onMouseUp = (e) => {
     const blePayload = async () => {
-      const bleServer = getCharacteristic(bleServerUuid);
       const characteristic = getCharacteristic(writeTemperatureUuid);
-      if (bleServer.device.name.includes("S&B VOLCANO")) {
-        let buffer = convertToUInt32BLE(e[0] * 10);
-        await characteristic.writeValue(buffer);
-        return `Temperature ${e[0]}C written to device`;
-      }
+      const buffer = convertToUInt32BLE(e[0] * 10);
+      await characteristic.writeValue(buffer);
     };
     AddToQueue(blePayload);
   };

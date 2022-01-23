@@ -11,7 +11,6 @@ export function cacheContainsCharacteristic(characteristicId) {
 
 export function clearCache() {
   cache = {};
-  console.log("Cache Cleared!");
 }
 
 export function getCharacteristic(characteristicId) {

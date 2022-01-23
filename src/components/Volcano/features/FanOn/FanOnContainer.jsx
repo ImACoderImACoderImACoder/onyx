@@ -27,18 +27,18 @@ export default function FanOnContainer() {
       const characteristicPrj1V = getCharacteristic(register1Uuid);
       const value = await characteristicPrj1V.readValue();
       const currentVal = convertBLEtoUint16(value);
-      const newFanValue = convertToggleCharacteristicToBool(
+      const initialFanValue = convertToggleCharacteristicToBool(
         currentVal,
         fanMask
       );
-      dispatch(setIsFanOn(newFanValue));
+      dispatch(setIsFanOn(initialFanValue));
     };
     AddToQueue(blePayload);
   }, [dispatch]);
 
   useEffect(() => {
     const handlePrj1ChangedVolcano = (event) => {
-      let currentVal = convertBLEtoUint16(event.target.value);
+      const currentVal = convertBLEtoUint16(event.target.value);
       const newFanValue = convertToggleCharacteristicToBool(
         currentVal,
         fanMask
@@ -65,7 +65,6 @@ export default function FanOnContainer() {
       AddToQueue(blePayload);
     };
   }, [dispatch]);
-  const spaceBarKeycode = 32;
 
   const onClick = useCallback(() => {
     const blePayload = async () => {
@@ -73,20 +72,15 @@ export default function FanOnContainer() {
       const characteristic = getCharacteristic(targetCharacteristicUuid);
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
-      const newFanValue = !isFanOn;
-      return `The fan is now ${newFanValue}`;
     };
     AddToQueue(blePayload);
   }, [isFanOn]);
 
-  const onChange = useCallback(() => {
-    onClick();
-  }, [onClick]);
-
+  const spaceBarKeycode = 32;
   useEffect(() => {
     const handler = (e) => {
       if (e.keyCode === spaceBarKeycode) {
-        onChange(!isFanOn);
+        onClick();
       }
     };
     document.addEventListener("keyup", handler);
@@ -94,7 +88,7 @@ export default function FanOnContainer() {
     return () => {
       document.removeEventListener("keyup", handler);
     };
-  }, [onChange, isFanOn]);
+  }, [onClick]);
 
-  return <FanOn onChange={onChange} isFanOn={isFanOn} />;
+  return <FanOn onChange={onClick} isFanOn={isFanOn} />;
 }
