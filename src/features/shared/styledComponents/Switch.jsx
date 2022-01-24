@@ -107,7 +107,15 @@ function ToggleSwitch(props) {
   }, [props.isToggleOn]);
 
   return (
-    <SwitchParentDiv onClick={() => setIsOn((oldIsOn) => !oldIsOn)}>
+    <SwitchParentDiv
+      onClick={() =>
+        setIsOn((oldIsOn) => {
+          const nextState = !oldIsOn;
+          props.onChange(nextState);
+          return nextState;
+        })
+      }
+    >
       <Switch>
         <SwitchDiv
           style={{
@@ -127,6 +135,7 @@ ToggleSwitch.defaultProps = {
   onText: "On",
   offText: "Off",
   isToggleOn: false,
+  onChange: () => {},
 };
 
 export default ToggleSwitch;

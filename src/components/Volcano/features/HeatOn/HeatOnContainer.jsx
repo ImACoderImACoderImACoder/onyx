@@ -15,11 +15,9 @@ import {
   convertToggleCharacteristicToBool,
 } from "../../../../services/utils";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
-import { useState } from "react";
 
 export default function HeatOnContainer() {
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
-  const [localIsHeatOn, setLocalIsHeatOn] = useState(isHeatOn);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +33,6 @@ export default function HeatOnContainer() {
           );
           if (isHeatOn !== newHeatValue) {
             dispatch(setIsHeatOn(newHeatValue));
-            setLocalIsHeatOn(newHeatValue);
           }
           return newHeatValue;
         };
@@ -74,7 +71,6 @@ export default function HeatOnContainer() {
       );
       if (newHeatValue !== isHeatOn) {
         dispatch(setIsHeatOn(newHeatValue));
-        setLocalIsHeatOn(newHeatValue);
       }
     };
     AddToQueue(blePayload);
@@ -90,13 +86,12 @@ export default function HeatOnContainer() {
     };
   }, [dispatch, isHeatOn]);
 
-  const onClick = () => {
+  const onClick = (nextState) => {
     const blePayload = async () => {
-      const targetCharacteristicUuid = localIsHeatOn ? heatOffUuid : heatOnUuid;
+      const targetCharacteristicUuid = nextState ? heatOnUuid : heatOffUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
-      setLocalIsHeatOn((prev) => !prev);
     };
     AddToQueue(blePayload);
   };
