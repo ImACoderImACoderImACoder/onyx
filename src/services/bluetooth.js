@@ -71,16 +71,15 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
         error.toString().includes("User cancelled") ||
         error.toString().includes("a user gesture")
       ) {
-        return "Ble canceled";
-      } else {
-        const alertMessage =
-          "BLE connection issue, please reset web page and retry!\n" +
-          error.toString() +
-          "\n" +
-          error.stack;
-        alert(alertMessage);
-        throw new Error(alertMessage);
+        return;
       }
+      const alertMessage =
+        "BLE connection issue, please reset web page and retry!\n" +
+        error.toString() +
+        "\n" +
+        error.stack;
+      alert(alertMessage);
+      throw new Error(alertMessage);
     }
   } else {
     const bleNotSupported = "WEB BLE not supported";

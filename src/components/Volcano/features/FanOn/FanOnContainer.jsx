@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   fanOnUuid,
   fanOffUuid,
@@ -19,7 +19,7 @@ import { useCallback } from "react";
 
 export default function FanOnContainer() {
   const isFanOn = useSelector((state) => state.deviceInteraction.isFanOn);
-
+  const [localIsFanOn, setLocalIsFanOn] = useState(isFanOn);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export default function FanOnContainer() {
         currentVal,
         fanMask
       );
+      setLocalIsFanOn(initialFanValue);
       dispatch(setIsFanOn(initialFanValue));
     };
     AddToQueue(blePayload);
@@ -68,13 +69,14 @@ export default function FanOnContainer() {
 
   const onClick = useCallback(() => {
     const blePayload = async () => {
-      const targetCharacteristicUuid = isFanOn ? fanOffUuid : fanOnUuid;
+      const targetCharacteristicUuid = localIsFanOn ? fanOffUuid : fanOnUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
+      setLocalIsFanOn((prev) => !prev);
     };
     AddToQueue(blePayload);
-  }, [isFanOn]);
+  }, [localIsFanOn]);
 
   const spaceBarKeycode = 32;
   useEffect(() => {
