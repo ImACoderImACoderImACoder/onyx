@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const SwitchParentDiv = styled.div`
@@ -99,7 +99,7 @@ const SwitchHandle = styled(SwitchOnState)`
   border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColor};
 `;
 
-function ToggleSwitch(props) {
+const ToggleSwitch = React.forwardRef((props, ref) => {
   const [isOn, setIsOn] = useState(props.isToggleOn);
 
   useEffect(() => {
@@ -108,6 +108,7 @@ function ToggleSwitch(props) {
 
   return (
     <SwitchParentDiv
+      ref={ref}
       onClick={() =>
         setIsOn((oldIsOn) => {
           const nextState = !oldIsOn;
@@ -129,7 +130,7 @@ function ToggleSwitch(props) {
       </Switch>
     </SwitchParentDiv>
   );
-}
+});
 
 ToggleSwitch.defaultProps = {
   onText: "On",

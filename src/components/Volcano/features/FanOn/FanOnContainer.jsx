@@ -16,6 +16,7 @@ import {
 } from "../../../../services/utils";
 import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
 import { useCallback } from "react";
+import { useRef } from "react";
 
 export default function FanOnContainer() {
   const isFanOn = useSelector((state) => state.deviceInteraction.isFanOn);
@@ -75,11 +76,12 @@ export default function FanOnContainer() {
     AddToQueue(blePayload);
   }, []);
 
+  const fanOnRef = useRef(null);
   const spaceBarKeycode = 32;
   useEffect(() => {
     const handler = (e) => {
       if (e.keyCode === spaceBarKeycode) {
-        onClick();
+        fanOnRef.current.click();
       }
     };
     document.addEventListener("keyup", handler);
@@ -89,5 +91,5 @@ export default function FanOnContainer() {
     };
   }, [onClick]);
 
-  return <FanOn onChange={onClick} isFanOn={isFanOn} />;
+  return <FanOn ref={fanOnRef} onChange={onClick} isFanOn={isFanOn} />;
 }

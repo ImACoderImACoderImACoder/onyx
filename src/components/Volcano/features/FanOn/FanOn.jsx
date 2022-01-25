@@ -1,5 +1,6 @@
+import React from "react";
 import ToggleSwitch from "../../../../features/shared/styledComponents/Switch";
-export default function FanOn(props) {
+export default React.forwardRef((props, ref) => {
   return (
     <div className="heat-air-button">
       <ToggleSwitch
@@ -7,7 +8,8 @@ export default function FanOn(props) {
         onText="Fan On"
         offText="Fan Off"
         onChange={props.onChange}
+        ref={ref}
       />
     </div>
   );
-}
+});
