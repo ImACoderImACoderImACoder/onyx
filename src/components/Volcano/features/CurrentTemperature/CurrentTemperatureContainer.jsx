@@ -33,7 +33,6 @@ export default function CurrentTemperatureContainer() {
       const normalizedValue =
         convertCurrentTemperatureCharacteristicToCelcius(value);
       dispatch(setCurrentTemperature(normalizedValue));
-      return "The value of temp read is " + normalizedValue;
     };
     AddToQueue(BlePayload);
     return () => {

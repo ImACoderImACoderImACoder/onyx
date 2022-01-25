@@ -34,7 +34,6 @@ export default function HeatOnContainer() {
           if (isHeatOn !== newHeatValue) {
             dispatch(setIsHeatOn(newHeatValue));
           }
-          return newHeatValue;
         };
         AddToQueue(blePayload);
       }
