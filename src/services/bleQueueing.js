@@ -29,3 +29,29 @@ async function ProcessQueue() {
     ProcessQueue();
   }
 }
+
+let currentWorkflowIndex = 0;
+let workflowFunctions;
+
+export function AddToWorkflowQueue(func) {
+  workflowFunctions = func;
+  currentWorkflowIndex = -1;
+  ProcessWorkflowQueue();
+}
+
+async function ProcessWorkflowQueue() {
+  let currentFunc;
+
+  const next = () => {
+    currentWorkflowIndex++;
+
+    currentFunc = workflowFunctions[currentWorkflowIndex];
+    if (!currentFunc) return;
+    setTimeout(() => {
+      AddToQueue(async () => {
+        await currentFunc(next);
+      });
+    }, 0);
+  };
+  next();
+}

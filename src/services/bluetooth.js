@@ -63,7 +63,7 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
       const device = await navigator.bluetooth.requestDevice(options);
       if (device.name.includes("S&B VOLCANO")) {
         onConnected();
-        device.addEventListener("gattserverdisconnected", onDisconnected);
+        await device.addEventListener("gattserverdisconnected", onDisconnected);
         await buildCacheFromBleDevice(device);
       }
     } catch (error) {
