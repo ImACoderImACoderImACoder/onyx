@@ -28,7 +28,8 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
     let options = {};
     if (
       window.navigator.userAgent.includes("iPhone") ||
-      window.navigator.userAgent.includes("Macintosh")
+      window.navigator.userAgent.includes("Macintosh") ||
+      window.navigator.userAgent.includes("iPad")
     ) {
       options.filters = filters;
       options.acceptAllDevices = false;

@@ -87,7 +87,7 @@ export default function WorkflowItemEditor(props) {
   const getDefaultPayloadValueByType = (type) => {
     switch (type) {
       case WorkflowItemTypes.FAN_ON: {
-        return 36; //35 looks nicer but 36 seems to be more practical :(
+        return 35.5;
       }
       case WorkflowItemTypes.HEAT_ON: {
         return isF ? 104 : 40;
