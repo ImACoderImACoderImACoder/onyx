@@ -26,7 +26,6 @@ export default function AdjustAutoShutoffTimeContainer() {
         const value = await characteristic.readValue();
         const normalizedValue = convertBLEtoUint16(value) / 60;
         dispatch(setAutoShutoffTime(normalizedValue));
-        return `Auto shutoff time of ${normalizedValue} read from device`;
       };
       AddToQueue(blePayload);
     }
@@ -37,7 +36,6 @@ export default function AdjustAutoShutoffTimeContainer() {
       const characteristic = getCharacteristic(autoShutoffSettingUuid);
       let buffer = convertToUInt16BLE(e[0] * 60);
       await characteristic.writeValue(buffer);
-      return `Auto shutoff time of ${e[0]} written to device`;
     };
     AddToQueue(blePayload);
   };

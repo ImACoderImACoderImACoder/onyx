@@ -13,7 +13,7 @@ export default function Themes(props) {
   const theme = useTheme();
   return (
     <Div>
-      <h1>Select a Theme</h1>
+      <h3>Select a Theme</h3>
       <StyledSelect value={props.currentTheme} onChange={props.onChange}>
         {props.options}
       </StyledSelect>

@@ -19,6 +19,7 @@ const Div = styled.div`
 export default function Settings() {
   return (
     <Div>
+      <h1>Settings</h1>
       <ThemesContainer />
       <FOrCLoader useSpinnerToShowLoader>
         <FOrC />

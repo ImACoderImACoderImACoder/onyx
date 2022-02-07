@@ -1,3 +1,9 @@
+import {
+  setCurrentWorkflow,
+  setCurrentWorkflowStepId,
+} from "../features/workflowEditor/workflowSlice";
+import store from "../store";
+
 const queue = [];
 
 let isQueueProcessing = false;
@@ -44,7 +50,10 @@ async function ProcessWorkflowQueue() {
 
   const next = () => {
     currentWorkflowIndex++;
-
+    if (currentWorkflowIndex + 1 === workflowFunctions.length) {
+      store.dispatch(setCurrentWorkflow());
+      store.dispatch(setCurrentWorkflowStepId());
+    }
     currentFunc = workflowFunctions[currentWorkflowIndex];
     if (!currentFunc) return;
     setTimeout(() => {
@@ -54,4 +63,9 @@ async function ProcessWorkflowQueue() {
     }, 0);
   };
   next();
+}
+
+export function ClearWorkflowQueue() {
+  workflowFunctions = {};
+  currentWorkflowIndex = -1;
 }

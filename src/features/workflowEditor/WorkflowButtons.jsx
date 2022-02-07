@@ -5,49 +5,30 @@ import {
   heatOffUuid,
   writeTemperatureUuid,
   currentTemperatureUuid,
-} from "../../../constants/uuids";
+  LEDbrightnessUuid,
+} from "../../constants/uuids";
 
+import WriteTemperature from "../../components/Volcano/features/WriteTemperature/WriteTemperature";
 import {
   convertToUInt8BLE,
   convertToUInt32BLE,
+  convertToUInt16BLE,
   isValueInValidVolcanoCelciusRange,
   convertCurrentTemperatureCharacteristicToCelcius,
-} from "../../../services/utils";
-import { AddToQueue, AddToWorkflowQueue } from "../../../services/bleQueueing";
-import { setTargetTemperature } from "../../../features/deviceInteraction/deviceInteractionSlice";
-import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { useDispatch } from "react-redux";
+} from "../../services/utils";
+import { AddToQueue, AddToWorkflowQueue } from "../../services/bleQueueing";
+import { setTargetTemperature } from "../deviceInteraction/deviceInteractionSlice";
+import { getCharacteristic } from "../../services/BleCharacteristicCache";
+import { useDispatch, useSelector } from "react-redux";
+import { setLEDbrightness } from "../settings/settingsSlice";
+import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
 
 export default function WorkFlow() {
   const dispatch = useDispatch();
-
-  const workflowTestData = [
-    { type: "heatOn", payload: 180 },
-    { type: "fanOn", payload: 10 },
-    { type: "heatOn", payload: 200 },
-    { type: "fanOn", payload: 15 },
-    { type: "heatOff" },
-    { type: "fanOn", payload: 8 },
-    { type: "heatOn", payload: 230 },
-    { type: "heatOff" },
-  ];
-
-  const workflowTestData2 = [
-    { type: "heatOn", payload: 200 },
-    { type: "fanOn", payload: 3 },
-    { type: "wait", payload: 30 },
-    { type: "heatOn", payload: 205 },
-    { type: "fanOn", payload: 3 },
-    { type: "heatOn", payload: 215 },
-    { type: "fanOn", payload: 3 },
-    { type: "heatOn", payload: 230 },
-    { type: "fanOn", payload: 3 },
-    { type: "heatOn", payload: 180 },
-    { type: "heatOff" },
-  ];
-
-  const workflows = [workflowTestData, workflowTestData2];
-
+  const workflows = useSelector((state) => state.settings.config.workflows);
+  const currentWorkflow = useSelector(
+    (state) => state.workflow.currentWorkflow
+  );
   const turnFanOffBlePayload = async (next) => {
     const characteristic = getCharacteristic(fanOffUuid);
     const buffer = convertToUInt8BLE(0);
@@ -56,28 +37,34 @@ export default function WorkFlow() {
   };
 
   const onClick = (workflowIndex) => {
-    const thoughtData = workflows[workflowIndex].map((item) => {
+    const nextWorkflow = workflows[workflowIndex];
+    if (nextWorkflow.id === currentWorkflow?.id) {
+      return;
+    }
+    dispatch(setCurrentWorkflow(nextWorkflow));
+    const thoughtData = nextWorkflow.payload.map((item) => {
       switch (item.type) {
         case "heatOn": {
           return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
             const characteristic = getCharacteristic(heatOnUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
             const temperatureCharacteristic = getCharacteristic(
               currentTemperatureUuid
             );
-            const onCharacteristicChange = (event) => {
+            const onCharacteristicChange = async (event) => {
               const currentTemperature =
                 convertCurrentTemperatureCharacteristicToCelcius(
                   event.target.value
                 );
 
               if (currentTemperature >= item.payload) {
-                next();
-                temperatureCharacteristic.removeEventListener(
+                await temperatureCharacteristic.removeEventListener(
                   "characteristicvaluechanged",
                   onCharacteristicChange
                 );
+                next();
               }
             };
             if (isValueInValidVolcanoCelciusRange(item.payload)) {
@@ -100,11 +87,15 @@ export default function WorkFlow() {
                 );
                 await characteristic.startNotifications();
               }
+            } else {
+              next();
             }
           };
         }
         case "fanOn": {
           return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
+
             const characteristic = getCharacteristic(fanOnUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
@@ -115,6 +106,8 @@ export default function WorkFlow() {
         }
         case "heatOff": {
           return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
+
             const characteristic = getCharacteristic(heatOffUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
@@ -123,21 +116,43 @@ export default function WorkFlow() {
         }
         case "wait": {
           return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
+
             setTimeout(() => next(), item.payload * 1000);
           };
         }
+        case "setLEDbrightness": {
+          return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
+
+            const characteristic = getCharacteristic(LEDbrightnessUuid);
+            let buffer = convertToUInt16BLE(item.payload);
+            await characteristic.writeValue(buffer);
+            dispatch(setLEDbrightness(item.payload));
+            next();
+          };
+        }
         default:
-          return async (next) => next();
+          return async (next) => {
+            dispatch(setCurrentWorkflowStepId(item.id));
+            next();
+          };
       }
     });
 
     AddToWorkflowQueue(thoughtData);
   };
 
-  return workflows.map((_, index) => (
-    <button
-      key={index}
-      onClick={() => onClick(index)}
-    >{`Workflow #${index}`}</button>
-  ));
+  return (
+    <div className="temperature-write-div">
+      {workflows.map((item, index) => (
+        <WriteTemperature
+          key={index}
+          onClick={() => onClick(index)}
+          buttonText={item.name}
+          isActive={currentWorkflow?.id === item.id}
+        />
+      ))}
+    </div>
+  );
 }

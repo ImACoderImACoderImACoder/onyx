@@ -4,8 +4,10 @@ import CurrentTemperature from "./features/CurrentTemperature/CurrentTemperature
 import WriteTemperature from "./features/WriteTemperature/WriteTemperatureContainer";
 import CurrentTargetTemperature from "./features/WriteTemperature/CurrentTargetTemperature";
 import { getDisplayTemperature } from "../../services/utils";
+import TargetTemperatureRange from "../../features/deviceInteraction/TargetTemperatureRange/TargetTemperatureRange";
 
 import { useSelector } from "react-redux";
+import WorkFlow from "../../features/workflowEditor/WorkflowButtons";
 
 function Volcano() {
   const isF = useSelector((state) => state.settings.isF);
@@ -23,7 +25,10 @@ function Volcano() {
         <CurrentTemperature />
         <CurrentTargetTemperature currentTargetTemperature={temperature} />
         <WriteTemperature />
-
+        <WorkFlow />
+        <div key="temperatureRange" className="temperature-range-root-div">
+          <TargetTemperatureRange />
+        </div>
         <div className="heat-air-div">
           <HeatOn />
           <FanOn />

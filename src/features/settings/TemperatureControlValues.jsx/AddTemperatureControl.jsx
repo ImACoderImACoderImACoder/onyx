@@ -14,7 +14,8 @@ import {
   DEGREE_SYMBOL,
 } from "../../../constants/temperature";
 import RestoreDefaultTemperature from "./RestoreDefaultTemperature";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
+import StyledFormControl from "../../shared/styledComponents/FormControl";
 
 const StyledFormText = styled(Form.Text)`
   color: ${(props) => props.theme.settingsPageColor};
@@ -23,7 +24,6 @@ const StyledFormText = styled(Form.Text)`
 export default function AddTemperatureControl() {
   const config = useSelector((state) => state.settings.config);
   const isF = useSelector((state) => state.settings.isF);
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const fOrCMessage = isF
@@ -73,13 +73,8 @@ export default function AddTemperatureControl() {
     >
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>{`Temperature in ${fOrC}`}</Form.Label>
-        <Form.Control
-          style={{
-            maxWidth: "250px",
-            color: theme.settingsPageColor,
-            backgroundColor: theme.backgroundColor,
-            borderColor: theme.borderColor,
-          }}
+        <StyledFormControl
+          style={{ maxWidth: "250px" }}
           type="number"
           placeholder={`E.g ${isF ? "420" : "69"} ${fOrC}`}
           pattern="[0-9]*"

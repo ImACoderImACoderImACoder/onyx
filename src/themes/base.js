@@ -15,7 +15,6 @@ const base = () => {
     primaryFontColor: "antiquewhite",
     iconColor: "rebeccapurple",
     iconTextColor: "rebeccapurple",
-    disconnectButtonFont: "antiquewhite",
     settingsPageColor: "antiquewhite",
     deviceInformationPageColor: "antiquewhite",
     homePageColor: "antiquewhite",

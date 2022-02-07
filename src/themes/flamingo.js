@@ -17,7 +17,6 @@ const flamingo = {
   primaryFontColor: "white",
   iconColor: "#e8d6ed",
   iconTextColor: "#e8d6ed",
-  disconnectButtonFont: "antiquewhite",
   settingsPageColor: "antiquewhite",
   deviceInformationPageColor: "antiquewhite",
   homePageColor: "antiquewhite",

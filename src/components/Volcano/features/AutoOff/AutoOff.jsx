@@ -27,14 +27,12 @@ export default function AutoOff() {
         const value = await characteristic.readValue();
         const actualValue = convertBLEtoUint16(value);
         dispatch(setAutoOffTimeInSeconds(actualValue));
-        return `auto off value is ${actualValue} seconds`;
       };
       const blePayload2 = async () => {
         const characteristic = getCharacteristic(autoShutoffSettingUuid);
         const value = await characteristic.readValue();
         const normalizedValue = convertBLEtoUint16(value) / 60;
         dispatch(setAutoShutoffTime(normalizedValue));
-        return `Auto shutoff time of ${normalizedValue} read from device`;
       };
       AddToQueue(blePayload);
       AddToQueue(blePayload2);

@@ -1,6 +1,5 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { cacheContainsCharacteristic } from "../../services/BleCharacteristicCache";
 import { heatOffUuid } from "../../constants/uuids";
 import DisconnectButton from "./DisconnectButton";
@@ -10,41 +9,54 @@ import ControlsIcon from "./icons/ControlsIcon";
 import InformationIcon from "./icons/InformationIcon";
 import SettingsIcon from "./icons/SettingsIcon";
 import FOrCLoader from "./features/FOrC/FOrCLoader";
-import styled from "styled-components";
-
-const StyledLink = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: ${(props) => props.theme.iconTextColor};
-`;
+import { StyledRouterIconLink } from "./icons/Shared/IconLink";
+import WorkflowEditorIcon from "./icons/WorkflowEditorIcon";
 
 export default function VolcanoLoader(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     const characteristic = cacheContainsCharacteristic(heatOffUuid);
     if (!characteristic) {
       navigate("/");
     }
   });
+  const pageRoutes = [
+    { displayText: "App", icon: <ControlsIcon />, route: "/Volcano/App" },
+    {
+      displayText: "Workflow Editor",
+      icon: <WorkflowEditorIcon />,
+      route: "/Volcano/WorkflowEditor",
+    },
+    {
+      displayText: "Info",
+      icon: <InformationIcon />,
+      route: "/Volcano/DeviceInformation",
+    },
+    {
+      displayText: "Settings",
+      icon: <SettingsIcon />,
+      route: "/Volcano/Settings",
+    },
+  ];
+
+  const pageRoutesToBeRendered = pageRoutes.filter(
+    (r) => r.route !== location.pathname
+  );
+
+  const iconLinks = pageRoutesToBeRendered.map((route) => (
+    <StyledRouterIconLink key={route.route} to={route.route}>
+      {route.icon}
+      {route.displayText}
+    </StyledRouterIconLink>
+  ));
 
   return (
     cacheContainsCharacteristic(heatOffUuid) && (
       <div className="main-div">
         <FOrCLoader />
         <div className="disconnect-last-synced-div">
-          <StyledLink to={"/Volcano/App"}>
-            <ControlsIcon />
-            App
-          </StyledLink>
-          <StyledLink to={"/Volcano/DeviceInformation"}>
-            <InformationIcon />
-            Device Info
-          </StyledLink>
-          <StyledLink to={"/Volcano/Settings"}>
-            <SettingsIcon />
-            Settings
-          </StyledLink>
+          {iconLinks}
           <DisconnectButton />
         </div>
         <Outlet {...props} />

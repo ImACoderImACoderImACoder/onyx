@@ -24,7 +24,6 @@ export default function AdjustLEDbrightnessContainer() {
         const value = await characteristic.readValue();
         const normalizedValue = convertBLEtoUint16(value);
         dispatch(setLEDbrightness(normalizedValue));
-        return `LED brightness of ${normalizedValue} read from device`;
       };
       AddToQueue(blePayload);
     }
@@ -35,7 +34,6 @@ export default function AdjustLEDbrightnessContainer() {
       const characteristic = getCharacteristic(LEDbrightnessUuid);
       let buffer = convertToUInt16BLE(e[0]);
       await characteristic.writeValue(buffer);
-      return `LED brightness of ${e[0]} written to device`;
     };
     AddToQueue(blePayload);
   };

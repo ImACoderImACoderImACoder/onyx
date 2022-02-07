@@ -15,6 +15,7 @@ const Div = styled.div`
 export default function DeviceInformation() {
   return (
     <Div>
+      <h1>Device Information</h1>
       <LastAppServerRefresh />
       <VolcanoSerialNumber />
       <HoursOfOperation />

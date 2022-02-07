@@ -46,9 +46,10 @@ export default function CurrentTemperatureContainer() {
     };
   }, [dispatch]);
 
-  const temperature = currentTemperature
-    ? getDisplayTemperature(currentTemperature, isF)
-    : currentTemperature;
+  const temperature =
+    currentTemperature || currentTemperature === 0
+      ? getDisplayTemperature(currentTemperature, isF)
+      : currentTemperature;
 
   return <CurrentTemperature currentTemperature={temperature} />;
 }

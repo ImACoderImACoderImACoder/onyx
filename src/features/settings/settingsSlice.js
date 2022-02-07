@@ -34,6 +34,9 @@ export const settingsSlice = createSlice({
     setCurrentTheme: (state, action) => {
       state.config.currentTheme = action.payload;
     },
+    setCurrentWorkflows: (state, action) => {
+      state.config.workflows = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(RE_INITIALIZE_STORE, (state) => {
@@ -58,6 +61,7 @@ export const {
   setLEDbrightness,
   setAutoShutoffTime,
   setCurrentTheme,
+  setCurrentWorkflows,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

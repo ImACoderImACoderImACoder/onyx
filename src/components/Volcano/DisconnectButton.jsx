@@ -4,11 +4,9 @@ import {
   getCharacteristic,
 } from "../../services/BleCharacteristicCache";
 import * as uuIds from "../../constants/uuids";
-import Button from "../../features/shared/styledComponents/Button";
-import styled from "styled-components";
-const StyledDisconnectButton = styled(Button)`
-  color: ${(props) => props.theme.disconnectButtonFont};
-`;
+import { StyledIconLink } from "./icons/Shared/IconLink";
+import BluetoothDisconnectIcon from "./icons/BluetoothDisconnectIcon";
+
 function DisconnectButton() {
   const navigate = useNavigate();
   const onClick = async () => {
@@ -20,9 +18,10 @@ function DisconnectButton() {
 
   return (
     <div>
-      <StyledDisconnectButton onClick={onClick}>
+      <StyledIconLink onClick={onClick}>
+        <BluetoothDisconnectIcon />
         Disconnect
-      </StyledDisconnectButton>
+      </StyledIconLink>
     </div>
   );
 }

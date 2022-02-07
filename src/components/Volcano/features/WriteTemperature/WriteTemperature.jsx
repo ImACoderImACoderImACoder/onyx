@@ -5,7 +5,7 @@ function WriteTemperature(props) {
   const Button = props.isActive ? ActiveButton : InactiveButton;
 
   return (
-    <Div>
+    <Div className={props.className}>
       <Button onClick={props.onClick}>{props.buttonText}</Button>
     </Div>
   );

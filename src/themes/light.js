@@ -17,7 +17,6 @@ const light = {
   primaryFontColor: "black",
   iconColor: "#FF6600",
   iconTextColor: "black",
-  disconnectButtonFont: "black",
   settingsPageColor: "black",
   deviceInformationPageColor: "black",
   homePageColor: "black",

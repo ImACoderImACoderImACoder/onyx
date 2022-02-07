@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import GetTheme from "./themes/ThemeProvider";
-
+import WorkflowEditor from "./features/workflowEditor/WorkflowEditor";
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -47,6 +47,7 @@ function App() {
               <Route path="App" element={<Volcano />} />
               <Route path="DeviceInformation" element={<DeviceInformation />} />
               <Route path="Settings" element={<Settings />} />
+              <Route path="WorkflowEditor" element={<WorkflowEditor />} />
             </Route>
           </Routes>
         </BrowserRouter>
