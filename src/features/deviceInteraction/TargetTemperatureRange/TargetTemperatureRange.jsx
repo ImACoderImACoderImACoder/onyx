@@ -11,6 +11,13 @@ import {
 } from "../../../constants/temperature";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useTheme } from "styled-components";
+import styled from "styled-components";
+
+const Div = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+`;
 
 export default function TargetTemperatureRange() {
   const targetTemperature = useSelector(
@@ -35,7 +42,7 @@ export default function TargetTemperatureRange() {
   const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
   const theme = useTheme();
   return (
-    <div>
+    <Div>
       <Range
         step={1}
         min={MIN_CELSIUS_TEMP}
@@ -78,6 +85,6 @@ export default function TargetTemperatureRange() {
           />
         )}
       />
-    </div>
+    </Div>
   );
 }

@@ -26,9 +26,7 @@ function Volcano() {
         <CurrentTargetTemperature currentTargetTemperature={temperature} />
         <WriteTemperature />
         <WorkFlow />
-        <div key="temperatureRange" className="temperature-range-root-div">
-          <TargetTemperatureRange />
-        </div>
+        <TargetTemperatureRange />
         <div className="heat-air-div">
           <HeatOn />
           <FanOn />

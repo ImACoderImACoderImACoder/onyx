@@ -5,7 +5,6 @@ import VolcanoLoader from "./components/Volcano/VolcanoLoader";
 import Volcano from "./components/Volcano/Volcano";
 import DeviceInformation from "./features/deviceInformation/DeviceInformation";
 import { clearCache } from "./services/BleCharacteristicCache";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "./features/settings/Settings";
 import styled from "styled-components";

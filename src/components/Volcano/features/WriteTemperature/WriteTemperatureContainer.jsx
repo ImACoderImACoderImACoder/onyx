@@ -19,8 +19,6 @@ import { useSelector } from "react-redux";
 import { setTargetTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
 import { useDispatch } from "react-redux";
 
-import "./WriteTemperature.css";
-
 export default function WriteTemperatureContainer(props) {
   const isF = useSelector((state) => state.settings.isF);
   const temperatureControlValues = useSelector(

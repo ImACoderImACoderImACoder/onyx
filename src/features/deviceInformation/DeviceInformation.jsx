@@ -9,7 +9,6 @@ const Div = styled.div`
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function DeviceInformation() {
