@@ -8,7 +8,7 @@ const Button = styled.button`
   width: 100vw;
   background-color: ${(props) => props.theme.backgroundColor};
   font-size: 30px;
-  color: ${(props) => props.theme.homePageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   border-width: 0px;
   border-style: ${(props) => props.theme.borderStyle};
   border-color: ${(props) => props.theme.borderColor};

@@ -26,6 +26,7 @@ export default function SettingsRange({
             marginTop: "20px",
             marginBottom: "25px",
             marginLeft: "25px",
+            borderRadius: ".25rem",
             height: "6px",
             width: "200px",
             backgroundColor: "#f53803",

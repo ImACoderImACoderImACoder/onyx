@@ -7,8 +7,7 @@ const valentinesDay = {
   borderColor: "#ea379d",
   currentTemperatureColor: "#ed75b3",
   targetTemperatureColor: "#ed75b3",
-  deviceInformationPageColor: "#ed75b3",
-  homePageColor: "#ed75b3",
+  primaryFontColor: "#ed75b3",
   plusMinusButtons: {
     backgroundColor: "#7D1641",
     color: "#ed75b3",
@@ -19,9 +18,7 @@ const valentinesDay = {
     borderColor: "white",
   },
   backgroundColor: "black",
-  primaryFontColor: "#ed75b3",
   iconColor: "#671168",
-  settingsPageColor: "#ed75b3",
   iconTextColor: "#ed75b3",
   temperatureRange: {
     lowTemperatureColor: "red",

@@ -20,7 +20,7 @@ const Div = styled.div`
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 const WorkflowDiv = styled.div`
@@ -31,7 +31,7 @@ const WorkflowDiv = styled.div`
 const StyledAccordionHeader = styled(Accordion.Header)`
   .accordion-button {
     background-color: ${(props) => props.theme.backgroundColor};
-    color: ${(props) => props.theme.settingsPageColor};
+    color: ${(props) => props.theme.primaryFontColor};
   }
   .accordion-button:not(.collapsed) {
     color: ${(props) => props.theme.buttonActive.color};

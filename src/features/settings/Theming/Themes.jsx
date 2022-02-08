@@ -4,7 +4,7 @@ import Div from "../Shared/StyledComponents/Div";
 
 const StyledSelect = styled(Select)`
   max-width: 250px;
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-color: ${(props) => props.theme.borderColor};
 `;

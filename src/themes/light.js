@@ -17,9 +17,6 @@ const light = {
   primaryFontColor: "black",
   iconColor: "#FF6600",
   iconTextColor: "black",
-  settingsPageColor: "black",
-  deviceInformationPageColor: "black",
-  homePageColor: "black",
   plusMinusButtons: {
     backgroundColor: "white",
     color: "black",

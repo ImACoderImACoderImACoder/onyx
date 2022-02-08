@@ -50,6 +50,7 @@ export default function TargetTemperatureRange() {
               ...props.style,
               display: "flex",
               flexGrow: "1",
+              borderRadius: ".25rem",
               marginTop: "20px",
               marginBottom: "25px",
               height: "6px",

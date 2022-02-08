@@ -15,9 +15,6 @@ const base = () => {
     primaryFontColor: "antiquewhite",
     iconColor: "rebeccapurple",
     iconTextColor: "rebeccapurple",
-    settingsPageColor: "antiquewhite",
-    deviceInformationPageColor: "antiquewhite",
-    homePageColor: "antiquewhite",
     plusMinusButtons: {
       backgroundColor: "black",
       color: "inherit",

@@ -4,30 +4,30 @@ import styled from "styled-components";
 
 const StyledModalBody = styled(Modal.Body)`
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
 const StyledModalHeader = styled(Modal.Header)`
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
 const StyledModalTitle = styled(Modal.Title)`
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
 const StyledModalFooter = styled(Modal.Footer)`
   background-color: ${(props) => props.theme.backgroundColor};
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
 const StyledModalButtons = styled(Button)`
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function ModalWrapper(props) {

@@ -5,6 +5,7 @@ import valentinesDay from "./festivities/ValentinesDay";
 import flamingo from "./flamingo";
 import base from "./base";
 import merge from "lodash/merge";
+import grayscale from "./grayScale";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -18,6 +19,8 @@ export default function GetTheme(type) {
       return deepMergeWithBase(valentinesDay);
     case themeIds.flamingoId:
       return deepMergeWithBase(flamingo);
+    case themeIds.grayscaleId:
+      return deepMergeWithBase(grayscale);
     default: {
       return deepMergeWithBase(dark);
     }

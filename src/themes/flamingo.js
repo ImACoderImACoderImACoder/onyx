@@ -17,9 +17,6 @@ const flamingo = {
   primaryFontColor: "white",
   iconColor: "#e8d6ed",
   iconTextColor: "#e8d6ed",
-  settingsPageColor: "antiquewhite",
-  deviceInformationPageColor: "antiquewhite",
-  homePageColor: "antiquewhite",
   plusMinusButtons: {
     backgroundColor: "#e79fec",
     color: "white",

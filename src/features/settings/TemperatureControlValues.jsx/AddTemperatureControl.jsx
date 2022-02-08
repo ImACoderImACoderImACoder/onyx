@@ -18,7 +18,7 @@ import styled from "styled-components";
 import StyledFormControl from "../../shared/styledComponents/FormControl";
 
 const StyledFormText = styled(Form.Text)`
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function AddTemperatureControl() {

@@ -8,7 +8,7 @@ import Button from "../../shared/styledComponents/Button";
 import styled from "styled-components";
 
 const StyledButton = styled(Button)`
-  color: ${(props) => props.theme.settingsPageColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function RestoreDefaultTemperature() {
