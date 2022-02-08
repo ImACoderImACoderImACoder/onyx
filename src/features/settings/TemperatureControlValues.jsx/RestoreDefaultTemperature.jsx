@@ -5,11 +5,6 @@ import { defaultTemperatureArray } from "../../../constants/constants";
 import { useState } from "react";
 import ModalWrapper from "../../shared/styledComponents/Modal";
 import Button from "../../shared/styledComponents/Button";
-import styled from "styled-components";
-
-const StyledButton = styled(Button)`
-  color: ${(props) => props.theme.primaryFontColor};
-`;
 
 export default function RestoreDefaultTemperature() {
   const [show, setShow] = useState(false);
@@ -34,7 +29,7 @@ export default function RestoreDefaultTemperature() {
   };
   return (
     <>
-      <StyledButton onClick={handleShow}>Restore Defaults</StyledButton>
+      <Button onClick={handleShow}>Restore Defaults</Button>
       <ModalWrapper
         headerText="Restore Default Temperatures"
         bodyText="Are you sure you want to restore defaults? This action cannot be undone"

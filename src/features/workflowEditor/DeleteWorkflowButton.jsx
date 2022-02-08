@@ -10,7 +10,6 @@ import ModalWrapper from "../shared/styledComponents/Modal";
 const StyledButton = styled(Button)`
   min-height: 50px;
   margin-top: 15px;
-  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function DeleteWorkflowButton(props) {
