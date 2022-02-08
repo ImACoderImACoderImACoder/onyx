@@ -60,7 +60,7 @@ async function ProcessWorkflowQueue() {
       AddToQueue(async () => {
         await currentFunc(next);
       });
-    }, 0);
+    }, 100);
   };
   next();
 }

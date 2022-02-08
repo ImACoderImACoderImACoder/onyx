@@ -67,6 +67,7 @@ export default function WorkFlow() {
                 next();
               }
             };
+
             if (isValueInValidVolcanoCelciusRange(item.payload)) {
               const characteristic = getCharacteristic(writeTemperatureUuid);
               const buffer = convertToUInt32BLE(item.payload * 10);
@@ -86,6 +87,25 @@ export default function WorkFlow() {
                   onCharacteristicChange
                 );
                 await characteristic.startNotifications();
+                const handler = async () => {
+                  if (document.visibilityState === "visible") {
+                    const blePayload = async () => {
+                      const value = await temperatureCharacteristic.readValue();
+                      const currentTemperature =
+                        convertCurrentTemperatureCharacteristicToCelcius(value);
+                      if (currentTemperature >= item.payload) {
+                        document.removeEventListener("visibilitychange", this);
+                        await temperatureCharacteristic.removeEventListener(
+                          "characteristicvaluechanged",
+                          onCharacteristicChange
+                        );
+                        next();
+                      }
+                    };
+                    AddToQueue(blePayload);
+                  }
+                };
+                document.addEventListener("visibilitychange", handler);
               }
             } else {
               next();
