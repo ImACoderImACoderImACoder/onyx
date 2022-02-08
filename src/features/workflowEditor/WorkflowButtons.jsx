@@ -120,7 +120,7 @@ export default function WorkFlow() {
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
             setTimeout(() => {
-              AddToQueue(async () => turnFanOffBlePayload(next));
+              AddToQueue(async () => await turnFanOffBlePayload(next));
             }, item.payload * 1000);
           };
         }
@@ -146,7 +146,7 @@ export default function WorkFlow() {
             dispatch(setCurrentWorkflowStepId(item.id));
 
             const characteristic = getCharacteristic(LEDbrightnessUuid);
-            let buffer = convertToUInt16BLE(item.payload);
+            const buffer = convertToUInt16BLE(item.payload);
             await characteristic.writeValue(buffer);
             dispatch(setLEDbrightness(item.payload));
             next();
