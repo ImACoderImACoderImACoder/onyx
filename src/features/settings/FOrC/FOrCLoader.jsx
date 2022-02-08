@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { register2Uuid } from "../../../../constants/uuids";
-import { fahrenheitMask } from "../../../../constants/masks";
+import { register2Uuid } from "../../../constants/uuids";
+import { fahrenheitMask } from "../../../constants/masks";
 import Spinner from "react-bootstrap/Spinner";
 import {
   convertToggleCharacteristicToBool,
   convertBLEtoUint16,
-} from "../../../../services/utils";
-import { AddToQueue } from "../../../../services/bleQueueing";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
-import { setIsF } from "../../../../features/settings/settingsSlice";
+} from "../../../services/utils";
+import { AddToQueue } from "../../../services/bleQueueing";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
+import { setIsF } from "../settingsSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useCallback } from "react";

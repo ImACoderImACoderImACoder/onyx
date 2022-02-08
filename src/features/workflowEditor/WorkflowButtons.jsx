@@ -8,7 +8,7 @@ import {
   LEDbrightnessUuid,
 } from "../../constants/uuids";
 
-import WriteTemperature from "../../components/Volcano/features/WriteTemperature/WriteTemperature";
+import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
 import {
   convertToUInt8BLE,
   convertToUInt32BLE,

@@ -1,11 +1,11 @@
-import { register2Uuid } from "../../../../constants/uuids";
-import { fahrenheitMask, celciusMask } from "../../../../constants/masks";
-import { convertToUInt32BLE } from "../../../../services/utils";
+import { register2Uuid } from "../../../constants/uuids";
+import { fahrenheitMask, celciusMask } from "../../../constants/masks";
+import { convertToUInt32BLE } from "../../../services/utils";
 import FOrC from "./FOrC";
-import { AddToQueue } from "../../../../services/bleQueueing";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
+import { AddToQueue } from "../../../services/bleQueueing";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useSelector, useDispatch } from "react-redux";
-import { setIsF } from "../../../../features/settings/settingsSlice";
+import { setIsF } from "../settingsSlice";
 
 export default function FOrCContainer() {
   const isF = useSelector((state) => state.settings.isF);

@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import Button from "../../../features/shared/styledComponents/Button";
+import Button from "../../shared/styledComponents/Button";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {

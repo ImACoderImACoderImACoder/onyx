@@ -1,5 +1,5 @@
-import Div from "../../../../features/settings/Shared/StyledComponents/Div";
-import Button from "../../../../features/shared/styledComponents/Button";
+import Div from "../Shared/StyledComponents/Div";
+import Button from "../../shared/styledComponents/Button";
 export default function FOrC(props) {
   return (
     <Div>

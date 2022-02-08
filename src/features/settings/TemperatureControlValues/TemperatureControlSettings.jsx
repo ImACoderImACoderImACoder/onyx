@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import DeleteIcon from "../../../components/Volcano/icons/DeleteIcon";
+import DeleteIcon from "../../shared/OutletRenderer/icons/DeleteIcon";
 
 const StyledDiv = styled.div`
   display: flex;

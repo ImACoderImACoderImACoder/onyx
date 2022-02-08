@@ -1,5 +1,5 @@
 import React from "react";
-import ToggleSwitch from "../../../../features/shared/styledComponents/Switch";
+import ToggleSwitch from "../../shared/styledComponents/Switch";
 export default React.forwardRef((props, ref) => {
   return (
     <div className="heat-air-button">

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import cloneDeep from "lodash/cloneDeep";
 import { useState } from "react";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
-import DeleteIcon from "../../components/Volcano/icons/DeleteIcon";
+import DeleteIcon from "../shared/OutletRenderer/icons/DeleteIcon";
 import ModalWrapper from "../shared/styledComponents/Modal";
 
 const StyledDeleteIcon = styled(DeleteIcon)`

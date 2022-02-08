@@ -8,19 +8,12 @@ import DeleteWorkflowButton from "./DeleteWorkflowButton";
 import CreateWorkflowItemButton from "./CreateWorkflowItemButton";
 import WorkflowNameEditor from "./WorkflowNameEditor";
 import CancelCurrentWorkflow from "./CancelCurrentWorkflow";
-
+import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: ${(props) => props.theme.backgroundColor};
-`;
-
-const Div = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 const WorkflowDiv = styled.div`

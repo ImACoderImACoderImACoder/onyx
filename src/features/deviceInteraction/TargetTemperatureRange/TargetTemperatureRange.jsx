@@ -15,7 +15,6 @@ import styled from "styled-components";
 
 const Div = styled.div`
   display: flex;
-  flex-grow: 1;
   justify-content: center;
 `;
 
@@ -61,7 +60,7 @@ export default function TargetTemperatureRange() {
               marginTop: "20px",
               marginBottom: "25px",
               height: "6px",
-              width: "80vw",
+              maxWidth: "80vw",
               backgroundColor: "#f53803",
               background: `linear-gradient(315deg, ${theme.temperatureRange.lowTemperatureColor} 0%, ${theme.temperatureRange.highTemperatureColor} 74%)`,
             }}

@@ -1,22 +1,19 @@
 import { useEffect, useRef } from "react";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
-import {
-  bleServerUuid,
-  writeTemperatureUuid,
-} from "../../../../constants/uuids";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
+import { bleServerUuid, writeTemperatureUuid } from "../../../constants/uuids";
 import {
   convertToUInt32BLE,
   convertCurrentTemperatureCharacteristicToCelcius,
   getDisplayTemperature,
   isValueInValidVolcanoCelciusRange,
-} from "../../../../services/utils";
+} from "../../../services/utils";
 import WriteTemperature from "./WriteTemperature";
 import PlusMinusButton from "./PlusMinusButton";
-import { AddToQueue } from "../../../../services/bleQueueing";
+import { AddToQueue } from "../../../services/bleQueueing";
 import debounce from "lodash/debounce";
-import { temperatureIncrementedDecrementedDebounceTime } from "../../../../constants/constants";
+import { temperatureIncrementedDecrementedDebounceTime } from "../../../constants/constants";
 import { useSelector } from "react-redux";
-import { setTargetTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
+import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useDispatch } from "react-redux";
 
 export default function WriteTemperatureContainer(props) {

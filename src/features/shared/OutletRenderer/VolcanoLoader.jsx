@@ -1,14 +1,14 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { cacheContainsCharacteristic } from "../../services/BleCharacteristicCache";
-import { heatOffUuid } from "../../constants/uuids";
+import { cacheContainsCharacteristic } from "../../../services/BleCharacteristicCache";
+import { heatOffUuid } from "../../../constants/uuids";
 import DisconnectButton from "./DisconnectButton";
 
 import "./Volcano.css";
 import ControlsIcon from "./icons/ControlsIcon";
 import InformationIcon from "./icons/InformationIcon";
 import SettingsIcon from "./icons/SettingsIcon";
-import FOrCLoader from "./features/FOrC/FOrCLoader";
+import FOrCLoader from "../../settings/FOrC/FOrCLoader";
 import { StyledRouterIconLink } from "./icons/Shared/IconLink";
 import WorkflowEditorIcon from "./icons/WorkflowEditorIcon";
 

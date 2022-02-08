@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
-import { currentTemperatureUuid } from "../../../../constants/uuids";
-import { AddToQueue } from "../../../../services/bleQueueing";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
+import { currentTemperatureUuid } from "../../../constants/uuids";
+import { AddToQueue } from "../../../services/bleQueueing";
 import CurrentTemperature from "./CurrentTemperature";
 import {
   convertCurrentTemperatureCharacteristicToCelcius,
   getDisplayTemperature,
-} from "../../../../services/utils";
+} from "../../../services/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentTemperature } from "../../../../features/deviceInteraction/deviceInteractionSlice";
+import { setCurrentTemperature } from "../deviceInteractionSlice";
 
 export default function CurrentTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);

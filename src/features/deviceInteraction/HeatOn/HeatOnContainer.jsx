@@ -3,18 +3,18 @@ import {
   heatOnUuid,
   heatOffUuid,
   register1Uuid,
-} from "../../../../constants/uuids";
-import { heatingMask } from "../../../../constants/masks";
+} from "../../../constants/uuids";
+import { heatingMask } from "../../../constants/masks";
 import HeatOn from "./HeatOn";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsHeatOn } from "../../../../features/deviceInteraction/deviceInteractionSlice";
-import { AddToQueue } from "../../../../services/bleQueueing";
+import { setIsHeatOn } from "../deviceInteractionSlice";
+import { AddToQueue } from "../../../services/bleQueueing";
 import {
   convertToUInt8BLE,
   convertBLEtoUint16,
   convertToggleCharacteristicToBool,
-} from "../../../../services/utils";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
+} from "../../../services/utils";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 
 export default function HeatOnContainer() {
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);

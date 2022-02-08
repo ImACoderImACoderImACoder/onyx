@@ -1,4 +1,4 @@
-import ToggleSwitch from "../../../../features/shared/styledComponents/Switch";
+import ToggleSwitch from "../../../features/shared/styledComponents/Switch";
 export default function HeatOn(props) {
   return (
     <div className="heat-air-button">

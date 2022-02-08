@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Patreon from "./Patreon";
-import LastAppServerRefresh from "../../features/lastAppRefresh/LastAppRefresh/LastAppServerRefresh";
 
 const Button = styled.button`
   min-height: 30px;
@@ -23,13 +22,6 @@ const StyledPatreon = styled.div`
   width: 100vw;
 `;
 
-const StyledLastSynced = styled(StyledPatreon)`
-  bottom: 0;
-  right: 0;
-  top: auto;
-  text-align: center;
-`;
-
 export default function Ble(props) {
   return (
     <div>
@@ -37,9 +29,6 @@ export default function Ble(props) {
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>
-        <StyledLastSynced>
-          <LastAppServerRefresh />
-        </StyledLastSynced>
         Tap anywhere to connect
       </Button>
     </div>

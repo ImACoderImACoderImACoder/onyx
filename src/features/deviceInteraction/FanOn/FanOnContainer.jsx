@@ -1,20 +1,16 @@
 import { useEffect } from "react";
-import {
-  fanOnUuid,
-  fanOffUuid,
-  register1Uuid,
-} from "../../../../constants/uuids";
-import { fanMask } from "../../../../constants/masks";
+import { fanOnUuid, fanOffUuid, register1Uuid } from "../../../constants/uuids";
+import { fanMask } from "../../../constants/masks";
 import FanOn from "./FanOn";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsFanOn } from "../../../../features/deviceInteraction/deviceInteractionSlice";
-import { AddToQueue } from "../../../../services/bleQueueing";
+import { setIsFanOn } from "../deviceInteractionSlice";
+import { AddToQueue } from "../../../services/bleQueueing";
 import {
   convertToUInt8BLE,
   convertBLEtoUint16,
   convertToggleCharacteristicToBool,
-} from "../../../../services/utils";
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
+} from "../../../services/utils";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useCallback } from "react";
 import { useRef } from "react";
 

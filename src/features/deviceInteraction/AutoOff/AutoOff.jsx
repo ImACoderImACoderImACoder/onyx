@@ -1,16 +1,16 @@
-import { getCharacteristic } from "../../../../services/BleCharacteristicCache";
+import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import {
   autoShutoffUuid,
   autoShutoffSettingUuid,
-} from "../../../../constants/uuids";
+} from "../../../constants/uuids";
 import { useEffect } from "react";
-import { convertBLEtoUint16 } from "../../../../services/utils";
-import { AddToQueue } from "../../../../services/bleQueueing";
+import { convertBLEtoUint16 } from "../../../services/utils";
+import { AddToQueue } from "../../../services/bleQueueing";
 import { useSelector } from "react-redux";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useDispatch } from "react-redux";
-import { setAutoOffTimeInSeconds } from "../../../../features/deviceInformation/deviceInformationSlice";
-import { setAutoShutoffTime } from "../../../../features/settings/settingsSlice";
+import { setAutoOffTimeInSeconds } from "../../deviceInformation/deviceInformationSlice";
+import { setAutoShutoffTime } from "../../settings/settingsSlice";
 export default function AutoOff() {
   const autoOffTimeInSeconds = useSelector(
     (state) => state.deviceInformation.autoOffTimeInSeconds

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BleConnectButtonContainer from "./components/BleConnection/BleContainer";
-import VolcanoLoader from "./components/Volcano/VolcanoLoader";
-import Volcano from "./components/Volcano/Volcano";
+import BleConnectButtonContainer from "./features/deviceBLEconnection/BleContainer";
+import VolcanoLoader from "./features/shared/OutletRenderer/VolcanoLoader";
+import Volcano from "./features/deviceInteraction/DeviceInteraction";
 import DeviceInformation from "./features/deviceInformation/DeviceInformation";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "bootstrap/dist/css/bootstrap.min.css";

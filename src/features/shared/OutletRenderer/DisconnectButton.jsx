@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import {
   clearCache,
   getCharacteristic,
-} from "../../services/BleCharacteristicCache";
-import * as uuIds from "../../constants/uuids";
+} from "../../../services/BleCharacteristicCache";
+import * as uuIds from "../../../constants/uuids";
 import { StyledIconLink } from "./icons/Shared/IconLink";
 import BluetoothDisconnectIcon from "./icons/BluetoothDisconnectIcon";
 
