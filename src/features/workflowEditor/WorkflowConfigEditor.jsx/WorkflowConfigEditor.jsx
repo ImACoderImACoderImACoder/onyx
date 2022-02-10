@@ -61,6 +61,7 @@ export default function WorkflowConfigEdtior() {
 
   const handleShow = () => {
     setConfigString(JSON.stringify(workflowConfig));
+    setIsValid(true);
     setShow(true);
   };
   return (
