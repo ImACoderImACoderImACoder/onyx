@@ -2,10 +2,7 @@ import Select from "react-bootstrap/FormSelect";
 import Label from "react-bootstrap/FormLabel";
 import Control from "react-bootstrap/FormControl";
 import WorkflowItemTypes from "../../constants/enums";
-import {
-  isValueInValidVolcanoCelciusRange,
-  WriteNewConfigToLocalStorage,
-} from "../../services/utils";
+import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
 import DeleteWorkflowItem from "./DeleteWorkflowItem";
@@ -19,11 +16,8 @@ import {
   convertToCelsiusFromFahrenheit,
   convertToFahrenheitFromCelsius,
 } from "../../services/utils";
-import {
-  MAX_CELSIUS_TEMP,
-  MIN_CELSIUS_TEMP,
-  DEGREE_SYMBOL,
-} from "../../constants/temperature";
+import { DEGREE_SYMBOL } from "../../constants/temperature";
+import isPayloadValid from "./shared/WorkflowItemValidator";
 
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
@@ -120,7 +114,11 @@ export default function WorkflowItemEditor(props) {
     if (
       !item.payload ||
       item.type === WorkflowItemTypes.HEAT_OFF ||
-      !isPayloadValid({ payload: item.payload, type: item.type })
+      !isPayloadValid(
+        { payload: item.payload, type: item.type },
+        isF,
+        setErrorMessage
+      )
     ) {
       const defaultValue = getDefaultPayloadValueByType(e.target.value);
       item.payload = defaultValue;
@@ -132,65 +130,14 @@ export default function WorkflowItemEditor(props) {
     dispatch(setCurrentWorkflows(newConfig.workflows));
   };
 
-  const isPayloadValid = ({ payload, type }) => {
-    const parsedPayloadInput = parseFloat(payload);
-    switch (type) {
-      case WorkflowItemTypes.WAIT:
-      case WorkflowItemTypes.FAN_ON: {
-        const isPayloadValid =
-          !isNaN(parsedPayloadInput) && parsedPayloadInput > 0;
-        if (!isPayloadValid) {
-          setErrorMessage("Value must be a number and greater than 0");
-        }
-        return isPayloadValid;
-      }
-      case WorkflowItemTypes.HEAT_ON: {
-        const normalizedHeatOnValue = isF
-          ? convertToCelsiusFromFahrenheit(parsedPayloadInput)
-          : parsedPayloadInput;
-
-        const isPayloadValid =
-          (isValueInValidVolcanoCelciusRange(normalizedHeatOnValue) &&
-            !isNaN(parsedPayloadInput)) ||
-          payload === "";
-
-        const minTemperature = isF
-          ? convertToFahrenheitFromCelsius(MIN_CELSIUS_TEMP)
-          : MIN_CELSIUS_TEMP;
-        const MaxTemperature = isF
-          ? convertToFahrenheitFromCelsius(MAX_CELSIUS_TEMP)
-          : MAX_CELSIUS_TEMP;
-
-        if (!isPayloadValid) {
-          setErrorMessage(
-            `Temperature must be between ${minTemperature} and ${MaxTemperature}`
-          );
-        }
-
-        return isPayloadValid;
-      }
-      case WorkflowItemTypes.HEAT_OFF: {
-        return true;
-      }
-      case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
-        const isPayloadValid =
-          !isNaN(parsedPayloadInput) &&
-          parsedPayloadInput >= 0 &&
-          parsedPayloadInput <= 100;
-
-        if (!isPayloadValid) {
-          setErrorMessage("Value must be 0-100");
-        }
-        return isPayloadValid;
-      }
-      default: {
-        return false;
-      }
-    }
-  };
-
   const onPayloadBlur = (e) => {
-    if (!isPayloadValid({ type: props.item.type, payload: payloadInput })) {
+    if (
+      !isPayloadValid(
+        { type: props.item.type, payload: payloadInput },
+        isF,
+        setErrorMessage
+      )
+    ) {
       setIsValid(false);
       return;
     }

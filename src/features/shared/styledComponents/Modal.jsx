@@ -36,7 +36,7 @@ export default function ModalWrapper(props) {
       <StyledModalHeader closeButton>
         <StyledModalTitle>{props.headerText}</StyledModalTitle>
       </StyledModalHeader>
-      <StyledModalBody>{props.bodyText}</StyledModalBody>
+      <StyledModalBody>{props.children || props.bodyText}</StyledModalBody>
       <StyledModalFooter>
         <StyledModalButtons onClick={props.handleClose}>
           Close

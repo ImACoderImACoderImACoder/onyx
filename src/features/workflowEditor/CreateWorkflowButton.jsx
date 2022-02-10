@@ -3,7 +3,10 @@ import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import Button from "./shared/WorkflowFooterButtons";
-
+import styled from "styled-components";
+const StyledButton = styled(Button)`
+  max-width: none;
+`;
 export default function CreateWorkflowButton(props) {
   const config = useSelector((state) => state.settings.config);
   const dispatch = useDispatch();
@@ -23,5 +26,7 @@ export default function CreateWorkflowButton(props) {
     props.onClick(nextId);
   };
 
-  return <Button onClick={createWorkflow}>Create New Workflow</Button>;
+  return (
+    <StyledButton onClick={createWorkflow}>Create New Workflow</StyledButton>
+  );
 }

@@ -16,7 +16,11 @@ import {
   isValueInValidVolcanoCelciusRange,
   convertCurrentTemperatureCharacteristicToCelcius,
 } from "../../services/utils";
-import { AddToQueue, AddToWorkflowQueue } from "../../services/bleQueueing";
+import {
+  AddToQueue,
+  AddToWorkflowQueue,
+  ClearWorkflowQueue,
+} from "../../services/bleQueueing";
 import { setTargetTemperature } from "../deviceInteraction/deviceInteractionSlice";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,9 +40,22 @@ export default function WorkFlow() {
     next();
   };
 
+  const cancelCurrentWorkflow = () => {
+    ClearWorkflowQueue();
+    dispatch(setCurrentWorkflowStepId());
+    dispatch(setCurrentWorkflow());
+    const blePayload = async () => {
+      const fanOffCharacteristic = getCharacteristic(fanOffUuid);
+      const buffer = convertToUInt8BLE(0);
+      await fanOffCharacteristic.writeValue(buffer);
+    };
+    AddToQueue(blePayload);
+  };
+
   const onClick = (workflowIndex) => {
     const nextWorkflow = workflows[workflowIndex];
     if (nextWorkflow.id === currentWorkflow?.id) {
+      cancelCurrentWorkflow();
       return;
     }
     dispatch(setCurrentWorkflow(nextWorkflow));
@@ -165,14 +182,18 @@ export default function WorkFlow() {
 
   return (
     <div className="temperature-write-div">
-      {workflows.map((item, index) => (
-        <WriteTemperature
-          key={index}
-          onClick={() => onClick(index)}
-          buttonText={item.name}
-          isActive={currentWorkflow?.id === item.id}
-        />
-      ))}
+      {workflows.map((item, index) => {
+        const isActive = currentWorkflow?.id === item.id;
+        const buttonText = isActive ? "Tap to Cancel" : item.name;
+        return (
+          <WriteTemperature
+            key={index}
+            onClick={() => onClick(index)}
+            buttonText={buttonText}
+            isActive={isActive}
+          />
+        );
+      })}
     </div>
   );
 }

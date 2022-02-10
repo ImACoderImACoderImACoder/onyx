@@ -7,8 +7,9 @@ import { useSelector } from "react-redux";
 import DeleteWorkflowButton from "./DeleteWorkflowButton";
 import CreateWorkflowItemButton from "./CreateWorkflowItemButton";
 import WorkflowNameEditor from "./WorkflowNameEditor";
-import CancelCurrentWorkflow from "./CancelCurrentWorkflow";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
+import WorkflowConfigEdtior from "./WorkflowConfigEditor.jsx/WorkflowConfigEditor";
+import AppendWorkflowConfigJson from "./WorkflowConfigEditor.jsx/AppendWorkflowConfigJson";
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
   flex-direction: column;
@@ -108,7 +109,16 @@ export default function WorkflowEditor() {
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
       <div style={{ display: "flex" }}>
         <CreateWorkflowButton onClick={onCreateWorkflow} />
-        <CancelCurrentWorkflow />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <h1>Config Editor</h1>
+        {
+          "Use this to backup existing workflows. Just save the text somewhere and you can paste it back in anytime. You can also add someone else's workflows to your workflows by pasting in the append workflow JSON modal"
+        }
+        <div style={{ display: "flex" }}>
+          <WorkflowConfigEdtior />
+          <AppendWorkflowConfigJson />
+        </div>
       </div>
     </Div>
   );
