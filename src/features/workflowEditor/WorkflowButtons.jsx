@@ -70,6 +70,24 @@ export default function WorkFlow() {
             const temperatureCharacteristic = getCharacteristic(
               currentTemperatureUuid
             );
+            const handler = async () => {
+              if (document.visibilityState === "visible") {
+                const blePayload = async () => {
+                  const value = await temperatureCharacteristic.readValue();
+                  const currentTemperature =
+                    convertCurrentTemperatureCharacteristicToCelcius(value);
+                  if (currentTemperature >= item.payload) {
+                    document.removeEventListener("visibilitychange", handler);
+                    await temperatureCharacteristic.removeEventListener(
+                      "characteristicvaluechanged",
+                      onCharacteristicChange
+                    );
+                    next();
+                  }
+                };
+                AddToQueue(blePayload);
+              }
+            };
             const onCharacteristicChange = async (event) => {
               const currentTemperature =
                 convertCurrentTemperatureCharacteristicToCelcius(
@@ -81,6 +99,9 @@ export default function WorkFlow() {
                   "characteristicvaluechanged",
                   onCharacteristicChange
                 );
+
+                document.removeEventListener("visibilitychange", handler);
+
                 next();
               }
             };
@@ -104,24 +125,7 @@ export default function WorkFlow() {
                   onCharacteristicChange
                 );
                 await characteristic.startNotifications();
-                const handler = async () => {
-                  if (document.visibilityState === "visible") {
-                    const blePayload = async () => {
-                      const value = await temperatureCharacteristic.readValue();
-                      const currentTemperature =
-                        convertCurrentTemperatureCharacteristicToCelcius(value);
-                      if (currentTemperature >= item.payload) {
-                        document.removeEventListener("visibilitychange", this);
-                        await temperatureCharacteristic.removeEventListener(
-                          "characteristicvaluechanged",
-                          onCharacteristicChange
-                        );
-                        next();
-                      }
-                    };
-                    AddToQueue(blePayload);
-                  }
-                };
+
                 document.addEventListener("visibilitychange", handler);
               }
             } else {

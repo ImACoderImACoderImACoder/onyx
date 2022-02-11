@@ -45,7 +45,7 @@ export function AddToWorkflowQueue(func) {
   ProcessWorkflowQueue();
 }
 
-async function ProcessWorkflowQueue() {
+function ProcessWorkflowQueue() {
   let currentFunc;
 
   const next = () => {
