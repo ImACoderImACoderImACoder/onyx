@@ -4,8 +4,8 @@ import {
   fanOffUuid,
   heatOffUuid,
   writeTemperatureUuid,
-  currentTemperatureUuid,
   LEDbrightnessUuid,
+  currentTemperatureUuid,
 } from "../../constants/uuids";
 
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
@@ -21,11 +21,19 @@ import {
   AddToWorkflowQueue,
   ClearWorkflowQueue,
 } from "../../services/bleQueueing";
-import { setTargetTemperature } from "../deviceInteraction/deviceInteractionSlice";
+import {
+  setCurrentTemperature,
+  setIsHeatOn,
+  setTargetTemperature,
+} from "../deviceInteraction/deviceInteractionSlice";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
 import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
+import store from "../../store";
+
+const currentIntervals = [];
+const currentSetTimeouts = [];
 
 export default function WorkFlow() {
   const dispatch = useDispatch();
@@ -33,14 +41,31 @@ export default function WorkFlow() {
   const currentWorkflow = useSelector(
     (state) => state.workflow.currentWorkflow
   );
-  const turnFanOffBlePayload = async (next) => {
-    const characteristic = getCharacteristic(fanOffUuid);
-    const buffer = convertToUInt8BLE(0);
-    await characteristic.writeValue(buffer);
-    next();
+
+  const turnFanOff = async (next) => {
+    const blePayload = async () => {
+      const characteristic = getCharacteristic(fanOffUuid);
+      const buffer = convertToUInt8BLE(0);
+      await characteristic.writeValue(buffer);
+      return next();
+    };
+    AddToQueue(blePayload);
   };
 
+  const clearIntervals = () => {
+    while (currentIntervals.length > 0) {
+      clearInterval(currentIntervals.pop());
+    }
+  };
+
+  const clearTimeouts = () => {
+    while (currentSetTimeouts.length > 0) {
+      clearTimeout(currentSetTimeouts.pop());
+    }
+  };
   const cancelCurrentWorkflow = () => {
+    clearIntervals();
+    clearTimeouts();
     ClearWorkflowQueue();
     dispatch(setCurrentWorkflowStepId());
     dispatch(setCurrentWorkflow());
@@ -54,83 +79,115 @@ export default function WorkFlow() {
 
   const onClick = (workflowIndex) => {
     const nextWorkflow = workflows[workflowIndex];
-    if (nextWorkflow.id === currentWorkflow?.id) {
-      cancelCurrentWorkflow();
+    const isCancelRequest = nextWorkflow.id === currentWorkflow?.id;
+    cancelCurrentWorkflow();
+    if (isCancelRequest) {
       return;
     }
+
     dispatch(setCurrentWorkflow(nextWorkflow));
     const thoughtData = nextWorkflow.payload.map((item) => {
       switch (item.type) {
         case "heatOn": {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
-            const characteristic = getCharacteristic(heatOnUuid);
-            const buffer = convertToUInt8BLE(0);
-            await characteristic.writeValue(buffer);
-            const temperatureCharacteristic = getCharacteristic(
-              currentTemperatureUuid
-            );
-            const handler = async () => {
-              if (document.visibilityState === "visible") {
-                const blePayload = async () => {
-                  const value = await temperatureCharacteristic.readValue();
-                  const currentTemperature =
-                    convertCurrentTemperatureCharacteristicToCelcius(value);
-                  if (currentTemperature >= item.payload) {
-                    document.removeEventListener("visibilitychange", handler);
-                    await temperatureCharacteristic.removeEventListener(
-                      "characteristicvaluechanged",
-                      onCharacteristicChange
-                    );
-                    next();
-                  }
-                };
-                AddToQueue(blePayload);
-              }
-            };
-            const onCharacteristicChange = async (event) => {
-              const currentTemperature =
-                convertCurrentTemperatureCharacteristicToCelcius(
-                  event.target.value
-                );
 
-              if (currentTemperature >= item.payload) {
-                await temperatureCharacteristic.removeEventListener(
-                  "characteristicvaluechanged",
-                  onCharacteristicChange
-                );
-
-                document.removeEventListener("visibilitychange", handler);
-
-                next();
-              }
+            const turnHeatOn = () => {
+              const blePayload = async () => {
+                const characteristic = getCharacteristic(heatOnUuid);
+                const buffer = convertToUInt8BLE(0);
+                await characteristic.writeValue(buffer);
+              };
+              AddToQueue(blePayload);
             };
 
-            if (isValueInValidVolcanoCelciusRange(item.payload)) {
-              const characteristic = getCharacteristic(writeTemperatureUuid);
-              const buffer = convertToUInt32BLE(item.payload * 10);
-
-              const value = await temperatureCharacteristic.readValue();
-              const currentTemperature =
-                convertCurrentTemperatureCharacteristicToCelcius(value);
-
-              await characteristic.writeValue(buffer);
-              dispatch(setTargetTemperature(item.payload));
-
-              if (currentTemperature >= item.payload) {
-                next();
-              } else {
-                await temperatureCharacteristic.addEventListener(
-                  "characteristicvaluechanged",
-                  onCharacteristicChange
-                );
-                await characteristic.startNotifications();
-
-                document.addEventListener("visibilitychange", handler);
-              }
-            } else {
-              next();
+            if (isNaN(item.payload)) {
+              turnHeatOn();
+              return next();
             }
+
+            const writePayloadTempToDevice = () => {
+              const blePayload = async () => {
+                if (isValueInValidVolcanoCelciusRange(item.payload)) {
+                  const characteristic =
+                    getCharacteristic(writeTemperatureUuid);
+                  const buffer = convertToUInt32BLE(item.payload * 10);
+                  await characteristic.writeValue(buffer);
+                  dispatch(setTargetTemperature(item.payload));
+                }
+              };
+
+              AddToQueue(blePayload);
+            };
+
+            writePayloadTempToDevice();
+            turnHeatOn();
+            let previousTemperature;
+            let sameTemperatureIntervalStreak;
+            //this set timeout is to allow the volcano to commincate the heat is on. It the volcano doesn't commincate the heat is on we get a lot of button jiggles.
+            currentSetTimeouts.push(
+              setTimeout(() => {
+                currentIntervals.push(
+                  setInterval(() => {
+                    const blePayload = async () => {
+                      const currentTemperature =
+                        store.getState().deviceInteraction.currentTemperature;
+
+                      if (previousTemperature !== currentTemperature) {
+                        previousTemperature = currentTemperature;
+                        sameTemperatureIntervalStreak = 0;
+                      } else {
+                        sameTemperatureIntervalStreak++;
+                      }
+
+                      //this is arbitrary.  If the on change event is missed heat will hang forever waiting for the target temperature to be reach (even tho it is on the device)
+                      //I thought it we read the same temperature 10 times in a row over a second then we should probably reach out to the device.
+                      if (sameTemperatureIntervalStreak > 10) {
+                        sameTemperatureIntervalStreak = 0;
+                        const blePayload = async () => {
+                          const temperatureCharacteristic = getCharacteristic(
+                            currentTemperatureUuid
+                          );
+                          const value =
+                            await temperatureCharacteristic.readValue();
+                          const currentTemperature =
+                            convertCurrentTemperatureCharacteristicToCelcius(
+                              value
+                            );
+                          dispatch(setCurrentTemperature(currentTemperature));
+                          previousTemperature = currentTemperature;
+                          sameTemperatureIntervalStreak = 0;
+                        };
+
+                        AddToQueue(blePayload);
+                      }
+                      if (currentTemperature >= item.payload) {
+                        clearIntervals();
+                        clearTimeouts();
+                        return next();
+                      }
+
+                      // if the temperature is changed to be below the target we will never get there.
+                      // The workflow must continue onward by any means necessary, therefore we shall set the payload temperature again
+                      if (
+                        store.getState().deviceInteraction.targetTemperature <
+                        item.payload
+                      ) {
+                        writePayloadTempToDevice();
+                      }
+
+                      // What is the heat is turned off?  Again we don't want to be here forever
+                      // Sadly this causes button jiggles but I don't think there is a way around that and this should almost never happen with normal use
+                      if (!store.getState().deviceInteraction.isHeatOn) {
+                        turnHeatOn();
+                        dispatch(setIsHeatOn(true));
+                      }
+                    };
+                    AddToQueue(blePayload);
+                  }, 100)
+                );
+              }, 1000)
+            );
           };
         }
         case "fanOn": {
@@ -140,9 +197,11 @@ export default function WorkFlow() {
             const characteristic = getCharacteristic(fanOnUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
-            setTimeout(() => {
-              AddToQueue(async () => await turnFanOffBlePayload(next));
-            }, item.payload * 1000);
+            currentSetTimeouts.push(
+              setTimeout(() => {
+                turnFanOff(next);
+              }, item.payload * 1000)
+            );
           };
         }
         case "heatOff": {
@@ -152,31 +211,39 @@ export default function WorkFlow() {
             const characteristic = getCharacteristic(heatOffUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
-            next();
+            return next();
           };
         }
         case "wait": {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
-            setTimeout(() => next(), item.payload * 1000);
+            currentSetTimeouts.push(
+              setTimeout(() => {
+                next();
+              }, item.payload * 1000)
+            );
           };
         }
         case "setLEDbrightness": {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
-            const characteristic = getCharacteristic(LEDbrightnessUuid);
-            const buffer = convertToUInt16BLE(item.payload);
-            await characteristic.writeValue(buffer);
-            dispatch(setLEDbrightness(item.payload));
-            next();
+            const blePayload = async () => {
+              const characteristic = getCharacteristic(LEDbrightnessUuid);
+              const buffer = convertToUInt16BLE(item.payload);
+              await characteristic.writeValue(buffer);
+              dispatch(setLEDbrightness(item.payload));
+              return next();
+            };
+
+            AddToQueue(blePayload);
           };
         }
         default:
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
-            next();
+            return next();
           };
       }
     });
