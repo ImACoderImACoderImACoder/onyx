@@ -84,7 +84,7 @@ export default function WorkflowItemEditor(props) {
         return 35.5;
       }
       case WorkflowItemTypes.HEAT_ON: {
-        return isF ? 104 : 40;
+        return "";
       }
       case WorkflowItemTypes.HEAT_OFF: {
         return undefined;
