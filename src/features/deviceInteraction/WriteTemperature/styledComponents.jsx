@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const InactiveButton = styled.button`
-  font-size: x-large;
-  min-height: 35px;
+  font-size: 1.25rem;
+  min-height: 2.75rem;
   flex-grow: 1;
+  border-width: 0.15rem;
   background-color: ${(props) => props.theme.buttonColorMain};
   color: ${(props) => props.theme.primaryFontColor};
-  border-radius: 15px;
+  border-radius: 2rem;
   border-color: ${(props) => props.theme.borderColor};
   border-style: ${(props) => props.theme.borderStyle};
   &:active {
@@ -30,7 +31,12 @@ export const PlusMinusButton = styled(InactiveButton)`
 
 export const Div = styled.div`
   display: flex;
-  max-width: 50%;
-  flex: 50%;
-  margin-bottom: 5px;
+  width: 48%;
+  flex-grow: 1;
+  margin: 0px 2.5px 5px;
+
+  svg {
+    height: 2rem;
+    width: 2rem;
+  }
 `;

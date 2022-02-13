@@ -50,7 +50,7 @@ function ProcessWorkflowQueue() {
 
   const next = () => {
     currentWorkflowIndex++;
-    if (currentWorkflowIndex + 1 === workflowFunctions.length) {
+    if (currentWorkflowIndex + 1 >= workflowFunctions.length) {
       store.dispatch(setCurrentWorkflow());
       store.dispatch(setCurrentWorkflowStepId());
     }

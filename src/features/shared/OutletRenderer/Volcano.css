@@ -1,12 +1,15 @@
 .heat-air-div {
   display: flex;
   min-height: 100px;
+  justify-content: space-evenly;
 }
 
 .heat-air-button {
   display: flex;
   flex-grow: 1;
   font: x-large;
+  max-width: 50%;
+  margin: 0px 2.5px 5px;
 }
 
 .disconnect-last-synced-div {
@@ -18,6 +21,7 @@
 .temperature-write-div {
   display: flex;
   flex-flow: wrap;
+  justify-content: space-evenly;
 }
 
 .main-div {
