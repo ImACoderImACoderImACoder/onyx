@@ -72,7 +72,9 @@ export default function FOrCLoader(props) {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        readFOrCToStore();
+        setTimeout(() => {
+          readFOrCToStore();
+        }, 250);
       }
     };
     document.addEventListener("visibilitychange", handler);

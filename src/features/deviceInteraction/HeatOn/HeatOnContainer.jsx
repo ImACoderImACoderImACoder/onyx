@@ -23,19 +23,21 @@ export default function HeatOnContainer() {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        const blePayload = async () => {
-          const characteristicPrj1V = getCharacteristic(register1Uuid);
-          const value = await characteristicPrj1V.readValue();
-          const currentVal = convertBLEtoUint16(value);
-          const newHeatValue = convertToggleCharacteristicToBool(
-            currentVal,
-            heatingMask
-          );
-          if (isHeatOn !== newHeatValue) {
-            dispatch(setIsHeatOn(newHeatValue));
-          }
-        };
-        AddToQueue(blePayload);
+        setTimeout(() => {
+          const blePayload = async () => {
+            const characteristicPrj1V = getCharacteristic(register1Uuid);
+            const value = await characteristicPrj1V.readValue();
+            const currentVal = convertBLEtoUint16(value);
+            const newHeatValue = convertToggleCharacteristicToBool(
+              currentVal,
+              heatingMask
+            );
+            if (isHeatOn !== newHeatValue) {
+              dispatch(setIsHeatOn(newHeatValue));
+            }
+          };
+          AddToQueue(blePayload);
+        }, 250);
       }
     };
     document.addEventListener("visibilitychange", handler);

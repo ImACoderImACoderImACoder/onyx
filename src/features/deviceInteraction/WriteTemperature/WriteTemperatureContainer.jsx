@@ -63,15 +63,16 @@ export default function WriteTemperatureContainer(props) {
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
-        const blePayload = async () => {
-          const characteristic = getCharacteristic(writeTemperatureUuid);
-          const value = await characteristic.readValue();
-          const targetTemperature =
-            convertCurrentTemperatureCharacteristicToCelcius(value);
-          dispatch(setTargetTemperature(targetTemperature));
-          return `The current target temperature is ${targetTemperature}`;
-        };
-        AddToQueue(blePayload);
+        setTimeout(() => {
+          const blePayload = async () => {
+            const characteristic = getCharacteristic(writeTemperatureUuid);
+            const value = await characteristic.readValue();
+            const targetTemperature =
+              convertCurrentTemperatureCharacteristicToCelcius(value);
+            dispatch(setTargetTemperature(targetTemperature));
+          };
+          AddToQueue(blePayload);
+        }, 250);
       }
     };
     document.addEventListener("visibilitychange", handler);
