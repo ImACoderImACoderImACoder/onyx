@@ -10,6 +10,7 @@ import WorkflowNameEditor from "./WorkflowNameEditor";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import WorkflowConfigEdtior from "./WorkflowConfigEditor.jsx/WorkflowConfigEditor";
 import AppendWorkflowConfigJson from "./WorkflowConfigEditor.jsx/AppendWorkflowConfigJson";
+
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
   flex-direction: column;
