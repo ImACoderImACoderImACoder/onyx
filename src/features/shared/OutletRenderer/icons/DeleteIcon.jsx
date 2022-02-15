@@ -2,7 +2,7 @@ import Div from "./Shared/Div";
 
 export default function DeleteIcon(props) {
   return (
-    <Div>
+    <Div {...props}>
       <svg
         aria-hidden="true"
         focusable="false"

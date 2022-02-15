@@ -131,6 +131,7 @@ export default function WriteTemperatureContainer(props) {
   temperatureButtons.unshift(
     <PlusMinusButton
       key="incrementTemperatureButton"
+      aria-label="Plus one temperature"
       onClick={onClickIncrement(1)}
       buttonText={
         <svg
@@ -155,6 +156,7 @@ export default function WriteTemperatureContainer(props) {
   temperatureButtons.unshift(
     <PlusMinusButton
       key="decrementTemperatureButton"
+      aria-label="Minus one temperature"
       onClick={onClickIncrement(-1)}
       buttonText={
         <svg

@@ -2,7 +2,10 @@ import { Range } from "react-range";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { AddToQueue } from "../../../services/bleQueueing";
-import { convertToUInt32BLE } from "../../../services/utils";
+import {
+  convertToFahrenheitFromCelsius,
+  convertToUInt32BLE,
+} from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { writeTemperatureUuid } from "../../../constants/uuids";
 import {
@@ -19,6 +22,8 @@ const Div = styled.div`
 `;
 
 export default function TargetTemperatureRange() {
+  const isF = useSelector((state) => state.settings.isF);
+
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
@@ -71,6 +76,11 @@ export default function TargetTemperatureRange() {
         renderThumb={({ props }) => (
           <div
             {...props}
+            aria-valuenow={
+              isF
+                ? convertToFahrenheitFromCelsius(targetTemperature)
+                : targetTemperature
+            }
             style={{
               ...props.style,
               height: "42px",

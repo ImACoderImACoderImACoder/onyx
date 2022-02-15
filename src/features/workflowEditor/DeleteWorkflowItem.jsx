@@ -34,9 +34,20 @@ export default function DeleteWorkflowItem(props) {
     dispatch(setCurrentWorkflows(newConfig.workflows));
   };
 
+  const enterKeyCode = 13;
+  const handler = (e) => {
+    if (e.keyCode === enterKeyCode) {
+      handleShow();
+    }
+  };
   return (
     <>
-      <StyledDeleteIcon onClick={handleShow} />
+      <StyledDeleteIcon
+        aria-label={`Delete workflow item ${props.name}`}
+        onKeyUp={handler}
+        tabIndex={0}
+        onClick={handleShow}
+      />
       <ModalWrapper
         headerText={`Delete "${props.name}"`}
         bodyText="Are you sure you want to delete this workflow item? This action cannot be undone"

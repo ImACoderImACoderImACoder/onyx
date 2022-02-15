@@ -3,6 +3,7 @@ import HoursOfOperation from "./HoursOfOperation/HoursOfOperationContainer";
 import VolcanoFirmwareVersion from "./VolcanoFirmwareVersion/VolcanoFirmwareVersionContainer";
 import BleFirmwareVersion from "./BleFirmwareVersion/BleFirmwareVersionContainer";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
+import Socials from "./Meta/Socials";
 
 export default function DeviceInformation() {
   return (
@@ -12,6 +13,7 @@ export default function DeviceInformation() {
       <HoursOfOperation />
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
+      <Socials />
     </Div>
   );
 }

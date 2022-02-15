@@ -4,7 +4,7 @@ import { PlusMinusButton as StyledPlusMinusButton } from "./styledComponents";
 function PlusMinusButton(props) {
   return (
     <Div>
-      <StyledPlusMinusButton onClick={props.onClick}>
+      <StyledPlusMinusButton {...props}>
         {props.buttonText}
       </StyledPlusMinusButton>
     </Div>

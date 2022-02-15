@@ -4,9 +4,8 @@ import {
   getCharacteristic,
 } from "../../../services/BleCharacteristicCache";
 import * as uuIds from "../../../constants/uuids";
-import { StyledIconLink } from "./icons/Shared/IconLink";
 import BluetoothDisconnectIcon from "./icons/BluetoothDisconnectIcon";
-
+import { StyledRouterIconLink } from "./icons/Shared/IconLink";
 function DisconnectButton() {
   const navigate = useNavigate();
   const onClick = async () => {
@@ -18,10 +17,10 @@ function DisconnectButton() {
 
   return (
     <div>
-      <StyledIconLink onClick={onClick}>
+      <StyledRouterIconLink to="/" onClick={onClick}>
         <BluetoothDisconnectIcon />
         Disconnect
-      </StyledIconLink>
+      </StyledRouterIconLink>
     </div>
   );
 }
