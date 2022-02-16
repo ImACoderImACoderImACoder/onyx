@@ -12,6 +12,10 @@ import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import GetTheme from "./themes/ThemeProvider";
 import WorkflowEditor from "./features/workflowEditor/WorkflowEditor";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
+
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -37,21 +41,26 @@ function App() {
   }, [theme]);
 
   return (
-    <ThemeProvider theme={GetTheme(theme)}>
-      <Div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<BleConnectButtonContainer />} />
-            <Route path="Volcano" element={<VolcanoLoader />}>
-              <Route path="App" element={<Volcano />} />
-              <Route path="DeviceInformation" element={<DeviceInformation />} />
-              <Route path="Settings" element={<Settings />} />
-              <Route path="WorkflowEditor" element={<WorkflowEditor />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Div>
-    </ThemeProvider>
+    <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
+      <ThemeProvider theme={GetTheme(theme)}>
+        <Div>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<BleConnectButtonContainer />} />
+              <Route path="Volcano" element={<VolcanoLoader />}>
+                <Route path="App" element={<Volcano />} />
+                <Route
+                  path="DeviceInformation"
+                  element={<DeviceInformation />}
+                />
+                <Route path="Settings" element={<Settings />} />
+                <Route path="WorkflowEditor" element={<WorkflowEditor />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Div>
+      </ThemeProvider>
+    </DndProvider>
   );
 }
 

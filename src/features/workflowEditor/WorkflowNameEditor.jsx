@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import WorkflowItemDiv from "./shared/WorkflowItemDiv";
 import StyledControl from "../shared/styledComponents/FormControl";
+import { useEffect } from "react";
 
 export default function WorkflowNameEditor(props) {
   const [workflowName, setWorkflowName] = useState(props.name);
@@ -20,6 +21,10 @@ export default function WorkflowNameEditor(props) {
     WriteNewConfigToLocalStorage(newConfig);
     dispatch(setCurrentWorkflows(newConfig.workflows));
   };
+
+  useEffect(() => {
+    setWorkflowName(props.name);
+  }, [props.name]);
 
   return (
     <WorkflowItemDiv>

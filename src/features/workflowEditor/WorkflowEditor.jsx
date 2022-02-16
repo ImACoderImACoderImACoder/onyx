@@ -10,6 +10,8 @@ import WorkflowNameEditor from "./WorkflowNameEditor";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import WorkflowConfigEdtior from "./WorkflowConfigEditor.jsx/WorkflowConfigEditor";
 import AppendWorkflowConfigJson from "./WorkflowConfigEditor.jsx/AppendWorkflowConfigJson";
+import Drag from "./DND/Drag";
+import WorkflowDrop from "./DND/WorkflowDrop";
 
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
@@ -44,6 +46,7 @@ const WorkflowButtonsDiv = styled.div`
 
 export default function WorkflowEditor() {
   const [currentAccordionId, setCurrentAccordionId] = useState("0");
+
   const workflows = useSelector((state) => state.settings.config.workflows);
   const currentWorkflow = useSelector(
     (state) => state.workflow.currentWorkflow
@@ -76,7 +79,13 @@ export default function WorkflowEditor() {
       <div key={item.id}>
         <Accordion.Item eventKey={`${item.id}`}>
           <StyledAccordionHeader onClick={() => onClick(`${item.id}`)}>
-            {item.name}
+            <Drag
+              onDrag={() => setCurrentAccordionId(0)}
+              key={item.id}
+              itemId={item.id}
+            >
+              {item.name}
+            </Drag>
           </StyledAccordionHeader>
           <StyledAccordionBody>
             <WorkflowDiv>
@@ -100,6 +109,7 @@ export default function WorkflowEditor() {
             </WorkflowButtonsDiv>
           </StyledAccordionBody>
         </Accordion.Item>
+        <WorkflowDrop key={item.id} itemId={item.id} />
       </div>
     );
   });
@@ -107,6 +117,9 @@ export default function WorkflowEditor() {
   return (
     <Div>
       <h1>Workflow Editor</h1>
+      <div style={{ display: "flex" }}>
+        <WorkflowDrop itemId={0} />
+      </div>
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
       <div style={{ display: "flex" }}>
         <CreateWorkflowButton onClick={onCreateWorkflow} />

@@ -31,6 +31,7 @@ export default function DeleteWorkflowButton(props) {
     newConfig.workflows.splice(indexToBeDelete, 1);
     WriteNewConfigToLocalStorage(newConfig);
     dispatch(setCurrentWorkflows(newConfig.workflows));
+    handleClose();
   };
 
   return (

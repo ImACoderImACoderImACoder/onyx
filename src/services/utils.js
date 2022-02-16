@@ -113,6 +113,9 @@ export function WriteNewConfigToLocalStorage(config) {
     temperatureControlValues: sortedTemperatureControlValues,
   };
 
+  sortedTemperatureConfig.workflows.forEach(
+    (item, index) => (item.id = index + 1)
+  );
   window.localStorage.setItem(
     localStorageKey,
     JSON.stringify(sortedTemperatureConfig)
