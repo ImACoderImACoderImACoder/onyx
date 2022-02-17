@@ -32,6 +32,7 @@ export default function WorkflowDrop(props) {
 
           newConfig.workflows.splice(destinationIndex, 0, movedItem[0]);
         }
+        newConfig.workflows.forEach((item, index) => (item.id = index + 1));
         WriteNewConfigToLocalStorage(newConfig);
         dispatch(setCurrentWorkflows(newConfig.workflows));
       },
