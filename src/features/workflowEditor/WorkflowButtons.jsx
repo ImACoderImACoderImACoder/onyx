@@ -211,7 +211,11 @@ export default function WorkFlow() {
             const characteristic = getCharacteristic(heatOffUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
-            return next();
+            currentSetTimeouts.push(
+              setTimeout(() => {
+                next();
+              }, 100)
+            );
           };
         }
         case "wait": {
@@ -234,7 +238,11 @@ export default function WorkFlow() {
               const buffer = convertToUInt16BLE(item.payload);
               await characteristic.writeValue(buffer);
               dispatch(setLEDbrightness(item.payload));
-              return next();
+              currentSetTimeouts.push(
+                setTimeout(() => {
+                  next();
+                }, 100)
+              );
             };
 
             AddToQueue(blePayload);
