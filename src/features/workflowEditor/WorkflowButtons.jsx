@@ -184,7 +184,7 @@ export default function WorkFlow() {
                       }
                     };
                     AddToQueue(blePayload);
-                  }, 100)
+                  }, 300)
                 );
               }, 1000)
             );
