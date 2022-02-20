@@ -12,6 +12,7 @@ import WorkflowConfigEdtior from "./WorkflowConfigEditor.jsx/WorkflowConfigEdito
 import AppendWorkflowConfigJson from "./WorkflowConfigEditor.jsx/AppendWorkflowConfigJson";
 import Drag from "./DND/Drag";
 import WorkflowDrop from "./DND/WorkflowDrop";
+import WorkflowTips from "./WorkflowTips";
 
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
@@ -123,6 +124,9 @@ export default function WorkflowEditor() {
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
       <div style={{ display: "flex" }}>
         <CreateWorkflowButton onClick={onCreateWorkflow} />
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <WorkflowTips />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <h1>Config Editor</h1>

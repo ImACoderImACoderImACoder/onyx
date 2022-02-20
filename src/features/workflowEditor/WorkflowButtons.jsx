@@ -222,11 +222,16 @@ export default function WorkFlow() {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
-            currentSetTimeouts.push(
-              setTimeout(() => {
-                next();
-              }, item.payload * 1000)
-            );
+            if (item.payload === 0) {
+              alert("Click okay to resume the workflow!");
+              next();
+            } else {
+              currentSetTimeouts.push(
+                setTimeout(() => {
+                  next();
+                }, item.payload * 1000)
+              );
+            }
           };
         }
         case "setLEDbrightness": {

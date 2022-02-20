@@ -13,7 +13,14 @@ const workflowItemValidor = ({ payload, type }, isF, onError = () => {}) => {
   try {
     const parsedPayloadInput = parseFloat(payload);
     switch (type) {
-      case WorkflowItemTypes.WAIT:
+      case WorkflowItemTypes.WAIT: {
+        const isPayloadValid =
+          !isNaN(parsedPayloadInput) && parsedPayloadInput >= 0;
+        if (!isPayloadValid) {
+          onError("Value must be greater than or eqaul to 0");
+        }
+        return isPayloadValid;
+      }
       case WorkflowItemTypes.FAN_ON: {
         const isPayloadValid =
           !isNaN(parsedPayloadInput) && parsedPayloadInput > 0;
