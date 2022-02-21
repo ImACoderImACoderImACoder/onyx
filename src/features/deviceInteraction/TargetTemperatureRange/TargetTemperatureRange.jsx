@@ -8,10 +8,7 @@ import {
 } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { writeTemperatureUuid } from "../../../constants/uuids";
-import {
-  MAX_CELSIUS_TEMP,
-  MIN_CELSIUS_TEMP,
-} from "../../../constants/temperature";
+import { MAX_CELSIUS_TEMP } from "../../../constants/temperature";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
@@ -22,10 +19,13 @@ const Div = styled.div`
 `;
 
 export default function TargetTemperatureRange() {
+  const MIN_CELSIUS_TEMP = 170;
+  const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
+
   const isF = useSelector((state) => state.settings.isF);
 
   const targetTemperature = useSelector(
-    (state) => state.deviceInteraction.targetTemperature
+    (state) => state.deviceInteraction.targetTemperature || middleValue
   );
 
   const dispatch = useDispatch();
@@ -43,7 +43,8 @@ export default function TargetTemperatureRange() {
     dispatch(setTargetTemperature(e[0]));
   };
 
-  const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
+  const sliderDisplayValue =
+    targetTemperature > MIN_CELSIUS_TEMP ? targetTemperature : MIN_CELSIUS_TEMP;
   const theme = useTheme();
   return (
     <Div>
@@ -51,7 +52,7 @@ export default function TargetTemperatureRange() {
         step={1}
         min={MIN_CELSIUS_TEMP}
         max={MAX_CELSIUS_TEMP}
-        values={[targetTemperature || middleValue]}
+        values={[sliderDisplayValue]}
         onChange={(values) => onChange(values)}
         onFinalChange={onMouseUp}
         renderTrack={({ props, children }) => (
