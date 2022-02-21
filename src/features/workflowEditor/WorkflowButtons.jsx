@@ -42,12 +42,21 @@ export default function WorkFlow() {
     (state) => state.workflow.currentWorkflow
   );
 
+  const executeWithManagedSetTimeout = (func, timeout = 100) => {
+    currentSetTimeouts.push(
+      setTimeout(() => {
+        func();
+      }, timeout)
+    );
+  };
+
   const turnFanOff = async (next) => {
     const blePayload = async () => {
       const characteristic = getCharacteristic(fanOffUuid);
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
-      return next();
+
+      executeWithManagedSetTimeout(next);
     };
     AddToQueue(blePayload);
   };
@@ -103,7 +112,7 @@ export default function WorkFlow() {
 
             if (isNaN(item.payload)) {
               turnHeatOn();
-              return next();
+              executeWithManagedSetTimeout(next);
             }
 
             const writePayloadTempToDevice = () => {
@@ -164,7 +173,7 @@ export default function WorkFlow() {
                       if (currentTemperature >= item.payload) {
                         clearIntervals();
                         clearTimeouts();
-                        return next();
+                        executeWithManagedSetTimeout(next);
                       }
 
                       // if the temperature is changed to be below the target we will never get there.
@@ -197,10 +206,9 @@ export default function WorkFlow() {
             const characteristic = getCharacteristic(fanOnUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
-            currentSetTimeouts.push(
-              setTimeout(() => {
-                turnFanOff(next);
-              }, item.payload * 1000)
+            executeWithManagedSetTimeout(
+              () => turnFanOff(next),
+              item.payload * 1000
             );
           };
         }
@@ -211,11 +219,7 @@ export default function WorkFlow() {
             const characteristic = getCharacteristic(heatOffUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
-            currentSetTimeouts.push(
-              setTimeout(() => {
-                next();
-              }, 100)
-            );
+            executeWithManagedSetTimeout(next);
           };
         }
         case "wait": {
@@ -224,14 +228,9 @@ export default function WorkFlow() {
 
             if (item.payload === 0) {
               alert("Click okay to resume the workflow!");
-              next();
-            } else {
-              currentSetTimeouts.push(
-                setTimeout(() => {
-                  next();
-                }, item.payload * 1000)
-              );
             }
+
+            executeWithManagedSetTimeout(next, item.payload * 1000);
           };
         }
         case "setLEDbrightness": {
@@ -243,11 +242,7 @@ export default function WorkFlow() {
               const buffer = convertToUInt16BLE(item.payload);
               await characteristic.writeValue(buffer);
               dispatch(setLEDbrightness(item.payload));
-              currentSetTimeouts.push(
-                setTimeout(() => {
-                  next();
-                }, 100)
-              );
+              executeWithManagedSetTimeout(next);
             };
 
             AddToQueue(blePayload);
@@ -256,7 +251,7 @@ export default function WorkFlow() {
         default:
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
-            return next();
+            executeWithManagedSetTimeout(next);
           };
       }
     });
