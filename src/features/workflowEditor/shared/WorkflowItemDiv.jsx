@@ -8,6 +8,7 @@ const Div = styled.div`
   padding: 10px;
   flex-grow: 1;
   margin-bottom: 20px;
+  border-color: ${(props) => props.theme.borderColor};
 `;
 
 export default Div;

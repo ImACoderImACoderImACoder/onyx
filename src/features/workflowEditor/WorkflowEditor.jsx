@@ -45,6 +45,12 @@ const WorkflowButtonsDiv = styled.div`
   width: 100vw;
 `;
 
+const AccordionItemWrapper = styled(Accordion.Item)`
+  border-color: ${(props) => props.theme.borderColor};
+  margin-left: 5px;
+  margin-right: 5px;
+`;
+
 export default function WorkflowEditor() {
   const [currentAccordionId, setCurrentAccordionId] = useState("0");
 
@@ -78,7 +84,7 @@ export default function WorkflowEditor() {
   const workflowAccordions = workflowTestData.map((item) => {
     return (
       <div key={item.id}>
-        <Accordion.Item eventKey={`${item.id}`}>
+        <AccordionItemWrapper eventKey={`${item.id}`}>
           <StyledAccordionHeader onClick={() => onClick(`${item.id}`)}>
             <Drag
               onDrag={() => setCurrentAccordionId(0)}
@@ -109,7 +115,7 @@ export default function WorkflowEditor() {
               <DeleteWorkflowButton id={item.id} name={item.name} />
             </WorkflowButtonsDiv>
           </StyledAccordionBody>
-        </Accordion.Item>
+        </AccordionItemWrapper>
         <WorkflowDrop key={item.id} itemId={item.id} />
       </div>
     );
