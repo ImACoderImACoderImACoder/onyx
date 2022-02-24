@@ -56,7 +56,7 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
     if (
       errorMessage.includes("User cancelled") ||
       errorMessage.includes("a user gesture") ||
-      !errorMessage
+      errorMessage === "2" //The things you do for 3rd party support
     ) {
       return;
     }
