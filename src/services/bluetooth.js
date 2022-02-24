@@ -52,15 +52,16 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
       await buildCacheFromBleDevice(device);
     }
   } catch (error) {
+    const errorMessage = error.toString();
     if (
-      error.toString().includes("User cancelled") ||
-      error.toString().includes("a user gesture")
+      errorMessage.includes("User cancelled") ||
+      errorMessage.includes("a user gesture")
     ) {
       return;
     }
     const alertMessage =
       "Bluetooth connection error.  Please refresh the page and try again.\n" +
-      error.toString() +
+      errorMessage +
       "\n" +
       error.stack;
     alert(alertMessage);
