@@ -242,7 +242,7 @@ export default function WorkFlow() {
               const buffer = convertToUInt16BLE(item.payload);
               await characteristic.writeValue(buffer);
               dispatch(setLEDbrightness(item.payload));
-              executeWithManagedSetTimeout(next);
+              executeWithManagedSetTimeout(next, 200);
             };
 
             AddToQueue(blePayload);
