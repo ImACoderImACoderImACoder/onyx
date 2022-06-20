@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PrideText from "../../themes/PrideText";
 import Patreon from "./Patreon";
 
 const Button = styled.button`
@@ -29,7 +30,9 @@ export default function Ble(props) {
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>
-        Tap anywhere to connect
+       <PrideText text="Tap anywhere to connect" />
+       <br/>
+       <PrideText text="New theme released! (Pride)" />
       </Button>
     </div>
   );

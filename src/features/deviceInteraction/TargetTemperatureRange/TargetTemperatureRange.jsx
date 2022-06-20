@@ -68,7 +68,7 @@ export default function TargetTemperatureRange() {
               height: "6px",
               maxWidth: "80vw",
               backgroundColor: "#f53803",
-              background: `linear-gradient(315deg, ${theme.temperatureRange.lowTemperatureColor} 0%, ${theme.temperatureRange.highTemperatureColor} 74%)`,
+              background: `${theme.temperatureRange.background}`,
             }}
           >
             {children}
@@ -91,6 +91,7 @@ export default function TargetTemperatureRange() {
               borderStyle: "solid",
               borderRadius: ".25rem",
               borderWidth: "3px",
+              background: theme.temperatureRange.rangeBackground || theme.temperatureRange.rangeBoxColor
             }}
           />
         )}

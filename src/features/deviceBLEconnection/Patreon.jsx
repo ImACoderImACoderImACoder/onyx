@@ -1,11 +1,13 @@
 import { patreonLink } from "../../constants/constants";
+import PrideText from "../../themes/PrideText";
 
 export default function Patreon() {
   return (
     <div>
-      If you want to support this project you can on{" "}
+      <PrideText text={"If you want to support this project you can on "}/>
       <a href={patreonLink} target="_blank" rel="noreferrer">
-        Patreon.
+        
+        <PrideText text={"Patreon."}/>
       </a>
     </div>
   );

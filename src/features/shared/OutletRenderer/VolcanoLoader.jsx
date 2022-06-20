@@ -11,6 +11,7 @@ import SettingsIcon from "./icons/SettingsIcon";
 import FOrCLoader from "../../settings/FOrC/FOrCLoader";
 import { StyledRouterIconLink } from "./icons/Shared/IconLink";
 import WorkflowEditorIcon from "./icons/WorkflowEditorIcon";
+import PrideText from "../../../themes/PrideText";
 
 export default function VolcanoLoader(props) {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function VolcanoLoader(props) {
   const iconLinks = pageRoutesToBeRendered.map((route) => (
     <StyledRouterIconLink key={route.route} to={route.route}>
       {route.icon}
-      {route.displayText}
+      {<div><PrideText text={route.displayText} /></div>} 
     </StyledRouterIconLink>
   ));
 

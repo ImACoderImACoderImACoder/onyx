@@ -4,6 +4,7 @@ import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import Button from "./shared/WorkflowFooterButtons";
 import styled from "styled-components";
+import PrideText from "../../themes/PrideText";
 const StyledButton = styled(Button)`
   max-width: none;
 `;
@@ -27,6 +28,6 @@ export default function CreateWorkflowButton(props) {
   };
 
   return (
-    <StyledButton onClick={createWorkflow}>Create New Workflow</StyledButton>
+    <StyledButton onClick={createWorkflow}><PrideText text="Create New Workflow"/></StyledButton>
   );
 }

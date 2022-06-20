@@ -16,6 +16,29 @@ export default function CurrentTemperatureContainer() {
     (state) => state.deviceInteraction.currentTemperature
   );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === "visible") {
+        setTimeout(() => {
+          const blePayload = async () => {
+            const characteristic = getCharacteristic(currentTemperatureUuid);
+            const value = await characteristic.readValue();
+            const normalizedValue = convertCurrentTemperatureCharacteristicToCelcius(value);
+            dispatch(setCurrentTemperature(normalizedValue));
+          };
+          AddToQueue(blePayload);
+        }, 250);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+    };
+  }, [dispatch]);
+
   useEffect(() => {
     const characteristic = getCharacteristic(currentTemperatureUuid);
     const onCharacteristicChange = (event) => {

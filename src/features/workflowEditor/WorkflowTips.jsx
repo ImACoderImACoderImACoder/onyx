@@ -1,7 +1,9 @@
+import PrideText from "../../themes/PrideText";
+
 export default function WorkflowTips() {
   return (
     <div>
-      <h1>Workflow Tips</h1>
+      <h1><PrideText text="Workflow Tips"/></h1>
       <ul>
         <li>
           If you set the Led brightness to 0 it completely turns off the display

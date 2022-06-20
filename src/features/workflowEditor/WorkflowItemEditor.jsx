@@ -18,6 +18,7 @@ import {
 } from "../../services/utils";
 import { DEGREE_SYMBOL } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
+import PrideText from "../../themes/PrideText";
 
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
@@ -26,7 +27,6 @@ const StyledSelect = styled(Select)`
 `;
 
 const StyledLabel = styled(Label)`
-  display: flex;
   align-items: center;
 `;
 
@@ -162,7 +162,7 @@ export default function WorkflowItemEditor(props) {
     <WorkflowItemDiv>
       <div>
         <StyledActionTypeHeader>
-          <StyledLabel>{name}</StyledLabel>
+          <StyledLabel><PrideText text={name}/></StyledLabel>
           <DeleteWorkflowItem
             workflowId={props.workflowId}
             workflowItemId={props.item.id}

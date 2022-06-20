@@ -12,6 +12,7 @@ import { setLEDbrightness } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
 import Div from "../../../features/settings/Shared/StyledComponents/Div";
+import PrideText from "../../../themes/PrideText";
 
 export default function AdjustLEDbrightnessContainer() {
   const LEDbrightness = useSelector((state) => state.settings.LEDbrightness);
@@ -44,7 +45,7 @@ export default function AdjustLEDbrightnessContainer() {
 
   return (
     <Div>
-      <h2>LED Brightness</h2>
+      <h2><PrideText text="LED Brightness"/></h2>
       Current Brightness Level: {LEDbrightness}
       <SettingsRange
         values={[LEDbrightness || 0]}

@@ -6,6 +6,7 @@ import Button from "../shared/styledComponents/Button";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import ModalWrapper from "../shared/styledComponents/Modal";
+import PrideText from "../../themes/PrideText";
 
 const StyledButton = styled(Button)`
   min-height: 50px;
@@ -36,9 +37,9 @@ export default function DeleteWorkflowButton(props) {
 
   return (
     <>
-      <StyledButton onClick={handleShow}>Delete Workflow</StyledButton>
+      <StyledButton onClick={handleShow}><PrideText text="Delete Workflow"/></StyledButton>
       <ModalWrapper
-        headerText={`Delete Workflow "${props.name}"`}
+        headerText={<PrideText text={`Delete Workflow "${props.name}"`}/>}
         bodyText="Are you sure you want to delete this workflow? This action cannot be undone"
         confirmButtonText="Delete"
         handleClose={handleClose}

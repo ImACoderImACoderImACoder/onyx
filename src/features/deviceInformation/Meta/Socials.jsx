@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import * as links from "../../../constants/constants";
+import PrideText from "../../../themes/PrideText";
 
 const Div = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const StyledA = styled.a`
 export default function Socials() {
   return (
     <Div>
-      <h1>Socials</h1>
+      <h1><PrideText text="Socials"/></h1>
       <StyledA href={links.githubLink} target="_blank" rel="noreferrer">
         Github
       </StyledA>

@@ -4,11 +4,12 @@ import VolcanoFirmwareVersion from "./VolcanoFirmwareVersion/VolcanoFirmwareVers
 import BleFirmwareVersion from "./BleFirmwareVersion/BleFirmwareVersionContainer";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import Socials from "./Meta/Socials";
+import PrideText from "../../themes/PrideText";
 
 export default function DeviceInformation() {
   return (
     <Div>
-      <h1>Device Information</h1>
+      <h1><PrideText text="Device Information" /></h1>
       <VolcanoSerialNumber />
       <HoursOfOperation />
       <VolcanoFirmwareVersion />

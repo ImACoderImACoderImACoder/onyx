@@ -5,6 +5,7 @@ import Button from "../shared/styledComponents/Button";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import WorkflowItemTypes from "../../constants/enums";
+import PrideText from "../../themes/PrideText";
 
 const StyledButton = styled(Button)`
   min-height: 50px;
@@ -26,5 +27,5 @@ export default function CreateWorkflowItemButton(props) {
     dispatch(setCurrentWorkflows(newConfig.workflows));
   };
 
-  return <StyledButton onClick={onClick}>Add Workflow Item</StyledButton>;
+  return <StyledButton onClick={onClick}><PrideText text="Add Workflow Item" /></StyledButton>;
 }

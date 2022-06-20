@@ -22,9 +22,13 @@ const light = {
     color: "black",
     borderColor: "FF6600",
   },
+  workflowEditor: {
+    accordianExpandedColor: "#FF6600",
+  },
   temperatureRange: {
     lowTemperatureColor: "#f53803",
     highTemperatureColor: "#f5d020",
+    background: "linear-gradient(315deg, #f53803 0%, #f5d020 74%)",
     rangeBoxColor: "black",
     rangeBoxBorderColor: "orange",
   },

@@ -4,10 +4,8 @@ import { bleServerUuid, writeTemperatureUuid } from "../../../constants/uuids";
 import {
   convertToUInt32BLE,
   convertCurrentTemperatureCharacteristicToCelcius,
-  getDisplayTemperature,
   isValueInValidVolcanoCelciusRange,
 } from "../../../services/utils";
-import WriteTemperature from "./WriteTemperature";
 import PlusMinusButton from "./PlusMinusButton";
 import { AddToQueue } from "../../../services/bleQueueing";
 import debounce from "lodash/debounce";
@@ -16,12 +14,7 @@ import { useSelector } from "react-redux";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useDispatch } from "react-redux";
 
-export default function WriteTemperatureContainer(props) {
-  const isF = useSelector((state) => state.settings.isF);
-  const temperatureControlValues = useSelector(
-    (state) => state.settings.config.temperatureControlValues
-  );
-
+export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
@@ -117,16 +110,7 @@ export default function WriteTemperatureContainer(props) {
     AddToQueue(blePayload);
   };
 
-  const temperatureButtons = temperatureControlValues.map((item, index) => {
-    return (
-      <WriteTemperature
-        key={index}
-        onClick={onClick(item)}
-        buttonText={getDisplayTemperature(item, isF)}
-        isActive={item === targetTemperature}
-      />
-    );
-  });
+  const temperatureButtons = [];
 
   temperatureButtons.unshift(
     <PlusMinusButton

@@ -1,6 +1,7 @@
 import Spinner from "react-bootstrap/Spinner";
 
 import styled from "styled-components";
+import PrideText from "../../../themes/PrideText";
 
 const Div = styled.div`
   text-align: center;
@@ -17,8 +18,8 @@ const StyledSpinner = styled(Spinner)`
 const CurrentTargetTemperature = (props) => {
   return (
     <Div>
-      Target Temp:{" "}
-      {props.currentTargetTemperature || (
+      {" "}
+      {(props.currentTargetTemperature && <PrideText text={`Target Temp: ${props.currentTargetTemperature}`} />) || (
         <StyledSpinner animation="border" variant="dark" />
       )}
     </Div>

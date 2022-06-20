@@ -12,6 +12,7 @@ import { setAutoShutoffTime } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
 import Div from "../Shared/StyledComponents/Div";
+import PrideText from "../../../themes/PrideText";
 
 export default function AdjustAutoShutoffTimeContainer() {
   const autoShutoffTime = useSelector(
@@ -46,7 +47,7 @@ export default function AdjustAutoShutoffTimeContainer() {
 
   return (
     <Div>
-      <h2>Auto Shutoff Time</h2>
+      <h2><PrideText text="Auto Shutoff Time"/></h2>
       Current Auto Shutoff Time: {autoShutoffTime}
       <SettingsRange
         values={[autoShutoffTime || 30]}

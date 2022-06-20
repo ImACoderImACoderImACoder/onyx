@@ -10,6 +10,7 @@ import Control from "react-bootstrap/FormControl";
 import { setCurrentWorkflows } from "../../settings/settingsSlice";
 
 import Button from "../shared/WorkflowFooterButtons";
+import PrideText from "../../../themes/PrideText";
 
 export default function WorkflowConfigEdtior() {
   const [show, setShow] = useState(false);
@@ -66,10 +67,10 @@ export default function WorkflowConfigEdtior() {
   };
   return (
     <>
-      <Button onClick={handleShow}>Edit/Copy Workflow JSON</Button>
+      <Button onClick={handleShow}><PrideText text="Edit/Copy Workflow JSON"/></Button>
       <ModalWrapper
         show={show}
-        headerText="Replace Workflow Config JSON"
+        headerText={<PrideText text="Replace Workflow Config JSON"/>}
         handleClose={handleClose}
         confirmButtonText="Save and Close"
         handleConfirm={handleConfirm}

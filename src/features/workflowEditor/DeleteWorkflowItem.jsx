@@ -6,6 +6,7 @@ import { useState } from "react";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import DeleteIcon from "../shared/OutletRenderer/icons/DeleteIcon";
 import ModalWrapper from "../shared/styledComponents/Modal";
+import PrideText from "../../themes/PrideText";
 
 const StyledDeleteIcon = styled(DeleteIcon)`
   margin-left: 0px;
@@ -49,7 +50,7 @@ export default function DeleteWorkflowItem(props) {
         onClick={handleShow}
       />
       <ModalWrapper
-        headerText={`Delete "${props.name}"`}
+        headerText={<PrideText text={`Delete "${props.name}"`}/>}
         bodyText="Are you sure you want to delete this workflow item? This action cannot be undone"
         confirmButtonText="Delete"
         handleClose={handleClose}

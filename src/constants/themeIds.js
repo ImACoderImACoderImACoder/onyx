@@ -5,3 +5,5 @@ export const lightThemeId = "Light";
 export const valentinesDayId = "Valentines Day";
 
 export const flamingoId = "Flamingo";
+
+export const prideId = "Pride";

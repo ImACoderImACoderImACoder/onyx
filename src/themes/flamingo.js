@@ -23,10 +23,12 @@ const flamingo = {
     borderColor: "inherit",
   },
   temperatureRange: {
-    lowTemperatureColor: "#e79fec",
-    highTemperatureColor: "#fccddf",
+    background: "linear-gradient(315deg, #e79fec 0%, #fccddf 74%)",
     rangeBoxColor: "white",
     rangeBoxBorderColor: "#fccddf",
+  },
+  workflowEditor: {
+    accordianExpandedColor: "darkgray",
   },
   ToggleButtons: {
     sliderBackgroundColor: "white",

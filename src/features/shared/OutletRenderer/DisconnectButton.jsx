@@ -6,6 +6,7 @@ import {
 import * as uuIds from "../../../constants/uuids";
 import BluetoothDisconnectIcon from "./icons/BluetoothDisconnectIcon";
 import { StyledRouterIconLink } from "./icons/Shared/IconLink";
+import PrideText from "../../../themes/PrideText";
 function DisconnectButton() {
   const navigate = useNavigate();
   const onClick = async () => {
@@ -19,7 +20,7 @@ function DisconnectButton() {
     <div>
       <StyledRouterIconLink to="/" onClick={onClick}>
         <BluetoothDisconnectIcon />
-        Disconnect
+        <div><PrideText text="Disconnect"/></div>
       </StyledRouterIconLink>
     </div>
   );

@@ -17,16 +17,17 @@ const valentinesDay = {
     backgroundColor: "#ed5eb3",
     borderColor: "white",
   },
-  backgroundColor: "black",
+  backgroundColor: "#121212",
   iconColor: "#671168",
   iconTextColor: "#ed75b3",
   temperatureRange: {
-    lowTemperatureColor: "red",
-    highTemperatureColor: "#ff5d7a",
+    background: "linear-gradient(315deg, red 0%, #ff5d7a 74%)",
     rangeBoxColor: "#ea379d",
     rangeBoxBorderColor: "white",
   },
-  ToggleButtons: {
+  workflowEditor: {
+    accordianExpandedColor: "#ea379d",
+  },  ToggleButtons: {
     sliderBackgroundColor: "gray",
     sliderBorderColor: "#f8f9fa",
     onBackgroundColor: "#bb27ff",

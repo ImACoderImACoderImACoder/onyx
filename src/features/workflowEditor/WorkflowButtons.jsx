@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
 import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
 import store from "../../store";
+import PrideText from "../../themes/PrideText";
 
 const currentIntervals = [];
 const currentSetTimeouts = [];
@@ -268,7 +269,7 @@ export default function WorkFlow() {
           <WriteTemperature
             key={index}
             onClick={() => onClick(index)}
-            buttonText={buttonText}
+            buttonText={<PrideText text={buttonText} />}
             isActive={isActive}
           />
         );

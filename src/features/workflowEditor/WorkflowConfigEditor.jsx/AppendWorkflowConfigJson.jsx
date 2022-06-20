@@ -10,6 +10,7 @@ import Control from "react-bootstrap/FormControl";
 import { setCurrentWorkflows } from "../../settings/settingsSlice";
 
 import Button from "../shared/WorkflowFooterButtons";
+import PrideText from "../../../themes/PrideText";
 
 export default function AppendWorkflowConfigJson() {
   const [show, setShow] = useState(false);
@@ -63,10 +64,10 @@ export default function AppendWorkflowConfigJson() {
   };
   return (
     <>
-      <Button onClick={handleShow}>Append Workflow JSON</Button>
+      <Button onClick={handleShow}><PrideText text="Append Workflow JSON" /></Button>
       <ModalWrapper
         show={show}
-        headerText="Append Workflow Config JSON to Current Config"
+        headerText={<PrideText text="Append Workflow Config JSON to Current Config"/>}
         handleClose={handleClose}
         confirmButtonText="Save and Close"
         handleConfirm={handleConfirm}

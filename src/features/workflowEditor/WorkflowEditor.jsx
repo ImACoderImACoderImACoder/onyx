@@ -13,6 +13,7 @@ import AppendWorkflowConfigJson from "./WorkflowConfigEditor.jsx/AppendWorkflowC
 import Drag from "./DND/Drag";
 import WorkflowDrop from "./DND/WorkflowDrop";
 import WorkflowTips from "./WorkflowTips";
+import PrideText from "../../themes/PrideText";
 
 const StyledAccordionBody = styled(Accordion.Body)`
   display: flex;
@@ -33,7 +34,7 @@ const StyledAccordionHeader = styled(Accordion.Header)`
   }
   .accordion-button:not(.collapsed) {
     color: ${(props) => props.theme.buttonActive.color};
-    background-color: ${(props) => props.theme.borderColor};
+    background-color: ${(props) => props.theme.workflowEditor.accordianExpandedColor};
     border-color: ${(props) => props.theme.buttonActive.borderColor};
   }
 `;
@@ -91,7 +92,7 @@ export default function WorkflowEditor() {
               key={item.id}
               itemId={item.id}
             >
-              {item.name}
+              {<PrideText text={item.name} />}
             </Drag>
           </StyledAccordionHeader>
           <StyledAccordionBody>
@@ -123,7 +124,7 @@ export default function WorkflowEditor() {
 
   return (
     <Div>
-      <h1>Workflow Editor</h1>
+      <h1><PrideText text="Workflow Editor" /></h1>
       <div style={{ display: "flex" }}>
         <WorkflowDrop itemId={0} />
       </div>
@@ -135,10 +136,10 @@ export default function WorkflowEditor() {
         <WorkflowTips />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1>Config Editor</h1>
-        {
+        <h1><PrideText text="Config Editor" /></h1>
+      {
           "Use this to backup existing workflows. Just save the text somewhere and you can paste it back in anytime. You can also add someone else's workflows to your workflows by pasting in the append workflow JSON modal"
-        }
+      }
         <div style={{ display: "flex" }}>
           <WorkflowConfigEdtior />
           <AppendWorkflowConfigJson />

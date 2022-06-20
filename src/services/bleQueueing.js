@@ -49,16 +49,16 @@ function ProcessWorkflowQueue() {
   let currentFunc;
 
   const next = () => {
-    currentWorkflowIndex++;
     if (currentWorkflowIndex + 1 >= workflowFunctions.length) {
       store.dispatch(setCurrentWorkflow());
       store.dispatch(setCurrentWorkflowStepId());
     }
-    currentFunc = workflowFunctions[currentWorkflowIndex];
+    currentFunc = workflowFunctions[currentWorkflowIndex + 1];
     if (!currentFunc) return;
     setTimeout(() => {
       AddToQueue(async () => {
         await currentFunc(next);
+        currentWorkflowIndex++;
       });
     }, 100);
   };

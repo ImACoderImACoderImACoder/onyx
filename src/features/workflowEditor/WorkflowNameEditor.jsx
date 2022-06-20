@@ -8,6 +8,7 @@ import { setCurrentWorkflows } from "../settings/settingsSlice";
 import WorkflowItemDiv from "./shared/WorkflowItemDiv";
 import StyledControl from "../shared/styledComponents/FormControl";
 import { useEffect } from "react";
+import PrideText from "../../themes/PrideText";
 
 export default function WorkflowNameEditor(props) {
   const [workflowName, setWorkflowName] = useState(props.name);
@@ -28,7 +29,7 @@ export default function WorkflowNameEditor(props) {
 
   return (
     <WorkflowItemDiv>
-      <Label>Workflow Name: </Label>
+      <Label><PrideText text="Workflow Name: " /></Label>
       <StyledControl
         type="text"
         value={workflowName}

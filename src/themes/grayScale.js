@@ -14,8 +14,7 @@ const grayscale = {
   iconColor: "#3A3B3C",
   iconTextColor: "#E4E6EB",
   temperatureRange: {
-    lowTemperatureColor: "#B0B3B8",
-    highTemperatureColor: "#242526",
+    background: "linear-gradient(315deg, #B0B3B8 0%, #242526 74%)",
     rangeBoxColor: "#242526",
     rangeBoxBorderColor: "#B0B3B8",
   },
@@ -23,6 +22,9 @@ const grayscale = {
     backgroundColor: "#242526",
     color: "#E4E6EB",
     borderColor: "#B0B3B8",
+  },
+  workflowEditor: {
+    accordianExpandedColor: "#B0B3B8",
   },
   ToggleButtons: {
     sliderBackgroundColor: "#3A3B3C",

@@ -67,9 +67,9 @@ const SwitchOnState = styled.span`
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   color: ${(props) => props.theme.ToggleButtons.onColor};
-  background-color: ${(props) => props.theme.ToggleButtons.onBackgroundColor};
+  background: ${(props) => props.theme.ToggleButtons.onBackgroundColor};
   border-color: ${(props) => props.theme.ToggleButtons.onBorderColor};
-
+  text-shadow: 1px 1px black;
   font-size: xx-large;
   justify-content: center;
   display: flex;
@@ -78,7 +78,7 @@ const SwitchOnState = styled.span`
 
 const SwitchOffState = styled(SwitchOnState)`
   color: ${(props) => props.theme.ToggleButtons.offColor};
-  background-color: ${(props) => props.theme.ToggleButtons.offBackgroundColor};
+  background: ${(props) => props.theme.ToggleButtons.offBackgroundColor};
   border-color: ${(props) => props.theme.ToggleButtons.offBorderColor};
   left: 50%;
   right: 0;
@@ -94,7 +94,7 @@ const SwitchHandle = styled(SwitchOnState)`
   border-width: 0 1px;
 
   color: #000;
-  background-color: ${(props) =>
+  background: ${(props) =>
     props.theme.ToggleButtons.sliderBackgroundColor};
   border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColor};
 `;

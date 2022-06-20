@@ -1,5 +1,6 @@
 import Spinner from "react-bootstrap/Spinner";
 import styled from "styled-components";
+import PrideText from "../../themes/PrideText";
 
 const Div = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -17,7 +18,7 @@ export default function Loading() {
       <Spinner animation="border" variant="info" />
       <Spinner animation="border" variant="light" />
       <Spinner animation="border" variant="dark" />
-      <Div>Establishing BLE Connection</Div>
+      <Div><PrideText text="Establishing BLE Connection"/></Div>
     </Div>
   );
 }

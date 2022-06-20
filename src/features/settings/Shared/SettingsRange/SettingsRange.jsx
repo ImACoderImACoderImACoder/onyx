@@ -1,4 +1,5 @@
 import { Range } from "react-range";
+import { useTheme } from "styled-components";
 
 export default function SettingsRange({
   step,
@@ -8,6 +9,7 @@ export default function SettingsRange({
   onChange,
   onFinalChange,
 }) {
+  const theme = useTheme();
   return (
     <Range
       step={step}
@@ -30,7 +32,7 @@ export default function SettingsRange({
             height: "6px",
             width: "200px",
             backgroundColor: "#f53803",
-            background: "linear-gradient(315deg, #fff 0%, rgb(50 46 46) 74%)",
+            background: `${theme.temperatureRange.background}`,
           }}
         >
           {children}
@@ -43,10 +45,11 @@ export default function SettingsRange({
             ...props.style,
             height: "42px",
             width: "42px",
-            backgroundColor: "black",
-            borderColor: "afafaf",
+            backgroundColor: theme.temperatureRange.rangeBoxColor,
+            borderColor: theme.temperatureRange.rangeBoxBorderColor,
             borderStyle: "solid",
             borderRadius: ".25rem",
+            background: theme.temperatureRange.rangeBackground || theme.temperatureRange.rangeBoxColor
           }}
         />
       )}

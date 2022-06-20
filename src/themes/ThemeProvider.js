@@ -6,6 +6,7 @@ import flamingo from "./flamingo";
 import base from "./base";
 import merge from "lodash/merge";
 import grayscale from "./grayScale";
+import pride from './pride';
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -21,6 +22,8 @@ export default function GetTheme(type) {
       return deepMergeWithBase(flamingo);
     case themeIds.grayscaleId:
       return deepMergeWithBase(grayscale);
+    case themeIds.prideId:
+      return deepMergeWithBase(pride)
     default: {
       return deepMergeWithBase(dark);
     }
