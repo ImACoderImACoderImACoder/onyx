@@ -6,9 +6,9 @@ const greenscale = {
   buttonColorMain: "#242526",
   borderColor: "#B0B3B8",
   buttonActive: {
-    color: "#0fca06",
-    backgroundColor: "#AAAAAA",
-    borderColor: "black",
+    color: "white",
+    backgroundColor: "#0fca06",
+    borderColor: "white",
   },
   backgroundColor: "#18191A",
   primaryFontColor: "#0fca06",
@@ -17,7 +17,7 @@ const greenscale = {
   temperatureRange: {
     background: "linear-gradient(315deg,  #0fca06 0%, #B0B3B8 74%)",
     rangeBoxColor: "#0fca06",
-    rangeBoxBorderColor: "#B0B3B8",
+    rangeBoxBorderColor: "white",
   },
   plusMinusButtons: {
     backgroundColor: "#242526",
