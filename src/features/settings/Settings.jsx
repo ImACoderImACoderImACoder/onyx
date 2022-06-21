@@ -3,6 +3,8 @@ import FOrCLoader from "./FOrC/FOrCLoader";
 import AdjustAutoShutoffTimeContainer from "./AdjustAutoShutoffTime/AdjustAutoShutoffTimeContainer";
 import AdjustLEDbrightnessContainer from "./AdjustLEDbrightness/AdjustLEDbrightnessContainer";
 import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnCoolingToggleContainer";
+
+import TemperatureControlSettings from "./TemperatureControlValues/TemperatureControlSettingsContainer";
 import VibrationToggleContainer from "./VibrationToggle/VibrationToggleContainer";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import ThemesContainer from "./Theming/ThemesContainer";
@@ -20,6 +22,7 @@ export default function Settings() {
       <AdjustAutoShutoffTimeContainer />
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />
+      <TemperatureControlSettings />
     </Div>
   );
 }

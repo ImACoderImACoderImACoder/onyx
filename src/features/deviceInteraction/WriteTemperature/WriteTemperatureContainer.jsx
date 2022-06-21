@@ -13,10 +13,19 @@ import { temperatureIncrementedDecrementedDebounceTime } from "../../../constant
 import { useSelector } from "react-redux";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useDispatch } from "react-redux";
+import WriteTemperature from './WriteTemperature';
+import { getDisplayTemperature } from "../../../services/utils";
+
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
+  );
+
+  const isF = useSelector((state) => state.settings.isF);
+
+  const temperatureControlValues = useSelector(
+    (state) => state.settings.config.temperatureControlValues
   );
 
   const dispatch = useDispatch();
@@ -110,7 +119,16 @@ export default function WriteTemperatureContainer() {
     AddToQueue(blePayload);
   };
 
-  const temperatureButtons = [];
+  const temperatureButtons = temperatureControlValues.map((item, index) => {
+    return (
+      <WriteTemperature
+        key={index}
+        onClick={onClick(item)}
+        buttonText={getDisplayTemperature(item, isF)}
+        isActive={item === targetTemperature}
+      />
+    );
+  });
 
   temperatureButtons.unshift(
     <PlusMinusButton
