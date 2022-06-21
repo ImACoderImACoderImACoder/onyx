@@ -32,7 +32,7 @@ export default function Ble(props) {
         </StyledPatreon>
        <PrideText text="Tap anywhere to connect" />
        <br/>
-       <PrideText text="New theme released! (Pride)" />
+       <PrideText text="New themes released! (Pride and Greenscale)" />
       </Button>
     </div>
   );
