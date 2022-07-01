@@ -4,17 +4,29 @@ import PrideText from "../../themes/PrideText";
 const StyledTextArea = styled.textarea`
 width: 90vw;
 height: 25vh;
-maxWidth: 600px;
-minHeight: 100px;
+max-width: 600px;
+min-height: 100px;
 background:  ${(props) => props.theme.backgroundColor};
 color:  ${(props) => props.theme.primaryFontColor};
+border-color:  ${(props) => props.theme.borderColor};
+margin-left: 1px;
+`;
+
+const StyledLabel = styled.label`
+  display: flex;
+  flex-direction: column;
 `;
 
 export default function Contact(){
 
     const onClick = (e) => {
+      if (e.target.value === ""){
+        e.preventDefault();
+        return;
+      }
+
         if (process.env.NODE_ENV === "development"){
-            e.preventDefault()
+            e.preventDefault();
             alert('This click doesn\'t do anything in development mode since it only works with Netlify');
          }
     }
@@ -26,7 +38,7 @@ export default function Contact(){
             <form name="contact" method="post">
         <input type="hidden" name="form-name" value="contact" />
         <p>
-          <label>Message: <StyledTextArea name="message"></StyledTextArea></label>
+          <StyledLabel>Message: <StyledTextArea name="message"></StyledTextArea></StyledLabel>
         </p>
         <p>
           <button onClick={onClick}type="submit">Send</button>
