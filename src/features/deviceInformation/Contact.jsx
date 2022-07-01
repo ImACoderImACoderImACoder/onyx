@@ -1,4 +1,14 @@
+import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
+
+const StyledTextArea = styled.textarea`
+width: 90vw;
+height: 25vh;
+maxWidth: 600px;
+minHeight: 100px;
+background:  ${(props) => props.theme.backgroundColor};
+color:  ${(props) => props.theme.primaryFontColor};
+`;
 
 export default function Contact(){
 
@@ -16,7 +26,7 @@ export default function Contact(){
             <form name="contact" method="post">
         <input type="hidden" name="form-name" value="contact" />
         <p>
-          <label>Message: <textarea style={{width: "90vw", height: "25vh", maxWidth: "600px", minHeight: "100px"}}name="message"></textarea></label>
+          <label>Message: <StyledTextArea name="message"></StyledTextArea></label>
         </p>
         <p>
           <button onClick={onClick}type="submit">Send</button>

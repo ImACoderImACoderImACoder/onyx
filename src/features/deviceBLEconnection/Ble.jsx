@@ -32,7 +32,8 @@ export default function Ble(props) {
                 'Remember to check on your Volcano\'s air filter',
                 'You can change the look of the app by changing themes in the settings page',
                 'Use workflows to take full control of your Volcano',
-                'You can add or remove temperatures in the settings page']
+                'You can add or remove temperatures in the settings page',
+                'Frequent users should replace bags every 2-4 weeks for optimal flavor']
   
   const randomTipIndex = Math.floor(Math.random() * tips.length);
   return (
