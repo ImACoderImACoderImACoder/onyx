@@ -16,7 +16,7 @@ export default function Contact(){
             <form name="contact" method="post">
         <input type="hidden" name="form-name" value="contact" />
         <p>
-          <label>Message: <textarea style={{width: "90vw", height: "25vh", minHeight: "100px"}}name="message"></textarea></label>
+          <label>Message: <textarea style={{width: "90vw", height: "25vh", maxWidth: "600px", minHeight: "100px"}}name="message"></textarea></label>
         </p>
         <p>
           <button onClick={onClick}type="submit">Send</button>
