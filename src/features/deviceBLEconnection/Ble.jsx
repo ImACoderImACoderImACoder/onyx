@@ -24,17 +24,17 @@ const StyledPatreon = styled.div`
 `;
 
 export default function Ble(props) {
-  
-  const tips = ['You can send the app developer a message from the info screen',
-                'Spacebar toggles the fan',
-                'Setting the screen to 0 brightness turns it off',
-                'Don\'t forget to clean your herb chamber :D',
-                'Remember to check on your Volcano\'s air filter',
-                'You can change the look of the app by changing themes in the settings page',
-                'Use workflows to take full control of your Volcano',
-                'You can add or remove temperatures in the settings page',
-                'Frequent users should replace bags every 2-4 weeks for optimal flavor']
-  
+  const tips = [
+    "Spacebar toggles the fan",
+    "Setting the screen to 0 brightness turns it off",
+    "Don't forget to clean your herb chamber :D",
+    "Remember to check your Volcano's air filter",
+    "You can change the look of the app by changing themes in the settings page",
+    "Use workflows to take full control of your Volcano",
+    "You can add or remove temperatures in the settings page",
+    "Frequent users should replace bags every 2-4 weeks for optimal flavor",
+  ];
+
   const randomTipIndex = Math.floor(Math.random() * tips.length);
   return (
     <div>
@@ -42,10 +42,10 @@ export default function Ble(props) {
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>
-       <PrideText text="Tap anywhere to connect" />
-       <br/>
-       <br/>
-       <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />
+        <PrideText text="Tap anywhere to connect" />
+        <br />
+        <br />
+        <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />
       </Button>
     </div>
   );
