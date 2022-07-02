@@ -30,6 +30,7 @@ const StyledNavBarToggle = styled(Navbar.Toggle)`
   background: ${(props) => props.theme.backgroundColor};
   border-color: ${(props) => props.theme.borderColor} !important;
   border-width: medium;
+  padding: 5px;
 `;
 
 const StyledNav = styled(Nav)`
