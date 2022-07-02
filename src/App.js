@@ -4,6 +4,7 @@ import BleConnectButtonContainer from "./features/deviceBLEconnection/BleContain
 import VolcanoLoader from "./features/shared/OutletRenderer/VolcanoLoader";
 import Volcano from "./features/deviceInteraction/DeviceInteraction";
 import DeviceInformation from "./features/deviceInformation/DeviceInformation";
+import ContactMe from "./features/contactMe/ContactMe";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "./features/settings/Settings";
@@ -55,6 +56,7 @@ function App() {
                 />
                 <Route path="Settings" element={<Settings />} />
                 <Route path="WorkflowEditor" element={<WorkflowEditor />} />
+                <Route path="ContactMe" element={<ContactMe />} />
               </Route>
             </Routes>
           </BrowserRouter>

@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 
 const StyledRouterIconLink = styled(Link)`
   display: flex;
-  flex-direction: column;
   align-items: center;
   color: ${(props) => props.theme.iconTextColor};
   text-align: center;
+  margin-bottom: 10px;
+  margin-right: 10px;
 `;
 
 export { StyledRouterIconLink };
