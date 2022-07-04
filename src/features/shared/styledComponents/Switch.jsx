@@ -84,7 +84,7 @@ const SwitchOffState = styled(SwitchOnState)`
   right: 0;
 `;
 
-const SwitchHandle = styled(SwitchOnState)`
+const SwitchHandleOn = styled(SwitchOnState)`
   position: relative;
   margin: 0 auto;
   padding-top: 0px;
@@ -94,17 +94,31 @@ const SwitchHandle = styled(SwitchOnState)`
   border-width: 0 1px;
 
   color: #000;
-  background: ${(props) =>
-    props.theme.ToggleButtons.sliderBackgroundColor};
+  background: ${(props) => props.theme.ToggleButtons.sliderBackgroundColorOn};
   border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColor};
+`;
+
+const SwitchHandleOff = styled(SwitchHandleOn)`
+  background: ${(props) =>
+    props.theme.ToggleButtons.sliderBackgroundColorOff ||
+    props.theme.ToggleButtons.sliderBackgroundColorOnOn};
 `;
 
 const ToggleSwitch = React.forwardRef((props, ref) => {
   const [isOn, setIsOn] = useState(props.isToggleOn);
+  const [SwitchHandle, setSwitchHandle] = useState(SwitchHandleOff);
 
   useEffect(() => {
     setIsOn(props.isToggleOn);
   }, [props.isToggleOn]);
+
+  useEffect(() => {
+    if (!isOn) {
+      setSwitchHandle(SwitchHandleOn);
+    } else {
+      setSwitchHandle(SwitchHandleOff);
+    }
+  }, [isOn]);
 
   return (
     <SwitchParentDiv

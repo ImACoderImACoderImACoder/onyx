@@ -32,6 +32,17 @@ const light = {
     rangeBoxColor: "black",
     rangeBoxBorderColor: "orange",
   },
+  ToggleButtons: {
+    sliderBackgroundColorOn: "#FF6600",
+    sliderBackgroundColorOff: "gray",
+    sliderBorderColor: "#f8f9fa",
+    onBackgroundColor: "#FF6600",
+    onBorderColor: "black",
+    onColor: "#fff",
+    offBackgroundColor: "gray",
+    offBorderColor: "black",
+    offColor: "#fff",
+  },
 };
 
 export default light;
