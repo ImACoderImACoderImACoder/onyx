@@ -26,9 +26,9 @@ const SocialDiv = styled.div`
 export default function Socials() {
   return (
     <Div>
-      <h1>
+      <h2>
         <PrideText text="Socials" />
-      </h1>
+      </h2>
       <StyledA href={links.githubLink} target="_blank" rel="noreferrer">
         <SocialDiv>
           <GithubIcon />

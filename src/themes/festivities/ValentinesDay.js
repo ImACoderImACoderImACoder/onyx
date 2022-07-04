@@ -17,7 +17,7 @@ const valentinesDay = {
     backgroundColor: "#ed5eb3",
     borderColor: "white",
   },
-  backgroundColor: "#121212",
+  backgroundColor: "black",
   iconColor: "#671168",
   iconTextColor: "#ed75b3",
   temperatureRange: {
@@ -27,7 +27,8 @@ const valentinesDay = {
   },
   workflowEditor: {
     accordianExpandedColor: "#ea379d",
-  },  ToggleButtons: {
+  },
+  ToggleButtons: {
     sliderBackgroundColor: "gray",
     sliderBorderColor: "#f8f9fa",
     onBackgroundColor: "#bb27ff",

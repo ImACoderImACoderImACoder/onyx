@@ -1,16 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { WriteNewConfigToLocalStorage } from "../../services/utils";
-import styled from "styled-components";
-import Button from "../shared/styledComponents/Button";
+import Button from "./shared/WorkflowFooterButtons";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import WorkflowItemTypes from "../../constants/enums";
 import PrideText from "../../themes/PrideText";
-
-const StyledButton = styled(Button)`
-  min-height: 50px;
-  margin-top: 15px;
-`;
 
 export default function CreateWorkflowItemButton(props) {
   const config = useSelector((state) => state.settings.config);
@@ -27,5 +21,9 @@ export default function CreateWorkflowItemButton(props) {
     dispatch(setCurrentWorkflows(newConfig.workflows));
   };
 
-  return <StyledButton onClick={onClick}><PrideText text="Add Workflow Item" /></StyledButton>;
+  return (
+    <Button onClick={onClick}>
+      <PrideText text="Add Action" />
+    </Button>
+  );
 }

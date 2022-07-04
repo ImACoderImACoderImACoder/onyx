@@ -1,8 +1,8 @@
-import { funId } from "../constants/themeIds";
+import { prideVibrantId } from "../constants/themeIds";
 
 const pride = {
   author: "ImACoderImACoderImACoder",
-  themeId: funId,
+  themeId: prideVibrantId,
   buttonColorMain: "black",
   borderColor: "#D2D2D2",
   currentTemperatureColor: "#ed75b3",

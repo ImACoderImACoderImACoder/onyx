@@ -7,7 +7,6 @@ const StyledRouterIconLink = styled(Link)`
   color: ${(props) => props.theme.iconTextColor};
   text-align: center;
   margin-bottom: 10px;
-  margin-right: 10px;
   text-decoration: none;
 `;
 

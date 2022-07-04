@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import PrideText from "../themes/PrideText";
-import Button from "./shared/styledComponents/Button";
+import PrideText from "../../themes/PrideText";
+import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
 
 const StyledTextArea = styled.textarea`
@@ -40,9 +40,9 @@ export default function Contact() {
 
   return (
     <div>
-      <h1>
-        <PrideText text="Contact Me" />
-      </h1>
+      <h2>
+        <PrideText text="Send Me a Message" />
+      </h2>
       <p>
         It's always nice to hear from users. Maybe you have a feature request or
         even just want to say hi! If you would like a response be sure to

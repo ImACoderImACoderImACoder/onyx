@@ -3,7 +3,9 @@ import PrideText from "../../themes/PrideText";
 export default function WorkflowTips() {
   return (
     <div>
-      <h1><PrideText text="Workflow Tips"/></h1>
+      <h2>
+        <PrideText text="Workflow Tips" />
+      </h2>
       <ul>
         <li>
           If you set the Led brightness to 0 it completely turns off the display
@@ -17,9 +19,9 @@ export default function WorkflowTips() {
           it to another spot in the list
         </li>
         <li>
-          If you are using workflows on a phone or tablet they cannot run in the
-          background. If the app is suspended they will pause until the app is
-          resumed.
+          If you are using workflows on a phone or tablet they may not run in
+          the background. If they stop running they will resume when the app is
+          opened
         </li>
       </ul>
     </div>

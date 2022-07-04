@@ -1,17 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import { useState } from "react";
-import styled from "styled-components";
-import Button from "../shared/styledComponents/Button";
+import Button from "./shared/WorkflowFooterButtons";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import ModalWrapper from "../shared/styledComponents/Modal";
 import PrideText from "../../themes/PrideText";
-
-const StyledButton = styled(Button)`
-  min-height: 50px;
-  margin-top: 15px;
-`;
 
 export default function DeleteWorkflowButton(props) {
   const [show, setShow] = useState(false);
@@ -37,9 +31,11 @@ export default function DeleteWorkflowButton(props) {
 
   return (
     <>
-      <StyledButton onClick={handleShow}><PrideText text="Delete Workflow"/></StyledButton>
+      <Button onClick={handleShow}>
+        <PrideText text="Delete Workflow" />
+      </Button>
       <ModalWrapper
-        headerText={<PrideText text={`Delete Workflow "${props.name}"`}/>}
+        headerText={<PrideText text={`Delete Workflow "${props.name}"`} />}
         bodyText="Are you sure you want to delete this workflow? This action cannot be undone"
         confirmButtonText="Delete"
         handleClose={handleClose}

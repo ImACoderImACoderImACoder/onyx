@@ -6,7 +6,8 @@ import flamingo from "./flamingo";
 import base from "./base";
 import merge from "lodash/merge";
 import grayscale from "./grayScale";
-import pride from "./pride";
+import prideClassic from "./prideClassic";
+import prideVibrant from "./prideVibrant";
 import greenscale from "./greenScale";
 import funId from "./fun";
 
@@ -26,8 +27,10 @@ export default function GetTheme(type) {
       return deepMergeWithBase(grayscale);
     case themeIds.greenscaleId:
       return deepMergeWithBase(greenscale);
-    case themeIds.prideId:
-      return deepMergeWithBase(pride);
+    case themeIds.prideClassicId:
+      return deepMergeWithBase(prideClassic);
+    case themeIds.prideVibrantId:
+      return deepMergeWithBase(prideVibrant);
     case themeIds.funId:
       return deepMergeWithBase(funId);
     default: {

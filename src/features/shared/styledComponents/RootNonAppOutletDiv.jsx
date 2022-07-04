@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Container from "react-bootstrap/Container";
 
 const Div = styled.div`
   display: flex;
@@ -8,4 +9,10 @@ const Div = styled.div`
   overflow-x: hidden;
 `;
 
-export default Div;
+export default function SectionRootDiv(props) {
+  return (
+    <Div>
+      <Container>{props.children}</Container>
+    </Div>
+  );
+}

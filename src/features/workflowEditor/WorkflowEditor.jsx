@@ -14,18 +14,13 @@ import Drag from "./DND/Drag";
 import WorkflowDrop from "./DND/WorkflowDrop";
 import WorkflowTips from "./WorkflowTips";
 import PrideText from "../../themes/PrideText";
+import Container from "react-bootstrap/Container";
 
 const StyledAccordionBody = styled(Accordion.Body)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-const WorkflowDiv = styled.div`
-  display: flex;
-  min-width: 85vw;
-`;
+const WorkflowDiv = styled.div``;
 
 const StyledAccordionHeader = styled(Accordion.Header)`
   .accordion-button {
@@ -34,7 +29,8 @@ const StyledAccordionHeader = styled(Accordion.Header)`
   }
   .accordion-button:not(.collapsed) {
     color: ${(props) => props.theme.buttonActive.color};
-    background-color: ${(props) => props.theme.workflowEditor.accordianExpandedColor};
+    background-color: ${(props) =>
+      props.theme.workflowEditor.accordianExpandedColor};
     border-color: ${(props) => props.theme.buttonActive.borderColor};
   }
 `;
@@ -42,14 +38,10 @@ const StyledAccordionHeader = styled(Accordion.Header)`
 const WorkflowButtonsDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
-  flex-grow: 1;
-  width: 100vw;
 `;
 
 const AccordionItemWrapper = styled(Accordion.Item)`
   border-color: ${(props) => props.theme.borderColor};
-  margin-left: 5px;
-  margin-right: 5px;
 `;
 
 export default function WorkflowEditor() {
@@ -124,7 +116,9 @@ export default function WorkflowEditor() {
 
   return (
     <Div>
-      <h1><PrideText text="Workflow Editor" /></h1>
+      <h1>
+        <PrideText text="Workflow Editor" />
+      </h1>
       <div style={{ display: "flex" }}>
         <WorkflowDrop itemId={0} />
       </div>
@@ -132,15 +126,18 @@ export default function WorkflowEditor() {
       <div style={{ display: "flex" }}>
         <CreateWorkflowButton onClick={onCreateWorkflow} />
       </div>
+      <Container></Container>
       <div style={{ marginTop: "20px" }}>
         <WorkflowTips />
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h1><PrideText text="Config Editor" /></h1>
-      {
+        <h2>
+          <PrideText text="Config Editor" />
+        </h2>
+        {
           "Use this to backup existing workflows. Just save the text somewhere and you can paste it back in anytime. You can also add someone else's workflows to your workflows by pasting in the append workflow JSON modal"
-      }
-        <div style={{ display: "flex" }}>
+        }
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <WorkflowConfigEdtior />
           <AppendWorkflowConfigJson />
         </div>
