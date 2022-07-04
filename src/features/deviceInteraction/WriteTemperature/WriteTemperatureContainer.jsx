@@ -13,9 +13,9 @@ import { temperatureIncrementedDecrementedDebounceTime } from "../../../constant
 import { useSelector } from "react-redux";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useDispatch } from "react-redux";
-import WriteTemperature from './WriteTemperature';
+import WriteTemperature from "./WriteTemperature";
 import { getDisplayTemperature } from "../../../services/utils";
-
+import PrideText from "../../../themes/PrideText";
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
@@ -124,7 +124,7 @@ export default function WriteTemperatureContainer() {
       <WriteTemperature
         key={index}
         onClick={onClick(item)}
-        buttonText={getDisplayTemperature(item, isF)}
+        buttonText={<PrideText text={getDisplayTemperature(item, isF)} />}
         isActive={item === targetTemperature}
       />
     );
