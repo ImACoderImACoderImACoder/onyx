@@ -10,7 +10,7 @@ import { buildCacheFromBleDevice } from "../services/BleCharacteristicCache";
 const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
   const iSiOSdevice =
     window.navigator.userAgent.includes("iPhone") ||
-    window.navigator.userAgent.includes("Macintosh") ||
+    window.navigator.userAgent.includes("WebBLE") ||
     window.navigator.userAgent.includes("iPad");
 
   if (!navigator.bluetooth) {
