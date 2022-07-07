@@ -35,7 +35,7 @@ export default function Ble(props) {
     "Frequent users should replace bags every 2-4 weeks for optimal flavor",
     "10 minutes or less is the ideal time for a bag to store vapor",
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
-    "Drag and drog can be used to reorder workflows on all devices",
+    "Drag and drop can be used to reorder workflows on all devices",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
