@@ -1,5 +1,5 @@
 import React from "react";
-import PrideText from "../../../themes/PrideText";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 import ToggleSwitch from "../../shared/styledComponents/Switch";
 export default React.forwardRef((props, ref) => {
   const enterKeyCode = 13;
@@ -21,7 +21,7 @@ export default React.forwardRef((props, ref) => {
       <ToggleSwitch
         isToggleOn={props.isFanOn}
         onText="Fan On"
-        offText={<div><PrideText text="Fan Off" /></div>}
+        offText={<PrideTextWithDiv text="Fan Off" />}
         onChange={props.onChange}
         ref={ref}
       />

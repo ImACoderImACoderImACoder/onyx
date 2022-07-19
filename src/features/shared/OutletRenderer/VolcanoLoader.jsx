@@ -16,7 +16,7 @@ import MenuBarIcon from "./icons/MenuBarIcon";
 import FOrCLoader from "../../settings/FOrC/FOrCLoader";
 import { StyledRouterIconLink } from "./icons/Shared/IconLink";
 import WorkflowEditorIcon from "./icons/WorkflowEditorIcon";
-import PrideText from "../../../themes/PrideText";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import styled, { useTheme } from "styled-components";
@@ -80,9 +80,7 @@ export default function VolcanoLoader(props) {
             <Container>
               <Navbar.Brand>
                 <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
-                  <div>
-                    <PrideText text="Project Onyx" />
-                  </div>
+                  <PrideTextWithDiv text="Project Onyx" />
                 </StyledRouterIconLink>
               </Navbar.Brand>
 
@@ -101,61 +99,39 @@ export default function VolcanoLoader(props) {
                 <StyledNav className="me-auto">
                   <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
                     {<ControlsIcon />}
-                    {
-                      <div>
-                        <PrideText text="Controls" />
-                      </div>
-                    }
+                    {<PrideTextWithDiv text="Controls" />}
                   </StyledRouterIconLink>
                   <StyledRouterIconLink
                     onClick={onLinkClick}
                     to="/Volcano/WorkflowEditor"
                   >
                     {<WorkflowEditorIcon />}
-                    {
-                      <div>
-                        <PrideText text="Workflow Editor" />
-                      </div>
-                    }
+                    {<PrideTextWithDiv text="Workflow Editor" />}
                   </StyledRouterIconLink>
                   <StyledRouterIconLink
                     onClick={onLinkClick}
                     to="/Volcano/DeviceInformation"
                   >
                     {<InformationIcon />}
-                    {
-                      <div>
-                        <PrideText text="Device Info" />
-                      </div>
-                    }
+                    {<PrideTextWithDiv text="Device Info" />}
                   </StyledRouterIconLink>
                   <StyledRouterIconLink
                     onClick={onLinkClick}
                     to="/Volcano/Settings"
                   >
                     {<SettingsIcon />}
-                    {
-                      <div>
-                        <PrideText text="Settings" />
-                      </div>
-                    }
+                    {<PrideTextWithDiv text="Settings" />}
                   </StyledRouterIconLink>
                   <StyledRouterIconLink
                     onClick={onLinkClick}
                     to="/Volcano/ContactMe"
                   >
                     {<ContactMeIcon />}
-                    {
-                      <div>
-                        <PrideText text="Contact Me" />
-                      </div>
-                    }
+                    {<PrideTextWithDiv text="Contact Me" />}
                   </StyledRouterIconLink>
                   <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
                     <BluetoothDisconnectIcon />
-                    <div>
-                      <PrideText text="Disconnect" />
-                    </div>
+                    <PrideTextWithDiv text="Disconnect" />
                   </StyledRouterIconLink>
                 </StyledNav>
               </Navbar.Collapse>

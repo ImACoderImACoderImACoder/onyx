@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import ToggleSwitch from "../../../features/shared/styledComponents/Switch";
-import PrideText from "../../../themes/PrideText";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 export default function HeatOn(props) {
   const ref = useRef(null);
   const enterKeyCode = 13;
@@ -22,7 +22,7 @@ export default function HeatOn(props) {
       <ToggleSwitch
         isToggleOn={props.isHeatOn}
         onText="Heat On"
-        offText={<div><PrideText text="Heat Off" /></div>}
+        offText={<PrideTextWithDiv text="Heat Off" />}
         ref={ref}
         onChange={props.onChange}
       />
