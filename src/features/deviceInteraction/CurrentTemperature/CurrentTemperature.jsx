@@ -7,13 +7,13 @@ const Div = styled.div`
   font-size: 30px;
   color: ${(props) => props.theme.currentTemperatureColor};
   font-family: "digital-mono";
-  font-size: 3rem;
-  margin-bottom: -1.25rem;
+  font-size: 4rem;
+  margin-bottom: -1.75rem;
 `;
 
 const Span = styled.span`
-  font-size: 1.5rem;
-  margin-left: 3px;
+  font-size: 2rem;
+  margin-left: 4px;
 `;
 
 const StyledSpinner = styled(Spinner)`
