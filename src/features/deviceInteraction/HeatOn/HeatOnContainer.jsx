@@ -84,7 +84,6 @@ export default function HeatOnContainer() {
   }, [dispatch]);
 
   const onClick = (nextState) => {
-    dispatch(setIsHeatOn(nextState));
     const blePayload = async () => {
       const targetCharacteristicUuid = nextState ? heatOnUuid : heatOffUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);
@@ -92,6 +91,9 @@ export default function HeatOnContainer() {
       await characteristic.writeValue(buffer);
     };
     AddToQueue(blePayload);
+
+    //used to prevent a warning I don't fully understand.
+    setTimeout(() => dispatch(setIsHeatOn(nextState)), 100);
   };
 
   return <HeatOn onChange={onClick} isHeatOn={isHeatOn} />;

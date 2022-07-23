@@ -17,6 +17,7 @@ import {
 
 export default function CurrentTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
   );
@@ -85,9 +86,10 @@ export default function CurrentTemperatureContainer() {
   const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
 
   const showCurrentTemp =
-    !isNaN(parseInt(currentTemperature)) &&
-    currentTemperature > MIN_CELSIUS_TEMP &&
-    currentTemperature <= MAX_CELSIUS_TEMP;
+    (!isNaN(parseInt(currentTemperature)) &&
+      currentTemperature > MIN_CELSIUS_TEMP &&
+      currentTemperature <= MAX_CELSIUS_TEMP) ||
+    isHeatOn;
   return (
     <CurrentTemperature
       style={{ visibility: !showCurrentTemp && "hidden" }}
