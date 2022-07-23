@@ -24,7 +24,7 @@ const StyledSpinner = styled(Spinner)`
 
 const CurrentTemperature = (props) => {
   return (
-    <Div>
+    <Div style={props.style}>
       {(props.currentTemperature && (
         <div>
           <PrideText text={`${props.currentTemperature}`} />

@@ -9,7 +9,11 @@ import {
 } from "../../../services/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTemperature } from "../deviceInteractionSlice";
-import { DEGREE_SYMBOL } from "../../../constants/temperature";
+import {
+  DEGREE_SYMBOL,
+  MAX_CELSIUS_TEMP,
+  MIN_CELSIUS_TEMP,
+} from "../../../constants/temperature";
 
 export default function CurrentTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);
@@ -79,8 +83,14 @@ export default function CurrentTemperatureContainer() {
       : currentTemperature;
 
   const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
+
+  const showCurrentTemp =
+    !isNaN(parseInt(currentTemperature)) &&
+    currentTemperature > MIN_CELSIUS_TEMP &&
+    currentTemperature <= MAX_CELSIUS_TEMP;
   return (
     <CurrentTemperature
+      style={{ visibility: !showCurrentTemp && "hidden" }}
       currentTemperature={temperature}
       temperatureSuffix={temperatureSuffix}
     />

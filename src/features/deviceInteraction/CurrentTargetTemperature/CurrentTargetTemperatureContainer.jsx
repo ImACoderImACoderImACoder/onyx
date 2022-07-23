@@ -18,7 +18,6 @@ export default function CurrentTargetTemperatureContainer() {
     : currentTargetTemperature;
 
   const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
-
   return (
     <CurrentTargetTemperature
       style={{ visibility: !isHeatOn && "hidden" }}
