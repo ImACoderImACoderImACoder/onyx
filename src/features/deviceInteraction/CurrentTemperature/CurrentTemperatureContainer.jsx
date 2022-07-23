@@ -5,10 +5,11 @@ import { AddToQueue } from "../../../services/bleQueueing";
 import CurrentTemperature from "./CurrentTemperature";
 import {
   convertCurrentTemperatureCharacteristicToCelcius,
-  getDisplayTemperature,
+  convertToFahrenheitFromCelsius,
 } from "../../../services/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTemperature } from "../deviceInteractionSlice";
+import { DEGREE_SYMBOL } from "../../../constants/temperature";
 
 export default function CurrentTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);
@@ -24,7 +25,8 @@ export default function CurrentTemperatureContainer() {
           const blePayload = async () => {
             const characteristic = getCharacteristic(currentTemperatureUuid);
             const value = await characteristic.readValue();
-            const normalizedValue = convertCurrentTemperatureCharacteristicToCelcius(value);
+            const normalizedValue =
+              convertCurrentTemperatureCharacteristicToCelcius(value);
             dispatch(setCurrentTemperature(normalizedValue));
           };
           AddToQueue(blePayload);
@@ -71,8 +73,16 @@ export default function CurrentTemperatureContainer() {
 
   const temperature =
     currentTemperature || currentTemperature === 0
-      ? getDisplayTemperature(currentTemperature, isF)
+      ? isF
+        ? convertToFahrenheitFromCelsius(currentTemperature)
+        : currentTemperature
       : currentTemperature;
 
-  return <CurrentTemperature currentTemperature={temperature} />;
+  const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
+  return (
+    <CurrentTemperature
+      currentTemperature={temperature}
+      temperatureSuffix={temperatureSuffix}
+    />
+  );
 }

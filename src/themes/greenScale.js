@@ -4,6 +4,7 @@ const greenscale = {
   author: "ImACoderImACoderImACoder/ayebizz",
   themeId: greenscaleId,
   buttonColorMain: "#242526",
+  currentTemperatureColor: "#0fca06",
   borderColor: "#B0B3B8",
   buttonActive: {
     color: "white",

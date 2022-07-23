@@ -21,33 +21,6 @@ export default function HeatOnContainer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const handler = () => {
-      if (document.visibilityState === "visible") {
-        setTimeout(() => {
-          const blePayload = async () => {
-            const characteristicPrj1V = getCharacteristic(register1Uuid);
-            const value = await characteristicPrj1V.readValue();
-            const currentVal = convertBLEtoUint16(value);
-            const newHeatValue = convertToggleCharacteristicToBool(
-              currentVal,
-              heatingMask
-            );
-            if (isHeatOn !== newHeatValue) {
-              dispatch(setIsHeatOn(newHeatValue));
-            }
-          };
-          AddToQueue(blePayload);
-        }, 250);
-      }
-    };
-    document.addEventListener("visibilitychange", handler);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handler);
-    };
-  }, [dispatch, isHeatOn]);
-
-  useEffect(() => {
     const handlePrj1ChangedVolcano = (event) => {
       let currentVal = convertBLEtoUint16(event.target.value);
       const newHeatValue = convertToggleCharacteristicToBool(
@@ -56,8 +29,8 @@ export default function HeatOnContainer() {
       );
       dispatch(setIsHeatOn(newHeatValue));
     };
-
     const characteristicPrj1V = getCharacteristic(register1Uuid);
+
     const blePayload = async () => {
       await characteristicPrj1V.addEventListener(
         "characteristicvaluechanged",
@@ -70,9 +43,7 @@ export default function HeatOnContainer() {
         currentVal,
         heatingMask
       );
-      if (newHeatValue !== isHeatOn) {
-        dispatch(setIsHeatOn(newHeatValue));
-      }
+      dispatch(setIsHeatOn(newHeatValue));
     };
     AddToQueue(blePayload);
 
@@ -85,9 +56,35 @@ export default function HeatOnContainer() {
       };
       AddToQueue(blePayload);
     };
-  }, [dispatch, isHeatOn]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handler = () => {
+      if (document.visibilityState === "visible") {
+        setTimeout(() => {
+          const blePayload = async () => {
+            const characteristicPrj1V = getCharacteristic(register1Uuid);
+            const value = await characteristicPrj1V.readValue();
+            const currentVal = convertBLEtoUint16(value);
+            const newHeatValue = convertToggleCharacteristicToBool(
+              currentVal,
+              heatingMask
+            );
+            dispatch(setIsHeatOn(newHeatValue));
+          };
+          AddToQueue(blePayload);
+        }, 250);
+      }
+    };
+    document.addEventListener("visibilitychange", handler);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handler);
+    };
+  }, [dispatch]);
 
   const onClick = (nextState) => {
+    dispatch(setIsHeatOn(nextState));
     const blePayload = async () => {
       const targetCharacteristicUuid = nextState ? heatOnUuid : heatOffUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);
