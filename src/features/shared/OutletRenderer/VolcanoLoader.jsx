@@ -22,6 +22,7 @@ import Nav from "react-bootstrap/Nav";
 import styled, { useTheme } from "styled-components";
 import ContactMeIcon from "./icons/ContactMeIcon";
 import Container from "react-bootstrap/Container";
+import { useSelector } from "react-redux";
 
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
@@ -66,6 +67,17 @@ export default function VolcanoLoader(props) {
   };
 
   const theme = useTheme();
+
+  /* eslint-disable no-unused-vars */
+  //little hack to make Pridetext reaminate when these states change
+  const currentTargetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
+
+  const currentTemperature = useSelector(
+    (state) => state.deviceInteraction.currentTemperature
+  );
+  /* eslint-enable no-unused-vars */
 
   return (
     cacheContainsCharacteristic(heatOffUuid) && (
