@@ -90,6 +90,15 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
       uuIds.hoursOfOperationUuid
     );
 
+    const minutesOfOperationCharacteristic =
+      await primaryServiceUuidVolcano4.getCharacteristic(
+        uuIds.minutesOfOperationUuid
+      );
+    writeCharacteristicToCache(
+      minutesOfOperationCharacteristic,
+      uuIds.minutesOfOperationUuid
+    );
+
     const bleFirmwareVersionCharacteristic =
       await primaryServiceUuidVolcano3.getCharacteristic(
         uuIds.bleFirmwareVersionUuid

@@ -15,49 +15,12 @@ import {
   convertToggleCharacteristicToBool,
 } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
+import useHeatOnChangedEffect from "./useHeatOnChangedEffect";
 
 export default function HeatOnContainer() {
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const handlePrj1ChangedVolcano = (event) => {
-      let currentVal = convertBLEtoUint16(event.target.value);
-      const newHeatValue = convertToggleCharacteristicToBool(
-        currentVal,
-        heatingMask
-      );
-      dispatch(setIsHeatOn(newHeatValue));
-    };
-    const characteristicPrj1V = getCharacteristic(register1Uuid);
-
-    const blePayload = async () => {
-      await characteristicPrj1V.addEventListener(
-        "characteristicvaluechanged",
-        handlePrj1ChangedVolcano
-      );
-      await characteristicPrj1V.startNotifications();
-      const value = await characteristicPrj1V.readValue();
-      const currentVal = convertBLEtoUint16(value);
-      const newHeatValue = convertToggleCharacteristicToBool(
-        currentVal,
-        heatingMask
-      );
-      dispatch(setIsHeatOn(newHeatValue));
-    };
-    AddToQueue(blePayload);
-
-    return () => {
-      const blePayload = async () => {
-        await characteristicPrj1V?.removeEventListener(
-          "characteristicvaluechanged",
-          handlePrj1ChangedVolcano
-        );
-      };
-      AddToQueue(blePayload);
-    };
-  }, [dispatch]);
-
+  useHeatOnChangedEffect();
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {

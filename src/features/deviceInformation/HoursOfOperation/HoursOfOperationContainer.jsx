@@ -1,41 +1,65 @@
 import { useEffect } from "react";
 import { convertBLEtoUint16 } from "../../../services/utils";
-
 import HoursOfOperation from "./HoursOfOperation";
 import { AddToQueue } from "../../../services/bleQueueing";
-import { hoursOfOperationUuid } from "../../../constants/uuids";
+import {
+  hoursOfOperationUuid,
+  minutesOfOperationUuid,
+} from "../../../constants/uuids";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setHoursOfOperation } from "../deviceInformationSlice";
+import useHeatOnChangedEffect from "../../deviceInteraction/HeatOn/useHeatOnChangedEffect";
 
 export default function HoursOfOperationContainer() {
   const dispatch = useDispatch();
-  const lastUpdated = useSelector(
-    (state) => state.deviceInformation.hoursOfOperation.lastUpdated
-  );
+
+  useHeatOnChangedEffect();
   const hours = useSelector(
     (state) => state.deviceInformation.hoursOfOperation.hours
   );
-  useEffect(() => {
-    const hour = 1000 * 60 * 10;
-    const anHourAgo = Date.now() - hour;
 
-    const hasAnHourPassedSinceLastUpdate = lastUpdated < anHourAgo;
-    if (!hours || hasAnHourPassedSinceLastUpdate) {
+  const minutes = useSelector(
+    (state) => state.deviceInformation.hoursOfOperation.minutes
+  );
+
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+
+  useEffect(() => {
+    const fetchOperationTime = () => {
       const blePayload = async () => {
-        const characteristic = getCharacteristic(hoursOfOperationUuid);
-        const value = await characteristic.readValue();
-        const useHoursVolcano = (convertBLEtoUint16(value) / 10).toString();
+        const hoursOfOperationCharacteristic =
+          getCharacteristic(hoursOfOperationUuid);
+        const hoursBle = await hoursOfOperationCharacteristic.readValue();
+        const currentHoursOfOperation = convertBLEtoUint16(hoursBle);
+
+        const minutesOfOperationCharacteristic = getCharacteristic(
+          minutesOfOperationUuid
+        );
+        const minutesBle = await minutesOfOperationCharacteristic.readValue();
+        const currentMinutesOfOperation = convertBLEtoUint16(minutesBle);
+
         const actionPayload = {
-          hours: useHoursVolcano,
-          lastUpdated: Date.now(),
+          hours: currentHoursOfOperation,
+          minutes: currentMinutesOfOperation,
         };
         dispatch(setHoursOfOperation(actionPayload));
-        return useHoursVolcano;
       };
       AddToQueue(blePayload);
-    }
-  }, [dispatch, hours, lastUpdated]);
+    };
+    fetchOperationTime();
+    const intervalId = setInterval(() => {
+      //no need to waste resources for updates if the heat is off since at this time (9/26/22) the heat is the only thing that changes this value
+      if (isHeatOn) {
+        fetchOperationTime();
+      }
+    }, 60 * 1000);
 
-  return <HoursOfOperation hoursOfOperation={hours} />;
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [dispatch, isHeatOn]);
+
+  const hoursOfOperation = hours ? `${hours}h ${minutes}m` : "";
+  return <HoursOfOperation hoursOfOperation={hoursOfOperation} />;
 }

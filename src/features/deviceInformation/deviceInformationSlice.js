@@ -8,7 +8,7 @@ export const deviceInformationSlice = createSlice({
     bleFirmwareVersion: undefined,
     hoursOfOperation: {
       hours: undefined,
-      lastUpdated: undefined,
+      minutes: undefined,
     },
     volcanoFirmwareVersion: undefined,
     autoOffTimeInSeconds: 0,
@@ -22,7 +22,7 @@ export const deviceInformationSlice = createSlice({
     },
     setHoursOfOperation: (state, action) => {
       state.hoursOfOperation.hours = action.payload.hours;
-      state.hoursOfOperation.lastUpdated = action.payload.lastUpdated;
+      state.hoursOfOperation.minutes = action.payload.minutes;
     },
     setVolcanoFirmwareVersion: (state, action) => {
       state.volcanoFirmwareVersion = action.payload;
@@ -38,7 +38,7 @@ export const deviceInformationSlice = createSlice({
         bleFirmwareVersion: undefined,
         hoursOfOperation: {
           hours: undefined,
-          lastUpdated: undefined,
+          minutes: undefined,
         },
         volcanoFirmwareVersion: undefined,
         autoOffTimeInSeconds: 0,
