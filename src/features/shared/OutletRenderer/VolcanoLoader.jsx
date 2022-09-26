@@ -13,7 +13,6 @@ import InformationIcon from "./icons/InformationIcon";
 import BluetoothDisconnectIcon from "./icons/BluetoothDisconnectIcon";
 import SettingsIcon from "./icons/SettingsIcon";
 import MenuBarIcon from "./icons/MenuBarIcon";
-import FOrCLoader from "../../settings/FOrC/FOrCLoader";
 import { StyledRouterIconLink } from "./icons/Shared/IconLink";
 import WorkflowEditorIcon from "./icons/WorkflowEditorIcon";
 import { PrideTextWithDiv } from "../../../themes/PrideText";
@@ -82,7 +81,6 @@ export default function VolcanoLoader(props) {
   return (
     cacheContainsCharacteristic(heatOffUuid) && (
       <div className="main-div">
-        <FOrCLoader />
         {
           <StyledNavBar
             expand="lg"

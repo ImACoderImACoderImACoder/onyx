@@ -13,7 +13,9 @@ import PrideText from "../../themes/PrideText";
 export default function Settings() {
   return (
     <Div>
-      <h1><PrideText text="Settings"/></h1>
+      <h1>
+        <PrideText text="Settings" />
+      </h1>
       <ThemesContainer />
       <FOrCLoader useSpinnerToShowLoader>
         <FOrC />

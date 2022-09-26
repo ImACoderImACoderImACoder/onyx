@@ -14,9 +14,10 @@ import {
   MAX_CELSIUS_TEMP,
   MIN_CELSIUS_TEMP,
 } from "../../../constants/temperature";
+import useIsF from "../../settings/FOrC/UseIsF";
 
 export default function CurrentTemperatureContainer() {
-  const isF = useSelector((state) => state.settings.isF);
+  const isF = useIsF();
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
@@ -29,9 +30,10 @@ export default function CurrentTemperatureContainer() {
         setTimeout(() => {
           const blePayload = async () => {
             const characteristic = getCharacteristic(currentTemperatureUuid);
-            //reading this causes an on change event to fire for some unknown reason
-            //best to let the change handler pick up the event to prevent duplicate dispatches
-            await characteristic.readValue();
+            const value = await characteristic.readValue();
+            const normalizedValue =
+              convertCurrentTemperatureCharacteristicToCelcius(value);
+            dispatch(setCurrentTemperature(normalizedValue));
           };
           AddToQueue(blePayload);
         }, 250);
@@ -58,9 +60,10 @@ export default function CurrentTemperatureContainer() {
         onCharacteristicChange
       );
       await characteristic.startNotifications();
-      //reading this causes an on change event to fire for some unknown reason
-      //best to let the change handler pick up the event to prevent duplicate dispatches
-      await characteristic.readValue();
+      const value = await characteristic.readValue();
+      const normalizedValue =
+        convertCurrentTemperatureCharacteristicToCelcius(value);
+      dispatch(setCurrentTemperature(normalizedValue));
     };
     AddToQueue(BlePayload);
     return () => {

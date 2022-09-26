@@ -4,11 +4,12 @@ import { convertToUInt32BLE } from "../../../services/utils";
 import FOrC from "./FOrC";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIsF } from "../settingsSlice";
+import useIsF from "./UseIsF";
 
 export default function FOrCContainer() {
-  const isF = useSelector((state) => state.settings.isF);
+  const isF = useIsF();
   const dispatch = useDispatch();
 
   const onClick = () => {

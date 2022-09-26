@@ -2,9 +2,10 @@ import { convertToFahrenheitFromCelsius } from "../../../services/utils";
 import { useSelector } from "react-redux";
 import { DEGREE_SYMBOL } from "../../../constants/temperature";
 import CurrentTargetTemperature from "./CurrentTargetTemperature";
+import useIsF from "../../settings/FOrC/UseIsF";
 
 export default function CurrentTargetTemperatureContainer() {
-  const isF = useSelector((state) => state.settings.isF);
+  const isF = useIsF();
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
 
   const currentTargetTemperature = useSelector(
