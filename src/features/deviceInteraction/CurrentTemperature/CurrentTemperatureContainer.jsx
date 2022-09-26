@@ -29,10 +29,9 @@ export default function CurrentTemperatureContainer() {
         setTimeout(() => {
           const blePayload = async () => {
             const characteristic = getCharacteristic(currentTemperatureUuid);
-            const value = await characteristic.readValue();
-            const normalizedValue =
-              convertCurrentTemperatureCharacteristicToCelcius(value);
-            dispatch(setCurrentTemperature(normalizedValue));
+            //reading this causes an on change event to fire for some unknown reason
+            //best to let the change handler pick up the event to prevent duplicate dispatches
+            await characteristic.readValue();
           };
           AddToQueue(blePayload);
         }, 250);
@@ -59,10 +58,9 @@ export default function CurrentTemperatureContainer() {
         onCharacteristicChange
       );
       await characteristic.startNotifications();
-      const value = await characteristic.readValue();
-      const normalizedValue =
-        convertCurrentTemperatureCharacteristicToCelcius(value);
-      dispatch(setCurrentTemperature(normalizedValue));
+      //reading this causes an on change event to fire for some unknown reason
+      //best to let the change handler pick up the event to prevent duplicate dispatches
+      await characteristic.readValue();
     };
     AddToQueue(BlePayload);
     return () => {

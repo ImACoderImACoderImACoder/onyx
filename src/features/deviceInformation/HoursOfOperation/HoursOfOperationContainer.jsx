@@ -9,12 +9,11 @@ import {
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setHoursOfOperation } from "../deviceInformationSlice";
-import useHeatOnChangedEffect from "../../deviceInteraction/HeatOn/useHeatOnChangedEffect";
+import useIsHeatOn from "../../deviceInteraction/HeatOn/useIsHeatOn";
 
 export default function HoursOfOperationContainer() {
   const dispatch = useDispatch();
 
-  useHeatOnChangedEffect();
   const hours = useSelector(
     (state) => state.deviceInformation.hoursOfOperation.hours
   );
@@ -23,7 +22,7 @@ export default function HoursOfOperationContainer() {
     (state) => state.deviceInformation.hoursOfOperation.minutes
   );
 
-  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const isHeatOn = useIsHeatOn();
 
   useEffect(() => {
     const fetchOperationTime = () => {

@@ -45,10 +45,9 @@ export default function WriteTemperatureContainer() {
       );
 
       await characteristic.startNotifications();
-      const value = await characteristic.readValue();
-      const targetTemperature =
-        convertCurrentTemperatureCharacteristicToCelcius(value);
-      dispatch(setTargetTemperature(targetTemperature));
+      //reading this causes an on change event to fire for some unknown reason
+      //best to let the change handler pick up the event to prevent duplicate dispatches
+      await characteristic.readValue();
     };
     AddToQueue(blePayload);
     return () => {
@@ -68,10 +67,9 @@ export default function WriteTemperatureContainer() {
         setTimeout(() => {
           const blePayload = async () => {
             const characteristic = getCharacteristic(writeTemperatureUuid);
-            const value = await characteristic.readValue();
-            const targetTemperature =
-              convertCurrentTemperatureCharacteristicToCelcius(value);
-            dispatch(setTargetTemperature(targetTemperature));
+            //reading this causes an on change event to fire for some unknown reason
+            //best to let the change handler pick up the event to prevent duplicate dispatches
+            await characteristic.readValue();
           };
           AddToQueue(blePayload);
         }, 250);

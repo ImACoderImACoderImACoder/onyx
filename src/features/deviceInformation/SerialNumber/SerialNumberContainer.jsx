@@ -21,7 +21,6 @@ export default function ReadSerialNumber() {
         let serialNumber = decoder.decode(value);
         const normalizedSerialNumber = serialNumber.substring(0, 8);
         dispatch(setSerialNumber(normalizedSerialNumber));
-        return normalizedSerialNumber;
       };
       AddToQueue(blePayload);
     }
