@@ -4,9 +4,13 @@ import {
   MAX_CELSIUS_TEMP,
   DEGREE_SYMBOL,
 } from "../constants/temperature";
+import WorkflowItemTypes from "../constants/enums";
+
 import {
   localStorageKey,
   defaultTemperatureArray,
+  defaultGlobalFanOnTimeInSeconds,
+  defaultWorkflows,
 } from "../constants/constants";
 
 import GetTheme from "../themes/ThemeProvider";
@@ -88,13 +92,22 @@ export function ReadConfigFromLocalStorage() {
   const defaultConfig = {
     temperatureControlValues: defaultTemperatureArray,
     currentTheme: GetTheme(),
-    workflows: [],
+    workflows: {
+      items: defaultWorkflows,
+      [WorkflowItemTypes.FAN_ON_GLOBAL]: defaultGlobalFanOnTimeInSeconds,
+    },
   };
   if (!config) {
     window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));
     config = defaultConfig;
   } else {
     config = { ...defaultConfig, ...config };
+    if (!config.workflows.items) {
+      config.workflows = {
+        items: config.workflows,
+        [WorkflowItemTypes.FAN_ON_GLOBAL]: defaultGlobalFanOnTimeInSeconds,
+      };
+    }
   }
 
   return config;

@@ -6,7 +6,7 @@ import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
 import DeleteWorkflowItem from "./DeleteWorkflowItem";
-import { setCurrentWorkflows } from "../settings/settingsSlice";
+import { setCurrentWorkflows, setFanOnGlobal } from "../settings/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
@@ -19,6 +19,8 @@ import {
 import { DEGREE_SYMBOL } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
 import PrideText from "../../themes/PrideText";
+import useIsF from "../settings/FOrC/UseIsF";
+import { useEffect } from "react";
 
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
@@ -42,7 +44,19 @@ const StyledPayloadDiv = styled.div`
 export default function WorkflowItemEditor(props) {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const isF = useSelector((state) => state.settings.isF);
+  const fanOnGlobal = useSelector(
+    (state) => state.settings.config.workflows.fanOnGlobal
+  );
+  const isF = useIsF();
+
+  useEffect(() => {
+    if (props.item.type === WorkflowItemTypes.HEAT_ON && props.item.payload) {
+      const nextPayloadInput = isF
+        ? convertToFahrenheitFromCelsius(props.item.payload)
+        : props.item.payload;
+      setPayloadInput(nextPayloadInput);
+    }
+  }, [isF, props.item]);
   let initialPayloadInputState;
   if (props.item.type !== WorkflowItemTypes.HEAT_ON) {
     initialPayloadInputState = props.item.payload;
@@ -55,11 +69,23 @@ export default function WorkflowItemEditor(props) {
         : props.item.payload;
     }
   }
+
+  if (props.item.type === WorkflowItemTypes.FAN_ON_GLOBAL) {
+    initialPayloadInputState = fanOnGlobal;
+  }
+
   const [payloadInput, setPayloadInput] = useState(initialPayloadInputState);
+
+  useEffect(() => {
+    if (props.item.type === WorkflowItemTypes.FAN_ON_GLOBAL) {
+      setPayloadInput(fanOnGlobal);
+    }
+  }, [fanOnGlobal, props.item.type]);
 
   const getPayloadLabelByType = (type) => {
     switch (type) {
       case WorkflowItemTypes.WAIT:
+      case WorkflowItemTypes.FAN_ON_GLOBAL:
       case WorkflowItemTypes.FAN_ON: {
         return "Seconds";
       }
@@ -80,6 +106,9 @@ export default function WorkflowItemEditor(props) {
 
   const getDefaultPayloadValueByType = (type) => {
     switch (type) {
+      case WorkflowItemTypes.FAN_ON_GLOBAL: {
+        return fanOnGlobal;
+      }
       case WorkflowItemTypes.FAN_ON: {
         return 35.5;
       }
@@ -105,7 +134,9 @@ export default function WorkflowItemEditor(props) {
   const dispatch = useDispatch();
   const onChange = (e) => {
     const newConfig = cloneDeep(config);
-    const workflow = newConfig.workflows.find((r) => r.id === props.workflowId);
+    const workflow = newConfig.workflows.items.find(
+      (r) => r.id === props.workflowId
+    );
     const itemIndex = workflow.payload.findIndex((r) => r.id === props.item.id);
 
     const item = workflow.payload[itemIndex];
@@ -113,6 +144,7 @@ export default function WorkflowItemEditor(props) {
 
     if (
       !item.payload ||
+      item.type === WorkflowItemTypes.FAN_ON_GLOBAL ||
       item.type === WorkflowItemTypes.HEAT_OFF ||
       !isPayloadValid(
         { payload: item.payload, type: item.type },
@@ -123,11 +155,14 @@ export default function WorkflowItemEditor(props) {
       const defaultValue = getDefaultPayloadValueByType(e.target.value);
       item.payload = defaultValue;
       setPayloadInput(defaultValue || "");
+      if (item.type === WorkflowItemTypes.FAN_ON_GLOBAL) {
+        newConfig.workflows[WorkflowItemTypes.FAN_ON_GLOBAL] = defaultValue;
+      }
       setIsValid(true);
     }
 
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
   const onPayloadBlur = (e) => {
@@ -143,7 +178,9 @@ export default function WorkflowItemEditor(props) {
     }
     setIsValid(true);
     const newConfig = cloneDeep(config);
-    const workflow = newConfig.workflows.find((r) => r.id === props.workflowId);
+    const workflow = newConfig.workflows.items.find(
+      (r) => r.id === props.workflowId
+    );
     const itemIndex = workflow.payload.findIndex((r) => r.id === props.item.id);
 
     const item = workflow.payload[itemIndex];
@@ -152,8 +189,13 @@ export default function WorkflowItemEditor(props) {
     if (item.type === WorkflowItemTypes.HEAT_ON && isF) {
       item.payload = convertToCelsiusFromFahrenheit(item.payload);
     }
+
+    if (item.type === WorkflowItemTypes.FAN_ON_GLOBAL) {
+      newConfig.workflows[WorkflowItemTypes.FAN_ON_GLOBAL] = item.payload;
+      dispatch(setFanOnGlobal(item.payload));
+    }
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
   const name = `Action ${props.itemIndex + 1}`;
@@ -162,7 +204,9 @@ export default function WorkflowItemEditor(props) {
     <WorkflowItemDiv>
       <div>
         <StyledActionTypeHeader>
-          <StyledLabel><PrideText text={name}/></StyledLabel>
+          <StyledLabel>
+            <PrideText text={name} />
+          </StyledLabel>
           <DeleteWorkflowItem
             workflowId={props.workflowId}
             workflowItemId={props.item.id}
@@ -172,6 +216,7 @@ export default function WorkflowItemEditor(props) {
         <StyledSelect defaultValue={props.item.type} onChange={onChange}>
           <option value={WorkflowItemTypes.HEAT_ON}>Heat On</option>
           <option value={WorkflowItemTypes.FAN_ON}>Fan On</option>
+          <option value={WorkflowItemTypes.FAN_ON_GLOBAL}>Fan On Global</option>
           <option value={WorkflowItemTypes.WAIT}>Pause/Wait</option>
           <option value={WorkflowItemTypes.HEAT_OFF}>Heat Off</option>
           <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>

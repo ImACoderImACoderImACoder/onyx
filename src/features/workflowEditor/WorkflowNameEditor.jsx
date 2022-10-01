@@ -16,11 +16,13 @@ export default function WorkflowNameEditor(props) {
   const dispatch = useDispatch();
   const onBlur = (e) => {
     const newConfig = cloneDeep(config);
-    const workflow = newConfig.workflows.find((r) => r.id === props.workflowId);
+    const workflow = newConfig.workflows.items.find(
+      (r) => r.id === props.workflowId
+    );
     workflow.name = workflowName;
 
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
   useEffect(() => {
@@ -29,7 +31,9 @@ export default function WorkflowNameEditor(props) {
 
   return (
     <WorkflowItemDiv>
-      <Label><PrideText text="Workflow Name: " /></Label>
+      <Label>
+        <PrideText text="Workflow Name: " />
+      </Label>
       <StyledControl
         type="text"
         value={workflowName}

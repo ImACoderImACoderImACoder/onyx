@@ -20,12 +20,12 @@ export default function DeleteWorkflowButton(props) {
   const dispatch = useDispatch();
   const handleConfirm = () => {
     const newConfig = cloneDeep(config);
-    const indexToBeDelete = newConfig.workflows.findIndex(
+    const indexToBeDelete = newConfig.workflows.items.findIndex(
       (r) => r.id === props.id
     );
-    newConfig.workflows.splice(indexToBeDelete, 1);
+    newConfig.workflows.items.splice(indexToBeDelete, 1);
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
     handleClose();
   };
 

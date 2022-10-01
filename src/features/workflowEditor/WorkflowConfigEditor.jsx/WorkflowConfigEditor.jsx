@@ -7,10 +7,14 @@ import { useDispatch } from "react-redux";
 import ModalWrapper from "../../shared/styledComponents/Modal";
 import cloneDeep from "lodash/cloneDeep";
 import Control from "react-bootstrap/FormControl";
-import { setCurrentWorkflows } from "../../settings/settingsSlice";
+import {
+  setCurrentWorkflows,
+  setFanOnGlobal,
+} from "../../settings/settingsSlice";
 
 import Button from "../shared/WorkflowFooterButtons";
 import PrideText from "../../../themes/PrideText";
+import { defaultGlobalFanOnTimeInSeconds } from "../../../constants/constants";
 
 export default function WorkflowConfigEdtior() {
   const [show, setShow] = useState(false);
@@ -30,6 +34,12 @@ export default function WorkflowConfigEdtior() {
     let uploadedConfig;
     try {
       uploadedConfig = JSON.parse(configString);
+      if (!uploadedConfig.items) {
+        uploadedConfig = {
+          items: uploadedConfig,
+          fanOnGlobal: defaultGlobalFanOnTimeInSeconds,
+        };
+      }
     } catch {
       setIsValid(false);
       return;
@@ -40,7 +50,7 @@ export default function WorkflowConfigEdtior() {
       newConfig.workflows = uploadedConfig;
 
       //instead of verifying ids its way easier to generate new ones
-      newConfig.workflows.forEach((workflow, index) => {
+      newConfig.workflows.items.forEach((workflow, index) => {
         workflow.id = index + 1;
         workflow.payload.forEach((workflowItem, index) => {
           workflowItem.id = index + 1;
@@ -48,7 +58,8 @@ export default function WorkflowConfigEdtior() {
       });
 
       WriteNewConfigToLocalStorage(newConfig);
-      dispatch(setCurrentWorkflows(newConfig.workflows));
+      dispatch(setCurrentWorkflows([...newConfig.workflows.items]));
+      dispatch(setFanOnGlobal(newConfig.workflows.fanOnGlobal));
       setIsValid(true);
       setShow(false);
     } else {
@@ -67,10 +78,12 @@ export default function WorkflowConfigEdtior() {
   };
   return (
     <>
-      <Button onClick={handleShow}><PrideText text="Edit/Copy Workflow JSON"/></Button>
+      <Button onClick={handleShow}>
+        <PrideText text="Edit/Copy Workflow JSON" />
+      </Button>
       <ModalWrapper
         show={show}
-        headerText={<PrideText text="Replace Workflow Config JSON"/>}
+        headerText={<PrideText text="Replace Workflow Config JSON" />}
         handleClose={handleClose}
         confirmButtonText="Save and Close"
         handleConfirm={handleConfirm}

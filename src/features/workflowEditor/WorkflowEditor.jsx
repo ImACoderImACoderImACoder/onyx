@@ -33,6 +33,26 @@ const StyledAccordionHeader = styled(Accordion.Header)`
       props.theme.workflowEditor.accordianExpandedColor};
     border-color: ${(props) => props.theme.buttonActive.borderColor};
   }
+
+  .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='${(
+      props
+    ) =>
+      props.theme.backgroundColor.replace(
+        "#",
+        "%23"
+      )}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+  }
+
+  .accordion-button::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='${(
+      props
+    ) =>
+      props.theme.iconColor.replace(
+        "#",
+        "%23"
+      )}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+  }
 `;
 
 const WorkflowButtonsDiv = styled.div`
@@ -42,12 +62,15 @@ const WorkflowButtonsDiv = styled.div`
 
 const AccordionItemWrapper = styled(Accordion.Item)`
   border-color: ${(props) => props.theme.borderColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function WorkflowEditor() {
   const [currentAccordionId, setCurrentAccordionId] = useState("0");
 
-  const workflows = useSelector((state) => state.settings.config.workflows);
+  const workflows = useSelector(
+    (state) => state.settings.config.workflows.items
+  );
   const currentWorkflow = useSelector(
     (state) => state.workflow.currentWorkflow
   );
@@ -81,6 +104,7 @@ export default function WorkflowEditor() {
           <StyledAccordionHeader onClick={() => onClick(`${item.id}`)}>
             <Drag
               onDrag={() => setCurrentAccordionId(0)}
+              isSelected={item.id.toString() === currentAccordionId}
               key={item.id}
               itemId={item.id}
             >

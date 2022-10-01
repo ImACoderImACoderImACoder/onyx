@@ -26,6 +26,7 @@ import {
   setIsHeatOn,
   setTargetTemperature,
 } from "../deviceInteraction/deviceInteractionSlice";
+import WorkflowItemTypes from "../../constants/enums";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
@@ -38,7 +39,12 @@ const currentSetTimeouts = [];
 
 export default function WorkFlow() {
   const dispatch = useDispatch();
-  const workflows = useSelector((state) => state.settings.config.workflows);
+  const fanOnGlobal = useSelector(
+    (state) => state.settings.config.workflows.fanOnGlobal
+  );
+  const workflows = useSelector(
+    (state) => state.settings.config.workflows.items
+  );
   const currentWorkflow = useSelector(
     (state) => state.workflow.currentWorkflow
   );
@@ -98,7 +104,7 @@ export default function WorkFlow() {
     dispatch(setCurrentWorkflow(nextWorkflow));
     const thoughtData = nextWorkflow.payload.map((item) => {
       switch (item.type) {
-        case "heatOn": {
+        case WorkflowItemTypes.HEAT_ON: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
@@ -200,20 +206,26 @@ export default function WorkFlow() {
             );
           };
         }
-        case "fanOn": {
+        case WorkflowItemTypes.FAN_ON_GLOBAL:
+        case WorkflowItemTypes.FAN_ON: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
             const characteristic = getCharacteristic(fanOnUuid);
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
+
+            const fanOnTime =
+              item.type === WorkflowItemTypes.FAN_ON_GLOBAL
+                ? fanOnGlobal
+                : item.payload;
             executeWithManagedSetTimeout(
               () => turnFanOff(next),
-              item.payload * 1000
+              fanOnTime * 1000
             );
           };
         }
-        case "heatOff": {
+        case WorkflowItemTypes.HEAT_OFF: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
@@ -223,7 +235,7 @@ export default function WorkFlow() {
             executeWithManagedSetTimeout(next);
           };
         }
-        case "wait": {
+        case WorkflowItemTypes.WAIT: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 
@@ -234,7 +246,7 @@ export default function WorkFlow() {
             executeWithManagedSetTimeout(next, item.payload * 1000);
           };
         }
-        case "setLEDbrightness": {
+        case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(item.id));
 

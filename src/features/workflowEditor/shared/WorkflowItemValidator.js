@@ -21,6 +21,7 @@ const workflowItemValidor = ({ payload, type }, isF, onError = () => {}) => {
         }
         return isPayloadValid;
       }
+      case WorkflowItemTypes.FAN_ON_GLOBAL:
       case WorkflowItemTypes.FAN_ON: {
         const isPayloadValid =
           !isNaN(parsedPayloadInput) && parsedPayloadInput > 0;

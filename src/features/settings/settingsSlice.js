@@ -35,7 +35,10 @@ export const settingsSlice = createSlice({
       state.config.currentTheme = action.payload;
     },
     setCurrentWorkflows: (state, action) => {
-      state.config.workflows = action.payload;
+      state.config.workflows.items = action.payload;
+    },
+    setFanOnGlobal: (state, action) => {
+      state.config.workflows.fanOnGlobal = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -62,6 +65,7 @@ export const {
   setAutoShutoffTime,
   setCurrentTheme,
   setCurrentWorkflows,
+  setFanOnGlobal,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

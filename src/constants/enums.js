@@ -4,6 +4,7 @@ const WorkflowItemTypes = Object.freeze({
   WAIT: "wait",
   HEAT_OFF: "heatOff",
   FAN_ON: "fanOn",
+  FAN_ON_GLOBAL: "fanOnGlobal",
 });
 
 export default WorkflowItemTypes;

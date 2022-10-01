@@ -8,6 +8,10 @@ export default function WorkflowTips() {
       </h2>
       <ul>
         <li>
+          "Fan On Global" is a single value across all workflows. Use this to
+          adjust your main fan time for all workflows
+        </li>
+        <li>
           If you set the Led brightness to 0 it completely turns off the display
         </li>
         <li>

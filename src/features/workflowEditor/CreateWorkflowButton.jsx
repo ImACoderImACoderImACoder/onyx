@@ -12,18 +12,18 @@ export default function CreateWorkflowButton(props) {
   const config = useSelector((state) => state.settings.config);
   const dispatch = useDispatch();
   const createWorkflow = () => {
-    const nextId = config.workflows.length
-      ? config.workflows[config.workflows.length - 1].id + 1
+    const nextId = config.workflows.items.length
+      ? config.workflows.items[config.workflows.items.length - 1].id + 1
       : 1;
     const newConfig = cloneDeep(config);
 
-    newConfig.workflows.push({
+    newConfig.workflows.items.push({
       id: nextId,
       name: `New Workflow ${nextId}`,
       payload: [],
     });
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
     props.onClick(nextId);
   };
 

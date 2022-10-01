@@ -1,13 +1,13 @@
 import isPayloadValid from "../shared/WorkflowItemValidator";
 
 export default function WorkflowConfigValidator(workflowConfig, isF) {
-  if (!Array.isArray(workflowConfig)) {
+  if (!Array.isArray(workflowConfig.items)) {
     return false;
   }
 
   try {
-    for (let i = 0; i < workflowConfig.length; i++) {
-      const currentWorkflow = workflowConfig[i];
+    for (let i = 0; i < workflowConfig.items.length; i++) {
+      const currentWorkflow = workflowConfig.items[i];
       if (
         !currentWorkflow.hasOwnProperty("id") ||
         !currentWorkflow.hasOwnProperty("name") ||

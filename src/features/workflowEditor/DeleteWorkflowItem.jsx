@@ -25,14 +25,16 @@ export default function DeleteWorkflowItem(props) {
 
   const handleConfirm = () => {
     const newConfig = cloneDeep(config);
-    const workflow = newConfig.workflows.find((r) => r.id === props.workflowId);
+    const workflow = newConfig.workflows.items.find(
+      (r) => r.id === props.workflowId
+    );
     const indexToRemove = workflow.payload.findIndex(
       (r) => r.id === props.workflowItemId
     );
 
     workflow.payload.splice(indexToRemove, 1);
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
   const enterKeyCode = 13;
@@ -50,7 +52,7 @@ export default function DeleteWorkflowItem(props) {
         onClick={handleShow}
       />
       <ModalWrapper
-        headerText={<PrideText text={`Delete "${props.name}"`}/>}
+        headerText={<PrideText text={`Delete "${props.name}"`} />}
         bodyText="Are you sure you want to delete this workflow item? This action cannot be undone"
         confirmButtonText="Delete"
         handleClose={handleClose}

@@ -60,7 +60,7 @@ function ProcessWorkflowQueue() {
         await currentFunc(next);
         currentWorkflowIndex++;
       });
-    }, 100);
+    }, 0);
   };
   next();
 }

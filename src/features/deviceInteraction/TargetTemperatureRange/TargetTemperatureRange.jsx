@@ -12,6 +12,7 @@ import { MAX_CELSIUS_TEMP } from "../../../constants/temperature";
 import { setTargetTemperature } from "../deviceInteractionSlice";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
+import useIsF from "../../settings/FOrC/UseIsF";
 
 const Div = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ export default function TargetTemperatureRange() {
   const MIN_CELSIUS_TEMP = 170;
   const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
 
-  const isF = useSelector((state) => state.settings.isF);
+  const isF = useIsF();
 
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature || middleValue
@@ -91,7 +92,9 @@ export default function TargetTemperatureRange() {
               borderStyle: "solid",
               borderRadius: ".25rem",
               borderWidth: "3px",
-              background: theme.temperatureRange.rangeBackground || theme.temperatureRange.rangeBoxColor
+              background:
+                theme.temperatureRange.rangeBackground ||
+                theme.temperatureRange.rangeBoxColor,
             }}
           />
         )}

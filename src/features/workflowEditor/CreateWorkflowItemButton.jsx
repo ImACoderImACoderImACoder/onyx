@@ -11,14 +11,14 @@ export default function CreateWorkflowItemButton(props) {
   const dispatch = useDispatch();
   const onClick = () => {
     const newConfig = cloneDeep(config);
-    const workflow = newConfig.workflows.find((r) => r.id === props.id);
+    const workflow = newConfig.workflows.items.find((r) => r.id === props.id);
     const nextId = workflow.payload.length + 1;
     workflow.payload.push({
       type: WorkflowItemTypes.HEAT_OFF,
       id: nextId,
     });
     WriteNewConfigToLocalStorage(newConfig);
-    dispatch(setCurrentWorkflows(newConfig.workflows));
+    dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
   return (

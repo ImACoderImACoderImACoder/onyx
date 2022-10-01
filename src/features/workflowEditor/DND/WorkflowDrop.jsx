@@ -16,25 +16,33 @@ export default function WorkflowDrop(props) {
       drop: (item) => {
         const newConfig = cloneDeep(config);
         if (props.itemId === 0) {
-          const indexToBeDelete = newConfig.workflows.findIndex(
+          const indexToBeDelete = newConfig.workflows.items.findIndex(
             (r) => r.id === item.id
           );
-          const movedItem = newConfig.workflows.splice(indexToBeDelete, 1);
-          newConfig.workflows.unshift(movedItem[0]);
+          const movedItem = newConfig.workflows.items.splice(
+            indexToBeDelete,
+            1
+          );
+          newConfig.workflows.items.unshift(movedItem[0]);
         } else {
-          const indexToBeDelete = newConfig.workflows.findIndex(
+          const indexToBeDelete = newConfig.workflows.items.findIndex(
             (r) => r.id === item.id
           );
-          const movedItem = newConfig.workflows.splice(indexToBeDelete, 1);
+          const movedItem = newConfig.workflows.items.splice(
+            indexToBeDelete,
+            1
+          );
 
           const destinationIndex =
             indexToBeDelete < props.itemId ? props.itemId - 1 : props.itemId;
 
-          newConfig.workflows.splice(destinationIndex, 0, movedItem[0]);
+          newConfig.workflows.items.splice(destinationIndex, 0, movedItem[0]);
         }
-        newConfig.workflows.forEach((item, index) => (item.id = index + 1));
+        newConfig.workflows.items.forEach(
+          (item, index) => (item.id = index + 1)
+        );
         WriteNewConfigToLocalStorage(newConfig);
-        dispatch(setCurrentWorkflows(newConfig.workflows));
+        dispatch(setCurrentWorkflows(newConfig.workflows.items));
       },
       canDrop: (item) => {
         return item?.id !== props.itemId && item?.id - 1 !== props.itemId;
