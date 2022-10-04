@@ -15,10 +15,12 @@ import {
   MIN_CELSIUS_TEMP,
 } from "../../../constants/temperature";
 import useIsF from "../../settings/FOrC/UseIsF";
+import useIsHeatOn from "../HeatOn/useIsHeatOn";
 
 export default function CurrentTemperatureContainer() {
   const isF = useIsF();
-  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const isHeatOn = useIsHeatOn();
+
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
   );

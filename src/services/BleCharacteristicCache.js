@@ -30,8 +30,8 @@ export async function buildCacheFromBleDevice(bleDevice, gattRetryCount = 0) {
     clearCache();
     writeCharacteristicToCache(bleDevice, uuIds.bleDeviceUuid);
 
-    let bleServer = await bleDevice.gatt.connect();
-    writeCharacteristicToCache(bleServer, uuIds.bleServerUuid);
+    const bleServer = await bleDevice.gatt.connect();
+
     const primaryServiceUuidVolcano1 = await bleServer.getPrimaryService(
       uuIds.primaryServiceUuidVolcano1
     );

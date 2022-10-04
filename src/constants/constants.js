@@ -6,7 +6,7 @@ export const redditLink = "https://www.reddit.com/user/ImACoderImACoder";
 export const twitterLink = "https://twitter.com/ImmACoder";
 export const instagramLink =
   "https://www.instagram.com/imacoderimacoderimacoder";
-export const defaultTemperatureArray = [];
+export const defaultTemperatureArray = [180, 205];
 export const defaultGlobalFanOnTimeInSeconds = 36.5;
 export const defaultWorkflows = [
   {

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { bleServerUuid, writeTemperatureUuid } from "../../../constants/uuids";
+import { writeTemperatureUuid, heatOnUuid } from "../../../constants/uuids";
 import {
   convertToUInt32BLE,
+  convertToUInt8BLE,
   convertCurrentTemperatureCharacteristicToCelcius,
   isValueInValidVolcanoCelciusRange,
 } from "../../../services/utils";
@@ -11,19 +12,21 @@ import { AddToQueue } from "../../../services/bleQueueing";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../constants/constants";
 import { useSelector } from "react-redux";
-import { setTargetTemperature } from "../deviceInteractionSlice";
+import { setIsHeatOn, setTargetTemperature } from "../deviceInteractionSlice";
 import { useDispatch } from "react-redux";
 import WriteTemperature from "./WriteTemperature";
 import { getDisplayTemperature } from "../../../services/utils";
 import PrideText from "../../../themes/PrideText";
+import useIsHeatOn from "../HeatOn/useIsHeatOn";
+import useIsF from "../../settings/FOrC/UseIsF";
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
 
-  const isF = useSelector((state) => state.settings.isF);
-
+  const isF = useIsF();
+  const isHeatOn = useIsHeatOn();
   const temperatureControlValues = useSelector(
     (state) => state.settings.config.temperatureControlValues
   );
@@ -106,14 +109,20 @@ export default function WriteTemperatureContainer() {
     }
 
     const blePayload = async () => {
-      const bleServer = getCharacteristic(bleServerUuid);
-      const characteristic = getCharacteristic(writeTemperatureUuid);
-      if (bleServer.device.name.includes("S&B VOLCANO")) {
-        let buffer = convertToUInt32BLE(value * 10);
-        await characteristic.writeValue(buffer);
+      let characteristic, buffer;
 
+      if (targetTemperature !== value) {
+        characteristic = getCharacteristic(writeTemperatureUuid);
+        buffer = convertToUInt32BLE(value * 10);
+        await characteristic.writeValue(buffer);
         dispatch(setTargetTemperature(value));
-        return `Wrote Max temperature of ${value}C to device`;
+      }
+
+      if (!isHeatOn) {
+        characteristic = getCharacteristic(heatOnUuid);
+        buffer = convertToUInt8BLE(0);
+        await characteristic.writeValue(buffer);
+        dispatch(setIsHeatOn(true));
       }
     };
     AddToQueue(blePayload);

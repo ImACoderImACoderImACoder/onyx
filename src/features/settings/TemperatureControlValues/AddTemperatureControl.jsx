@@ -15,10 +15,11 @@ import {
 } from "../../../constants/temperature";
 import RestoreDefaultTemperature from "./RestoreDefaultTemperature";
 import StyledFormControl from "../../shared/styledComponents/FormControl";
+import useIsF from "../FOrC/UseIsF";
 
 export default function AddTemperatureControl() {
   const config = useSelector((state) => state.settings.config);
-  const isF = useSelector((state) => state.settings.isF);
+  const isF = useIsF();
   const dispatch = useDispatch();
 
   const fOrCMessage = isF
