@@ -96,6 +96,7 @@ export function ReadConfigFromLocalStorage() {
       items: defaultWorkflows,
       [WorkflowItemTypes.FAN_ON_GLOBAL]: defaultGlobalFanOnTimeInSeconds,
     },
+    onConnectTurnHeatOn: false,
   };
   if (!config) {
     window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));

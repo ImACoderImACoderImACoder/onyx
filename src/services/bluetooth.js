@@ -4,8 +4,13 @@ import {
   primaryServiceUuidVolcano3,
   primaryServiceUuidVolcano4,
   primaryServiceUuidVolcano5,
+  heatOnUuid,
 } from "../constants/uuids";
-import { buildCacheFromBleDevice } from "../services/BleCharacteristicCache";
+import {
+  buildCacheFromBleDevice,
+  getCharacteristic,
+} from "../services/BleCharacteristicCache";
+import { ReadConfigFromLocalStorage, convertToUInt8BLE } from "./utils";
 
 const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
   const iSiOSdevice =
@@ -50,6 +55,12 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
       onConnected();
       await device.addEventListener("gattserverdisconnected", onDisconnected);
       await buildCacheFromBleDevice(device);
+      const config = ReadConfigFromLocalStorage();
+      if (config.onConnectTurnHeatOn) {
+        const characteristic = getCharacteristic(heatOnUuid);
+        const buffer = convertToUInt8BLE(0);
+        await characteristic.writeValue(buffer);
+      }
     }
   } catch (error) {
     const errorMessage = error.toString();

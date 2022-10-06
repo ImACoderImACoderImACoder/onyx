@@ -48,7 +48,7 @@ export const settingsSlice = createSlice({
         isVibrationEnabled: undefined,
         isDisplayOnCooling: undefined,
         LEDbrightness: undefined,
-        config: state.config,
+        config: ReadConfigFromLocalStorage(),
         autoShutoffTime: undefined,
       };
     });

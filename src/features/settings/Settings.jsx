@@ -9,6 +9,7 @@ import VibrationToggleContainer from "./VibrationToggle/VibrationToggleContainer
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import ThemesContainer from "./Theming/ThemesContainer";
 import PrideText from "../../themes/PrideText";
+import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
 
 export default function Settings() {
   return (
@@ -24,6 +25,7 @@ export default function Settings() {
       <AdjustAutoShutoffTimeContainer />
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />
+      <TurnHeatOnWhenConnectionIsEstablished />
       <TemperatureControlSettings />
     </Div>
   );

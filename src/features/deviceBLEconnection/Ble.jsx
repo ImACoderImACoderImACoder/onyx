@@ -36,6 +36,7 @@ export default function Ble(props) {
     "10 minutes or less is the ideal time for a bag to store vapor",
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
     "Drag and drop can be used to reorder workflows on all devices",
+    "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
