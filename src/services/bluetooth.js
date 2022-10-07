@@ -5,13 +5,19 @@ import {
   primaryServiceUuidVolcano4,
   primaryServiceUuidVolcano5,
   heatOnUuid,
+  LEDbrightnessUuid,
 } from "../constants/uuids";
 import {
   buildCacheFromBleDevice,
   getCharacteristic,
 } from "../services/BleCharacteristicCache";
 import { AddToQueue } from "./bleQueueing";
-import { ReadConfigFromLocalStorage, convertToUInt8BLE } from "./utils";
+import {
+  ReadConfigFromLocalStorage,
+  convertToUInt8BLE,
+  convertBLEtoUint16,
+  convertToUInt16BLE,
+} from "./utils";
 
 const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
   const iSiOSdevice =
@@ -59,9 +65,18 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
       const config = ReadConfigFromLocalStorage();
       if (config.onConnectTurnHeatOn) {
         const blePayload = async () => {
-          const characteristic = getCharacteristic(heatOnUuid);
-          const buffer = convertToUInt8BLE(0);
+          let characteristic = getCharacteristic(heatOnUuid);
+          let buffer = convertToUInt8BLE(0);
           await characteristic.writeValue(buffer);
+
+          //This little section of code is mostly for me
+          characteristic = getCharacteristic(LEDbrightnessUuid);
+          const value = await characteristic.readValue();
+          const screenBrightness = convertBLEtoUint16(value);
+          if (screenBrightness === 0) {
+            let buffer = convertToUInt16BLE(70);
+            await characteristic.writeValue(buffer);
+          }
         };
         AddToQueue(blePayload);
       }
