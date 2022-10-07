@@ -10,6 +10,7 @@ import {
   buildCacheFromBleDevice,
   getCharacteristic,
 } from "../services/BleCharacteristicCache";
+import { AddToQueue } from "./bleQueueing";
 import { ReadConfigFromLocalStorage, convertToUInt8BLE } from "./utils";
 
 const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
@@ -57,9 +58,12 @@ const bluetoothConnectFunction = async (onConnected, onDisconnected) => {
       await buildCacheFromBleDevice(device);
       const config = ReadConfigFromLocalStorage();
       if (config.onConnectTurnHeatOn) {
-        const characteristic = getCharacteristic(heatOnUuid);
-        const buffer = convertToUInt8BLE(0);
-        await characteristic.writeValue(buffer);
+        const blePayload = async () => {
+          const characteristic = getCharacteristic(heatOnUuid);
+          const buffer = convertToUInt8BLE(0);
+          await characteristic.writeValue(buffer);
+        };
+        AddToQueue(blePayload);
       }
     }
   } catch (error) {
