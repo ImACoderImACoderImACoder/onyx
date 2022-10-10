@@ -5,6 +5,7 @@ import {
 import store from "../store";
 
 const queue = [];
+const priorityQueue = [];
 
 let isQueueProcessing = false;
 
@@ -17,15 +18,29 @@ export function AddToQueue(func) {
   }
 }
 
+export function AddToPriorityQueue(func) {
+  priorityQueue.push(func);
+
+  if (!isQueueProcessing) {
+    isQueueProcessing = true;
+    ProcessQueue();
+  }
+}
+
 async function ProcessQueue() {
   isQueueProcessing = true;
-  if (queue.length === 0) {
+  if (queue.length === 0 && priorityQueue.length === 0) {
     isQueueProcessing = false;
     return;
   }
 
   try {
-    const func = queue.shift();
+    let func;
+    if (priorityQueue.length > 0) {
+      func = priorityQueue.shift();
+    } else {
+      func = queue.shift();
+    }
     await func();
     setTimeout(() => {
       ProcessQueue();

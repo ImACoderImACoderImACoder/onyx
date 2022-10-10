@@ -4,7 +4,7 @@ import { fanMask } from "../../../constants/masks";
 import FanOn from "./FanOn";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsFanOn } from "../deviceInteractionSlice";
-import { AddToQueue } from "../../../services/bleQueueing";
+import { AddToQueue, AddToPriorityQueue } from "../../../services/bleQueueing";
 import {
   convertToUInt8BLE,
   convertBLEtoUint16,
@@ -13,54 +13,29 @@ import {
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useCallback } from "react";
 import { useRef } from "react";
+import store from "../../../store";
 
 export default function FanOnContainer() {
   const isFanOn = useSelector((state) => state.deviceInteraction.isFanOn);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const blePayload = async () => {
-      const characteristicPrj1V = getCharacteristic(register1Uuid);
-      const value = await characteristicPrj1V.readValue();
-      const currentVal = convertBLEtoUint16(value);
-      const initialFanValue = convertToggleCharacteristicToBool(
-        currentVal,
-        fanMask
-      );
-      dispatch(setIsFanOn(initialFanValue));
-    };
-    AddToQueue(blePayload);
-  }, [dispatch]);
-
-  useEffect(() => {
-    const handlePrj1ChangedVolcano = (event) => {
-      const currentVal = convertBLEtoUint16(event.target.value);
-      const newFanValue = convertToggleCharacteristicToBool(
-        currentVal,
-        fanMask
-      );
-      dispatch(setIsFanOn(newFanValue));
-    };
-    const characteristicPrj1V = getCharacteristic(register1Uuid);
-    const blePayload = async () => {
-      await characteristicPrj1V.addEventListener(
-        "characteristicvaluechanged",
-        handlePrj1ChangedVolcano
-      );
-      await characteristicPrj1V.startNotifications();
-    };
-
-    AddToQueue(blePayload);
-    return () => {
+    if (isFanOn === undefined) {
       const blePayload = async () => {
-        await characteristicPrj1V?.removeEventListener(
-          "characteristicvaluechanged",
-          handlePrj1ChangedVolcano
+        const characteristicPrj1V = getCharacteristic(register1Uuid);
+        const value = await characteristicPrj1V.readValue();
+        const currentVal = convertBLEtoUint16(value);
+        const initialFanValue = convertToggleCharacteristicToBool(
+          currentVal,
+          fanMask
         );
+        if (store.getState().deviceInteraction.isFanOn !== initialFanValue) {
+          dispatch(setIsFanOn(initialFanValue));
+        }
       };
       AddToQueue(blePayload);
-    };
-  }, [dispatch]);
+    }
+  }, [dispatch, isFanOn]);
 
   const onClick = useCallback((nextState) => {
     const blePayload = async () => {
@@ -69,7 +44,7 @@ export default function FanOnContainer() {
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
     };
-    AddToQueue(blePayload);
+    AddToPriorityQueue(blePayload);
   }, []);
 
   const fanOnRef = useRef(null);

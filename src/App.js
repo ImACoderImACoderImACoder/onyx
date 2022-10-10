@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BleConnectButtonContainer from "./features/deviceBLEconnection/BleContainer";
-import VolcanoLoader from "./features/shared/OutletRenderer/VolcanoLoader";
+import VolcanoLoaderLoader from "./features/shared/OutletRenderer/VolcanoLoaderLoader";
 import Volcano from "./features/deviceInteraction/DeviceInteraction";
 import DeviceInformation from "./features/deviceInformation/DeviceInformation";
 import ContactMe from "./features/contactMe/ContactMe";
@@ -48,7 +48,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<BleConnectButtonContainer />} />
-              <Route path="Volcano" element={<VolcanoLoader />}>
+              <Route path="Volcano" element={<VolcanoLoaderLoader />}>
                 <Route path="App" element={<Volcano />} />
                 <Route
                   path="DeviceInformation"

@@ -7,12 +7,14 @@ import {
   convertToUInt32BLE,
 } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { writeTemperatureUuid } from "../../../constants/uuids";
+import { writeTemperatureUuid, heatOnUuid } from "../../../constants/uuids";
 import { MAX_CELSIUS_TEMP } from "../../../constants/temperature";
+import { convertToUInt8BLE } from "../../../services/utils";
 import { setTargetTemperature } from "../deviceInteractionSlice";
+import { setIsHeatOn } from "../deviceInteractionSlice";
 import { useTheme } from "styled-components";
 import styled from "styled-components";
-import useIsF from "../../settings/FOrC/UseIsF";
+import { AddToPriorityQueue } from "../../../services/bleQueueing";
 
 const Div = styled.div`
   display: flex;
@@ -23,8 +25,8 @@ export default function TargetTemperatureRange() {
   const MIN_CELSIUS_TEMP = 170;
   const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
 
-  const isF = useIsF();
-
+  const isF = useSelector((state) => state.settings.isF);
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature || middleValue
   );
@@ -41,6 +43,15 @@ export default function TargetTemperatureRange() {
   };
 
   const onChange = (e) => {
+    if (!isHeatOn) {
+      const blePayload = async () => {
+        const characteristic = getCharacteristic(heatOnUuid);
+        const buffer = convertToUInt8BLE(0);
+        await characteristic.writeValue(buffer);
+        dispatch(setIsHeatOn(true));
+      };
+      AddToPriorityQueue(blePayload);
+    }
     dispatch(setTargetTemperature(e[0]));
   };
 

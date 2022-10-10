@@ -14,12 +14,11 @@ import {
   MAX_CELSIUS_TEMP,
   MIN_CELSIUS_TEMP,
 } from "../../../constants/temperature";
-import useIsF from "../../settings/FOrC/UseIsF";
-import useIsHeatOn from "../HeatOn/useIsHeatOn";
+import store from "../../../store";
 
 export default function CurrentTemperatureContainer() {
-  const isF = useIsF();
-  const isHeatOn = useIsHeatOn();
+  const isF = useSelector((state) => state.settings.isF);
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
 
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
@@ -35,7 +34,12 @@ export default function CurrentTemperatureContainer() {
             const value = await characteristic.readValue();
             const normalizedValue =
               convertCurrentTemperatureCharacteristicToCelcius(value);
-            dispatch(setCurrentTemperature(normalizedValue));
+            if (
+              store.getState().deviceInteraction.currentTemperature !==
+              normalizedValue
+            ) {
+              dispatch(setCurrentTemperature(normalizedValue));
+            }
           };
           AddToQueue(blePayload);
         }, 250);
@@ -54,7 +58,12 @@ export default function CurrentTemperatureContainer() {
     const onCharacteristicChange = (event) => {
       const currentTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
-      dispatch(setCurrentTemperature(currentTemperature));
+      if (
+        store.getState().deviceInteraction.currentTemperature !==
+        currentTemperature
+      ) {
+        dispatch(setCurrentTemperature(currentTemperature));
+      }
     };
     const BlePayload = async () => {
       await characteristic.addEventListener(
@@ -65,7 +74,13 @@ export default function CurrentTemperatureContainer() {
       const value = await characteristic.readValue();
       const normalizedValue =
         convertCurrentTemperatureCharacteristicToCelcius(value);
-      dispatch(setCurrentTemperature(normalizedValue));
+
+      if (
+        store.getState().deviceInteraction.currentTemperature !==
+        normalizedValue
+      ) {
+        dispatch(setCurrentTemperature(normalizedValue));
+      }
     };
     AddToQueue(BlePayload);
     return () => {

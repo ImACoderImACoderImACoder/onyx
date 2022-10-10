@@ -140,69 +140,59 @@ export default function WorkFlow() {
             turnHeatOn();
             let previousTemperature;
             let sameTemperatureIntervalStreak;
-            //this set timeout is to allow the volcano to commincate the heat is on. It the volcano doesn't commincate the heat is on we get a lot of button jiggles.
-            currentSetTimeouts.push(
-              setTimeout(() => {
-                currentIntervals.push(
-                  setInterval(() => {
+            currentIntervals.push(
+              setInterval(() => {
+                const blePayload = async () => {
+                  const currentTemperature =
+                    store.getState().deviceInteraction.currentTemperature;
+
+                  if (previousTemperature !== currentTemperature) {
+                    previousTemperature = currentTemperature;
+                    sameTemperatureIntervalStreak = 0;
+                  } else {
+                    sameTemperatureIntervalStreak++;
+                  }
+
+                  //this is arbitrary.  If the on change event is missed heat will hang forever waiting for the target temperature to be reach (even tho it is on the device)
+                  //I thought it we read the same temperature 7 times in a row then we should probably reach out to the device.
+                  if (sameTemperatureIntervalStreak > 7) {
+                    sameTemperatureIntervalStreak = 0;
                     const blePayload = async () => {
+                      const temperatureCharacteristic = getCharacteristic(
+                        currentTemperatureUuid
+                      );
+                      const value = await temperatureCharacteristic.readValue();
                       const currentTemperature =
-                        store.getState().deviceInteraction.currentTemperature;
-
-                      if (previousTemperature !== currentTemperature) {
-                        previousTemperature = currentTemperature;
-                        sameTemperatureIntervalStreak = 0;
-                      } else {
-                        sameTemperatureIntervalStreak++;
-                      }
-
-                      //this is arbitrary.  If the on change event is missed heat will hang forever waiting for the target temperature to be reach (even tho it is on the device)
-                      //I thought it we read the same temperature 10 times in a row over a second then we should probably reach out to the device.
-                      if (sameTemperatureIntervalStreak > 10) {
-                        sameTemperatureIntervalStreak = 0;
-                        const blePayload = async () => {
-                          const temperatureCharacteristic = getCharacteristic(
-                            currentTemperatureUuid
-                          );
-                          const value =
-                            await temperatureCharacteristic.readValue();
-                          const currentTemperature =
-                            convertCurrentTemperatureCharacteristicToCelcius(
-                              value
-                            );
-                          dispatch(setCurrentTemperature(currentTemperature));
-                          previousTemperature = currentTemperature;
-                          sameTemperatureIntervalStreak = 0;
-                        };
-
-                        AddToQueue(blePayload);
-                      }
-                      if (currentTemperature >= item.payload) {
-                        clearIntervals();
-                        clearTimeouts();
-                        executeWithManagedSetTimeout(next);
-                      }
-
-                      // if the temperature is changed to be below the target we will never get there.
-                      // The workflow must continue onward by any means necessary, therefore we shall set the payload temperature again
-                      if (
-                        store.getState().deviceInteraction.targetTemperature <
-                        item.payload
-                      ) {
-                        writePayloadTempToDevice();
-                      }
-
-                      // What is the heat is turned off?  Again we don't want to be here forever
-                      // Sadly this causes button jiggles but I don't think there is a way around that and this should almost never happen with normal use
-                      if (!store.getState().deviceInteraction.isHeatOn) {
-                        turnHeatOn();
-                        dispatch(setIsHeatOn(true));
-                      }
+                        convertCurrentTemperatureCharacteristicToCelcius(value);
+                      dispatch(setCurrentTemperature(currentTemperature));
+                      previousTemperature = currentTemperature;
+                      sameTemperatureIntervalStreak = 0;
                     };
+
                     AddToQueue(blePayload);
-                  }, 300)
-                );
-              }, 1000)
+                  }
+                  if (currentTemperature >= item.payload) {
+                    clearIntervals();
+                    clearTimeouts();
+                    executeWithManagedSetTimeout(next);
+                  }
+
+                  // if the temperature is changed to be below the target we will never get there.
+                  // The workflow must continue onward by any means necessary, therefore we shall set the payload temperature again
+                  if (
+                    store.getState().deviceInteraction.targetTemperature <
+                    item.payload
+                  ) {
+                    writePayloadTempToDevice();
+                  }
+
+                  if (!store.getState().deviceInteraction.isHeatOn) {
+                    turnHeatOn();
+                    dispatch(setIsHeatOn(true));
+                  }
+                };
+                AddToQueue(blePayload);
+              }, 300)
             );
           };
         }

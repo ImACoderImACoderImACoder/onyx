@@ -8,7 +8,7 @@ import {
   isValueInValidVolcanoCelciusRange,
 } from "../../../services/utils";
 import PlusMinusButton from "./PlusMinusButton";
-import { AddToQueue } from "../../../services/bleQueueing";
+import { AddToQueue, AddToPriorityQueue } from "../../../services/bleQueueing";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../../constants/constants";
 import { useSelector } from "react-redux";
@@ -17,16 +17,16 @@ import { useDispatch } from "react-redux";
 import WriteTemperature from "./WriteTemperature";
 import { getDisplayTemperature } from "../../../services/utils";
 import PrideText from "../../../themes/PrideText";
-import useIsHeatOn from "../HeatOn/useIsHeatOn";
-import useIsF from "../../settings/FOrC/UseIsF";
+
+import store from "../../../store";
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
 
-  const isF = useIsF();
-  const isHeatOn = useIsHeatOn();
+  const isF = useSelector((state) => state.settings.isF);
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const temperatureControlValues = useSelector(
     (state) => state.settings.config.temperatureControlValues
   );
@@ -38,7 +38,12 @@ export default function WriteTemperatureContainer() {
     function handleTargetTemperatureChanged(event) {
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
-      dispatch(setTargetTemperature(targetTemperature));
+      if (
+        store.getState().deviceInteraction.targetTemperature !==
+        targetTemperature
+      ) {
+        dispatch(setTargetTemperature(targetTemperature));
+      }
     }
 
     const blePayload = async () => {
@@ -51,7 +56,12 @@ export default function WriteTemperatureContainer() {
       const value = await characteristic.readValue();
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(value);
-      dispatch(setTargetTemperature(targetTemperature));
+      if (
+        store.getState().deviceInteraction.targetTemperature !==
+        targetTemperature
+      ) {
+        dispatch(setTargetTemperature(targetTemperature));
+      }
     };
     AddToQueue(blePayload);
     return () => {
@@ -74,7 +84,12 @@ export default function WriteTemperatureContainer() {
             const value = await characteristic.readValue();
             const targetTemperature =
               convertCurrentTemperatureCharacteristicToCelcius(value);
-            dispatch(setTargetTemperature(targetTemperature));
+            if (
+              store.getState().deviceInteraction.targetTemperature !==
+              targetTemperature
+            ) {
+              dispatch(setTargetTemperature(targetTemperature));
+            }
           };
           AddToQueue(blePayload);
         }, 250);
@@ -89,21 +104,31 @@ export default function WriteTemperatureContainer() {
 
   // we have to use refs for debounce to work properly in react functional components
   const onTemperatureIncrementDecrementDebounceRef = useRef(
-    debounce((newTemp) => {
-      onClick(newTemp)();
+    debounce((newTemp, disableAutoHeatOn) => {
+      onClick(newTemp, disableAutoHeatOn)();
     }, temperatureIncrementedDecrementedDebounceTime)
   );
 
   const onClickIncrement = (incrementValue) => () => {
+    if (!isHeatOn) {
+      const blePayload = async () => {
+        let characteristic, buffer;
+        characteristic = getCharacteristic(heatOnUuid);
+        buffer = convertToUInt8BLE(0);
+        await characteristic.writeValue(buffer);
+        dispatch(setIsHeatOn(true));
+      };
+      AddToPriorityQueue(blePayload);
+    }
     const nextTemp = targetTemperature + incrementValue;
     if (!isValueInValidVolcanoCelciusRange(nextTemp)) {
       return;
     }
     dispatch(setTargetTemperature(nextTemp));
-    onTemperatureIncrementDecrementDebounceRef.current(nextTemp);
+    onTemperatureIncrementDecrementDebounceRef.current(nextTemp, true);
   };
 
-  const onClick = (value) => () => {
+  const onClick = (value, disableAutoHeatOn) => () => {
     if (!isValueInValidVolcanoCelciusRange(value)) {
       return;
     }
@@ -118,14 +143,14 @@ export default function WriteTemperatureContainer() {
         dispatch(setTargetTemperature(value));
       }
 
-      if (!isHeatOn) {
+      if (!isHeatOn && !disableAutoHeatOn) {
         characteristic = getCharacteristic(heatOnUuid);
         buffer = convertToUInt8BLE(0);
         await characteristic.writeValue(buffer);
         dispatch(setIsHeatOn(true));
       }
     };
-    AddToQueue(blePayload);
+    AddToPriorityQueue(blePayload);
   };
 
   const temperatureButtons = temperatureControlValues.map((item, index) => {

@@ -19,7 +19,6 @@ import {
 import { DEGREE_SYMBOL } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
 import PrideText from "../../themes/PrideText";
-import useIsF from "../settings/FOrC/UseIsF";
 import { useEffect } from "react";
 
 const StyledSelect = styled(Select)`
@@ -47,7 +46,7 @@ export default function WorkflowItemEditor(props) {
   const fanOnGlobal = useSelector(
     (state) => state.settings.config.workflows.fanOnGlobal
   );
-  const isF = useIsF();
+  const isF = useSelector((state) => state.settings.isF);
 
   useEffect(() => {
     if (props.item.type === WorkflowItemTypes.HEAT_ON && props.item.payload) {

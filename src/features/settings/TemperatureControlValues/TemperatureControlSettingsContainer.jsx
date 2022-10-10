@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { setTemperatureControls } from "../settingsSlice";
 import styled from "styled-components";
 import PrideText from "../../../themes/PrideText";
-import useIsF from "../FOrC/UseIsF";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -18,7 +17,7 @@ const StyledDiv = styled.div`
 
 export default function TemperatureControlSettingsContainer() {
   const config = useSelector((state) => state.settings.config);
-  const isF = useIsF();
+  const isF = useSelector((state) => state.settings.isF);
   const currentTemperatureContorls = config.temperatureControlValues;
   const dispatch = useDispatch();
 

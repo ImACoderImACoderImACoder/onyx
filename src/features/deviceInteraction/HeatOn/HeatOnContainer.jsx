@@ -1,14 +1,13 @@
 import { heatOnUuid, heatOffUuid } from "../../../constants/uuids";
 import HeatOn from "./HeatOn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsHeatOn } from "../deviceInteractionSlice";
-import { AddToQueue } from "../../../services/bleQueueing";
+import { AddToPriorityQueue } from "../../../services/bleQueueing";
 import { convertToUInt8BLE } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import useIsHeatOn from "./useIsHeatOn";
 
 export default function HeatOnContainer() {
-  const isHeatOn = useIsHeatOn();
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const dispatch = useDispatch();
 
   const onClick = (nextState) => {
@@ -17,11 +16,9 @@ export default function HeatOnContainer() {
       const characteristic = getCharacteristic(targetCharacteristicUuid);
       const buffer = convertToUInt8BLE(0);
       await characteristic.writeValue(buffer);
+      dispatch(setIsHeatOn(nextState));
     };
-    AddToQueue(blePayload);
-
-    //used to prevent a warning I don't fully understand.
-    setTimeout(() => dispatch(setIsHeatOn(nextState)), 100);
+    AddToPriorityQueue(blePayload);
   };
 
   return <HeatOn onChange={onClick} isHeatOn={isHeatOn} />;
