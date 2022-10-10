@@ -10,6 +10,7 @@ import prideClassic from "./prideClassic";
 import prideVibrant from "./prideVibrant";
 import greenscale from "./greenScale";
 import funId from "./fun";
+import volcanicAsh from "./volcanicAsh";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -19,6 +20,8 @@ export default function GetTheme(type) {
       return deepMergeWithBase(dark);
     case themeIds.lightThemeId:
       return deepMergeWithBase(light);
+    case themeIds.volcanicAshId:
+      return deepMergeWithBase(volcanicAsh);
     case themeIds.valentinesDayId:
       return deepMergeWithBase(valentinesDay);
     case themeIds.flamingoId:
@@ -34,7 +37,7 @@ export default function GetTheme(type) {
     case themeIds.funId:
       return deepMergeWithBase(funId);
     default: {
-      return deepMergeWithBase(dark);
+      return deepMergeWithBase(volcanicAsh);
     }
   }
 }

@@ -4,6 +4,7 @@ export const funId = "Fun";
 export const grayscaleId = "Grayscale";
 export const greenscaleId = "Greenscale";
 export const lightThemeId = "Light";
+export const volcanicAshId = "Volcanic Ash";
 export const prideClassicId = "Pride (classic)";
 export const prideVibrantId = "Pride (Vibrant)";
 export const valentinesDayId = "Valentines Day";

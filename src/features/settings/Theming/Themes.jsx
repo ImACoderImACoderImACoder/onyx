@@ -14,11 +14,15 @@ export default function Themes(props) {
   const theme = useTheme();
   return (
     <Div>
-      <h3><PrideText text="Select a Theme"/></h3>
+      <h2>
+        <PrideText text="Select a Theme" />
+      </h2>
       <StyledSelect value={props.currentTheme} onChange={props.onChange}>
         {props.options}
       </StyledSelect>
-      <span><i>Theme by: {theme.author}</i></span>
+      <span>
+        <i>Theme by: {theme.author}</i>
+      </span>
     </Div>
   );
 }

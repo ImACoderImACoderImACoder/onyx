@@ -91,7 +91,7 @@ export function ReadConfigFromLocalStorage() {
   let config = JSON.parse(window.localStorage.getItem(localStorageKey));
   const defaultConfig = {
     temperatureControlValues: defaultTemperatureArray,
-    currentTheme: GetTheme(),
+    currentTheme: GetTheme().themeId,
     workflows: {
       items: defaultWorkflows,
       [WorkflowItemTypes.FAN_ON_GLOBAL]: defaultGlobalFanOnTimeInSeconds,

@@ -29,7 +29,7 @@ const StyledNavBar = styled(Navbar)`
 
 const StyledNavBarToggle = styled(Navbar.Toggle)`
   background: ${(props) => props.theme.backgroundColor};
-  border-color: ${(props) => props.theme.borderColor} !important;
+  border-color: ${(props) => props.theme.iconColor} !important;
   border-width: medium;
   padding: 5px;
 `;
@@ -37,6 +37,10 @@ const StyledNavBarToggle = styled(Navbar.Toggle)`
 const StyledNav = styled(Nav)`
   justify-content: space-evenly;
   flex-grow: 1;
+`;
+
+const StyledHeaderNavDiv = styled(StyledRouterIconLink)`
+  color: ${(props) => props.theme.iconColor};
 `;
 
 export default function VolcanoLoader(props) {
@@ -89,9 +93,9 @@ export default function VolcanoLoader(props) {
           >
             <Container>
               <Navbar.Brand>
-                <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
+                <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
                   <PrideTextWithDiv text="Project Onyx" />
-                </StyledRouterIconLink>
+                </StyledHeaderNavDiv>
               </Navbar.Brand>
 
               <StyledNavBarToggle
@@ -99,7 +103,7 @@ export default function VolcanoLoader(props) {
                 aria-controls="basic-navbar-nav"
               >
                 <div
-                  style={{ color: theme.iconColor }}
+                  style={{ color: theme.primaryFontColor }}
                   onClick={navBarToggleOnClick}
                 >
                   <MenuBarIcon />
