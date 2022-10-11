@@ -9,7 +9,8 @@ import grayscale from "./grayScale";
 import prideClassic from "./prideClassic";
 import prideVibrant from "./prideVibrant";
 import greenscale from "./greenScale";
-import funId from "./fun";
+import fun from "./fun";
+import halloween from "./festivities/halloween";
 import volcanicAsh from "./volcanicAsh";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
@@ -35,7 +36,9 @@ export default function GetTheme(type) {
     case themeIds.prideVibrantId:
       return deepMergeWithBase(prideVibrant);
     case themeIds.funId:
-      return deepMergeWithBase(funId);
+      return deepMergeWithBase(fun);
+    case themeIds.halloweenId:
+      return deepMergeWithBase(halloween);
     default: {
       return deepMergeWithBase(volcanicAsh);
     }

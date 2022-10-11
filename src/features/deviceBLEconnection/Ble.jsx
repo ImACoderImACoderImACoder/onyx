@@ -37,6 +37,7 @@ export default function Ble(props) {
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
     "Drag and drop can be used to reorder workflows on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
+    "Two new themes in settings. Halloween and Volcanic Ash!",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);

@@ -8,3 +8,4 @@ export const volcanicAshId = "Volcanic Ash";
 export const prideClassicId = "Pride (classic)";
 export const prideVibrantId = "Pride (Vibrant)";
 export const valentinesDayId = "Valentines Day";
+export const halloweenId = "Halloween";
