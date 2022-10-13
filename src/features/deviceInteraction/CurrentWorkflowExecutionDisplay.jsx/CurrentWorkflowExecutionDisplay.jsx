@@ -19,7 +19,6 @@ function TimerEstimate(props) {
   useEffect(() => {
     timerStartRef.current = new Date();
     const interval = setInterval(() => {
-      console.log("here");
       dispatch(
         setCurrentStepEllapsedTimeInSeconds(
           Math.round((new Date() - timerStartRef.current) / 1000)
