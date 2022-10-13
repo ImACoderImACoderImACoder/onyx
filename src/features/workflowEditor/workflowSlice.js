@@ -6,6 +6,7 @@ export const workflowSlice = createSlice({
   initialState: {
     currentWorkflow: undefined,
     currentWorkflowStepId: undefined,
+    currentStepEllapsedTimeInSeconds: 0,
   },
   reducers: {
     setCurrentWorkflow: (state, action) => {
@@ -13,6 +14,10 @@ export const workflowSlice = createSlice({
     },
     setCurrentWorkflowStepId: (state, action) => {
       state.currentWorkflowStepId = action.payload;
+      state.currentStepEllapsedTimeInSeconds = 0;
+    },
+    setCurrentStepEllapsedTimeInSeconds: (state, action) => {
+      state.currentStepEllapsedTimeInSeconds = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -20,12 +25,16 @@ export const workflowSlice = createSlice({
       return {
         currentWorkflow: undefined,
         currentWorkflowStepId: undefined,
+        currentStepEllapsedTimeInSeconds: 0,
       };
     });
   },
 });
 
-export const { setCurrentWorkflow, setCurrentWorkflowStepId } =
-  workflowSlice.actions;
+export const {
+  setCurrentWorkflow,
+  setCurrentWorkflowStepId,
+  setCurrentStepEllapsedTimeInSeconds,
+} = workflowSlice.actions;
 
 export default workflowSlice.reducer;

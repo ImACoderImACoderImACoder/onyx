@@ -1,6 +1,7 @@
 import {
   setCurrentWorkflow,
   setCurrentWorkflowStepId,
+  setCurrentStepEllapsedTimeInSeconds,
 } from "../features/workflowEditor/workflowSlice";
 import store from "../store";
 
@@ -67,6 +68,7 @@ function ProcessWorkflowQueue() {
     if (currentWorkflowIndex + 1 >= workflowFunctions.length) {
       store.dispatch(setCurrentWorkflow());
       store.dispatch(setCurrentWorkflowStepId());
+      store.dispatch(setCurrentStepEllapsedTimeInSeconds(0));
     }
     currentFunc = workflowFunctions[currentWorkflowIndex + 1];
     if (!currentFunc) return;

@@ -18,6 +18,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import styled, { useTheme } from "styled-components";
 import ContactMeIcon from "./icons/ContactMeIcon";
+import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import Container from "react-bootstrap/Container";
 import { heatingMask, fanMask, fahrenheitMask } from "../../../constants/masks";
 import {
@@ -115,15 +116,6 @@ export default function VolcanoLoader(props) {
         handlePrj1ChangedVolcano
       );
       await characteristicPrj1V.startNotifications();
-      const value = await characteristicPrj1V.readValue();
-      const currentVal = convertBLEtoUint16(value);
-      const newHeatValue = convertToggleCharacteristicToBool(
-        currentVal,
-        heatingMask
-      );
-      if (store.getState().deviceInteraction.isHeatOn !== newHeatValue) {
-        dispatch(setIsHeatOn(newHeatValue));
-      }
     };
     AddToQueue(blePayload);
 
@@ -287,6 +279,7 @@ export default function VolcanoLoader(props) {
           </Container>
         </StyledNavBar>
       }
+      <CurrentWorkflowExecutionDisplay />
       <Outlet {...props} />
     </div>
   );

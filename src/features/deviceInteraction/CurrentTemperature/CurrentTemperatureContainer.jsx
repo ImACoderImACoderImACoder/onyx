@@ -110,7 +110,7 @@ export default function CurrentTemperatureContainer() {
     isHeatOn;
   return (
     <CurrentTemperature
-      style={{ visibility: !showCurrentTemp && "hidden" }}
+      style={{ opacity: showCurrentTemp ? "1" : "0", transition: "all 0.35s" }}
       currentTemperature={temperature}
       temperatureSuffix={temperatureSuffix}
     />

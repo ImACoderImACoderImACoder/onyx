@@ -30,7 +30,11 @@ import WorkflowItemTypes from "../../constants/enums";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
-import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
+import {
+  setCurrentWorkflowStepId,
+  setCurrentWorkflow,
+  setCurrentStepEllapsedTimeInSeconds,
+} from "./workflowSlice";
 import store from "../../store";
 import PrideText from "../../themes/PrideText";
 
@@ -85,6 +89,7 @@ export default function WorkFlow() {
     ClearWorkflowQueue();
     dispatch(setCurrentWorkflowStepId());
     dispatch(setCurrentWorkflow());
+    dispatch(setCurrentStepEllapsedTimeInSeconds(0));
     const blePayload = async () => {
       const fanOffCharacteristic = getCharacteristic(fanOffUuid);
       const buffer = convertToUInt8BLE(0);

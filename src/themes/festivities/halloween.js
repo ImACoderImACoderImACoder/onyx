@@ -2,7 +2,7 @@ import { halloweenId } from "../../constants/themeIds";
 
 const volcanicAsh = {
   themeId: halloweenId,
-  author: "ImACoderImACoderImACoder",
+  author: "Princess Ariel",
   borderStyle: "solid",
   borderColor: "#570CA0",
   buttonColorMain: "#242526",

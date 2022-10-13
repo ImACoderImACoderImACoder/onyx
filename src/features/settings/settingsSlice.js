@@ -40,6 +40,9 @@ export const settingsSlice = createSlice({
     setFanOnGlobal: (state, action) => {
       state.config.workflows.fanOnGlobal = action.payload;
     },
+    setShowCurrentWorkflowDetails: (state, action) => {
+      state.config.showCurrentWorkflowDetails = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(RE_INITIALIZE_STORE, (state) => {
@@ -66,6 +69,7 @@ export const {
   setCurrentTheme,
   setCurrentWorkflows,
   setFanOnGlobal,
+  setShowCurrentWorkflowDetails,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
