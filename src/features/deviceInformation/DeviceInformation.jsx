@@ -4,6 +4,8 @@ import VolcanoFirmwareVersion from "./VolcanoFirmwareVersion/VolcanoFirmwareVers
 import BleFirmwareVersion from "./BleFirmwareVersion/BleFirmwareVersionContainer";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import PrideText from "../../themes/PrideText";
+import HeatOn from "../deviceInteraction/HeatOn/HeatOnContainer";
+import FanOn from "../deviceInteraction/FanOn/FanOnContainer";
 
 export default function DeviceInformation() {
   return (
@@ -16,5 +18,19 @@ export default function DeviceInformation() {
       <VolcanoFirmwareVersion />
       <BleFirmwareVersion />
     </Div>
+  );
+}
+
+export function DeviceInformationWithToggleControls() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
+      <DeviceInformation />
+      <Div style={{ justifyContent: "end" }}>
+        <div className="heat-air-div">
+          <HeatOn />
+          <FanOn />
+        </div>
+      </Div>
+    </div>
   );
 }

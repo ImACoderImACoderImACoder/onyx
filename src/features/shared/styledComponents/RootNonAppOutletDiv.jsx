@@ -11,7 +11,7 @@ const Div = styled.div`
 
 export default function SectionRootDiv(props) {
   return (
-    <Div>
+    <Div {...props}>
       <Container>{props.children}</Container>
     </Div>
   );
