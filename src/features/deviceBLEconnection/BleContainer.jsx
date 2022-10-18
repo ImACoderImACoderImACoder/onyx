@@ -6,6 +6,7 @@ import { clearCache } from "../../services/BleCharacteristicCache";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
+import { clearQueuesAndTimers } from "../../services/bleQueueing";
 
 export default function BleContainer() {
   const [isBleConnectionBeingEstablished, setIsBleConnectionBeingEstablished] =
@@ -15,6 +16,7 @@ export default function BleContainer() {
   const navigate = useNavigate();
   const onDisconnected = () => {
     clearCache();
+    clearQueuesAndTimers();
     navigate("/");
   };
 

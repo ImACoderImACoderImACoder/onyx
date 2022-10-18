@@ -16,11 +16,7 @@ import {
   isValueInValidVolcanoCelciusRange,
   convertCurrentTemperatureCharacteristicToCelcius,
 } from "../../services/utils";
-import {
-  AddToQueue,
-  AddToWorkflowQueue,
-  ClearWorkflowQueue,
-} from "../../services/bleQueueing";
+import { AddToQueue, AddToWorkflowQueue } from "../../services/bleQueueing";
 import {
   setCurrentTemperature,
   setIsHeatOn,
@@ -30,17 +26,16 @@ import WorkflowItemTypes from "../../constants/enums";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
-import {
-  setCurrentWorkflowStepId,
-  setCurrentWorkflow,
-  setCurrentStepEllapsedTimeInSeconds,
-} from "./workflowSlice";
+import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
 import store from "../../store";
 import PrideText from "../../themes/PrideText";
-
-const currentIntervals = [];
-const currentSetTimeouts = [];
-
+import {
+  currentSetTimeouts,
+  currentIntervals,
+  cancelCurrentWorkflow,
+  clearIntervals,
+  clearTimeouts,
+} from "../../services/bleQueueing";
 export default function WorkFlow() {
   const dispatch = useDispatch();
   const fanOnGlobal = useSelector(
@@ -68,32 +63,6 @@ export default function WorkFlow() {
       await characteristic.writeValue(buffer);
 
       executeWithManagedSetTimeout(next);
-    };
-    AddToQueue(blePayload);
-  };
-
-  const clearIntervals = () => {
-    while (currentIntervals.length > 0) {
-      clearInterval(currentIntervals.pop());
-    }
-  };
-
-  const clearTimeouts = () => {
-    while (currentSetTimeouts.length > 0) {
-      clearTimeout(currentSetTimeouts.pop());
-    }
-  };
-  const cancelCurrentWorkflow = () => {
-    clearIntervals();
-    clearTimeouts();
-    ClearWorkflowQueue();
-    dispatch(setCurrentWorkflowStepId());
-    dispatch(setCurrentWorkflow());
-    dispatch(setCurrentStepEllapsedTimeInSeconds(0));
-    const blePayload = async () => {
-      const fanOffCharacteristic = getCharacteristic(fanOffUuid);
-      const buffer = convertToUInt8BLE(0);
-      await fanOffCharacteristic.writeValue(buffer);
     };
     AddToQueue(blePayload);
   };

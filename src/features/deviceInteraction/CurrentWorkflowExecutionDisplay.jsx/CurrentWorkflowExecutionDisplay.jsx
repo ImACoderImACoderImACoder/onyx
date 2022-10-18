@@ -7,6 +7,10 @@ import WorkflowItemTypes from "../../../constants/enums";
 import { DEGREE_SYMBOL } from "../../../constants/temperature";
 import { convertToFahrenheitFromCelsius } from "../../../services/utils";
 import { useRef } from "react";
+import { ActiveButton } from "../WriteTemperature/styledComponents";
+import { cancelCurrentWorkflow } from "../../../services/bleQueueing";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function TimerEstimate(props) {
   const dispatch = useDispatch();
@@ -43,21 +47,22 @@ function TimerEstimate(props) {
 export default function CurrentWorkflowExecutionDisplay() {
   const executingWorkflow = useSelector((state) => state.workflow);
   const isF = useSelector((state) => state.settings.isF);
+  const [isRemovedFromDom, setIsRemovedFromDom] = useState(false);
   const containerRef = useRef();
   const showCurrentWorkflowDetails = useSelector(
     (state) => state.settings.config.showCurrentWorkflowDetails
   );
 
-  const currentStepId = executingWorkflow?.currentWorkflowStepId;
+  const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
   const currentWorkflow = executingWorkflow?.currentWorkflow;
   const isWorkflowExecuting = currentStepId && currentWorkflow;
 
-  let workflowName,
-    totalSteps,
-    stepType,
-    showTimer,
-    expectedTime,
-    stepDisplayName;
+  let workflowName = "",
+    totalSteps = 0,
+    stepType = "N/A",
+    showTimer = false,
+    expectedTime = "0",
+    stepDisplayName = "N/A";
 
   if (isWorkflowExecuting) {
     workflowName = currentWorkflow.name;
@@ -104,16 +109,33 @@ export default function CurrentWorkflowExecutionDisplay() {
           : "Seconds"
       }`;
   }
+
+  let prevTimeoutId = useRef();
+  useEffect(() => {
+    if (!isWorkflowExecuting) {
+      prevTimeoutId.current = setTimeout(() => {
+        setIsRemovedFromDom(true);
+      }, 350);
+    } else {
+      setIsRemovedFromDom(false);
+      if (prevTimeoutId.current) {
+        clearTimeout(prevTimeoutId.current);
+        prevTimeoutId.current = undefined;
+      }
+    }
+  }, [isWorkflowExecuting]);
+
+  const location = useLocation();
   return (
     <Container
       ref={containerRef}
       style={{
         opacity: isWorkflowExecuting ? "1" : "0",
-        transition: "opacity 0.35s",
+        transition: `opacity 0.${isWorkflowExecuting ? "70" : "35"}s`,
         display: !showCurrentWorkflowDetails && "none",
       }}
     >
-      {isWorkflowExecuting && (
+      {!isRemovedFromDom && (
         <>
           <h2>
             <PrideText text="Current Workflow" />
@@ -124,6 +146,16 @@ export default function CurrentWorkflowExecutionDisplay() {
           />
           <PrideTextWithDiv text={`Expected Time: ${expectedTime || "N/A"}`} />
           <TimerEstimate stepId={currentStepId} />
+          {location.pathname !== "/Volcano/App" && (
+            <ActiveButton
+              style={{ width: "175px" }}
+              onClick={() => {
+                cancelCurrentWorkflow();
+              }}
+            >
+              Tap to Cancel
+            </ActiveButton>
+          )}
           <hr></hr>
         </>
       )}

@@ -5,10 +5,32 @@ import {
 } from "../features/workflowEditor/workflowSlice";
 import store from "../store";
 
+import { getCharacteristic } from "./BleCharacteristicCache";
+import { fanOffUuid } from "../constants/uuids";
+import { convertToUInt8BLE } from "./utils";
+
+const currentIntervals = [];
+const currentSetTimeouts = [];
 const queue = [];
 const priorityQueue = [];
 
 let isQueueProcessing = false;
+let currentWorkflowIndex = 0;
+let workflowFunctions;
+
+export { currentIntervals, currentSetTimeouts };
+
+export function clearIntervals() {
+  while (currentIntervals.length > 0) {
+    clearInterval(currentIntervals.pop());
+  }
+}
+
+export function clearTimeouts() {
+  while (currentSetTimeouts.length > 0) {
+    clearTimeout(currentSetTimeouts.pop());
+  }
+}
 
 export function AddToQueue(func) {
   queue.push(func);
@@ -16,6 +38,25 @@ export function AddToQueue(func) {
   if (!isQueueProcessing) {
     isQueueProcessing = true;
     ProcessQueue();
+  }
+}
+
+export function cancelCurrentWorkflow(turnFanOff = true) {
+  clearIntervals();
+  clearTimeouts();
+  workflowFunctions = {};
+  currentWorkflowIndex = -1;
+  store.dispatch(setCurrentWorkflowStepId());
+  store.dispatch(setCurrentWorkflow());
+  store.dispatch(setCurrentStepEllapsedTimeInSeconds(0));
+
+  if (turnFanOff) {
+    const blePayload = async () => {
+      const fanOffCharacteristic = getCharacteristic(fanOffUuid);
+      const buffer = convertToUInt8BLE(0);
+      await fanOffCharacteristic.writeValue(buffer);
+    };
+    AddToQueue(blePayload);
   }
 }
 
@@ -52,9 +93,6 @@ async function ProcessQueue() {
   }
 }
 
-let currentWorkflowIndex = 0;
-let workflowFunctions;
-
 export function AddToWorkflowQueue(func) {
   workflowFunctions = func;
   currentWorkflowIndex = -1;
@@ -82,7 +120,9 @@ function ProcessWorkflowQueue() {
   next();
 }
 
-export function ClearWorkflowQueue() {
-  workflowFunctions = {};
-  currentWorkflowIndex = -1;
+export function clearQueuesAndTimers() {
+  cancelCurrentWorkflow(false);
+  queue.length = 0;
+  priorityQueue.length = 0;
+  isQueueProcessing = false;
 }
