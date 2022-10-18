@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BleConnectButtonContainer from "./features/deviceBLEconnection/BleContainer";
 import VolcanoLoaderLoader from "./features/shared/OutletRenderer/VolcanoLoaderLoader";
 import Volcano from "./features/deviceInteraction/DeviceInteraction";
-import DeviceInformation from "./features/deviceInformation/DeviceInformation";
+import { DeviceInformationWithToggleControls } from "./features/deviceInformation/DeviceInformation";
 import ContactMe from "./features/contactMe/ContactMe";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -52,7 +52,7 @@ function App() {
                 <Route path="App" element={<Volcano />} />
                 <Route
                   path="DeviceInformation"
-                  element={<DeviceInformation />}
+                  element={<DeviceInformationWithToggleControls />}
                 />
                 <Route path="Settings" element={<Settings />} />
                 <Route path="WorkflowEditor" element={<WorkflowEditor />} />
