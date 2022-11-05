@@ -33,8 +33,10 @@ export default function DeleteWorkflowItem(props) {
     );
 
     workflow.payload.splice(indexToRemove, 1);
+    workflow.payload.forEach((item, index) => (item.id = index + Date.now()));
     WriteNewConfigToLocalStorage(newConfig);
     dispatch(setCurrentWorkflows(newConfig.workflows.items));
+    setShow(false);
   };
 
   const enterKeyCode = 13;
