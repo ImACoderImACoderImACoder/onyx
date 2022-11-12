@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import * as links from "../../../constants/constants";
 import PrideText from "../../../themes/PrideText";
+import CashAppIcon from "../../shared/OutletRenderer/icons/brands/CashAppIcon";
 import GithubIcon from "../../shared/OutletRenderer/icons/brands/GithubIcon";
 import InstagramIcon from "../../shared/OutletRenderer/icons/brands/InstagramIcon";
 import PatreonIcon from "../../shared/OutletRenderer/icons/brands/PatreonIcon";
@@ -53,6 +54,14 @@ export default function Socials() {
           Instagram
         </SocialDiv>
       </StyledA>
+      <div>
+        <StyledA href={links.cashAppLink} target="_blank" rel="noreferrer">
+          <SocialDiv>
+            <CashAppIcon />
+            Cash App
+          </SocialDiv>
+        </StyledA>
+      </div>
       <StyledA href={links.patreonLink} target="_blank" rel="noreferrer">
         <SocialDiv>
           <PatreonIcon />
