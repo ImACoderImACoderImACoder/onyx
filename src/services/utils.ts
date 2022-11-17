@@ -12,21 +12,22 @@ import {
   defaultGlobalFanOnTimeInSeconds,
   defaultWorkflows,
 } from "../constants/constants";
+import { TemperatureUnit } from "../constants/constants";
 
 import GetTheme from "../themes/ThemeProvider";
 
-export function convertToUInt8BLE(val) {
+export function convertToUInt8BLE(val: number) {
   const buffer = new ArrayBuffer(1);
   const dataView = new DataView(buffer);
   dataView.setUint8(0, val % 256);
   return buffer;
 }
 
-export function convertBLEtoUint16(bleBuf) {
+export function convertBLEtoUint16(bleBuf: DataView) {
   return bleBuf.getUint8(0) + bleBuf.getUint8(1) * 256;
 }
 
-export function convertToUInt16BLE(val) {
+export function convertToUInt16BLE(val: number) {
   const buffer = new ArrayBuffer(2);
   const dataView = new DataView(buffer);
   dataView.setUint8(0, val % 256);
@@ -35,7 +36,7 @@ export function convertToUInt16BLE(val) {
   return buffer;
 }
 
-export function convertToUInt32BLE(val) {
+export function convertToUInt32BLE(val: number) {
   const buffer = new ArrayBuffer(4);
   const dataView = new DataView(buffer);
   dataView.setUint8(0, val & 255);
@@ -49,28 +50,35 @@ export function convertToUInt32BLE(val) {
   return buffer;
 }
 
-export function convertToggleCharacteristicToBool(value, mask) {
+export function convertToggleCharacteristicToBool(value: number, mask: number) {
   if ((value & mask) === 0) {
     return false;
   }
   return true;
 }
 
-export function convertCurrentTemperatureCharacteristicToCelcius(value) {
+export function convertCurrentTemperatureCharacteristicToCelcius(
+  value: DataView
+) {
   const result = Math.round(convertBLEtoUint16(value) / 10);
 
   return result < TEMPERATURE_OVERFLOW_THRESHOLD ? result : MIN_CELSIUS_TEMP;
 }
 
-export function convertToFahrenheitFromCelsius(celsius) {
+export function convertToFahrenheitFromCelsius(celsius: number) {
   return Math.round(celsius * 1.8 + 32);
 }
 
-export function convertToCelsiusFromFahrenheit(fahrenheit) {
+export function convertToCelsiusFromFahrenheit(fahrenheit: number) {
   return Math.round((fahrenheit - 32) * (5 / 9));
 }
 
-export function getDisplayTemperature(temperature, isF) {
+export function getDisplayTemperature(
+  temperature: number,
+  temperatureUnit: TemperatureUnit
+) {
+  const isF = temperatureUnit === TemperatureUnit.F;
+
   const temperatureAbbreviation = isF ? "F" : "C";
   const normalizedTemperature = isF
     ? convertToFahrenheitFromCelsius(temperature)
@@ -79,7 +87,7 @@ export function getDisplayTemperature(temperature, isF) {
   return `${normalizedTemperature}${DEGREE_SYMBOL}${temperatureAbbreviation}`;
 }
 
-export function isValueInValidVolcanoCelciusRange(value) {
+export function isValueInValidVolcanoCelciusRange(value: number) {
   if (isNaN(value)) {
     return false;
   }
@@ -88,7 +96,9 @@ export function isValueInValidVolcanoCelciusRange(value) {
 }
 
 export function ReadConfigFromLocalStorage() {
-  let config = JSON.parse(window.localStorage.getItem(localStorageKey));
+  const configJson = window.localStorage.getItem(localStorageKey);
+  let config = configJson ? JSON.parse(configJson) : undefined;
+
   const defaultConfig = {
     temperatureControlValues: defaultTemperatureArray,
     currentTheme: GetTheme().themeId,
@@ -115,8 +125,11 @@ export function ReadConfigFromLocalStorage() {
   return config;
 }
 
-export function WriteNewConfigToLocalStorage(config) {
-  const comparer = function (a, b) {
+interface ProjectOnyxConfig {
+  temperatureControlValues: Array<number>;
+}
+export function WriteNewConfigToLocalStorage(config: ProjectOnyxConfig) {
+  const comparer = function (a: number, b: number) {
     return a - b;
   };
 

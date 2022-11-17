@@ -7,10 +7,11 @@ import TargetTemperatureRange from "./TargetTemperatureRange/TargetTemperatureRa
 
 import WorkFlow from "../workflowEditor/WorkflowButtons";
 import Container from "react-bootstrap/Container";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/ts/wrappers";
 
 function Volcano() {
   /* eslint-disable no-unused-vars */
+  /* eslint-disable  @typescript-eslint/no-unused-vars */
   //little hack to make Pridetext reaminate when these states change
   const currentTargetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
@@ -20,7 +21,7 @@ function Volcano() {
     (state) => state.deviceInteraction.currentTemperature
   );
   /* eslint-enable no-unused-vars */
-
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   return (
     <Container>
       <div>

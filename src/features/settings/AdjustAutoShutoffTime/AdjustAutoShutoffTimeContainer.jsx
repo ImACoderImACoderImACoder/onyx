@@ -47,7 +47,9 @@ export default function AdjustAutoShutoffTimeContainer() {
 
   return (
     <Div>
-      <h2><PrideText text="Auto Shutoff Time"/></h2>
+      <h2>
+        <PrideText text="Auto Shutoff Time" />
+      </h2>
       Current Auto Shutoff Time: {autoShutoffTime}
       <SettingsRange
         values={[autoShutoffTime || 30]}

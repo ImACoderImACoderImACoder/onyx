@@ -1,7 +1,13 @@
 import { Div } from "./styledComponents";
 import { ActiveButton, InactiveButton } from "./styledComponents";
 
-function WriteTemperature(props) {
+interface WriteTemperatureProps {
+  isActive: boolean;
+  className: string;
+  onClick: () => void;
+  buttonText: string;
+}
+function WriteTemperature(props: WriteTemperatureProps) {
   const Button = props.isActive ? ActiveButton : InactiveButton;
 
   return (
