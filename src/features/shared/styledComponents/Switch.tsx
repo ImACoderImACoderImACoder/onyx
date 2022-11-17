@@ -98,59 +98,62 @@ const SwitchHandleOn = styled(SwitchOnState)`
   border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColor};
 `;
 
-const SwitchHandleOff = styled(SwitchHandleOn)`
+const SwitchHandleOff: any = styled(SwitchHandleOn)`
   background: ${(props) =>
     props.theme.ToggleButtons.sliderBackgroundColorOff ||
     props.theme.ToggleButtons.sliderBackgroundColorOnOn};
 `;
 
-const ToggleSwitch = React.forwardRef((props, ref) => {
-  const [isOn, setIsOn] = useState(props.isToggleOn);
-  const [SwitchHandle, setSwitchHandle] = useState(SwitchHandleOff);
+interface SwitchProps {
+  isToggleOn: boolean;
+  onChange: (nextState: boolean) => void;
+  onText: string;
+  offText: any;
+}
 
-  useEffect(() => {
-    setIsOn(props.isToggleOn);
-  }, [props.isToggleOn]);
+const ToggleSwitch = React.forwardRef<HTMLDivElement, SwitchProps>(
+  (props, ref) => {
+    const [isOn, setIsOn] = useState(props.isToggleOn);
+    const [SwitchHandle, setSwitchHandle]: [any, (nextState: any) => void] =
+      useState(SwitchHandleOff);
 
-  useEffect(() => {
-    if (!isOn) {
-      setSwitchHandle(SwitchHandleOn);
-    } else {
-      setSwitchHandle(SwitchHandleOff);
-    }
-  }, [isOn]);
+    useEffect(() => {
+      setIsOn(props.isToggleOn);
+    }, [props.isToggleOn]);
 
-  return (
-    <SwitchParentDiv
-      ref={ref}
-      onClick={() =>
-        setIsOn((oldIsOn) => {
-          const nextState = !oldIsOn;
-          props.onChange(nextState);
-          return nextState;
-        })
+    useEffect(() => {
+      if (!isOn) {
+        setSwitchHandle(SwitchHandleOn);
+      } else {
+        setSwitchHandle(SwitchHandleOff);
       }
-    >
-      <Switch>
-        <SwitchDiv
-          style={{
-            left: isOn ? "0" : "-100%",
-          }}
-        >
-          <SwitchOnState>{props.onText}</SwitchOnState>
-          <SwitchOffState>{props.offText}</SwitchOffState>
-          <SwitchHandle />
-        </SwitchDiv>
-      </Switch>
-    </SwitchParentDiv>
-  );
-});
+    }, [isOn]);
 
-ToggleSwitch.defaultProps = {
-  onText: "On",
-  offText: "Off",
-  isToggleOn: false,
-  onChange: () => {},
-};
+    return (
+      <SwitchParentDiv
+        ref={ref}
+        onClick={() =>
+          setIsOn((oldIsOn) => {
+            const nextState = !oldIsOn;
+            props.onChange(nextState);
+            return nextState;
+          })
+        }
+      >
+        <Switch>
+          <SwitchDiv
+            style={{
+              left: isOn ? "0" : "-100%",
+            }}
+          >
+            <SwitchOnState>{props.onText}</SwitchOnState>
+            <SwitchOffState>{props.offText}</SwitchOffState>
+            <SwitchHandle />
+          </SwitchDiv>
+        </Switch>
+      </SwitchParentDiv>
+    );
+  }
+);
 
 export default ToggleSwitch;

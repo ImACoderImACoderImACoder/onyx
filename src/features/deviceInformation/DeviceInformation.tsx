@@ -6,6 +6,7 @@ import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import PrideText from "../../themes/PrideText";
 import HeatOn from "../deviceInteraction/HeatOn/HeatOnContainer";
 import FanOn from "../deviceInteraction/FanOn/FanOnContainer";
+import React from "react";
 
 export default function DeviceInformation() {
   return (

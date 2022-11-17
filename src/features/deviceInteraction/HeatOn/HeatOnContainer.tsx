@@ -1,16 +1,19 @@
 import { heatOnUuid, heatOffUuid } from "../../../constants/uuids";
 import HeatOn from "./HeatOn";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../../hooks/ts/wrappers";
 import { setIsHeatOn } from "../deviceInteractionSlice";
 import { AddToPriorityQueue } from "../../../services/bleQueueing";
 import { convertToUInt8BLE } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 
 export default function HeatOnContainer() {
-  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const isHeatOn: boolean = useSelector(
+    (state) => state.deviceInteraction.isHeatOn || false
+  );
   const dispatch = useDispatch();
 
-  const onClick = (nextState) => {
+  const onClick = (nextState: boolean) => {
     const blePayload = async () => {
       const targetCharacteristicUuid = nextState ? heatOnUuid : heatOffUuid;
       const characteristic = getCharacteristic(targetCharacteristicUuid);

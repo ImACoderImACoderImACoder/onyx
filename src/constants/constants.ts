@@ -51,3 +51,8 @@ export const defaultWorkflows = [
     ],
   },
 ];
+
+export enum TemperatureUnit {
+  C,
+  F,
+}

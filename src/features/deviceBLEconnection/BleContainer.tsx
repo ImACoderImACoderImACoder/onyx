@@ -7,6 +7,7 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
 import { clearQueuesAndTimers } from "../../services/bleQueueing";
+import React from "react";
 
 export default function BleContainer() {
   const [isBleConnectionBeingEstablished, setIsBleConnectionBeingEstablished] =

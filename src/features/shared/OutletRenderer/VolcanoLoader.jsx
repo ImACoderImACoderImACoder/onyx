@@ -88,6 +88,9 @@ export default function VolcanoLoader(props) {
   );
   /* eslint-enable no-unused-vars */
 
+  const characteristicPrj1V = getCharacteristic(uuIds.register1Uuid);
+  const characteristicPrj2V = getCharacteristic(uuIds.register2Uuid);
+
   useEffect(() => {
     const handlePrj1ChangedVolcano = (event) => {
       let currentVal = convertBLEtoUint16(event.target.value);
@@ -108,7 +111,6 @@ export default function VolcanoLoader(props) {
         dispatch(setIsFanOn(newFanValue));
       }
     };
-    const characteristicPrj1V = getCharacteristic(uuIds.register1Uuid);
 
     const blePayload = async () => {
       await characteristicPrj1V.addEventListener(
@@ -128,10 +130,9 @@ export default function VolcanoLoader(props) {
       };
       AddToQueue(blePayload);
     };
-  }, [dispatch]);
+  }, [dispatch, characteristicPrj1V]);
 
   const readFOrCToStore = useCallback(() => {
-    const characteristicPrj2V = getCharacteristic(uuIds.register2Uuid);
     const blePayload = async () => {
       const value = await characteristicPrj2V.readValue();
       const convertedValue = convertBLEtoUint16(value);
@@ -144,14 +145,13 @@ export default function VolcanoLoader(props) {
       }
     };
     AddToQueue(blePayload);
-  }, [dispatch]);
+  }, [dispatch, characteristicPrj2V]);
 
   useEffect(() => {
     const handler = () => {
       if (document.visibilityState === "visible") {
         setTimeout(() => {
           const blePayload = async () => {
-            const characteristicPrj1V = getCharacteristic(uuIds.register1Uuid);
             const value = await characteristicPrj1V.readValue();
             const currentVal = convertBLEtoUint16(value);
             const newHeatValue = convertToggleCharacteristicToBool(
@@ -175,7 +175,7 @@ export default function VolcanoLoader(props) {
     return () => {
       document.removeEventListener("visibilitychange", handler);
     };
-  }, [dispatch, readFOrCToStore]);
+  }, [dispatch, readFOrCToStore, characteristicPrj1V]);
 
   //bind event handlers for register2
   useEffect(() => {
@@ -189,7 +189,6 @@ export default function VolcanoLoader(props) {
         dispatch(setIsF(changedValue));
       }
     }
-    const characteristicPrj2V = getCharacteristic(uuIds.register2Uuid);
     const blePayload = async () => {
       await characteristicPrj2V.addEventListener(
         "characteristicvaluechanged",
@@ -208,7 +207,7 @@ export default function VolcanoLoader(props) {
       };
       AddToQueue(blePayload);
     };
-  }, [dispatch]);
+  }, [dispatch, characteristicPrj2V]);
 
   return (
     <div className="main-div">

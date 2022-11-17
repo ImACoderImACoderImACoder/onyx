@@ -7,13 +7,15 @@ import {
   minutesOfOperationUuid,
 } from "../../../constants/uuids";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../../hooks/ts/wrappers";
 import { setHoursOfOperation } from "../deviceInformationSlice";
+import React from "react";
 
 export default function HoursOfOperationContainer() {
   const dispatch = useDispatch();
 
-  const hours = useSelector(
+  const hours: string | undefined = useSelector(
     (state) => state.deviceInformation.hoursOfOperation.hours
   );
 

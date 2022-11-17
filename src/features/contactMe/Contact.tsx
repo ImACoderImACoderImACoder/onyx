@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
+import React, { MouseEvent, ChangeEvent } from "react";
 
 const StyledTextArea = styled.textarea`
   width: 90vw;
@@ -22,7 +23,7 @@ const StyledLabel = styled.label`
 export default function Contact() {
   const [message, setMessage] = useState("");
 
-  const onClick = (e) => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (message === "") {
       e.preventDefault();
       return;
@@ -36,7 +37,8 @@ export default function Contact() {
     }
   };
 
-  const onChange = (e) => setMessage(e.target.value);
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setMessage(e.target.value);
 
   return (
     <div>

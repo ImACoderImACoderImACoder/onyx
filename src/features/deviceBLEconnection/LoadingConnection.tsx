@@ -1,3 +1,4 @@
+import React from "react";
 import Spinner from "react-bootstrap/Spinner";
 import styled from "styled-components";
 import { PrideTextWithDiv } from "../../themes/PrideText";

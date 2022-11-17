@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import * as links from "../../../constants/constants";
 import PrideText from "../../../themes/PrideText";

@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 import Patreon from "./Patreon";
@@ -23,7 +24,11 @@ const StyledPatreon = styled.div`
   width: 100vw;
 `;
 
-export default function Ble(props) {
+interface BleProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export default function Ble({ onClick }: BleProps) {
   const tips = [
     "Spacebar toggles the fan",
     "Setting the screen to 0 brightness turns it off",
@@ -43,7 +48,7 @@ export default function Ble(props) {
   const randomTipIndex = Math.floor(Math.random() * tips.length);
   return (
     <div>
-      <Button onClick={props.onClick}>
+      <Button onClick={onClick}>
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>

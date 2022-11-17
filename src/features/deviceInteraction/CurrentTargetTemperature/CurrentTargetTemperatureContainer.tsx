@@ -1,7 +1,8 @@
 import { convertToFahrenheitFromCelsius } from "../../../services/utils";
-import { useSelector } from "react-redux";
-import { DEGREE_SYMBOL } from "../../../constants/temperature";
+import { useSelector } from "../../../hooks/ts/wrappers";
 import CurrentTargetTemperature from "./CurrentTargetTemperature";
+import React from "react";
+import { TemperatureUnit } from "../../../constants/constants";
 
 export default function CurrentTargetTemperatureContainer() {
   const isF = useSelector((state) => state.settings.isF);
@@ -17,12 +18,12 @@ export default function CurrentTargetTemperatureContainer() {
       : currentTargetTemperature
     : currentTargetTemperature;
 
-  const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
   return (
     <CurrentTargetTemperature
       style={{ opacity: isHeatOn ? "1" : "0", transition: "all 0.35s" }}
-      currentTargetTemperature={temperature}
-      temperatureSuffix={temperatureSuffix}
+      currentTargetTemperature={temperature || 0}
+      temperatureUnit={isF ? TemperatureUnit.F : TemperatureUnit.C}
+      isLoading={!temperature}
     />
   );
 }

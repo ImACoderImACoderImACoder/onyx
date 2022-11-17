@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../../hooks/ts/wrappers";
 import BleFirmwareVersion from "./BleFirmwareVersion";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { bleFirmwareVersionUuid } from "../../../constants/uuids";
 import { setBleFirmwareVersion } from "../deviceInformationSlice";
+import React from "react";
 
 export default function VolcanoFirmwareVersionContainer() {
-  const bleFirmwareVersion = useSelector(
+  const bleFirmwareVersion: string | undefined = useSelector(
     (state) => state.deviceInformation.bleFirmwareVersion
   );
   const dispatch = useDispatch();
@@ -25,5 +27,5 @@ export default function VolcanoFirmwareVersionContainer() {
     }
   }, [bleFirmwareVersion, dispatch]);
 
-  return <BleFirmwareVersion bleFirmwareVersion={bleFirmwareVersion} />;
+  return <BleFirmwareVersion bleFirmwareVersion={bleFirmwareVersion || ""} />;
 }

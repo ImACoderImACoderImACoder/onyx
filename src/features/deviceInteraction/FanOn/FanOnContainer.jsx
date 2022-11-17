@@ -1,41 +1,15 @@
 import { useEffect } from "react";
-import { fanOnUuid, fanOffUuid, register1Uuid } from "../../../constants/uuids";
-import { fanMask } from "../../../constants/masks";
+import { fanOnUuid, fanOffUuid } from "../../../constants/uuids";
 import FanOn from "./FanOn";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsFanOn } from "../deviceInteractionSlice";
-import { AddToQueue, AddToPriorityQueue } from "../../../services/bleQueueing";
-import {
-  convertToUInt8BLE,
-  convertBLEtoUint16,
-  convertToggleCharacteristicToBool,
-} from "../../../services/utils";
+import { useSelector } from "react-redux";
+import { AddToPriorityQueue } from "../../../services/bleQueueing";
+import { convertToUInt8BLE } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useCallback } from "react";
 import { useRef } from "react";
-import store from "../../../store";
 
 export default function FanOnContainer() {
   const isFanOn = useSelector((state) => state.deviceInteraction.isFanOn);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isFanOn === undefined) {
-      const blePayload = async () => {
-        const characteristicPrj1V = getCharacteristic(register1Uuid);
-        const value = await characteristicPrj1V.readValue();
-        const currentVal = convertBLEtoUint16(value);
-        const initialFanValue = convertToggleCharacteristicToBool(
-          currentVal,
-          fanMask
-        );
-        if (store.getState().deviceInteraction.isFanOn !== initialFanValue) {
-          dispatch(setIsFanOn(initialFanValue));
-        }
-      };
-      AddToQueue(blePayload);
-    }
-  }, [dispatch, isFanOn]);
 
   const onClick = useCallback((nextState) => {
     const blePayload = async () => {

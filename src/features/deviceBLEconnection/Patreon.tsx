@@ -1,3 +1,4 @@
+import React from "react";
 import { patreonLink, cashAppLink } from "../../constants/constants";
 import PrideText from "../../themes/PrideText";
 
