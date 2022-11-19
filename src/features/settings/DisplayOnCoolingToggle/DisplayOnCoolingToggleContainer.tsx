@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../hooks/ts/wrappers";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { AddToQueue } from "../../../services/bleQueueing";
 import {
@@ -58,7 +58,7 @@ export default function DisplayOnCoolingToggleContainer() {
   return (
     <DisplayOnCoolingToggle
       onChange={onChange}
-      isDisplayOnCooling={isDisplayOnCooling}
+      isDisplayOnCooling={isDisplayOnCooling || false}
     />
   );
 }

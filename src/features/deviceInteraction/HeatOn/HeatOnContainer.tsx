@@ -8,9 +8,7 @@ import { convertToUInt8BLE } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 
 export default function HeatOnContainer() {
-  const isHeatOn: boolean = useSelector(
-    (state) => state.deviceInteraction.isHeatOn || false
-  );
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const dispatch = useDispatch();
 
   const onClick = (nextState: boolean) => {
@@ -24,5 +22,5 @@ export default function HeatOnContainer() {
     AddToPriorityQueue(blePayload);
   };
 
-  return <HeatOn onChange={onClick} isHeatOn={isHeatOn} />;
+  return <HeatOn onChange={onClick} isHeatOn={isHeatOn || false} />;
 }
