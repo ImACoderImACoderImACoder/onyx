@@ -1,6 +1,15 @@
 import { Range } from "react-range";
 import { useTheme } from "styled-components";
 
+interface SettingsRangeProps {
+  step: number;
+  min: number;
+  max: number;
+  values: Array<number>;
+  onChange: (e: Array<Number>) => void;
+  onFinalChange: (e: Array<Number>) => void;
+}
+
 export default function SettingsRange({
   step,
   min,
@@ -8,8 +17,9 @@ export default function SettingsRange({
   values,
   onChange,
   onFinalChange,
-}) {
-  const theme = useTheme();
+}: SettingsRangeProps) {
+  //todo how to do this better?
+  const theme: any = useTheme();
   return (
     <Range
       step={step}
@@ -49,7 +59,9 @@ export default function SettingsRange({
             borderColor: theme.temperatureRange.rangeBoxBorderColor,
             borderStyle: "solid",
             borderRadius: ".25rem",
-            background: theme.temperatureRange.rangeBackground || theme.temperatureRange.rangeBoxColor
+            background:
+              theme.temperatureRange.rangeBackground ||
+              theme.temperatureRange.rangeBoxColor,
           }}
         />
       )}
