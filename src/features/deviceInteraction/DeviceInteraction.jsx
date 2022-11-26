@@ -6,7 +6,6 @@ import CurrentTargetTemperature from "./CurrentTargetTemperature/CurrentTargetTe
 import TargetTemperatureRange from "./TargetTemperatureRange/TargetTemperatureRange";
 
 import WorkFlow from "../workflowEditor/WorkflowButtons";
-import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
 
 function Volcano() {
@@ -22,19 +21,44 @@ function Volcano() {
   /* eslint-enable no-unused-vars */
 
   return (
-    <Container>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "calc(100% - 66px)",
+        justifyContent: "space-between",
+      }}
+    >
       <div>
         <CurrentTemperature />
         <CurrentTargetTemperature />
-        <WriteTemperature />
-        <WorkFlow />
+        <div
+          style={{
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, auto))",
+              gridGap: "10px",
+              alignItems: "center",
+            }}
+          >
+            <WriteTemperature />
+            <WorkFlow />
+          </div>
+        </div>
+      </div>
+      <div>
         <TargetTemperatureRange />
         <div className="heat-air-div">
           <HeatOn />
           <FanOn />
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
 

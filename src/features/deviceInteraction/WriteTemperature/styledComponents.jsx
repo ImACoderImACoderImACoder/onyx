@@ -9,6 +9,7 @@ export const InactiveButton = styled.button`
   color: ${(props) => props.theme.primaryFontColor};
   border-radius: 2rem;
   border-color: ${(props) => props.theme.borderColor};
+  white-space: nowrap;
   border-style: ${(props) => props.theme.borderStyle};
   &:active {
     background-color: ${(props) => props.theme.buttonActive.backgroundColor};
@@ -31,9 +32,6 @@ export const PlusMinusButton = styled(InactiveButton)`
 
 export const Div = styled.div`
   display: flex;
-  width: 48%;
-  flex-grow: 1;
-  margin: 0px 2.5px 5px;
 
   svg {
     height: 2rem;

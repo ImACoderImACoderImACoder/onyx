@@ -237,7 +237,7 @@ export default function WorkFlow() {
   };
 
   return (
-    <div className="temperature-write-div">
+    <>
       {workflows.map((item, index) => {
         const isActive = currentWorkflow?.id === item.id;
         const buttonText = isActive ? "Tap to Cancel" : item.name;
@@ -250,6 +250,6 @@ export default function WorkFlow() {
           />
         );
       })}
-    </div>
+    </>
   );
 }

@@ -216,5 +216,5 @@ export default function WriteTemperatureContainer() {
 
   temperatureButtons.push();
 
-  return <div className="temperature-write-div">{temperatureButtons}</div>;
+  return <>{temperatureButtons}</>;
 }

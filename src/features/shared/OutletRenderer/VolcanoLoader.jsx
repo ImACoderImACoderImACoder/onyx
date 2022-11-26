@@ -211,7 +211,7 @@ export default function VolcanoLoader(props) {
   }, [dispatch]);
 
   return (
-    <div className="main-div">
+    <Container>
       {
         <StyledNavBar
           expand="lg"
@@ -281,6 +281,6 @@ export default function VolcanoLoader(props) {
       }
       <CurrentWorkflowExecutionDisplay />
       <Outlet {...props} />
-    </div>
+    </Container>
   );
 }
