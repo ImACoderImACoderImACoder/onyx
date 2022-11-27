@@ -11,3 +11,7 @@ Icons from font-awesome free edition. [Lencense Link](https://fontawesome.com/li
 ## Current Deploy Status
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/900dbc79-5910-45a1-b756-3288f2362d0b/deploy-status)](https://app.netlify.com/sites/projectonyx/deploys)
+
+## Developer Documentation
+
+[Click here](docs/DOCUMENTATION.md)
