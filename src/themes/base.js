@@ -27,6 +27,8 @@ const base = () => {
       rangeBoxColor: "black",
       rangeBoxBorderColor: "orange",
       rangeBackground: undefined,
+      rangeBoxBorderRadius: "0.25rem",
+      rangeBoxBorderWidth: "3px",
     },
     workflowEditor: {
       accordianExpandedColor: "#D2D2D2",

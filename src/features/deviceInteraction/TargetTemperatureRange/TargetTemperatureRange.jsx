@@ -101,8 +101,8 @@ export default function TargetTemperatureRange() {
               backgroundColor: theme.temperatureRange.rangeBoxColor,
               borderColor: theme.temperatureRange.rangeBoxBorderColor,
               borderStyle: "solid",
-              borderRadius: ".25rem",
-              borderWidth: "3px",
+              borderWidth: theme.temperatureRange.rangeBoxBorderWidth,
+              borderRadius: theme.temperatureRange.rangeBoxBorderRadius,
               background:
                 theme.temperatureRange.rangeBackground ||
                 theme.temperatureRange.rangeBoxColor,

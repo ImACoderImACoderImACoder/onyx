@@ -48,8 +48,11 @@ export default function SettingsRange({
             backgroundColor: theme.temperatureRange.rangeBoxColor,
             borderColor: theme.temperatureRange.rangeBoxBorderColor,
             borderStyle: "solid",
-            borderRadius: ".25rem",
-            background: theme.temperatureRange.rangeBackground || theme.temperatureRange.rangeBoxColor
+            borderWidth: theme.temperatureRange.rangeBoxBorderWidth,
+            borderRadius: theme.temperatureRange.rangeBoxBorderRadius,
+            background:
+              theme.temperatureRange.rangeBackground ||
+              theme.temperatureRange.rangeBoxColor,
           }}
         />
       )}

@@ -13,7 +13,7 @@ const Switch = styled.div`
   overflow: hidden;
   display: flex;
   flex-grow: 1;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.5;
   color: #212529;
   text-align: center;
@@ -52,7 +52,7 @@ const SwitchOnState = styled.span`
   border-radius: 0;
 
   display: inline-block;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.5;
   color: #212529;
   text-align: center;

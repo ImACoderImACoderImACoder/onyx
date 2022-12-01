@@ -1,5 +1,9 @@
 import Snowfall from "react-snowfall";
-import { christmasId, funId } from "../../constants/themeIds";
+import {
+  christmasId,
+  funId,
+  christmasPeppermintHolidayId,
+} from "../../constants/themeIds";
 import { useSelector } from "react-redux";
 import GetTheme from "../../themes/ThemeProvider";
 
@@ -22,6 +26,7 @@ export default function SnowfallWrapper() {
 
   switch (theme) {
     case christmasId:
+    case christmasPeppermintHolidayId:
       return <Snowfall />;
     case funId:
       return (

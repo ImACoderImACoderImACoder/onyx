@@ -13,6 +13,7 @@ import fun from "./fun";
 import halloween from "./festivities/halloween";
 import volcanicAsh from "./volcanicAsh";
 import christmas from "./festivities/christmas";
+import peppermintHoliday from "./festivities/peppermintHoliday";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -43,6 +44,8 @@ export default function GetTheme(type) {
     case themeIds.christmasId:
     case themeIds.christmasWithoutSnowId:
       return deepMergeWithBase(christmas);
+    case themeIds.christmasPeppermintHolidayId:
+      return deepMergeWithBase(peppermintHoliday);
     default: {
       return deepMergeWithBase(volcanicAsh);
     }

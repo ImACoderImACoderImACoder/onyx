@@ -37,7 +37,7 @@ export default function Ble(props) {
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
     "Drag and drop can be used to reorder workflows on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
-    "The new Christmas theme is so cool! Please try it",
+    "The 3 new Christmas themes are really cool! Please try them",
     "The Fun theme now has colorful snow",
   ];
 
