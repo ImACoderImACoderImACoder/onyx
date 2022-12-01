@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import GetTheme from "../../../themes/ThemeProvider";
 import styled from "styled-components";
 
 const SwitchParentDiv = styled.div`
   display: flex;
   flex-grow: 1;
+  z-index: 1;
 `;
 const Switch = styled.div`
   position: relative;
@@ -84,6 +87,24 @@ const SwitchOffState = styled(SwitchOnState)`
   right: 0;
 `;
 
+const OnSwitchWithBackgroundImage = styled(SwitchOnState)`
+  background: none;
+  background-color: ${(props) =>
+    props.theme.ToggleButtons.backgroundImageColorOn};
+  background-image: ${(props) => props.theme.ToggleButtons.backgroundImageOn};
+  background-blend-mode: ${(props) =>
+    props.theme.ToggleButtons.backgroundBlendModeOn};
+`;
+
+const OffSwitchWithBackgroundImage = styled(SwitchOffState)`
+  background: none;
+  background-image: ${(props) => props.theme.ToggleButtons.backgroundImageOff};
+  background-color: ${(props) =>
+    props.theme.ToggleButtons.backgroundImageColorOff};
+  background-blend-mode: ${(props) =>
+    props.theme.ToggleButtons.backgroundBlendModeOff};
+`;
+
 const SwitchHandleOn = styled(SwitchOnState)`
   position: relative;
   margin: 0 auto;
@@ -120,6 +141,19 @@ const ToggleSwitch = React.forwardRef((props, ref) => {
     }
   }, [isOn]);
 
+  const themeId = useSelector(
+    (state) => state.settings.config?.currentTheme || GetTheme().themeId
+  );
+
+  const currentTheme = GetTheme(themeId);
+
+  const OnButton = currentTheme.ToggleButtons.backgroundImageOn
+    ? OnSwitchWithBackgroundImage
+    : SwitchOnState;
+
+  const OffButton = currentTheme.ToggleButtons.backgroundImageOff
+    ? OffSwitchWithBackgroundImage
+    : SwitchOffState;
   return (
     <SwitchParentDiv
       ref={ref}
@@ -137,8 +171,8 @@ const ToggleSwitch = React.forwardRef((props, ref) => {
             left: isOn ? "0" : "-100%",
           }}
         >
-          <SwitchOnState>{props.onText}</SwitchOnState>
-          <SwitchOffState>{props.offText}</SwitchOffState>
+          <OnButton>{props.onText}</OnButton>
+          <OffButton>{props.offText}</OffButton>
           <SwitchHandle />
         </SwitchDiv>
       </Switch>

@@ -12,6 +12,7 @@ import greenscale from "./greenScale";
 import fun from "./fun";
 import halloween from "./festivities/halloween";
 import volcanicAsh from "./volcanicAsh";
+import christmas from "./festivities/christmas";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -39,6 +40,9 @@ export default function GetTheme(type) {
       return deepMergeWithBase(fun);
     case themeIds.halloweenId:
       return deepMergeWithBase(halloween);
+    case themeIds.christmasId:
+    case themeIds.christmasWithoutSnowId:
+      return deepMergeWithBase(christmas);
     default: {
       return deepMergeWithBase(volcanicAsh);
     }

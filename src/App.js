@@ -16,6 +16,7 @@ import WorkflowEditor from "./features/workflowEditor/WorkflowEditor";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
+import Snowfall from "./features/shared/Snowfall";
 
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
@@ -42,27 +43,32 @@ function App() {
   }, [theme]);
 
   return (
-    <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
-      <ThemeProvider theme={GetTheme(theme)}>
-        <Div>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<BleConnectButtonContainer />} />
-              <Route path="Volcano" element={<VolcanoLoaderLoader />}>
-                <Route path="App" element={<Volcano />} />
-                <Route
-                  path="DeviceInformation"
-                  element={<DeviceInformationWithToggleControls />}
-                />
-                <Route path="Settings" element={<Settings />} />
-                <Route path="WorkflowEditor" element={<WorkflowEditor />} />
-                <Route path="ContactMe" element={<ContactMe />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </Div>
-      </ThemeProvider>
-    </DndProvider>
+    <>
+      <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
+        <ThemeProvider theme={GetTheme(theme)}>
+          <Div>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<BleConnectButtonContainer />} />
+                <Route path="Volcano" element={<VolcanoLoaderLoader />}>
+                  <Route path="App" element={<Volcano />} />
+                  <Route
+                    path="DeviceInformation"
+                    element={<DeviceInformationWithToggleControls />}
+                  />
+                  <Route path="Settings" element={<Settings />} />
+                  <Route path="WorkflowEditor" element={<WorkflowEditor />} />
+                  <Route path="ContactMe" element={<ContactMe />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </Div>
+        </ThemeProvider>
+      </DndProvider>
+      <>
+        <Snowfall />
+      </>
+    </>
   );
 }
 

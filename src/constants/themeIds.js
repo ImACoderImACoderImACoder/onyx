@@ -1,3 +1,5 @@
+export const christmasWithoutSnowId = "Christmas (without snow)";
+export const christmasId = "Christmas";
 export const darkThemeId = "Dark";
 export const flamingoId = "Flamingo";
 export const funId = "Fun";

@@ -41,6 +41,10 @@ const base = () => {
       offBackgroundColor: "#dc3545",
       offBorderColor: "#dc3545",
       offColor: "#fff",
+      backgroundImageOn: undefined,
+      backgroundImageOff: undefined,
+      backgroundBlendModeOn: "unset",
+      backgroundBlendModeOff: "unset",
     },
   };
 };
