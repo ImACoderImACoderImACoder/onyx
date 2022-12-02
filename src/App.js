@@ -34,18 +34,18 @@ function App() {
     };
   }, []);
 
-  const theme = useSelector(
-    (state) => state.settings.config?.currentTheme || GetTheme()
+  const themeId = useSelector(
+    (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
 
   useEffect(() => {
-    document.body.style = `background: ${GetTheme(theme).backgroundColor};`;
-  }, [theme]);
+    document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
+  }, [themeId]);
 
   return (
     <>
       <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
-        <ThemeProvider theme={GetTheme(theme)}>
+        <ThemeProvider theme={GetTheme(themeId)}>
           <Div>
             <BrowserRouter>
               <Routes>
