@@ -6,8 +6,54 @@ import {
 } from "../../constants/themeIds";
 import { useSelector } from "react-redux";
 import GetTheme from "../../themes/ThemeProvider";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function SnowfallWrapper() {
+  const [snowflakeCount, setSnowflakeCount] = useState(150);
+  const [isSnowReducerRunning, setIsSnowReducerRunning] = useState(false);
+
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+
+  const currentTargetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
+
+  const currentTemperature = useSelector(
+    (state) => state.deviceInteraction.currentTemperature
+  );
+
+  useEffect(() => {
+    let intervalId;
+    if (isSnowReducerRunning) {
+      intervalId = setInterval(() => {
+        reduceStorm();
+      }, 400);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isSnowReducerRunning]);
+
+  const reduceStorm = () => {
+    setSnowflakeCount((currentCount) => {
+      const newSnowflakeCount = currentCount - 5;
+      if (newSnowflakeCount < 10) return 10;
+      return newSnowflakeCount;
+    });
+  };
+
+  useEffect(() => {
+    if (
+      isHeatOn &&
+      Math.abs(currentTargetTemperature - currentTemperature) > 5
+    ) {
+      setIsSnowReducerRunning(true);
+    } else {
+      setIsSnowReducerRunning(false);
+      setSnowflakeCount(150);
+    }
+  }, [isHeatOn, currentTargetTemperature, currentTemperature]);
+
   const theme = useSelector(
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
@@ -30,7 +76,7 @@ export default function SnowfallWrapper() {
       return <Snowfall />;
     case funId:
       return (
-        <Snowfall color={snowColor} />
+        <Snowfall color={snowColor} snowflakeCount={snowflakeCount} />
         /*<Snowfall
           color={snowColor}
           wind={[-10, 10]}
