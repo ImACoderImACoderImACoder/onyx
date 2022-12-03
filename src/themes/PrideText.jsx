@@ -1,11 +1,21 @@
 import { useSelector } from "react-redux";
-import { funId, prideClassicId, prideVibrantId } from "../constants/themeIds";
+import {
+  aSuperSpecialAutoThemeSettingsId,
+  funId,
+  prideClassicId,
+  prideVibrantId,
+} from "../constants/themeIds";
 import GetTheme from "./ThemeProvider";
 
 export default function PrideText(props) {
-  const theme = useSelector(
-    (state) => state.settings.config?.currentTheme || GetTheme()
-  );
+  const theme = useSelector((state) => {
+    const currentTheme =
+      state.settings.config?.currentTheme || GetTheme().themeId;
+    if (currentTheme === aSuperSpecialAutoThemeSettingsId) {
+      return GetTheme(currentTheme).themeId;
+    }
+    return currentTheme;
+  });
 
   if (theme === prideClassicId) {
     let spans = [];

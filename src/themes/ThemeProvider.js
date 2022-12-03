@@ -14,6 +14,7 @@ import halloween from "./festivities/halloween";
 import volcanicAsh from "./volcanicAsh";
 import christmas from "./festivities/christmas";
 import peppermintHoliday from "./festivities/peppermintHoliday";
+import GetAutoThemeId from "../constants/themeDates";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -46,6 +47,8 @@ export default function GetTheme(type) {
       return deepMergeWithBase(christmas);
     case themeIds.christmasPeppermintHolidayId:
       return deepMergeWithBase(peppermintHoliday);
+    case themeIds.aSuperSpecialAutoThemeSettingsId:
+      return GetTheme(GetAutoThemeId());
     default: {
       return deepMergeWithBase(volcanicAsh);
     }

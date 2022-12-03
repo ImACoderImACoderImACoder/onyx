@@ -3,9 +3,11 @@ import {
   christmasId,
   funId,
   christmasPeppermintHolidayId,
+  aSuperSpecialAutoThemeSettingsId,
 } from "../../constants/themeIds";
 import { useSelector } from "react-redux";
 import GetTheme from "../../themes/ThemeProvider";
+import GetAutoThemeId from "../../constants/themeDates";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -54,7 +56,7 @@ export default function SnowfallWrapper() {
     }
   }, [isHeatOn, currentTargetTemperature, currentTemperature]);
 
-  const theme = useSelector(
+  const currentThemeId = useSelector(
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
 
@@ -70,7 +72,11 @@ export default function SnowfallWrapper() {
   const snowColor =
     snowColorOptions[Math.floor(Math.random() * snowColorOptions.length)];
 
-  switch (theme) {
+  switch (
+    currentThemeId === aSuperSpecialAutoThemeSettingsId
+      ? GetAutoThemeId()
+      : currentThemeId
+  ) {
     case christmasId:
     case christmasPeppermintHolidayId:
       return <Snowfall />;

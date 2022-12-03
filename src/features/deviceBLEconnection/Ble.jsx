@@ -39,6 +39,7 @@ export default function Ble(props) {
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
     "The 3 new Christmas themes are really cool! Please try them",
     "The Fun theme now has colorful snow",
+    "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
