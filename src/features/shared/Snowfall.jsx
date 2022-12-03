@@ -30,7 +30,7 @@ export default function SnowfallWrapper() {
     if (isSnowReducerRunning) {
       intervalId = setInterval(() => {
         reduceStorm();
-      }, 400);
+      }, 125);
     }
 
     return () => clearInterval(intervalId);
@@ -38,7 +38,7 @@ export default function SnowfallWrapper() {
 
   const reduceStorm = () => {
     setSnowflakeCount((currentCount) => {
-      const newSnowflakeCount = currentCount - 5;
+      const newSnowflakeCount = currentCount - 1;
       if (newSnowflakeCount < 10) return 10;
       return newSnowflakeCount;
     });
