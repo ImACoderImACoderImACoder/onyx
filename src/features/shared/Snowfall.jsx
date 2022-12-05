@@ -14,6 +14,17 @@ export default function SnowfallWrapper() {
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
 
+  /* eslint-disable no-unused-vars */
+  //little hack to make snow reaminate when these states change
+  const currentTargetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
+
+  const currentTemperature = useSelector(
+    (state) => state.deviceInteraction.currentTemperature
+  );
+  /* eslint-enable no-unused-vars */
+
   const snowColorOptions = [
     "#FF0000",
     "#FFA500",
