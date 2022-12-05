@@ -5,3 +5,7 @@ const Div = styled.div`
 `;
 
 export default Div;
+
+export const SettingsListDiv = styled(Div)`
+  display: flex;
+`;

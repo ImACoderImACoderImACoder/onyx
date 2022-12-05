@@ -7,6 +7,10 @@ const Div = styled.div`
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+
+  h1 {
+    color: ${(props) => props.theme.iconColor};
+  }
 `;
 
 export default function SectionRootDiv(props) {

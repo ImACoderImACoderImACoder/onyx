@@ -11,6 +11,7 @@ import ThemesContainer from "./Theming/ThemesContainer";
 import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
 import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
+import SettingsList from "./SettingsList";
 
 export default function Settings() {
   return (
@@ -22,6 +23,7 @@ export default function Settings() {
       <FOrCLoader useSpinnerToShowLoader>
         <FOrC />
       </FOrCLoader>
+      <SettingsList />
       <AdjustLEDbrightnessContainer />
       <AdjustAutoShutoffTimeContainer />
       <VibrationToggleContainer />
