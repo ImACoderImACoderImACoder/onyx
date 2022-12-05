@@ -30,6 +30,17 @@ export default function GetAutoThemeId() {
   if (
     isInDateRange(
       currentDate,
+      new Date(`03/04/${currentYear}`),
+      new Date(`03/17/${currentYear}`),
+      new Date(`03/21/${currentYear}`)
+    )
+  ) {
+    return themeIds.stPatricksDayId;
+  }
+
+  if (
+    isInDateRange(
+      currentDate,
       new Date(`10/31/${currentYear}`),
       new Date(`10/01/${currentYear}`),
       new Date(`10/31/${currentYear}`)
@@ -56,6 +67,7 @@ export default function GetAutoThemeId() {
       ? themeIds.prideClassicId
       : themeIds.prideVibrantId;
   }
+
   if (
     isInDateRange(
       currentDate,

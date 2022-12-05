@@ -35,7 +35,7 @@ const light = {
   ToggleButtons: {
     sliderBackgroundColorOn: "#FF6600",
     sliderBackgroundColorOff: "gray",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#FF6600",
     onBorderColor: "black",
     onColor: "#fff",

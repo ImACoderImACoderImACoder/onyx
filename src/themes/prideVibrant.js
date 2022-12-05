@@ -53,7 +53,7 @@ const pride = {
     sliderBackgroundColorOff: "white",
     sliderBackgroundColorOn:
       "linear-gradient(180deg,rgb(255,0,0) 0% 16.77%,rgb(255 153 0) 16.77% 33.54%,rgb(236 255 0) 33.54% 50.31%,rgb(75 255 0) 50.31% 67.08%,rgb(18 0 255) 67.08% 83.85%,rgb(143,0,255) 83.85% 100%)",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor:
       "linear-gradient(180deg,rgb(255,0,0) 0% 16.77%,rgb(255 153 0) 16.77% 33.54%,rgb(236 255 0) 33.54% 50.31%,rgb(75 255 0) 50.31% 67.08%,rgb(18 0 255) 67.08% 83.85%,rgb(143,0,255) 83.85% 100%)",
     onBorderColor: "gray",

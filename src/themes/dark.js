@@ -28,7 +28,7 @@ const dark = {
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "lightgray",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "black",
     onBorderColor: "darkviolet",
     onColor: "#fff",

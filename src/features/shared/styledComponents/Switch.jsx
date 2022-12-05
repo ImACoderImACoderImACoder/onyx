@@ -116,13 +116,14 @@ const SwitchHandleOn = styled(SwitchOnState)`
 
   color: #000;
   background: ${(props) => props.theme.ToggleButtons.sliderBackgroundColorOn};
-  border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColor};
+  border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColorOn};
 `;
 
 const SwitchHandleOff = styled(SwitchHandleOn)`
   background: ${(props) =>
     props.theme.ToggleButtons.sliderBackgroundColorOff ||
     props.theme.ToggleButtons.sliderBackgroundColorOnOn};
+  border-color: ${(props) => props.theme.ToggleButtons.sliderBorderColorOff};
 `;
 
 const ToggleSwitch = React.forwardRef((props, ref) => {

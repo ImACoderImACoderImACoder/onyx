@@ -31,7 +31,7 @@ const greenscale = {
   ToggleButtons: {
     sliderBackgroundColorOn: "#0fca06",
     sliderBackgroundColorOff: "#B0B3B8",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#0fca06",
     onBorderColor: "white",
     onColor: "white",

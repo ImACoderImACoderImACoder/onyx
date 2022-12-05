@@ -35,7 +35,7 @@ const volcanicAsh = {
   ToggleButtons: {
     sliderBackgroundColorOn: "#FF6600",
     sliderBackgroundColorOff: "#242526",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#FF6600",
     onBorderColor: "white",
     onColor: "#fff",

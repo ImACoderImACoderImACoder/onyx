@@ -10,6 +10,7 @@ export const lightThemeId = "Light";
 export const volcanicAshId = "Volcanic Ash";
 export const prideClassicId = "Pride (classic)";
 export const prideVibrantId = "Pride (Vibrant)";
+export const stPatricksDayId = "Feast of Saint Patrick";
 export const valentinesDayId = "Valentines Day";
 export const halloweenId = "Halloween";
 export const aSuperSpecialAutoThemeSettingsId = "Auto Seasonal Rotate";

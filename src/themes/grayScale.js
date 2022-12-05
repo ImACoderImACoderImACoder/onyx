@@ -28,7 +28,7 @@ const grayscale = {
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "#3A3B3C",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#AAAAAA",
     onBorderColor: "#AAAAAA",
     onColor: "white",
