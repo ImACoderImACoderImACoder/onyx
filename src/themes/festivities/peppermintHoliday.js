@@ -20,7 +20,7 @@ const christmas = {
   },
   backgroundColor: "black",
   iconColor: "#3C8123",
-  iconTextColor: "#9E1F15",
+  iconTextColor: "white",
   temperatureRange: {
     background: `linear-gradient(
         -90deg,
