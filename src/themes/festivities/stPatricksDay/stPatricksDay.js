@@ -1,12 +1,12 @@
-import { stPatricksDayId } from "../../constants/themeIds";
+import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 
 const christmas = {
   author: "ImACoderImACoderImACoder",
-  themeId: stPatricksDayId,
+  themeId: feastOfSaintPatrickId,
   buttonColorMain: "#009A49",
   borderColor: "#FF7900",
   currentTemperatureColor: "#FF7900",
-  targetTemperatureColor: "#009A49",
+  targetTemperatureColor: "white",
   primaryFontColor: "white",
   plusMinusButtons: {
     borderColor: "#FF7900",
@@ -15,8 +15,8 @@ const christmas = {
   },
   buttonActive: {
     color: "white",
-    backgroundColor: "#D9DF1D",
-    borderColor: "#FF7900",
+    backgroundColor: "#FF7900",
+    borderColor: "#D9DF1D",
   },
   backgroundColor: "black",
   iconColor: "#D9DF1D",
@@ -25,7 +25,7 @@ const christmas = {
     background:
       "linear-gradient(90deg,#009A49 33.33%, #FFF 0, #FFF 66.66%, #FF7900 0)",
     rangeBoxColor: `linear-gradient(to right, #009A49 33.33%, #fff 0, #fff 66.66%, #FF7900 0)`,
-    rangeBoxBorderColor: "#FF7900",
+    rangeBoxBorderColor: "#D9DF1D",
   },
   workflowEditor: {
     accordianExpandedColor: "#146B3A",

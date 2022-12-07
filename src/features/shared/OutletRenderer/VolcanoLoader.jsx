@@ -33,6 +33,7 @@ import {
 } from "../../deviceInteraction/deviceInteractionSlice";
 import { setIsF } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
+import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
@@ -280,7 +281,16 @@ export default function VolcanoLoader(props) {
         </StyledNavBar>
       }
       <CurrentWorkflowExecutionDisplay />
-      <Outlet {...props} />
+      <div
+        style={{
+          zIndex: theme.themeId === feastOfSaintPatrickId ? "2" : undefined,
+          display: "flex",
+          justifyContent: "space-between",
+          flexGrow: "1",
+        }}
+      >
+        <Outlet {...props} />
+      </div>
     </div>
   );
 }
