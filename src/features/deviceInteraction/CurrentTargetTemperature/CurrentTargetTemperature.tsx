@@ -3,7 +3,7 @@ import { DEGREE_SYMBOL } from "../../../constants/temperature";
 import styled from "styled-components";
 import PrideText from "../../../themes/PrideText";
 import { TemperatureUnit } from "../../../constants/constants";
-import React, { CSSProperties } from "react";
+import { CSSProperties } from "react";
 
 const Div = styled.div`
   text-align: center;

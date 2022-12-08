@@ -6,7 +6,6 @@ import { AddToQueue } from "../../../services/bleQueueing";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { bleFirmwareVersionUuid } from "../../../constants/uuids";
 import { setBleFirmwareVersion } from "../deviceInformationSlice";
-import React from "react";
 
 export default function VolcanoFirmwareVersionContainer() {
   const bleFirmwareVersion: string | undefined = useSelector(

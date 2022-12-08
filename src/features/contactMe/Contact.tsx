@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
-import React, { MouseEvent, ChangeEvent } from "react";
+import { MouseEvent, ChangeEvent } from "react";
 
 const StyledTextArea = styled.textarea`
   width: 90vw;

@@ -6,7 +6,6 @@ import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useSelector } from "../../../hooks/ts/wrappers";
 import { useDispatch } from "react-redux";
 import { setVolcanoFirmwareVersion } from "../deviceInformationSlice";
-import React from "react";
 
 export default function VolcanoFirmwareVersionContainer() {
   const volcanoFirmwareVersion: string | undefined = useSelector(

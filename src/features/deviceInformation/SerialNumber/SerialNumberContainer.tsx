@@ -6,7 +6,6 @@ import { AddToQueue } from "../../../services/bleQueueing";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { setSerialNumber } from "../deviceInformationSlice";
 import { useSelector } from "../../../hooks/ts/wrappers";
-import React from "react";
 
 export default function ReadSerialNumber() {
   const serialNumber: string | undefined = useSelector(

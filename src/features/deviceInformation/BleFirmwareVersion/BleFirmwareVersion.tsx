@@ -1,5 +1,3 @@
-import React from "react";
-
 interface BleFirmwareVersionProps {
   bleFirmwareVersion: string;
 }

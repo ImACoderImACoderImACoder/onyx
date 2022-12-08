@@ -10,7 +10,6 @@ import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { useDispatch } from "react-redux";
 import { useSelector } from "../../../hooks/ts/wrappers";
 import { setHoursOfOperation } from "../deviceInformationSlice";
-import React from "react";
 
 export default function HoursOfOperationContainer() {
   const dispatch = useDispatch();

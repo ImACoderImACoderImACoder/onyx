@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 import Patreon from "./Patreon";

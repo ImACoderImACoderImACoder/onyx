@@ -1,7 +1,6 @@
 import { convertToFahrenheitFromCelsius } from "../../../services/utils";
 import { useSelector } from "../../../hooks/ts/wrappers";
 import CurrentTargetTemperature from "./CurrentTargetTemperature";
-import React from "react";
 import { TemperatureUnit } from "../../../constants/constants";
 
 export default function CurrentTargetTemperatureContainer() {
