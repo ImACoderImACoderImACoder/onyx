@@ -7,6 +7,7 @@ import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 const StyledButton = styled(Button)`
   max-width: none;
+  margin-top: 0px;
 `;
 export default function CreateWorkflowButton(props) {
   const config = useSelector((state) => state.settings.config);
