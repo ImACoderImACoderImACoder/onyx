@@ -48,9 +48,8 @@ export default function GetTheme(type) {
     case themeIds.christmasPeppermintHolidayId:
       return deepMergeWithBase(peppermintHoliday);
     case themeIds.aSuperSpecialAutoThemeSettingsId:
-      return GetTheme(GetAutoThemeId());
     default: {
-      return deepMergeWithBase(volcanicAsh);
+      return GetTheme(GetAutoThemeId());
     }
   }
 }
