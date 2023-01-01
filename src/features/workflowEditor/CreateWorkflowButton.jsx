@@ -20,7 +20,7 @@ export default function CreateWorkflowButton(props) {
 
     newConfig.workflows.items.push({
       id: nextId,
-      name: `New Workflow ${nextId}`,
+      name: `New Workflow`,
       payload: [],
     });
     WriteNewConfigToLocalStorage(newConfig);
