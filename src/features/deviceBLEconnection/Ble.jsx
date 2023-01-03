@@ -37,8 +37,6 @@ export default function Ble(props) {
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
     "Drag and drop can be used to reorder workflows on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
-    "The 3 new Christmas themes are really cool! Please try them",
-    "The Fun theme now has colorful snow",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
   ];
 
@@ -49,10 +47,13 @@ export default function Ble(props) {
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>
-        <PrideText text="Tap anywhere to connect" />
+        <PrideText text="Tap anywhere to connect."/>
         <br />
         <br />
         <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />
+        <br />
+        <br />
+        <PrideText text={"The workflow details view has been temporarly disabled."}/>
       </Button>
     </div>
   );
