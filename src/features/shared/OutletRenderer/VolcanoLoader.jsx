@@ -18,7 +18,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import styled, { useTheme } from "styled-components";
 import ContactMeIcon from "./icons/ContactMeIcon";
-import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import Container from "react-bootstrap/Container";
 import { heatingMask, fanMask, fahrenheitMask } from "../../../constants/masks";
 import {
@@ -279,7 +278,6 @@ export default function VolcanoLoader(props) {
           </Container>
         </StyledNavBar>
       }
-      <CurrentWorkflowExecutionDisplay />
       <Outlet {...props} />
     </div>
   );
