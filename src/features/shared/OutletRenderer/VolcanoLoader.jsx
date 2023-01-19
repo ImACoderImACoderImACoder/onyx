@@ -32,7 +32,7 @@ import {
 } from "../../deviceInteraction/deviceInteractionSlice";
 import { setIsF } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
-
+import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
 `;
@@ -278,7 +278,7 @@ export default function VolcanoLoader(props) {
           </Container>
         </StyledNavBar>
       }
-      <Outlet {...props} />
+<CurrentWorkflowExecutionDisplay />     <Outlet {...props} />
     </div>
   );
 }

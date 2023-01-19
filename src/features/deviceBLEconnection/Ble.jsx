@@ -53,7 +53,6 @@ export default function Ble(props) {
         <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />
         <br />
         <br />
-        <PrideText text={"The workflow details view has been temporarly disabled."}/>
       </Button>
     </div>
   );
