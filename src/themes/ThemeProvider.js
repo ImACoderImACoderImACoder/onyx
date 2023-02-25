@@ -53,7 +53,7 @@ export default function GetTheme(type) {
     case themeIds.feastOfSaintPatrickId:
       return deepMergeWithBase(stPatricksDay);
     default: {
-      return deepMergeWithBase(volcanicAsh);
+      return GetTheme(GetAutoThemeId());
     }
   }
 }
