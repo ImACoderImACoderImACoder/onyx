@@ -10,7 +10,6 @@ import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import ThemesContainer from "./Theming/ThemesContainer";
 import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
-import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
 
 export default function Settings() {
   return (
@@ -27,7 +26,6 @@ export default function Settings() {
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />
       <TurnHeatOnWhenConnectionIsEstablished />
-      <ShowCurrentWorkflowDetails />
       <TemperatureControlSettings />
     </Div>
   );

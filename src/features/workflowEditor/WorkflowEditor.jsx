@@ -15,6 +15,7 @@ import WorkflowDrop from "./DND/WorkflowDrop";
 import WorkflowTips from "./WorkflowTips";
 import PrideText from "../../themes/PrideText";
 import Container from "react-bootstrap/Container";
+import CreatePremadeWorkflowButtonContainer from "./CreatePremadeWorkflowButtonContainer";
 
 const StyledAccordionBody = styled(Accordion.Body)`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -149,6 +150,7 @@ export default function WorkflowEditor() {
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
       <div style={{ display: "flex" }}>
         <CreateWorkflowButton onClick={onCreateWorkflow} />
+        <CreatePremadeWorkflowButtonContainer />
       </div>
       <Container></Container>
       <div style={{ marginTop: "20px" }}>

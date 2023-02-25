@@ -87,6 +87,7 @@ export default function GetAutoThemeId() {
       themeIds[key] !== themeIds.christmasWithoutSnowId &&
       themeIds[key] !== themeIds.valentinesDayId &&
       themeIds[key] !== themeIds.flamingoId &&
+      themeIds[key] !== themeIds.funId &&
       themeIds[key] !== themeIds.prideClassicId &&
       themeIds[key] !== themeIds.prideVibrantId &&
       themeIds[key] !== themeIds.lightThemeId &&
