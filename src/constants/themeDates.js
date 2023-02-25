@@ -1,7 +1,7 @@
 import * as themeIds from "./themeIds";
 
-function isInDateRange(date, festivityDate, dateLowerBound, dateUpperBound) {
-  if (date.getMonth() !== festivityDate.getMonth()) {
+function isInDateRange(date, dateLowerBound, dateUpperBound) {
+  if (date.getMonth() !== dateLowerBound.getMonth()) {
     return false;
   }
 
@@ -19,7 +19,6 @@ export default function GetAutoThemeId() {
   if (
     isInDateRange(
       currentDate,
-      new Date(`02/14/${currentYear}`),
       new Date(`02/07/${currentYear}`),
       new Date(`02/21/${currentYear}`)
     )
@@ -30,13 +29,21 @@ export default function GetAutoThemeId() {
   if (
     isInDateRange(
       currentDate,
-      new Date(`10/31/${currentYear}`),
+      new Date(`03/04/${currentYear}`),
+      new Date(`03/21/${currentYear}`)
+    )
+  ) {
+    return themeIds.feastOfSaintPatrickId;
+  }
+
+  if (
+    isInDateRange(
+      currentDate,
       new Date(`10/01/${currentYear}`),
       new Date(`10/31/${currentYear}`)
     ) ||
     isInDateRange(
       currentDate,
-      new Date(`11/01/${currentYear}`),
       new Date(`11/01/${currentYear}`),
       new Date(`11/01/${currentYear}`)
     )
@@ -48,7 +55,6 @@ export default function GetAutoThemeId() {
     isInDateRange(
       currentDate,
       new Date(`06/01/${currentYear}`),
-      new Date(`06/01/${currentYear}`),
       new Date(`06/31/${currentYear}`)
     )
   ) {
@@ -56,10 +62,10 @@ export default function GetAutoThemeId() {
       ? themeIds.prideClassicId
       : themeIds.prideVibrantId;
   }
+
   if (
     isInDateRange(
       currentDate,
-      new Date(`12/25/${currentYear}`),
       new Date(`12/01/${currentYear}`),
       new Date(`12/31/${currentYear}`)
     )
@@ -85,6 +91,7 @@ export default function GetAutoThemeId() {
       themeIds[key] !== themeIds.prideClassicId &&
       themeIds[key] !== themeIds.prideVibrantId &&
       themeIds[key] !== themeIds.lightThemeId &&
+      themeIds[key] !== themeIds.funId &&
       themeIds[key] !== themeIds.halloweenId
   );
   randomTheme =

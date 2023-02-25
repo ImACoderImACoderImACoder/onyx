@@ -2,6 +2,7 @@ export const christmasWithoutSnowId = "Christmas (without snow)";
 export const christmasId = "Christmas";
 export const christmasPeppermintHolidayId = "Christmas (Peppermint)";
 export const darkThemeId = "Dark";
+export const feastOfSaintPatrickId = "Feast of Saint Patrick";
 export const flamingoId = "Flamingo";
 export const funId = "Fun";
 export const grayscaleId = "Grayscale";

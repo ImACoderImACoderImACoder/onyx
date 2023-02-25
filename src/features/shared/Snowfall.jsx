@@ -4,10 +4,13 @@ import {
   funId,
   christmasPeppermintHolidayId,
   aSuperSpecialAutoThemeSettingsId,
+  feastOfSaintPatrickId,
 } from "../../constants/themeIds";
 import { useSelector } from "react-redux";
 import GetTheme from "../../themes/ThemeProvider";
 import GetAutoThemeId from "../../constants/themeDates";
+import cloverSrc from "../../themes/festivities/stPatricksDay/clover.png";
+import { useMemo } from "react";
 
 export default function SnowfallWrapper() {
   const currentThemeId = useSelector(
@@ -37,6 +40,17 @@ export default function SnowfallWrapper() {
   const snowColor =
     snowColorOptions[Math.floor(Math.random() * snowColorOptions.length)];
 
+  const MemoClovers = useMemo(() => {
+    const clover = new Image();
+    clover.src = cloverSrc;
+    const images = [clover];
+    return <Snowfall images={images} radius={[40, 80]} snowflakeCount={20} />;
+  }, []);
+
+  const MemoDefaultSnow = useMemo(() => {
+    return <Snowfall />;
+  }, []);
+
   switch (
     currentThemeId === aSuperSpecialAutoThemeSettingsId
       ? GetAutoThemeId()
@@ -44,7 +58,8 @@ export default function SnowfallWrapper() {
   ) {
     case christmasId:
     case christmasPeppermintHolidayId:
-      return <Snowfall />;
+      return MemoDefaultSnow;
+
     case funId:
       return (
         <Snowfall color={snowColor} />
@@ -56,6 +71,8 @@ export default function SnowfallWrapper() {
           speed={[1.0, 9.0]}
         />*/
       );
+    case feastOfSaintPatrickId:
+      return MemoClovers;
     default:
       return <></>;
   }

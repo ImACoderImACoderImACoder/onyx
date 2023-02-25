@@ -8,7 +8,15 @@ import TargetTemperatureRange from "./TargetTemperatureRange/TargetTemperatureRa
 import WorkFlow from "../workflowEditor/WorkflowButtons";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
+const Div = styled.div`
+  align-self: flex-end;
+  justify-content: end;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;
 function Volcano() {
   /* eslint-disable no-unused-vars */
   //little hack to make Pridetext reaminate when these states change
@@ -22,8 +30,8 @@ function Volcano() {
   /* eslint-enable no-unused-vars */
 
   return (
-    <Container>
-      <div>
+    <Container style={{ display: "flex" }}>
+      <Div>
         <CurrentTemperature />
         <CurrentTargetTemperature />
         <WriteTemperature />
@@ -33,7 +41,7 @@ function Volcano() {
           <HeatOn />
           <FanOn />
         </div>
-      </div>
+      </Div>
     </Container>
   );
 }

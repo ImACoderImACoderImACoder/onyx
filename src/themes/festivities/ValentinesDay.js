@@ -30,7 +30,7 @@ const valentinesDay = {
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "gray",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#bb27ff",
     onBorderColor: "#bb27ff",
     onColor: "#fff",

@@ -43,7 +43,7 @@ const christmas = {
   ToggleButtons: {
     sliderBackgroundColorOn: "beige",
     sliderBackgroundColorOff: "#146B3A",
-    sliderBorderColor: "#f8f9fa",
+    sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#146B3A",
     onBorderColor: "#BB2528",
     onColor: "white",

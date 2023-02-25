@@ -36,7 +36,8 @@ const base = () => {
     ToggleButtons: {
       sliderBackgroundColorOn: "gray",
       sliderBackgroundColorOff: undefined,
-      sliderBorderColor: "#f8f9fa",
+      sliderBorderColorOn: "#f8f9fa",
+      sliderBorderColorOff: "#f8f9fa",
       onBackgroundColor: "#198754",
       onBorderColor: "#198754",
       onColor: "#fff",
