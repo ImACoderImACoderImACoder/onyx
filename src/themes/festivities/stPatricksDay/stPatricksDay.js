@@ -1,6 +1,6 @@
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 
-const christmas = {
+const feastOfSaintPatrick = {
   author: "ImACoderImACoderImACoder",
   themeId: feastOfSaintPatrickId,
   buttonColorMain: "#009A49",
@@ -44,4 +44,4 @@ const christmas = {
   },
 };
 
-export default christmas;
+export default feastOfSaintPatrick;
