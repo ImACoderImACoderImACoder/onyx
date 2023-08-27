@@ -38,6 +38,7 @@ export default function Ble(props) {
     "Drag and drop can be used to reorder workflows on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
+    "St. Patty's Day theme (Feast of St. Patrick) is now available!!",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
@@ -47,7 +48,7 @@ export default function Ble(props) {
         <StyledPatreon>
           <Patreon />
         </StyledPatreon>
-        <PrideText text="Tap anywhere to connect."/>
+        <PrideText text="Tap anywhere to connect." />
         <br />
         <br />
         <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />

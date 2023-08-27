@@ -13,6 +13,7 @@ import fun from "./fun";
 import halloween from "./festivities/halloween";
 import volcanicAsh from "./volcanicAsh";
 import christmas from "./festivities/christmas";
+import stPatricksDay from "./festivities/stPatricksDay/stPatricksDay";
 import peppermintHoliday from "./festivities/peppermintHoliday";
 import GetAutoThemeId from "../constants/themeDates";
 
@@ -48,6 +49,9 @@ export default function GetTheme(type) {
     case themeIds.christmasPeppermintHolidayId:
       return deepMergeWithBase(peppermintHoliday);
     case themeIds.aSuperSpecialAutoThemeSettingsId:
+      return GetTheme(GetAutoThemeId());
+    case themeIds.feastOfSaintPatrickId:
+      return deepMergeWithBase(stPatricksDay);
     default: {
       return GetTheme(GetAutoThemeId());
     }

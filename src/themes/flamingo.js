@@ -32,7 +32,7 @@ const flamingo = {
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "white",
-    sliderBorderColor: "#white",
+    sliderBorderColorOn: "#white",
     onBackgroundColor: "#e79fec",
     onBorderColor: "#e79fec",
     onColor: "#fff",

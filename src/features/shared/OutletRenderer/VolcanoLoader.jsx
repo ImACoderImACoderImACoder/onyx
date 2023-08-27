@@ -32,6 +32,7 @@ import {
 } from "../../deviceInteraction/deviceInteractionSlice";
 import { setIsF } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
+import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
@@ -209,6 +210,15 @@ export default function VolcanoLoader(props) {
     };
   }, [dispatch]);
 
+  const outletStyling = {
+    zIndex: theme.themeId === feastOfSaintPatrickId ? "2" : undefined,
+    display: "flex",
+    justifyContent: "space-between",
+    flexGrow: "1",
+  };
+
+  const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
+
   return (
     <div className="main-div">
       {
@@ -278,7 +288,13 @@ export default function VolcanoLoader(props) {
           </Container>
         </StyledNavBar>
       }
-<CurrentWorkflowExecutionDisplay />     <Outlet {...props} />
+
+      <div style={currentExecutingWorkflowStyling}>
+        <CurrentWorkflowExecutionDisplay />
+      </div>
+      <div style={outletStyling}>
+        <Outlet {...props} />
+      </div>
     </div>
   );
 }
