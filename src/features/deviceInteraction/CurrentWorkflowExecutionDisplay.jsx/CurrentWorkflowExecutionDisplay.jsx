@@ -153,7 +153,7 @@ export default function CurrentWorkflowExecutionDisplay() {
                 cancelCurrentWorkflow();
               }}
             >
-              Tap to Cancel
+              <PrideText text="Tap to Cancel" />
             </ActiveButton>
           )}
           <hr></hr>
