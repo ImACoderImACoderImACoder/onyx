@@ -107,4 +107,83 @@ export const premadeWorkflows = [
       { type: "setLEDbrightness", id: 10, payload: 0 },
     ],
   },
+  {
+    id: 5,
+    name: "TEMP 1 🟦",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 179 },
+    ],
+  },
+  {
+    id: 6,
+    name: "TEMP 2 🔵",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 185 },
+    ],
+  },
+  {
+    id: 7,
+    name: "TEMP 3 🟩",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 191 },
+    ],
+  },
+  {
+    id: 8,
+    name: "TEMP 4 🟢",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 199 },
+    ],
+  },
+  {
+    id: 9,
+    name: "TEMP 5 🟨",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 205 },
+    ],
+  },
+  {
+    id: 10,
+    name: "TEMP 6 🟡",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 211 },
+    ],
+  },
+  {
+    id: 11,
+    name: "TEMP 7 🟥",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 217 },
+    ],
+  },
+  {
+    id: 12,
+    name: "TEMP 8 🔴",
+    payload: [
+      { type: "heatOff", id: 1, payload: null },
+      { type: "heatOn", id: 2, payload: 230 },
+    ],
+  },
+  {
+    id: 13,
+    name: "PRIME 🌋",
+    payload: [{ type: "fanOn", id: 1, payload: 5 }],
+  },
+  {
+    id: 14,
+    name: "DRY TUBE ♨️",
+    payload: [
+      { type: "heatOn", id: 1, payload: 230 },
+      { type: "fanOnGlobal", id: 2, payload: 60 },
+      { type: "heatOn", id: 3, payload: 179 },
+      { type: "heatOff", id: 4, payload: null },
+    ],
+  },
 ];
