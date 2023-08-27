@@ -76,11 +76,11 @@ export default function WorkFlow() {
     }
 
     dispatch(setCurrentWorkflow(nextWorkflow));
-    const thoughtData = nextWorkflow.payload.map((item) => {
+    const thoughtData = nextWorkflow.payload.map((item, index) => {
       switch (item.type) {
         case WorkflowItemTypes.HEAT_ON: {
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
 
             const turnHeatOn = () => {
               const blePayload = async () => {
@@ -173,7 +173,7 @@ export default function WorkFlow() {
         case WorkflowItemTypes.FAN_ON_GLOBAL:
         case WorkflowItemTypes.FAN_ON: {
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
 
             const characteristic = getCharacteristic(fanOnUuid);
             const buffer = convertToUInt8BLE(0);
@@ -191,7 +191,7 @@ export default function WorkFlow() {
         }
         case WorkflowItemTypes.HEAT_OFF: {
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
 
             const characteristic = getCharacteristic(heatOffUuid);
             const buffer = convertToUInt8BLE(0);
@@ -201,7 +201,7 @@ export default function WorkFlow() {
         }
         case WorkflowItemTypes.WAIT: {
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
 
             if (item.payload === 0) {
               alert("Click okay to resume the workflow!");
@@ -212,7 +212,7 @@ export default function WorkFlow() {
         }
         case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
 
             const blePayload = async () => {
               const characteristic = getCharacteristic(LEDbrightnessUuid);
@@ -227,7 +227,7 @@ export default function WorkFlow() {
         }
         default:
           return async (next) => {
-            dispatch(setCurrentWorkflowStepId(item.id));
+            dispatch(setCurrentWorkflowStepId(index + 1));
             executeWithManagedSetTimeout(next);
           };
       }

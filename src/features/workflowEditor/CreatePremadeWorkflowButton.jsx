@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
@@ -55,7 +56,7 @@ const StyledDropDownMenu = styled(Dropdown.Menu)`
 `;
 
 const StyledDropdownDivider = styled(Dropdown.Divider)`
-  background-color: ${(props) => props.theme.primaryFontColor}; ;
+  background-color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function CreatePremadeWorkflowButton(props) {
@@ -79,7 +80,7 @@ export default function CreatePremadeWorkflowButton(props) {
       <StyledDropDownMenu>
         {props.premadeWorkflows.map((premadeWorkflow, index) => {
           return (
-            <>
+            <Fragment key={premadeWorkflow.id}>
               <StyledDropDownMenuItem
                 key={premadeWorkflow.id}
                 eventKey={premadeWorkflow.id}
@@ -89,7 +90,7 @@ export default function CreatePremadeWorkflowButton(props) {
               {props.premadeWorkflows.length - 1 !== index && (
                 <StyledDropdownDivider />
               )}
-            </>
+            </Fragment>
           );
         })}
       </StyledDropDownMenu>
