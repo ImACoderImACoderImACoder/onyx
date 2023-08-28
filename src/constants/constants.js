@@ -181,7 +181,7 @@ export const premadeWorkflows = [
     name: "DRY TUBE ♨️",
     payload: [
       { type: "heatOn", id: 1, payload: 230 },
-      { type: "fanOnGlobal", id: 2, payload: 60 },
+      { type: "fanOn", id: 2, payload: 60 },
       { type: "heatOn", id: 3, payload: 179 },
       { type: "heatOff", id: 4, payload: null },
     ],
