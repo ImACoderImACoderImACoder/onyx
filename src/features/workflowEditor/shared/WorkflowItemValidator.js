@@ -24,7 +24,7 @@ const workflowItemValidor = ({ payload, type }, isF, onError = () => {}) => {
       case WorkflowItemTypes.FAN_ON_GLOBAL:
       case WorkflowItemTypes.FAN_ON: {
         const isPayloadValid =
-          !isNaN(parsedPayloadInput) && parsedPayloadInput > 0;
+          !isNaN(parsedPayloadInput) && parsedPayloadInput >= 0;
         if (!isPayloadValid) {
           onError("Value must be a number and greater than 0");
         }

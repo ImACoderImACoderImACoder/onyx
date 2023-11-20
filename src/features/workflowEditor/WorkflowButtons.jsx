@@ -183,10 +183,14 @@ export default function WorkFlow() {
               item.type === WorkflowItemTypes.FAN_ON_GLOBAL
                 ? fanOnGlobal
                 : item.payload;
-            executeWithManagedSetTimeout(
-              () => turnFanOff(next),
-              fanOnTime * 1000
-            );
+            if (fanOnTime === 0) {
+              executeWithManagedSetTimeout(next);
+            } else {
+              executeWithManagedSetTimeout(
+                () => turnFanOff(next),
+                fanOnTime * 1000
+              );
+            }
           };
         }
         case WorkflowItemTypes.HEAT_OFF: {
