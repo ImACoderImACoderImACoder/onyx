@@ -53,6 +53,10 @@ export default function CurrentWorkflowExecutionDisplay() {
     (state) => state.settings.config.showCurrentWorkflowDetails
   );
 
+  const fanOnGlobalValue = useSelector(
+    (state) => state.settings.config.workflows.fanOnGlobal
+  );
+
   const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
   const currentWorkflow = executingWorkflow?.currentWorkflow;
   const isWorkflowExecuting = currentStepId && currentWorkflow;
@@ -101,10 +105,17 @@ export default function CurrentWorkflowExecutionDisplay() {
     }
     totalSteps = currentWorkflow.payload.length;
     showTimer = stepType.includes("fan") || stepType.includes("wait");
+
     expectedTime =
       showTimer &&
-      `${currentWorkflow.payload[currentStepId - 1].payload} ${
-        currentWorkflow.payload[currentStepId - 1].payload === 1
+      `${
+        stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+          ? fanOnGlobalValue
+          : currentWorkflow.payload[currentStepId - 1].payload
+      } ${
+        (stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+          ? fanOnGlobalValue
+          : currentWorkflow.payload[currentStepId - 1].payload) === 1
           ? "Second"
           : "Seconds"
       }`;
