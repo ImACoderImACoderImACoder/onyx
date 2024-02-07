@@ -43,6 +43,9 @@ export const settingsSlice = createSlice({
     setShowCurrentWorkflowDetails: (state, action) => {
       state.config.showCurrentWorkflowDetails = action.payload;
     },
+    setShowSessionCount: (state, action) => {
+      state.config.showSessionCount = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(RE_INITIALIZE_STORE, (state) => {
@@ -70,6 +73,7 @@ export const {
   setCurrentWorkflows,
   setFanOnGlobal,
   setShowCurrentWorkflowDetails,
+  setShowSessionCount,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

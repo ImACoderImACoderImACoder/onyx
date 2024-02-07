@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import {
   clearCache,
@@ -29,11 +29,13 @@ import store from "../../../store";
 import {
   setIsHeatOn,
   setIsFanOn,
+  resetCurrentSessionCount,
 } from "../../deviceInteraction/deviceInteractionSlice";
 import { setIsF } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
+import DeleteIcon from "./icons/DeleteIcon";
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
 `;
@@ -59,6 +61,7 @@ export default function VolcanoLoader(props) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navBarToggleOnClick = () => {
     setExpanded(expanded ? false : "expanded");
@@ -88,6 +91,13 @@ export default function VolcanoLoader(props) {
   );
   /* eslint-enable no-unused-vars */
 
+  const currentSessionCount = useSelector(
+    (state) => state.deviceInteraction.currentSessionCount
+  );
+
+  const showSessionCount = useSelector(
+    (state) => state.settings.config.showSessionCount
+  );
   useEffect(() => {
     const handlePrj1ChangedVolcano = (event) => {
       let currentVal = convertBLEtoUint16(event.target.value);
@@ -242,7 +252,7 @@ export default function VolcanoLoader(props) {
                 style={{ color: theme.primaryFontColor }}
                 onClick={navBarToggleOnClick}
               >
-                <MenuBarIcon />
+                {showSessionCount ? currentSessionCount : <MenuBarIcon />}
               </div>
             </StyledNavBarToggle>
             <Navbar.Collapse id="basic-navbar-nav">
@@ -279,6 +289,22 @@ export default function VolcanoLoader(props) {
                   {<ContactMeIcon />}
                   {<PrideTextWithDiv text="Contact Me" />}
                 </StyledRouterIconLink>
+                {showSessionCount && (
+                  <StyledRouterIconLink
+                    onClick={() =>
+                      dispatch(resetCurrentSessionCount()) && onLinkClick()
+                    }
+                    to={location.pathname}
+                  >
+                    {<DeleteIcon />}
+                    {
+                      <PrideTextWithDiv
+                        text={`Session Count (${currentSessionCount})`}
+                      />
+                    }
+                  </StyledRouterIconLink>
+                )}
+
                 <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
                   <BluetoothDisconnectIcon />
                   <PrideTextWithDiv text="Disconnect" />

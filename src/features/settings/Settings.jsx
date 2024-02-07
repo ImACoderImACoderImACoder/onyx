@@ -3,7 +3,6 @@ import FOrCLoader from "./FOrC/FOrCLoader";
 import AdjustAutoShutoffTimeContainer from "./AdjustAutoShutoffTime/AdjustAutoShutoffTimeContainer";
 import AdjustLEDbrightnessContainer from "./AdjustLEDbrightness/AdjustLEDbrightnessContainer";
 import DisplayOnCoolingToggleContainer from "./DisplayOnCoolingToggle/DisplayOnCoolingToggleContainer";
-
 import TemperatureControlSettings from "./TemperatureControlValues/TemperatureControlSettingsContainer";
 import VibrationToggleContainer from "./VibrationToggle/VibrationToggleContainer";
 import Div from "../shared/styledComponents/RootNonAppOutletDiv";
@@ -11,6 +10,7 @@ import ThemesContainer from "./Theming/ThemesContainer";
 import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
 import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
+import ShowCurrentSessionCountInMenuBar from "./ShowCurrentSessionCountInMenuBar/ShowCurrentSessionCountInMenuBar";
 export default function Settings() {
   return (
     <Div>
@@ -26,6 +26,7 @@ export default function Settings() {
       <VibrationToggleContainer />
       <DisplayOnCoolingToggleContainer />
       <ShowCurrentWorkflowDetails />
+      <ShowCurrentSessionCountInMenuBar />
       <TurnHeatOnWhenConnectionIsEstablished />
       <TemperatureControlSettings />
     </Div>
