@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
+import {
+  ReadConfigFromLocalStorage,
+  WriteNewConfigToLocalStorage,
+} from "../../services/utils";
 
+function writeCurrentSessionCountToLocalStorage(count) {
+  const config = ReadConfigFromLocalStorage();
+  config.currentSessionCount = count;
+  WriteNewConfigToLocalStorage(config);
+}
 export const deviceInteractionSlice = createSlice({
   name: "deviceInteraction",
   initialState: {
@@ -8,6 +17,8 @@ export const deviceInteractionSlice = createSlice({
     targetTemperature: undefined,
     isFanOn: undefined,
     isHeatOn: undefined,
+    lastFanOnTimeStamp: undefined,
+    currentSessionCount: ReadConfigFromLocalStorage().currentSessionCount,
   },
   reducers: {
     setCurrentTemperature: (state, action) => {
@@ -17,10 +28,28 @@ export const deviceInteractionSlice = createSlice({
       state.targetTemperature = action.payload;
     },
     setIsFanOn: (state, action) => {
+      if (action.payload && !lastFanOnTimeStamp) {
+        state.lastFanOnTimeStamp = Date.now();
+      }
+      if (!action.payload && state.isFanOn) {
+        if (Date.now() - state.lastFanOnTimeStamp > 1000 * 15) {
+          const newSessionCount = state.currentSessionCount
+            ? state.currentSessionCount + 1
+            : 1;
+          writeCurrentSessionCountToLocalStorage(newSessionCount);
+          state.currentSessionCount = newSessionCount;
+        }
+        state.lastFanOnTimeStamp = undefined;
+      }
+
       state.isFanOn = action.payload;
     },
     setIsHeatOn: (state, action) => {
       state.isHeatOn = action.payload;
+    },
+    resetCurrentSessionCount: (state) => {
+      state.currentSessionCount = 0;
+      writeCurrentSessionCountToLocalStorage(0);
     },
   },
   extraReducers: (builder) => {
@@ -30,6 +59,8 @@ export const deviceInteractionSlice = createSlice({
         targetTemperature: undefined,
         isFanOn: undefined,
         isHeatOn: undefined,
+        lastFanOnTimeStamp: undefined,
+        currentSessionCount: ReadConfigFromLocalStorage().currentSessionCount,
       };
     });
   },
@@ -41,6 +72,8 @@ export const {
   setTargetTemperature,
   setIsFanOn,
   setIsHeatOn,
+  lastFanOnTimeStamp,
+  resetCurrentSessionCount,
 } = deviceInteractionSlice.actions;
 
 export default deviceInteractionSlice.reducer;

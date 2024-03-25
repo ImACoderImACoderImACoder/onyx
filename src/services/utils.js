@@ -98,6 +98,7 @@ export function ReadConfigFromLocalStorage() {
     },
     onConnectTurnHeatOn: false,
     showCurrentWorkflowDetails: false,
+    currentSessionCount: 0,
   };
   if (!config) {
     window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));
