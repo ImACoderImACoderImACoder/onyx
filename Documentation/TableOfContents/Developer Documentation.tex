@@ -1,16 +1,21 @@
-\documentclass[12pt]{report}
+\documentclass[12pt, letterpaper]{report}
 
 % Include packages here
 \usepackage{graphicx}
 \usepackage{hyperref}
-% Any other packages
+\usepackage[margin=1in]{geometry}
+\usepackage{titlesec} %used to remove the chapter headings
+
+%this is used to remove the heading Chapter 1, Chapter 2, Chapter 3... from the headings of the chapters
+\titleformat{\chapter}[display] {\normalfont\bfseries }{}{0pt}{ \Huge}
+\def\volcanoBleFirmwareVersion{V01.00.00.00}
+\def\volcanoFirmwareVersion{V01.03.0}
+
 \begin{document}
-\newcommand{\volcanoBleFirmwareVersion}{V01.00.00.00}
-\newcommand{\volcanoFirmwareVersion}{V01.03.0}
+
 \title{Project Onyx Developer Guide}
 \author{Imma Coder}
 \date{\today}
-\
 
 \maketitle
 
@@ -19,5 +24,6 @@
 % Include your sections here
 \input{../Sections/Introduction.tex}
 \input{../Sections/Bluetooth Low Energy.tex}
+\input{../Sections/Front End Documentation.tex}
 
 \end{document}
