@@ -23,3 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 Roadmap.txt
+
+Developer Documentation.*
+!Developer Documentation.tex
+!Developer Documentation.pdf
