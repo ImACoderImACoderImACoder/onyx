@@ -6,7 +6,11 @@ Project Oynx is a single page web application that interfaces with the Volcano H
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Icons from font-awesome free edition. [Lencense Link](https://fontawesome.com/license).
+Icons from font-awesome free edition. [License Link](https://fontawesome.com/license).
+
+## Developer Documentation
+
+To learn more about the inner workings of the volcano or project onyx read the [developer documentation](./Documentation/TableOfContents/Developer%20Documentation.pdf)
 
 ## Current Deploy Status
 

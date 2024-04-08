@@ -1,0 +1,56 @@
+\documentclass[12pt, letterpaper]{report}
+
+% Include packages here
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{titlesec} %used to remove the chapter headings
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+%this is used to remove the heading Chapter 1, Chapter 2, Chapter 3... from the headings of the chapters
+\titleformat{\chapter}[display] {\normalfont\bfseries }{}{0pt}{ \Huge}
+\def\volcanoBleFirmwareVersion{V01.00.00.00}
+\def\volcanoFirmwareVersion{V01.03.0}
+\def\f{$^\circ F$}
+\def\c{$^\circ C$}
+
+\begin{document}
+
+\title{Project Onyx Developer Guide}
+\author{Imma Coder}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+% Include your sections here
+\input{../Sections/Introduction.tex}
+\input{../Sections/Bluetooth Low Energy.tex}
+\input{../Sections/Front End Documentation.tex}
+\input{../Sections/Coding Samples.tex}
+
+\end{document}
