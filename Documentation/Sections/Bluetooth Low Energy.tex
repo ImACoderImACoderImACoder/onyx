@@ -2,51 +2,103 @@
 \section{Characteristics}
 \begin{longtable}{c|p{2.1in}|c}
 \textbf{Friendly name} & \multicolumn{1}{|c|}{\textbf{Description}} & \textbf{UUID} \\ \hline
-Turn Heat Off & Write a value of 0 to turn the heating element off & 10110010-5354-4f52-5a26-4249434b454c \\ \hline
 
-Turn Heat On & Write a value of 0 to turn the heating element on & 1011000f-5354-4f52-5a26-4249434b454c \\ \hline
+Turn Heat Off&
+Write a value of 0 to turn the heating element off&
+10110010-5354-4f52-5a26-4249434b454c \\ \hline
 
-Turn Fan Off & Write a value of 0 to turn the fan off & 10110014-5354-4f52-5a26-4249434b454c\\ \hline
+Turn Heat On&
+Write a value of 0 to turn the heating element on&
+1011000f-5354-4f52-5a26-4249434b454c \\ \hline
 
-Turn fan On & Write a value of 0 to turn the fan on & 10110013-5354-4f52-5a26-4249434b454c\\ \hline
+Turn Fan Off &
+Write a value of 0 to turn the fan off &
+10110014-5354-4f52-5a26-4249434b454c\\ \hline
 
-Heat/Fan Register & Stores the \textbf{state for heat} and \textbf{fan}.  \textbf{Subscribe} to this characteristic to receive events when the state of the heating element or the fan changes & 1010000c-5354-4f52-5a26-4249434b454c \\ \hline 
+Turn fan On&
+Write a value of 0 to turn the fan on &
+10110013-5354-4f52-5a26-4249434b454c\\ \hline
 
-Settings Register & Configure the Volcano's \textbf{Display While Cooling} and set the Volcano's display temperature to \textbf{\f\ or \c.} \textbf{Subscribe} to this characteristic to receive events when the device changes between \f\ and \c\ & 1010000d-5354-4f52-5a26-4249434b454c \\ \hline
+Heat/Fan Register&
+Stores the \textbf{state for heat} and \textbf{fan}.
+\textbf{Subscribe} to this characteristic to receive events
+when the state of the heating element or the fan changes&
+1010000c-5354-4f52-5a26-4249434b454c \\ \hline 
 
-More Settings & Configure the Volcano to vibrate (pulse the fan) when it reaches it's target temperature. Write the mask $0x400$ converted to a 32bit byte array to turn this setting on. Write the mask $0x10000 + 0x400$ to turn this setting off. A bitwise `and' resulting in a answer equal to 0 means this setting is on   &  1010000e-5354-4f52-5a26-4249434b454c \\ \hline
+Settings Register&
+Configure the Volcano's \textbf{Display While Cooling} and
+set the Volcano's display temperature to \textbf{\f\ or \c.}
+\textbf{Subscribe} to this characteristic to receive events
+when the device changes between \f\ and \c\ &
+ 1010000d-5354-4f52-5a26-4249434b454c \\ \hline
 
-BLE Firmware&Read and decode the value to ``utf-8'' to get the Volcano's current Bluetooth firmware version&10100004-5354-4f52-5a26-4249434b454c\\ \hline
+More Settings&
+Configure the Volcano to vibrate (pulse the fan) when it reaches it's target temperature. 
+Write the mask $0x400$ converted to a 32bit byte array to turn this setting on. 
+Write the mask $0x10000 + 0x400$ to turn this setting off. 
+A bitwise `and' resulting in a answer equal to 0 means this setting is on&
+1010000e-5354-4f52-5a26-4249434b454c \\ \hline
 
-FirmwareVersion&Read and decode the value to ``utf-8'' to get the Volcano's current firmware version&10100003-5354-4f52-5a26-4249434b454c\\ \hline
+BLE Firmware&
+Read and decode the value to ``utf-8'' to get the Volcano's current Bluetooth firmware version&
+10100004-5354-4f52-5a26-4249434b454c\\ \hline
 
-Serial Number&Read, decode the value to ``utf-8'', and substring the first 8 characters to get the Volcano's serial number &10100008-5354-4f52-5a26-4249434b454c\\ \hline
+FirmwareVersion&
+Read and decode the value to ``utf-8'' to get the Volcano's current firmware version&
+10100003-5354-4f52-5a26-4249434b454c\\ \hline
 
-Hours Of Operation&Read and convert the value to a UInt16.  This is usually used with minutes of operation to get the full usage time&10110015-5354-4f52-5a26-4249434b454c\\ \hline
+Serial Number&
+Read, decode the value to ``utf-8'', and 
+substring the first 8 characters to get the Volcano's serial number&
+10100008-5354-4f52-5a26-4249434b454c\\ \hline
 
-Minutes Of Operation&Read and convert the value to a UInt16.  This is usually used with hours of operation to get teh full usage time &10110016-5354-4f52-5a26-4249434b454c\\ \hline
+Hours Of Operation&
+Read and convert the value to a UInt16.
+This is usually used with minutes of operation to get the full usage time&
+10110015-5354-4f52-5a26-4249434b454c\\ \hline
 
-Current Temperature&Start here&10110001-5354-4f52-5a26-4249434b454c\\ \hline
+Minutes Of Operation&
+Read and convert the value to a UInt16.
+This is usually used with hours of operation to get the full usage time &
+10110016-5354-4f52-5a26-4249434b454c\\ \hline
+
+Current Temperature&
+\texttt{\Huge To Do}&
+10110001-5354-4f52-5a26-4249434b454c\\ \hline
 
 Set Temperature&
 Sets the temperature that the Volcano will heat up to when the heat is on.
 When the value is read convert it to a UInt16, divide by 10, and round to the nearest int. 
 To set the temperature multiply the desired temperature in \c\ by 10
 and convert it to a 32bit byte array and write that to the characteristic.
-This characteristic emits events when the temperature is changed on the Volcano.& 10110003-5354-4f52-5a26-4249434b454c\\ \hline
+This characteristic emits events when the temperature is changed on the Volcano.&
+10110003-5354-4f52-5a26-4249434b454c\\ \hline
 
-autoShutoffUuid&&1011000c-5354-4f52-5a26-4249434b454c\\ \hline
+Set off timer&
+This setting is the starting value for ``Auto Off Time'' when the heating element is turned on.
+The value can be read the same was as ``Auto Off Time'' and this value can be updated by
+writing a 16bit byte array with the new value in seconds.  
+The min value of this is 0 and the max value is assumed to be the max value of the data type.
+Note this functionality is limited to 15-360 minutes to mirror the officially supported functionality.
+Yes setting it to 0 is the biggest troll and results in the Volcano immediately turning off after you
+turn it on. 
+&
+1011000d-5354-4f52-5a26-4249434b454c\\ \hline
+
 Auto Off Time&Lets the caller know how long until the Volcano automatically turns itself off.
 The value is stored on the Volcano in seconds.
 To get the value in minutes read from the characteristic,
 convert the value to \textbf{UInt16}, and divide by 60.
-This characteristic \textbf{does not} emit events. &1011000d-5354-4f52-5a26-4249434b454c\\ \hline
+This characteristic \textbf{does not} emit events. 
+Updated values must be polled or calculated.&
+1011000c-5354-4f52-5a26-4249434b454c\\ \hline
 
 Screen Brightness&Stores and Sets the display brightness.
 Accepted values are 0-100.  
 Set the display to 0 to turn it off. 
 When the value is read convert it to a UInt16. 
-When writing the brightness convert the value to a 16 bit byte array &10110005-5354-4f52-5a26-4249434b454c\\ \hline
+When writing the brightness convert the value to a 16 bit byte array&
+10110005-5354-4f52-5a26-4249434b454c\\ \hline
 \end{longtable}
 \section{Known Issues}
 \begin{itemize}

@@ -2,6 +2,7 @@
 \section{Turning the Fan Off}
     \subsection{Python}
         \begin{lstlisting}[caption=Example of Python code]
-            await bt_client.write_gatt_char("10110013-5354-4f52-5a26-4249434b454c", bytes([0]))
+#assume we are already connected with the BLE client
+await bt_client.write_gatt_char("10110013-5354-4f52-5a26-4249434b454c", bytes([0]))
         \end{lstlisting}
     
