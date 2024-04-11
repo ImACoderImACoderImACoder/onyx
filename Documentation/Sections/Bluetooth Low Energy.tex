@@ -71,7 +71,9 @@ Sets the temperature that the Volcano will heat up to when the heat is on.
 When the value is read convert it to a UInt16, divide by 10, and round to the nearest int. 
 To set the temperature multiply the desired temperature in \c\ by 10
 and convert it to a 32bit byte array and write that to the characteristic.
-This characteristic emits events when the temperature is changed on the Volcano.&
+This characteristic emits events when the temperature is changed on the Volcano.
+You can change the ones place after multiplying by ten to write with increased precision.
+You cannot read with increased precision at the time of writing this document&
 10110003-5354-4f52-5a26-4249434b454c\\ \hline
 
 Set off timer&
@@ -103,7 +105,8 @@ When writing the brightness convert the value to a 16 bit byte array&
 \section{Known Issues}
 \begin{itemize}
     \item The characteristics for reading temperatures and receiving temperature updates all round to the nearest \c
-        \subitem This means we cannot fully support all temperatures in \f
+        \subitem This means we cannot fully support all temperatures in \f\ because we cannot reliably read
+        the values.  However we are able to write with full precision. 
     \item A successful write update to the Volcano's screen brightness sometimes results in the Volcano not updating its brightness
     \item The Volcano sometimes doesn't free up its Bluetooth connection. This can be fixed by power cycling the Volcano's Bluetooth by holding down the ``-'' button and the ``AIR'' button at the same time.
 \end{itemize}

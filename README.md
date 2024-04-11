@@ -10,7 +10,7 @@ Icons from font-awesome free edition. [License Link](https://fontawesome.com/lic
 
 ## Developer Documentation
 
-To learn more about the inner workings of the volcano or project onyx read the [developer documentation.](./Documentation/TableOfContents/Developer%20Documentation.pdf) Pdf links don't work inside of github's pdf viewer, for the best experience view the docs outside of github.
+To learn more about the inner workings of the volcano or project onyx read the [developer documentation.](https://github.com/ImACoderImACoderImACoder/onyx/blob/main/Documentation/TableOfContents/Developer%20Documentation.pdf) Pdf links don't work inside of github's pdf viewer, for the best experience view the docs outside of github.
 
 ## Current Deploy Status
 
