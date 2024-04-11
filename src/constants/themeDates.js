@@ -92,6 +92,7 @@ export default function GetAutoThemeId() {
       themeIds[key] !== themeIds.prideVibrantId &&
       themeIds[key] !== themeIds.lightThemeId &&
       themeIds[key] !== themeIds.funId &&
+      themeIds[key] !== themeIds.feastOfSaintPatrickId &&
       themeIds[key] !== themeIds.halloweenId
   );
   randomTheme =
