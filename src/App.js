@@ -26,6 +26,11 @@ const Div = styled.div`
   display: flex;
 `;
 
+const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
 function App() {
   useEffect(() => {
     window.onunhandledrejection = (event) => {
@@ -41,11 +46,6 @@ function App() {
   useEffect(() => {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
   }, [themeId]);
-
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
 
   return (
     <>
