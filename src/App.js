@@ -42,9 +42,16 @@ function App() {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
   }, [themeId]);
 
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+
   return (
     <>
-      <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
+      <DndProvider
+        backend={window.ontouchstart || isMobile ? TouchBackend : HTML5Backend}
+      >
         <ThemeProvider theme={GetTheme(themeId)}>
           <Div>
             <BrowserRouter>
