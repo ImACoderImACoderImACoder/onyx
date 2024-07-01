@@ -7,7 +7,6 @@ const Div = styled.div`
   border-radius: 0.25rem;
   padding: 10px;
   flex-grow: 1;
-  margin-bottom: 20px;
   border-color: ${(props) => props.theme.borderColor};
 `;
 

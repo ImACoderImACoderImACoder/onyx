@@ -6,6 +6,8 @@ import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
 import DeleteWorkflowItem from "./DeleteWorkflowItem";
+import MoveWorkflowItemDownOneIndex from "./SwapWorkflowItemTowardsBeginning";
+import MoveWorkflowItemUpOneIndex from "./SwapWorkflowItemTowardsEnd";
 import { setCurrentWorkflows, setFanOnGlobal } from "../settings/settingsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +22,8 @@ import { DEGREE_SYMBOL } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
 import PrideText from "../../themes/PrideText";
 import { useEffect } from "react";
+import Drag from "./DND/WorkflowItemDrag";
+import WorkflowItemDrop from "./DND/WorkflowItemDrop";
 
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
@@ -29,17 +33,19 @@ const StyledSelect = styled(Select)`
 
 const StyledLabel = styled(Label)`
   align-items: center;
+  margin-right: auto;
 `;
 
 const StyledActionTypeHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   margin-bottom: 8px;
 `;
 
 const StyledPayloadDiv = styled.div`
   margin-top: 8px;
 `;
+
 export default function WorkflowItemEditor(props) {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -200,46 +206,81 @@ export default function WorkflowItemEditor(props) {
   const name = `Action ${props.itemIndex + 1}`;
 
   return (
-    <WorkflowItemDiv>
-      <div>
-        <StyledActionTypeHeader>
-          <StyledLabel>
-            <PrideText text={name} />
-          </StyledLabel>
-          <DeleteWorkflowItem
-            workflowId={props.workflowId}
-            workflowItemId={props.item.id}
-            name={name}
-          />
-        </StyledActionTypeHeader>
-        <StyledSelect defaultValue={props.item.type} onChange={onChange}>
-          <option value={WorkflowItemTypes.HEAT_ON}>Heat On</option>
-          <option value={WorkflowItemTypes.FAN_ON}>Fan On</option>
-          <option value={WorkflowItemTypes.FAN_ON_GLOBAL}>Fan On Global</option>
-          <option value={WorkflowItemTypes.WAIT}>Pause/Wait</option>
-          <option value={WorkflowItemTypes.HEAT_OFF}>Heat Off</option>
-          <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
-            Set LED Brightness
-          </option>
-        </StyledSelect>
-      </div>
-
-      {props.item.type !== WorkflowItemTypes.HEAT_OFF && (
-        <StyledPayloadDiv>
-          <StyledLabel>{getPayloadLabelByType(props.item.type)}</StyledLabel>
-          <StyledControl
-            type="number"
-            inputMode="decimal"
-            value={payloadInput}
-            onChange={(e) => setPayloadInput(e.target.value)}
-            onBlur={onPayloadBlur}
-            isValid={isValid}
-            isInvalid={!isValid}
-            disabled={props.item.type === WorkflowItemTypes.HEAT_OFF}
-          />
-          <Control.Feedback type="invalid">{errorMessage}</Control.Feedback>
-        </StyledPayloadDiv>
+    <>
+      {props.addDropZoneToTop && (
+        <WorkflowItemDrop
+          ey={`${props.workflowId} ${props.item.id}`}
+          itemId={props.item.id}
+          itemIndex={0}
+        />
       )}
-    </WorkflowItemDiv>
+      <WorkflowItemDiv>
+        <div>
+          <StyledActionTypeHeader>
+            <Drag
+              onDrag={() => {}}
+              key={props.item.id}
+              itemId={props.item.id}
+              workflowId={props.workflowId}
+              itemIndex={props.itemIndex}
+            >
+              <StyledLabel>
+                <PrideText text={name} />
+              </StyledLabel>
+            </Drag>
+
+            <MoveWorkflowItemDownOneIndex
+              workflowId={props.workflowId}
+              workflowItemId={props.item.id}
+              name={name}
+            />
+            <MoveWorkflowItemUpOneIndex
+              workflowId={props.workflowId}
+              workflowItemId={props.item.id}
+              name={name}
+            />
+            <DeleteWorkflowItem
+              workflowId={props.workflowId}
+              workflowItemId={props.item.id}
+              name={name}
+            />
+          </StyledActionTypeHeader>
+          <StyledSelect defaultValue={props.item.type} onChange={onChange}>
+            <option value={WorkflowItemTypes.HEAT_ON}>Heat On</option>
+            <option value={WorkflowItemTypes.FAN_ON}>Fan On</option>
+            <option value={WorkflowItemTypes.FAN_ON_GLOBAL}>
+              Fan On Global
+            </option>
+            <option value={WorkflowItemTypes.WAIT}>Pause/Wait</option>
+            <option value={WorkflowItemTypes.HEAT_OFF}>Heat Off</option>
+            <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
+              Set LED Brightness
+            </option>
+          </StyledSelect>
+        </div>
+
+        {props.item.type !== WorkflowItemTypes.HEAT_OFF && (
+          <StyledPayloadDiv>
+            <StyledLabel>{getPayloadLabelByType(props.item.type)}</StyledLabel>
+            <StyledControl
+              type="number"
+              inputMode="decimal"
+              value={payloadInput}
+              onChange={(e) => setPayloadInput(e.target.value)}
+              onBlur={onPayloadBlur}
+              isValid={isValid}
+              isInvalid={!isValid}
+              disabled={props.item.type === WorkflowItemTypes.HEAT_OFF}
+            />
+            <Control.Feedback type="invalid">{errorMessage}</Control.Feedback>
+          </StyledPayloadDiv>
+        )}
+      </WorkflowItemDiv>
+      <WorkflowItemDrop
+        key={`${props.workflowId} ${props.item.id} ${props.item.itemIndex}`}
+        itemId={props.item.id}
+        itemIndex={props.itemIndex + 1}
+      />
+    </>
   );
 }
