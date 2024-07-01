@@ -26,6 +26,11 @@ const Div = styled.div`
   display: flex;
 `;
 
+const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
 function App() {
   useEffect(() => {
     window.onunhandledrejection = (event) => {
@@ -44,7 +49,9 @@ function App() {
 
   return (
     <>
-      <DndProvider backend={window.ontouchstart ? TouchBackend : HTML5Backend}>
+      <DndProvider
+        backend={window.ontouchstart || isMobile ? TouchBackend : HTML5Backend}
+      >
         <ThemeProvider theme={GetTheme(themeId)}>
           <Div>
             <BrowserRouter>
