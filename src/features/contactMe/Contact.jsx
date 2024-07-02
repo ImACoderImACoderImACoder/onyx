@@ -71,7 +71,7 @@ export default function Contact() {
         even just want to say hi! If you would like a response be sure to
         include some kind of contact information in the message.
       </p>
-      <form name="contact" method="post">
+      <form name="contactV2" method="post">
         <input type="hidden" name="form-name" value="contact" />
         <p>
           <StyledLabel>
