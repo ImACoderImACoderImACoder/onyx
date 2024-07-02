@@ -3,15 +3,25 @@ import PrideText from "../../themes/PrideText";
 import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
 
-const StyledTextArea = styled.textarea`
+const StyleContactInfo = styled.input`
+  height: 30px;
+  background: ${(props) => props.theme.backgroundColor};
+  color: ${(props) => props.theme.primaryFontColor};
+  border-color: ${(props) => props.theme.borderColor};
+  margin-left: 1px;
   width: 90vw;
-  height: 25vh;
   max-width: 600px;
+  margin-bottom: 10px;
+`;
+const StyledTextArea = styled.textarea`
+  height: 25vh;
   min-height: 100px;
   background: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.primaryFontColor};
   border-color: ${(props) => props.theme.borderColor};
   margin-left: 1px;
+  width: 90vw;
+  max-width: 600px;
 `;
 
 const StyledLabel = styled.label`
@@ -21,9 +31,20 @@ const StyledLabel = styled.label`
 
 export default function Contact() {
   const [message, setMessage] = useState("");
+  const [contactInfo, setContactInfo] = useState("");
 
   const onClick = (e) => {
-    if (message === "") {
+    if (message.trim() === "") {
+      e.preventDefault();
+      return;
+    }
+
+    if (
+      contactInfo.trim() === "" &&
+      !window.confirm(
+        "You did not provided any contact info for me to respond to you. Click cancel to provide info or click ok to continue without providing contact info.  I cannot respond if you do not provide your contact info"
+      )
+    ) {
       e.preventDefault();
       return;
     }
@@ -33,10 +54,12 @@ export default function Contact() {
       alert(
         "This click doesn't do anything in development mode since it only works with Netlify"
       );
+      return;
     }
   };
 
   const onChange = (e) => setMessage(e.target.value);
+  const onContactInfoChange = (e) => setContactInfo(e.target.value);
 
   return (
     <div>
@@ -52,7 +75,19 @@ export default function Contact() {
         <input type="hidden" name="form-name" value="contact" />
         <p>
           <StyledLabel>
-            Message:{" "}
+            Contact Info:{" (Not required)"}
+            <StyleContactInfo
+              value={contactInfo}
+              onChange={onContactInfoChange}
+              name="contactInfo"
+              type="text"
+              onKeyDown={(e) => {
+                e.key === "Enter" && e.preventDefault();
+              }}
+            ></StyleContactInfo>
+          </StyledLabel>
+          <StyledLabel>
+            Message:{" (Required)"}
             <StyledTextArea
               value={message}
               onChange={onChange}
