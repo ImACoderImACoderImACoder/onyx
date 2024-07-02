@@ -25,10 +25,9 @@ export default function Ble(props) {
     "Frequent users should replace bags every 2-4 weeks for optimal flavor",
     "10 minutes or less is the ideal time for a bag to store vapor",
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
-    "Drag and drop can be used to reorder workflows on all devices",
+    "Drag and drop can be used to reorder workflows and workflow items on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
-    "St. Patty's Day theme (Feast of St. Patrick) is now available!!",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
