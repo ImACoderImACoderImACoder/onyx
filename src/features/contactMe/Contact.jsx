@@ -79,7 +79,7 @@ export default function Contact() {
             <StyleContactInfo
               value={contactInfo}
               onChange={onContactInfoChange}
-              name="contactInfo"
+              name="contactInfoV2"
               type="text"
               onKeyDown={(e) => {
                 e.key === "Enter" && e.preventDefault();
@@ -91,7 +91,7 @@ export default function Contact() {
             <StyledTextArea
               value={message}
               onChange={onChange}
-              name="message"
+              name="messageV2"
             ></StyledTextArea>
           </StyledLabel>
         </p>
