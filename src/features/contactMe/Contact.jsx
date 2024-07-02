@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
+import ModalWrapper from "../shared/styledComponents/Modal";
 
 const StyleContactInfo = styled.input`
   height: 30px;
@@ -33,33 +34,59 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const [contactInfo, setContactInfo] = useState("");
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleConfirm = () => {
+    handleSubmit(null, true);
+    setShow(false);
+  };
+
   const onClick = (e) => {
     if (message.trim() === "") {
       e.preventDefault();
-      return;
-    }
-
-    if (
-      contactInfo.trim() === "" &&
-      !window.confirm(
-        "You did not provided any contact info for me to respond to you. Click cancel to provide info or click ok to continue without providing contact info.  I cannot respond if you do not provide your contact info"
-      )
-    ) {
-      e.preventDefault();
-      return;
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      e.preventDefault();
-      alert(
-        "This click doesn't do anything in development mode since it only works with Netlify"
-      );
       return;
     }
   };
 
   const onChange = (e) => setMessage(e.target.value);
   const onContactInfoChange = (e) => setContactInfo(e.target.value);
+
+  const encode = (data) => {
+    return Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+      )
+      .join("&");
+  };
+
+  const handleSubmit = (e, overrideContactInfo) => {
+    if (!contactInfo.trim() && !overrideContactInfo) {
+      setShow(true);
+      e?.preventDefault();
+      return;
+    }
+    const formValues = { message, contactInfo };
+    if (process.env.NODE_ENV === "development") {
+      e?.preventDefault();
+      alert(
+        "This click doesn't do anything in development mode since it only works with Netlify"
+      );
+      return;
+    }
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "contact", values: formValues }),
+    })
+      .then(() => {
+        alert("Success!");
+        setMessage("");
+        setContactInfo("");
+      })
+      .catch((error) => alert(error));
+
+    e?.preventDefault();
+  };
 
   return (
     <div>
@@ -71,7 +98,7 @@ export default function Contact() {
         even just want to say hi! If you would like a response be sure to
         include some kind of contact information in the message.
       </p>
-      <form name="contact" method="post">
+      <form name="contact" method="post" onSubmit={handleSubmit}>
         <input type="hidden" name="form-name" value="contact" />
         <p>
           <StyledLabel>
@@ -99,6 +126,15 @@ export default function Contact() {
           <Button onClick={onClick} type="submit">
             Send
           </Button>
+          <ModalWrapper
+            headerText={<PrideText text={`Submit without Contact Info`} />}
+            bodyText='You did not provided any contact info for me to respond to you. Click "Close" to provide contact info or click "Submit" to continue without providing contact info.  I cannot respond if you do not provide your contact info'
+            confirmButtonText="Submit"
+            handleClose={handleClose}
+            handleConfirm={handleConfirm}
+            show={show}
+            tex
+          />
         </p>
       </form>
     </div>
