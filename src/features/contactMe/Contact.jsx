@@ -65,7 +65,6 @@ export default function Contact() {
       e?.preventDefault();
       return;
     }
-    const formValues = { message, contactInfo };
     if (process.env.NODE_ENV === "development") {
       e?.preventDefault();
       alert(
@@ -73,10 +72,11 @@ export default function Contact() {
       );
       return;
     }
+    const formValues = { message, contactInfo };
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "contact", values: formValues }),
+      body: encode({ "form-name": "contact", ...formValues }),
     })
       .then(() => {
         alert("Success!");
@@ -128,7 +128,7 @@ export default function Contact() {
           </Button>
           <ModalWrapper
             headerText={<PrideText text={`Submit without Contact Info`} />}
-            bodyText='You did not provided any contact info for me to respond to you. Click "Close" to provide contact info or click "Submit" to continue without providing contact info.  I cannot respond if you do not provide your contact info'
+            bodyText='You did not provided any contact info for me to respond to you. Click "Close" to provide contact info or click "Submit" to continue without providing contact info.  I cannot respond if you do not provide your contact info.'
             confirmButtonText="Submit"
             handleClose={handleClose}
             handleConfirm={handleConfirm}
