@@ -72,14 +72,14 @@ export default function Contact() {
         include some kind of contact information in the message.
       </p>
       <form name="contactV2" method="post">
-        <input type="hidden" name="form-name" value="contact" />
+        <input type="hidden" name="form-name" value="contactV2" />
         <p>
           <StyledLabel>
             Contact Info:{" (Not required)"}
             <StyleContactInfo
               value={contactInfo}
               onChange={onContactInfoChange}
-              name="contactInfoV2"
+              name="contactInfo"
               type="text"
               onKeyDown={(e) => {
                 e.key === "Enter" && e.preventDefault();
@@ -91,7 +91,7 @@ export default function Contact() {
             <StyledTextArea
               value={message}
               onChange={onChange}
-              name="messageV2"
+              name="message"
             ></StyledTextArea>
           </StyledLabel>
         </p>
