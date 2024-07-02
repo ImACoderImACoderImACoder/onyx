@@ -16,6 +16,8 @@ import christmas from "./festivities/christmas";
 import stPatricksDay from "./festivities/stPatricksDay/stPatricksDay";
 import peppermintHoliday from "./festivities/peppermintHoliday";
 import GetAutoThemeId from "../constants/themeDates";
+import redscale from "./redScale";
+import purplescale from "./purpleScale";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -33,6 +35,10 @@ export default function GetTheme(type) {
       return deepMergeWithBase(flamingo);
     case themeIds.grayscaleId:
       return deepMergeWithBase(grayscale);
+    case themeIds.redScaleId:
+      return deepMergeWithBase(redscale);
+    case themeIds.purpleScaleId:
+      return deepMergeWithBase(purplescale);
     case themeIds.greenscaleId:
       return deepMergeWithBase(greenscale);
     case themeIds.prideClassicId:

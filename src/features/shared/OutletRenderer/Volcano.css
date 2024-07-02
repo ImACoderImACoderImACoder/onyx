@@ -24,6 +24,16 @@
   justify-content: space-evenly;
 }
 
+.workflow-placeholder-button {
+  opacity: 0;
+  cursor: default;
+}
+
+.workflow-placeholder-button:hover {
+  opacity: 0;
+  cursor: default;
+}
+
 .main-div {
   display: flex;
   flex-direction: column;

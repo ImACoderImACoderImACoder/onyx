@@ -124,6 +124,7 @@ export default function WorkflowEditor() {
                     item={workflowItem}
                     workflowId={item.id}
                     itemIndex={index}
+                    addDropZoneToTop={index === 0}
                   />
                 </WorkflowDiv>
               );

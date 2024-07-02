@@ -254,6 +254,15 @@ export default function WorkFlow() {
           />
         );
       })}
+      {workflows.length % 2 !== 0 && (
+        <WriteTemperature
+          className="workflow-placeholder-button"
+          buttonClassName="workflow-placeholder-button"
+          key={9999991}
+          onClick={() => {}}
+          buttonText={<PrideText text="" />}
+        />
+      )}
     </div>
   );
 }

@@ -1,20 +1,22 @@
 import { valentinesDayId } from "../../constants/themeIds";
 
+const buttonBackgroundColor = "#ed5eb3";
+
 const valentinesDay = {
   author: "Princess Ariel",
   themeId: valentinesDayId,
-  buttonColorMain: "black",
+  buttonColorMain: buttonBackgroundColor,
   borderColor: "#ea379d",
   currentTemperatureColor: "#ed75b3",
   targetTemperatureColor: "#ed75b3",
-  primaryFontColor: "#ed75b3",
+  primaryFontColor: "white",
   plusMinusButtons: {
     backgroundColor: "#7D1641",
     color: "#ed75b3",
   },
   buttonActive: {
     color: "white",
-    backgroundColor: "#ed5eb3",
+    backgroundColor: "#7D1641",
     borderColor: "white",
   },
   backgroundColor: "black",

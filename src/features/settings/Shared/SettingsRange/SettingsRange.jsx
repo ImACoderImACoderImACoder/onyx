@@ -33,6 +33,7 @@ export default function SettingsRange({
             width: "200px",
             backgroundColor: "#f53803",
             background: `${theme.temperatureRange.background}`,
+            borderWidth: "0px",
           }}
         >
           {children}

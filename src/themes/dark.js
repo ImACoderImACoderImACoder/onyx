@@ -1,16 +1,17 @@
 import { darkThemeId } from "../constants/themeIds";
 
+const buttonBackgroundColor = "#242526";
 const dark = {
   themeId: darkThemeId,
-  buttonColorMain: "black",
+  buttonColorMain: buttonBackgroundColor,
   borderColor: "darkgray",
   buttonActive: {
-    color: "white",
-    backgroundColor: "black",
+    color: "darkviolet",
+    backgroundColor: buttonBackgroundColor,
     borderColor: "darkviolet",
   },
   plusMinusButtons: {
-    backgroundColor: "black",
+    backgroundColor: buttonBackgroundColor,
     borderColor: "darkgray",
   },
   backgroundColor: "black",
@@ -29,10 +30,10 @@ const dark = {
   ToggleButtons: {
     sliderBackgroundColorOn: "lightgray",
     sliderBorderColorOn: "#f8f9fa",
-    onBackgroundColor: "black",
+    onBackgroundColor: buttonBackgroundColor,
     onBorderColor: "darkviolet",
     onColor: "#fff",
-    offBackgroundColor: "black",
+    offBackgroundColor: buttonBackgroundColor,
     offBorderColor: "darkgray",
     offColor: "#fff",
   },

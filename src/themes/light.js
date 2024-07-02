@@ -1,11 +1,13 @@
 import { lightThemeId } from "../constants/themeIds";
 
+const buttonBackgroundColor = "lightgray";
+
 const light = {
   themeId: lightThemeId,
   author: "ImACoderImACoderImACoder",
   borderStyle: "solid",
   borderColor: "#FF6600",
-  buttonColorMain: "white",
+  buttonColorMain: buttonBackgroundColor,
   currentTemperatureColor: "#FF6600",
   targetTemperatureColor: "black",
   buttonActive: {
@@ -18,7 +20,7 @@ const light = {
   iconColor: "#FF6600",
   iconTextColor: "black",
   plusMinusButtons: {
-    backgroundColor: "white",
+    backgroundColor: buttonBackgroundColor,
     color: "black",
     borderColor: "FF6600",
   },
@@ -34,14 +36,14 @@ const light = {
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "#FF6600",
-    sliderBackgroundColorOff: "gray",
+    sliderBackgroundColorOff: buttonBackgroundColor,
     sliderBorderColorOn: "#f8f9fa",
     onBackgroundColor: "#FF6600",
     onBorderColor: "black",
     onColor: "#fff",
-    offBackgroundColor: "gray",
+    offBackgroundColor: buttonBackgroundColor,
     offBorderColor: "black",
-    offColor: "#fff",
+    offColor: "black",
   },
 };
 
