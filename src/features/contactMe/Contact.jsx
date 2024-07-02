@@ -13,6 +13,8 @@ const StyleContactInfo = styled.input`
   width: 90vw;
   max-width: 600px;
   margin-bottom: 10px;
+  border-style: solid;
+  border-width: 1px;
 `;
 const StyledTextArea = styled.textarea`
   height: 25vh;
