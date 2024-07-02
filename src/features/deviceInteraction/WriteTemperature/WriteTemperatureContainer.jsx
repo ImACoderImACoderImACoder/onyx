@@ -213,8 +213,15 @@ export default function WriteTemperatureContainer() {
       }
     />
   );
-
-  temperatureButtons.push();
+  if (temperatureButtons.length % 2 !== 0) {
+    temperatureButtons.push(
+      <WriteTemperature
+        key={999999}
+        onClick={() => {}}
+        buttonText={<PrideText text="" />}
+      />
+    );
+  }
 
   return <div className="temperature-write-div">{temperatureButtons}</div>;
 }
