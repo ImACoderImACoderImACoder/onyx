@@ -41,7 +41,7 @@ const StyledNavBar = styled(Navbar)`
 const StyledNavBarToggle = styled(Navbar.Toggle)`
   background: ${(props) => props.theme.backgroundColor};
   border-color: ${(props) => props.theme.iconColor} !important;
-  border-width: medium;
+  border-width: light;
   padding: 5px;
 `;
 

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
-import Patreon from "./Patreon";
 
 const Button = styled.button`
   min-height: 30px;
@@ -12,15 +11,6 @@ const Button = styled.button`
   border-width: 0px;
   border-style: ${(props) => props.theme.borderStyle};
   border-color: ${(props) => props.theme.borderColor};
-`;
-
-const StyledPatreon = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-size: 18px;
-  text-align: center;
-  width: 100vw;
 `;
 
 export default function Ble(props) {
@@ -35,19 +25,15 @@ export default function Ble(props) {
     "Frequent users should replace bags every 2-4 weeks for optimal flavor",
     "10 minutes or less is the ideal time for a bag to store vapor",
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
-    "Drag and drop can be used to reorder workflows on all devices",
+    "Drag and drop can be used to reorder workflows and workflow items on all devices",
     "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
-    "St. Patty's Day theme (Feast of St. Patrick) is now available!!",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
   return (
     <div>
       <Button onClick={props.onClick}>
-        <StyledPatreon>
-          <Patreon />
-        </StyledPatreon>
         <PrideText text="Tap anywhere to connect." />
         <br />
         <br />

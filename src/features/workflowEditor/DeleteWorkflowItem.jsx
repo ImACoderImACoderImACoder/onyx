@@ -42,14 +42,14 @@ export default function DeleteWorkflowItem(props) {
   const enterKeyCode = 13;
   const handler = (e) => {
     if (e.keyCode === enterKeyCode) {
-      handleShow();
+      handleShow(e);
     }
   };
   return (
     <>
       <StyledDeleteIcon
         aria-label={`Delete workflow item ${props.name}`}
-        onKeyUp={handler}
+        onKeyDown={handler}
         tabIndex={0}
         onClick={handleShow}
       />

@@ -23,7 +23,7 @@ const Switch = styled.div`
   -webkit-user-select: none;
   user-select: none;
   background-color: transparent;
-  border: 1px solid transparent;
+  border-width: 0;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   border-radius: 0.25rem;
@@ -77,6 +77,7 @@ const SwitchOnState = styled.span`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  border-width: 0px;
 `;
 
 const SwitchOffState = styled(SwitchOnState)`
@@ -112,7 +113,7 @@ const SwitchHandleOn = styled(SwitchOnState)`
   padding-bottom: 0px;
   height: 100%;
   width: 0px;
-  border-width: 0 1px;
+  border-width: 0px;
 
   color: #000;
   background: ${(props) => props.theme.ToggleButtons.sliderBackgroundColorOn};
