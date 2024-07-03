@@ -10,7 +10,7 @@ const ArrowDownIcon = styled(ArrowUpIcon)`
   transition: transform 0.5s;
   transform: rotate(180deg);
 `;
-export default function DeleteWorkflowItem(props) {
+export default function SwapWorkflowItemTowardsEnd(props) {
   const config = useSelector((state) => state.settings.config);
   const dispatch = useDispatch();
 

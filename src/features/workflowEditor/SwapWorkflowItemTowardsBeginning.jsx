@@ -4,7 +4,7 @@ import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
 import ArrowUpIcon from "../shared/OutletRenderer/icons/ArrowUpIcon";
 
-export default function DeleteWorkflowItem(props) {
+export default function SwapWorkflowItemTowardsBeginning(props) {
   const config = useSelector((state) => state.settings.config);
 
   const dispatch = useDispatch();
