@@ -34,6 +34,10 @@ import { setIsF } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
+import withScrolling from "react-dnd-scrolling";
+
+const ScrollingDiv = withScrolling("div");
+
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
 `;
@@ -218,9 +222,8 @@ export default function VolcanoLoader(props) {
   };
 
   const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
-
   return (
-    <div className="main-div">
+    <ScrollingDiv className="main-div">
       {
         <StyledNavBar
           expand="lg"
@@ -295,6 +298,6 @@ export default function VolcanoLoader(props) {
       <div style={outletStyling}>
         <Outlet {...props} />
       </div>
-    </div>
+    </ScrollingDiv>
   );
 }
