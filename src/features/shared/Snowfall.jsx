@@ -47,14 +47,7 @@ export default function SnowfallWrapper() {
     const clover = new Image();
     clover.src = cloverSrc;
     const images = [clover];
-    return (
-      <Snowfall
-        style={additionalSnowStyle}
-        images={images}
-        radius={[40, 80]}
-        snowflakeCount={20}
-      />
-    );
+    return <Snowfall images={images} radius={[40, 80]} snowflakeCount={20} />;
   }, []);
 
   const MemoDefaultSnow = useMemo(() => {
