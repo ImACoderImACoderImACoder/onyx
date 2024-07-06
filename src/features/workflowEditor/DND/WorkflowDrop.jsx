@@ -5,11 +5,12 @@ import cloneDeep from "lodash/cloneDeep";
 import { WriteNewConfigToLocalStorage } from "../../../services/utils";
 import { useDispatch } from "react-redux";
 import { setCurrentWorkflows } from "../../settings/settingsSlice";
+import { useTheme } from "styled-components";
 
 export default function WorkflowDrop(props) {
   const config = useSelector((state) => state.settings.config);
   const dispatch = useDispatch();
-
+  const theme = useTheme();
   const [{ isOver, item }, drop] = useDrop(
     () => ({
       accept: ItemTypes.WORKFLOW,
@@ -60,8 +61,10 @@ export default function WorkflowDrop(props) {
     <div
       ref={drop}
       style={{
-        height: isOver && canDrop ? "70px" : "15px",
+        height: isOver && canDrop ? "70px" : "25px",
+        backgroundColor: isOver && canDrop && `${theme.buttonColorMain}`,
         flexGrow: "1",
+        transition: "height 0.2s ease",
       }}
     ></div>
   );

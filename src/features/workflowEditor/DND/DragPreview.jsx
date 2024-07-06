@@ -18,8 +18,6 @@ const MyPreview = () => {
   if (!preview.display) {
     return null;
   }
-  style.top = -15;
-  style.left = 17.5;
 
   return (
     <div

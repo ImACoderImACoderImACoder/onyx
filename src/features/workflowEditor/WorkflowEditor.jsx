@@ -150,7 +150,13 @@ export default function WorkflowEditor() {
         <WorkflowDrop itemId={0} />
       </div>
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "15px",
+        }}
+      >
         <CreateWorkflowButton onClick={onCreateWorkflow} />
         <CreatePremadeWorkflowButtonContainer />
       </div>
