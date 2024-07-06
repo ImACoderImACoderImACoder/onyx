@@ -121,7 +121,7 @@ export default function WorkflowEditor() {
               return (
                 <WorkflowDiv key={index}>
                   <WorkflowItemEditor
-                    key={workflowItem.id}
+                    key={`${workflowItem.id}${index}`}
                     item={workflowItem}
                     workflowId={item.id}
                     itemIndex={index}
