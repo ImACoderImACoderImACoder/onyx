@@ -98,16 +98,17 @@ export default function WorkflowEditor() {
     setCurrentAccordionId(`${id}`);
   };
 
-  const workflowAccordions = workflowTestData.map((item) => {
+  const workflowAccordions = workflowTestData.map((item, index) => {
     return (
       <div key={item.id}>
         <AccordionItemWrapper eventKey={`${item.id}`}>
           <StyledAccordionHeader onClick={() => onClick(`${item.id}`)}>
             <Drag
-              onDrag={() => setCurrentAccordionId(0)}
+              onDrag={() => currentAccordionId > 0 && setCurrentAccordionId(0)}
               isSelected={item.id.toString() === currentAccordionId}
-              key={item.id}
+              key={item.id + index + item.name}
               itemId={item.id}
+              itemName={item.name}
             >
               {<PrideText text={item.name} />}
             </Drag>

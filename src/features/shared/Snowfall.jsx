@@ -12,6 +12,9 @@ import GetAutoThemeId from "../../constants/themeDates";
 import cloverSrc from "../../themes/festivities/stPatricksDay/clover.png";
 import { useMemo } from "react";
 
+const additionalSnowStyle = {
+  zIndex: 9001,
+};
 export default function SnowfallWrapper() {
   const currentThemeId = useSelector(
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
@@ -44,11 +47,18 @@ export default function SnowfallWrapper() {
     const clover = new Image();
     clover.src = cloverSrc;
     const images = [clover];
-    return <Snowfall images={images} radius={[40, 80]} snowflakeCount={20} />;
+    return (
+      <Snowfall
+        style={additionalSnowStyle}
+        images={images}
+        radius={[40, 80]}
+        snowflakeCount={20}
+      />
+    );
   }, []);
 
   const MemoDefaultSnow = useMemo(() => {
-    return <Snowfall />;
+    return <Snowfall style={additionalSnowStyle} />;
   }, []);
 
   switch (
@@ -62,7 +72,7 @@ export default function SnowfallWrapper() {
 
     case funId:
       return (
-        <Snowfall color={snowColor} />
+        <Snowfall style={additionalSnowStyle} color={snowColor} />
         /*<Snowfall
           color={snowColor}
           wind={[-10, 10]}

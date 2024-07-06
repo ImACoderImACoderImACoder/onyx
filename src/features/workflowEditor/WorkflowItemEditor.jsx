@@ -24,7 +24,6 @@ import PrideText from "../../themes/PrideText";
 import { useEffect } from "react";
 import Drag from "./DND/WorkflowItemDrag";
 import WorkflowItemDrop from "./DND/WorkflowItemDrop";
-
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -223,6 +222,7 @@ export default function WorkflowItemEditor(props) {
               itemId={props.item.id}
               workflowId={props.workflowId}
               itemIndex={props.itemIndex}
+              itemName={name}
             >
               <StyledLabel>
                 <PrideText text={name} />

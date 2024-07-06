@@ -9,6 +9,11 @@ export const instagramLink =
   "https://www.instagram.com/imacoderimacoderimacoder";
 export const defaultTemperatureArray = [180, 205];
 export const defaultGlobalFanOnTimeInSeconds = 36.5;
+export const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|WebBLE|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
 export const defaultWorkflows = [
   {
     id: 1,

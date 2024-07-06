@@ -74,7 +74,7 @@ export default function CreatePremadeWorkflowButton(props) {
         variant="none"
         id="create-premade-workflows-dropdown"
       >
-        <PrideText text="Create A Premade Workflow" />
+        <PrideText text="Premade Workflows" />
       </StyledDropdownButton>
 
       <StyledDropDownMenu>

@@ -17,7 +17,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import Snowfall from "./features/shared/Snowfall";
-
+import { isMobile } from "./constants/constants";
+import DragPreview from "./features/workflowEditor/DND/DragPreview";
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -25,11 +26,6 @@ const Div = styled.div`
   height: 100vh;
   display: flex;
 `;
-
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|WebBLE|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
 
 function App() {
   useEffect(() => {
@@ -53,6 +49,7 @@ function App() {
         backend={window.ontouchstart || isMobile ? TouchBackend : HTML5Backend}
       >
         <ThemeProvider theme={GetTheme(themeId)}>
+          <DragPreview />
           <Div>
             <BrowserRouter>
               <Routes>
