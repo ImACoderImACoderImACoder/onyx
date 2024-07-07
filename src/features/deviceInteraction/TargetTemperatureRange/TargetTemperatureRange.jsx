@@ -16,6 +16,7 @@ import { useTheme } from "styled-components";
 import styled from "styled-components";
 import { AddToPriorityQueue } from "../../../services/bleQueueing";
 
+const MAX_ARIA_TEMP_VALUE = convertToFahrenheitFromCelsius(MAX_CELSIUS_TEMP);
 const Div = styled.div`
   display: flex;
   justify-content: center;
@@ -94,6 +95,7 @@ export default function TargetTemperatureRange() {
                 ? convertToFahrenheitFromCelsius(targetTemperature)
                 : targetTemperature
             }
+            aria-valuemax={MAX_ARIA_TEMP_VALUE}
             style={{
               ...props.style,
               height: "42px",
