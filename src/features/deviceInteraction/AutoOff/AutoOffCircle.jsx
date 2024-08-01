@@ -20,7 +20,7 @@ export default function AutoOffLoadingCircle(props) {
           className="circle"
           style={{ stroke: theme.backgroundColor }}
           strokeDasharray="100, 100"
-          strokeDashoffset={100 - value}
+          strokeDashoffset={value * -1 || 0}
           d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"
