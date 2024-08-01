@@ -35,6 +35,7 @@ import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import withScrolling from "react-dnd-scrolling";
+import AutoOff from "../../deviceInteraction/AutoOff/AutoOff";
 
 const ScrollingDiv = withScrolling("div");
 
@@ -234,6 +235,7 @@ export default function VolcanoLoader(props) {
             <Navbar.Brand>
               <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
                 <PrideTextWithDiv text="Project Onyx" />
+                <AutoOff style={{ marginLeft: "10px" }} />
               </StyledHeaderNavDiv>
             </Navbar.Brand>
 

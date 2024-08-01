@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { AddToQueue } from "../../../services/bleQueueing";
+import { AddToPriorityQueue, AddToQueue } from "../../../services/bleQueueing";
 import {
+  convertToUInt8BLE,
   convertBLEtoUint16,
   convertToUInt16BLE,
 } from "../../../services/utils";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { autoShutoffSettingUuid } from "../../../constants/uuids";
-
+import { autoShutoffSettingUuid, heatOffUuid } from "../../../constants/uuids";
 import { setAutoShutoffTime } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
@@ -19,6 +19,7 @@ export default function AdjustAutoShutoffTimeContainer() {
     (state) => state.settings.autoShutoffTime
   );
 
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
   const dispatch = useDispatch();
   useEffect(() => {
     if (autoShutoffTime === undefined) {
@@ -35,10 +36,16 @@ export default function AdjustAutoShutoffTimeContainer() {
   const onMouseUp = (e) => {
     const blePayload = async () => {
       const characteristic = getCharacteristic(autoShutoffSettingUuid);
-      let buffer = convertToUInt16BLE(e[0] * 60);
+      const buffer = convertToUInt16BLE(e[0] * 60);
       await characteristic.writeValue(buffer);
+
+      if (isHeatOn) {
+        const heatOffCharacteristic = getCharacteristic(heatOffUuid);
+        const heatOffBuffer = convertToUInt8BLE(0);
+        await heatOffCharacteristic.writeValue(heatOffBuffer);
+      }
     };
-    AddToQueue(blePayload);
+    AddToPriorityQueue(blePayload);
   };
 
   const onChange = (e) => {
