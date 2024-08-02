@@ -3,26 +3,37 @@ import {
   autoShutoffUuid,
   autoShutoffSettingUuid,
 } from "../../../constants/uuids";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { convertBLEtoUint16 } from "../../../services/utils";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { useSelector } from "react-redux";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import { useDispatch } from "react-redux";
 import { setAutoOffTimeInSeconds } from "../../deviceInformation/deviceInformationSlice";
 import { setAutoShutoffTime } from "../../settings/settingsSlice";
-export default function AutoOff() {
+import AutoOffLoadingCircle from "./AutoOffCircle";
+
+export default function AutoOff(props) {
   const autoOffTimeInSeconds = useSelector(
     (state) => state.deviceInformation.autoOffTimeInSeconds
   );
   const autoShutoffTimeSetting = useSelector(
     (state) => state.settings.autoShutoffTime
   );
+
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const isHeatOnRef = useRef(isHeatOn);
+  isHeatOnRef.current = isHeatOn;
+  const autoOffTimeInSecondsRef = useRef(autoOffTimeInSeconds);
+  autoOffTimeInSecondsRef.current = autoOffTimeInSeconds;
   const dispatch = useDispatch();
 
   useEffect(() => {
     const intervalFunction = () => {
       const blePayload = async () => {
+        if (!isHeatOnRef.current) {
+          return;
+        }
+
         const characteristic = getCharacteristic(autoShutoffUuid);
         const value = await characteristic.readValue();
         const actualValue = convertBLEtoUint16(value);
@@ -37,27 +48,45 @@ export default function AutoOff() {
       AddToQueue(blePayload);
       AddToQueue(blePayload2);
     };
+
     intervalFunction();
-    const intervalId = setInterval(() => {
+    //i care about your battery
+    const aggressiveInterval = setInterval(() => {
+      if (!autoOffTimeInSecondsRef.current > 0 && isHeatOnRef.current) {
+        intervalFunction();
+      } else {
+        clearInterval(aggressiveInterval);
+      }
+    }, 1000 * 1);
+
+    const chillInterval = setInterval(() => {
       intervalFunction();
     }, 1000 * 60);
 
+    if (!isHeatOn) {
+      dispatch(setAutoOffTimeInSeconds(0));
+    }
+
     return () => {
-      clearInterval(intervalId);
+      clearInterval(aggressiveInterval);
+      clearInterval(chillInterval);
     };
-  });
+  }, [dispatch, isHeatOn]);
   const autoShutoffTimeInMinutes = Math.floor(autoOffTimeInSeconds / 60);
   const now = Math.floor(
     (autoShutoffTimeInMinutes / autoShutoffTimeSetting) * 100
   );
+
   return (
-    <ProgressBar
-      now={now}
+    <AutoOffLoadingCircle
+      value={now}
+      minutesLeft={autoShutoffTimeInMinutes || (isHeatOn && "< 1")}
+      {...props}
       style={{
-        maxWidth: "70%",
-        marginLeft: "30px",
+        ...props.style,
+        opacity: isHeatOn && autoOffTimeInSeconds !== 0 ? "1" : "0",
+        transition: "all 0.35s",
       }}
-      label={`Auto off in ${autoShutoffTimeInMinutes} minutes`}
     />
   );
 }
