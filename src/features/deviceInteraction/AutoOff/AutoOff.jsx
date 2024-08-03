@@ -61,7 +61,7 @@ export default function AutoOff(props) {
 
     const chillInterval = setInterval(() => {
       intervalFunction();
-    }, 1000 * 60);
+    }, 1000 * 15);
 
     if (!isHeatOn) {
       dispatch(setAutoOffTimeInSeconds(0));
@@ -72,20 +72,23 @@ export default function AutoOff(props) {
       clearInterval(chillInterval);
     };
   }, [dispatch, isHeatOn]);
-  const autoShutoffTimeInMinutes = Math.floor(autoOffTimeInSeconds / 60);
-  const now = Math.floor(
-    (autoShutoffTimeInMinutes / autoShutoffTimeSetting) * 100
-  );
+  const autoShutoffTimeInMinutes = autoOffTimeInSeconds / 60;
+  const now = (autoShutoffTimeInMinutes / autoShutoffTimeSetting) * 100;
 
   return (
     <AutoOffLoadingCircle
-      value={now}
-      minutesLeft={autoShutoffTimeInMinutes || (isHeatOn && "< 1")}
+      value={now || (isHeatOn && 100)}
+      minutesLeft={
+        isHeatOn &&
+        ((autoOffTimeInSeconds > 60 && Math.round(autoShutoffTimeInMinutes)) ||
+          (autoOffTimeInSeconds > 0 && "< 1") ||
+          autoShutoffTimeSetting)
+      }
       {...props}
       style={{
         ...props.style,
-        opacity: isHeatOn && autoOffTimeInSeconds !== 0 ? "1" : "0",
-        transition: "all 0.35s",
+        opacity: isHeatOn ? "1" : "0.3725",
+        transition: "all 0.75s",
       }}
     />
   );

@@ -18,7 +18,7 @@
   fill: none;
   stroke-width: 2.8;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.5s ease;
+  transition: stroke-dashoffset 0.75s ease;
 }
 
 .percentage {
