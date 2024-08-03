@@ -9,10 +9,11 @@ import {
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { autoShutoffSettingUuid, heatOffUuid } from "../../../constants/uuids";
 import { setAutoShutoffTime } from "../settingsSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
 import Div from "../Shared/StyledComponents/Div";
 import PrideText from "../../../themes/PrideText";
+import { setIsHeatOn } from "../../deviceInteraction/deviceInteractionSlice";
 
 export default function AdjustAutoShutoffTimeContainer() {
   const autoShutoffTime = useSelector(
@@ -20,6 +21,7 @@ export default function AdjustAutoShutoffTimeContainer() {
   );
 
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
+  const [didAttemptTurnHeatOff, setDidAttemptTurnHeatOff] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (autoShutoffTime === undefined) {
@@ -33,6 +35,9 @@ export default function AdjustAutoShutoffTimeContainer() {
     }
   }, [autoShutoffTime, dispatch]);
 
+  useEffect(() => {
+    setDidAttemptTurnHeatOff(false);
+  }, [isHeatOn]);
   const onMouseUp = (e) => {
     const blePayload = async () => {
       const characteristic = getCharacteristic(autoShutoffSettingUuid);
@@ -43,12 +48,24 @@ export default function AdjustAutoShutoffTimeContainer() {
         const heatOffCharacteristic = getCharacteristic(heatOffUuid);
         const heatOffBuffer = convertToUInt8BLE(0);
         await heatOffCharacteristic.writeValue(heatOffBuffer);
+        setDidAttemptTurnHeatOff(true);
       }
     };
     AddToPriorityQueue(blePayload);
   };
 
   const onChange = (e) => {
+    if (!didAttemptTurnHeatOff && isHeatOn) {
+      setDidAttemptTurnHeatOff(true);
+      dispatch(setIsHeatOn(false));
+      const blePayload = async () => {
+        const heatOffCharacteristic = getCharacteristic(heatOffUuid);
+        const heatOffBuffer = convertToUInt8BLE(0);
+        await heatOffCharacteristic.writeValue(heatOffBuffer);
+      };
+      AddToPriorityQueue(blePayload);
+    }
+
     dispatch(setAutoShutoffTime(e[0]));
   };
 
