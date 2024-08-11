@@ -77,9 +77,8 @@ export default function AdjustAutoShutoffTimeContainer() {
       Current Auto Shutoff Time: {autoShutoffTime}
       <SettingsRange
         values={[autoShutoffTime || 30]}
-        //15 is 15 below the official S&B minimum but everything still works fine
-        step={15}
-        min={15}
+        step={5}
+        min={5}
         max={360}
         onChange={onChange}
         onFinalChange={onMouseUp}
