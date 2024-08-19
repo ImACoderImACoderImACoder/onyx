@@ -15,4 +15,5 @@ export const prideClassicId = "Pride (classic)";
 export const prideVibrantId = "Pride (Vibrant)";
 export const valentinesDayId = "Valentines Day";
 export const halloweenId = "Halloween";
+export const autumnBId = "Autumn B.";
 export const aSuperSpecialAutoThemeSettingsId = "Auto Seasonal Rotate";

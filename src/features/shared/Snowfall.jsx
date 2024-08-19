@@ -5,11 +5,17 @@ import {
   christmasPeppermintHolidayId,
   aSuperSpecialAutoThemeSettingsId,
   feastOfSaintPatrickId,
+  autumnBId,
 } from "../../constants/themeIds";
 import { useSelector } from "react-redux";
 import GetTheme from "../../themes/ThemeProvider";
 import GetAutoThemeId from "../../constants/themeDates";
 import cloverSrc from "../../themes/festivities/stPatricksDay/clover.png";
+import leafSrc1 from "../../themes/festivities/fall/leaves1.png";
+import leafSrc2 from "../../themes/festivities/fall/leaves2.png";
+import leafSrc3 from "../../themes/festivities/fall/leaves3.png";
+import leafSrc4 from "../../themes/festivities/fall/leaves4.png";
+
 import { useMemo } from "react";
 
 const additionalSnowStyle = {
@@ -50,6 +56,23 @@ export default function SnowfallWrapper() {
     return <Snowfall images={images} radius={[40, 80]} snowflakeCount={20} />;
   }, []);
 
+  const MemoLeaves = useMemo(() => {
+    const leaf1 = new Image();
+    leaf1.src = leafSrc1;
+
+    const leaf2 = new Image();
+    leaf2.src = leafSrc2;
+
+    const leaf3 = new Image();
+    leaf3.src = leafSrc3;
+
+    const leaf4 = new Image();
+    leaf4.src = leafSrc4;
+
+    const images = [leaf1, leaf2, leaf3, leaf4];
+    return <Snowfall images={images} radius={[40, 80]} snowflakeCount={15} />;
+  }, []);
+
   const MemoDefaultSnow = useMemo(() => {
     return <Snowfall style={additionalSnowStyle} />;
   }, []);
@@ -76,6 +99,8 @@ export default function SnowfallWrapper() {
       );
     case feastOfSaintPatrickId:
       return MemoClovers;
+    case autumnBId:
+      return MemoLeaves;
     default:
       return <></>;
   }
