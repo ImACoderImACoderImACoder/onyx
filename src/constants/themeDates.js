@@ -39,6 +39,16 @@ export default function GetAutoThemeId() {
   if (
     isInDateRange(
       currentDate,
+      new Date(`09/22/${currentYear}`),
+      new Date(`09/30/${currentYear}`)
+    )
+  ) {
+    return themeIds.autumnBId;
+  }
+
+  if (
+    isInDateRange(
+      currentDate,
       new Date(`10/01/${currentYear}`),
       new Date(`10/31/${currentYear}`)
     ) ||
