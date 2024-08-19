@@ -93,7 +93,8 @@ export default function GetAutoThemeId() {
       themeIds[key] !== themeIds.lightThemeId &&
       themeIds[key] !== themeIds.funId &&
       themeIds[key] !== themeIds.feastOfSaintPatrickId &&
-      themeIds[key] !== themeIds.halloweenId
+      themeIds[key] !== themeIds.halloweenId &&
+      themeIds[key] !== themeIds.autumnBId
   );
   randomTheme =
     themeIds[themeKeys[Math.floor(Math.random() * themeKeys.length)]];
