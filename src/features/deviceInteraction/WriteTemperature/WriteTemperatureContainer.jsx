@@ -19,6 +19,8 @@ import { getDisplayTemperature } from "../../../services/utils";
 import PrideText from "../../../themes/PrideText";
 
 import store from "../../../store";
+import useGamepad from '../../../services/gamepad';
+import WorkflowItemTypes from '../../../constants/enums';
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
@@ -32,6 +34,34 @@ export default function WriteTemperatureContainer() {
   );
 
   const dispatch = useDispatch();
+  const downButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_DOWN);
+  const upButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_UP);
+  const minButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_MIN);
+  const maxButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_MAX);
+  
+  useEffect(() => {
+    console.log('change')
+    if (downButtonIsPressed) {
+      const handleIncrement = onClickIncrement(-1);
+      handleIncrement();
+    }
+    if (upButtonIsPressed) {
+      const handleIncrement = onClickIncrement(1);
+      handleIncrement();
+    }
+    if (maxButtonIsPressed) {
+      const maxTemp = temperatureControlValues[1];
+      const handleClick = onClick(maxTemp);
+      handleClick();
+    }
+    if (minButtonIsPressed) {
+      const minTemp = temperatureControlValues[0];
+      const handleClick = onClick(minTemp);
+      handleClick();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [downButtonIsPressed, upButtonIsPressed, maxButtonIsPressed, minButtonIsPressed]);
+
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
 
