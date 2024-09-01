@@ -89,6 +89,12 @@ async function ProcessQueue() {
     }, 0);
   } catch (error) {
     console.log(`QUEUE ERROR: ${error.toString()}`);
+    if (
+      error.toString().includes("Characteristic not found in cache") ||
+      error.toString().includes("not known for service")
+    ) {
+      window.location.reload();
+    }
     ProcessQueue();
   }
 }
