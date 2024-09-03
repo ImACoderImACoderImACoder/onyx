@@ -22,7 +22,7 @@ import {
   setIsHeatOn,
   setTargetTemperature,
 } from "../deviceInteraction/deviceInteractionSlice";
-import WorkflowItemTypes from "../../constants/enums";
+import { WorkflowItemTypes } from "../../constants/enums";
 import { getCharacteristic } from "../../services/BleCharacteristicCache";
 import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";

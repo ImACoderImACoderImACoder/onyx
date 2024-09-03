@@ -1,4 +1,4 @@
-import WorkflowItemTypes from "../../../constants/enums";
+import { WorkflowItemTypes } from "../../../constants/enums";
 import {
   convertToCelsiusFromFahrenheit,
   isValueInValidVolcanoCelciusRange,
