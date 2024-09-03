@@ -1,19 +1,30 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import ToggleSwitch from "../../../features/shared/styledComponents/Switch";
 import { PrideTextWithDiv } from "../../../themes/PrideText";
-import useGamepad from '../../../services/gamepad';
-import WorkflowItemTypes from '../../../constants/enums';
+import { useSelector } from "react-redux";
 
 export default function HeatOn(props) {
   const ref = useRef(null);
   const enterKeyCode = 13;
-  const buttonIsPressed = useGamepad(WorkflowItemTypes.HEAT_ON);
+  const startTime = useMemo(() => Date.now(), []);
+  const bottomButton = useSelector((state) => state.gamepad.crossIsPressed.current);
+  const cancelButton = useSelector((state) => state.gamepad.circleIsPressed.current);
 
   useEffect(() => {
-    if (buttonIsPressed) {
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - startTime;
+    // check to see if half a second has lapsed since mount
+    if (timeElapsed >= 500) {
       ref.current.click();
     }
-  }, [buttonIsPressed, ref]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [bottomButton]);
+
+useEffect(() => {
+  if (!cancelButton || !props.isHeatOn) return;
+  ref.current.click();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [cancelButton])
 
   const handler = (e) => {
     if (e.keyCode === enterKeyCode) {

@@ -4,7 +4,7 @@ import {
   MAX_CELSIUS_TEMP,
   DEGREE_SYMBOL,
 } from "../constants/temperature";
-import WorkflowItemTypes from "../constants/enums";
+import { WorkflowItemTypes } from "../constants/enums";
 
 import {
   localStorageKey,

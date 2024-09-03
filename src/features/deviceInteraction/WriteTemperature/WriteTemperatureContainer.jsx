@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { writeTemperatureUuid, heatOnUuid } from "../../../constants/uuids";
 import {
@@ -19,8 +19,6 @@ import { getDisplayTemperature } from "../../../services/utils";
 import PrideText from "../../../themes/PrideText";
 
 import store from "../../../store";
-import useGamepad from '../../../services/gamepad';
-import WorkflowItemTypes from '../../../constants/enums';
 
 export default function WriteTemperatureContainer() {
   const targetTemperature = useSelector(
@@ -34,37 +32,44 @@ export default function WriteTemperatureContainer() {
   );
 
   const dispatch = useDispatch();
-  const downButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_DOWN);
-  const upButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_UP);
-  const minButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_MIN);
-  const maxButtonIsPressed = useGamepad(WorkflowItemTypes.TEMP_MAX);
-  
+  const startTime = useMemo(() => Date.now(), []);
+  const upButton = useSelector((state) => state.gamepad.upIsPressed.current);
+  const downButton = useSelector((state) => state.gamepad.downIsPressed.current);
+  const minButton = useSelector((state) => state.gamepad.l1IsPressed.current);
+  const maxButton = useSelector((state) => state.gamepad.r1IsPressed.current);
+
   useEffect(() => {
-    console.log('change')
-    if (downButtonIsPressed) {
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - startTime;
+    // check to see if half a second has lapsed since mount
+    if (timeElapsed < 500) return;
+    if (downButton) {
       const handleIncrement = onClickIncrement(-1);
       handleIncrement();
+      return;
     }
-    if (upButtonIsPressed) {
+    if (upButton) {
       const handleIncrement = onClickIncrement(1);
       handleIncrement();
+      return;
     }
-    if (maxButtonIsPressed) {
+    if (maxButton) {
       const maxTemp = temperatureControlValues[1];
       const handleClick = onClick(maxTemp);
       handleClick();
+      return;
     }
-    if (minButtonIsPressed) {
+    if (minButton) {
       const minTemp = temperatureControlValues[0];
       const handleClick = onClick(minTemp);
       handleClick();
+      return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [downButtonIsPressed, upButtonIsPressed, maxButtonIsPressed, minButtonIsPressed]);
+  }, [downButton, upButton, maxButton, minButton]);
 
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
-
     function handleTargetTemperatureChanged(event) {
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
