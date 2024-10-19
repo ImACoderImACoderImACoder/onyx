@@ -34,7 +34,7 @@ export default function AddTemperatureControl() {
         e.preventDefault();
         const parsedValue = parseInt(e.target[0].value);
         if (isNaN(parsedValue)) {
-          alert("Ivalid temperature value.");
+          alert("Invalid temperature value.");
           return;
         }
 
