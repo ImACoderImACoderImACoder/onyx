@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
 import { writeTemperatureUuid, heatOnUuid } from "../../../constants/uuids";
 import {
@@ -32,9 +32,44 @@ export default function WriteTemperatureContainer() {
   );
 
   const dispatch = useDispatch();
+  const startTime = useMemo(() => Date.now(), []);
+  const upButton = useSelector((state) => state.gamepad.upIsPressed.current);
+  const downButton = useSelector((state) => state.gamepad.downIsPressed.current);
+  const minButton = useSelector((state) => state.gamepad.l1IsPressed.current);
+  const maxButton = useSelector((state) => state.gamepad.r1IsPressed.current);
+
+  useEffect(() => {
+    const currentTime = Date.now();
+    const timeElapsed = currentTime - startTime;
+    // check to see if half a second has lapsed since mount
+    if (timeElapsed < 500) return;
+    if (downButton) {
+      const handleIncrement = onClickIncrement(-1);
+      handleIncrement();
+      return;
+    }
+    if (upButton) {
+      const handleIncrement = onClickIncrement(1);
+      handleIncrement();
+      return;
+    }
+    if (maxButton) {
+      const maxTemp = temperatureControlValues[1];
+      const handleClick = onClick(maxTemp);
+      handleClick();
+      return;
+    }
+    if (minButton) {
+      const minTemp = temperatureControlValues[0];
+      const handleClick = onClick(minTemp);
+      handleClick();
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [downButton, upButton, maxButton, minButton]);
+
   useEffect(() => {
     const characteristic = getCharacteristic(writeTemperatureUuid);
-
     function handleTargetTemperatureChanged(event) {
       const targetTemperature =
         convertCurrentTemperatureCharacteristicToCelcius(event.target.value);

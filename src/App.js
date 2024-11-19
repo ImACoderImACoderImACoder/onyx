@@ -19,6 +19,7 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import Snowfall from "./features/shared/Snowfall";
 import { isMobile } from "./constants/constants";
 import DragPreview from "./features/workflowEditor/DND/DragPreview";
+import useGamepad from "./services/gamepad";
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -42,6 +43,8 @@ function App() {
   useEffect(() => {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
   }, [themeId]);
+
+  useGamepad();
 
   return (
     <>
