@@ -1,7 +1,7 @@
 import Select from "react-bootstrap/FormSelect";
 import Label from "react-bootstrap/FormLabel";
 import Control from "react-bootstrap/FormControl";
-import WorkflowItemTypes from "../../constants/enums";
+import { WorkflowItemTypes } from "../../constants/enums";
 import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
