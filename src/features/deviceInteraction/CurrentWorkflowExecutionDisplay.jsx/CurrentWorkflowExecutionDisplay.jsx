@@ -37,7 +37,7 @@ function TimerEstimate(props) {
 
   return (
     <PrideTextWithDiv
-      text={`Ellapsed Time: ${currentTimeInSeconds} ${
+      text={`Elapsed Time: ${currentTimeInSeconds} ${
         currentTimeInSeconds === 1 ? "second" : "seconds"
       }`}
     />
