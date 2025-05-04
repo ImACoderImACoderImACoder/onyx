@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { setCurrentStepEllapsedTimeInSeconds } from "../../workflowEditor/workflowSlice";
 import Container from "react-bootstrap/Container";
 import PrideText, { PrideTextWithDiv } from "../../../themes/PrideText";
-import WorkflowItemTypes from "../../../constants/enums";
+import { WorkflowItemTypes } from "../../../constants/enums";
 import { DEGREE_SYMBOL } from "../../../constants/temperature";
 import { convertToFahrenheitFromCelsius } from "../../../services/utils";
 import { useRef } from "react";

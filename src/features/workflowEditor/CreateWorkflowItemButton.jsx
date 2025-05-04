@@ -3,7 +3,7 @@ import { WriteNewConfigToLocalStorage } from "../../services/utils";
 import Button from "./shared/WorkflowFooterButtons";
 import cloneDeep from "lodash/cloneDeep";
 import { setCurrentWorkflows } from "../settings/settingsSlice";
-import WorkflowItemTypes from "../../constants/enums";
+import { WorkflowItemTypes } from "../../constants/enums";
 import PrideText from "../../themes/PrideText";
 
 export default function CreateWorkflowItemButton(props) {
