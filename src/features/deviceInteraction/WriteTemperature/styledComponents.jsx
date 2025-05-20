@@ -6,7 +6,7 @@ export const InactiveButton = styled.button`
   flex-grow: 1;
   border-width: 0.15rem;
   background-color: ${(props) => props.theme.buttonColorMain};
-  color: ${(props) => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.buttonFontColor};
   border-radius: 2rem;
   border-color: ${(props) => props.theme.borderColor};
   border-style: ${(props) => props.theme.borderStyle};
