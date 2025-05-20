@@ -30,7 +30,7 @@ const sb_light = {
   buttonActive: {
     color: primaryTextColor,
     backgroundColor: primaryColor,
-    borderColor: "white",
+    borderColor: "#FF00FF",
   },
   backgroundColor: backgroundColor,
   primaryFontColor: defaultTextColor,
@@ -39,7 +39,7 @@ const sb_light = {
   plusMinusButtons: {
     backgroundColor: secondaryColor,
     color: secondaryTextColor,
-    borderColor: "white",
+    borderColor: "#FF00FF",
   },
   workflowEditor: {
     accordianExpandedColor: primaryColor,
@@ -54,12 +54,12 @@ const sb_light = {
   ToggleButtons: {
     sliderBackgroundColorOn: primaryColor,
     sliderBackgroundColorOff: secondaryColor,
-    sliderBorderColorOn: "#f8f9fa",
+    sliderBorderColorOn: "#FF00FF",
     onBackgroundColor: primaryColor,
-    onBorderColor: "black",
+    onBorderColor: "#FF00FF",
     onColor: primaryTextColor,
     offBackgroundColor: secondaryColor,
-    offBorderColor: "black",
+    offBorderColor: "#FF00FF",
     offColor: secondaryTextColor,
   },
 };
