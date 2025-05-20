@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   clearCache,
   getCharacteristic,
@@ -219,13 +219,20 @@ export default function VolcanoLoader(props) {
     zIndex: theme.themeId === feastOfSaintPatrickId ? "2" : undefined,
     display: "flex",
     justifyContent: "space-between",
-    flexGrow: "1",
-    backgroundImage: theme.backgroundImage ? `url(${theme.backgroundImage})` : 'none',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'calc(50%) calc(100% - 32em)',
+    flexGrow: "1"
   };
 
   const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
+  
+  const outletRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState(520);
+
+  useEffect(() => {
+    if (outletRef.current) {
+      setContentHeight(outletRef.current.scrollHeight);
+    }
+  }, []);
+
   return (
     <ScrollingDiv className="main-div">
       {
@@ -303,8 +310,18 @@ export default function VolcanoLoader(props) {
       <div style={currentExecutingWorkflowStyling}>
         <CurrentWorkflowExecutionDisplay />
       </div>
-      <div style={outletStyling}>
-        <Outlet {...props} />
+      <div 
+        style={{...outletStyling,
+          backgroundImage: theme.backgroundImage ? `url(${theme.backgroundImage})` : 'none',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: `50% calc(100% - ${contentHeight}px)` ,
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}>
+        <div ref={outletRef} style={{width: '100%'} }> 
+          <Outlet {...props} />
+        </div>
       </div>
     </ScrollingDiv>
   );
