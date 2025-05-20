@@ -233,8 +233,11 @@ export default function VolcanoLoader(props) {
         >
           <Container>
             <Navbar.Brand>
-              <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
-                <PrideTextWithDiv text="Project Onyx" />
+              <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">              
+                { theme.logo ? 
+                  <theme.logo style={{ width: 'auto', height: '2.5em', marginTop: '0.5em' }} /> : 
+                  <PrideTextWithDiv text="Project Onyx" />
+                }
                 <AutoOff style={{ marginLeft: "10px" }} />
               </StyledHeaderNavDiv>
             </Navbar.Brand>
