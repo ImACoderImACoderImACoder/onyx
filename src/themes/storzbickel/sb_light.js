@@ -1,17 +1,18 @@
 import { sb_lightThemeId } from "../../constants/themeIds";
 import { ReactComponent as VolcanoLogo } from './logo-v.svg';
 
+
 const backgroundColor = "#F6F6F6";
-const fontColor = "#373737";
+const defaultTextColor = "#373737";
 
 const buttonColor = "#373737";
-const buttonTextColor = "#FFFFFF"
+const buttonTextColor = "#F6F6F6"
 
 const primaryColor = "#FF6600";
-const primaryTextColor = "#FFFFFF";
+const primaryTextColor = "#F6F6F6";
 
 const secondaryColor = "#00287D";
-const secondaryTextColor = "#FFFFFF"
+const secondaryTextColor = "#F6F6F6"
 
 const temperatureRangeLow = "#F53803";
 const temperatureRangeHigh = "#F5D020";
@@ -25,14 +26,14 @@ const sb_light = {
   buttonColorMain: buttonColor,
   buttonFontColor: buttonTextColor,
   currentTemperatureColor: primaryColor,
-  targetTemperatureColor: fontColor,
+  targetTemperatureColor: defaultTextColor,
   buttonActive: {
     color: primaryTextColor,
     backgroundColor: primaryColor,
     borderColor: "white",
   },
   backgroundColor: backgroundColor,
-  primaryFontColor: fontColor,
+  primaryFontColor: defaultTextColor,
   iconColor: primaryColor,
   iconTextColor: secondaryColor,
   plusMinusButtons: {
