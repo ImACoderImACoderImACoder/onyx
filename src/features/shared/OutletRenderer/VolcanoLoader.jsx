@@ -220,6 +220,9 @@ export default function VolcanoLoader(props) {
     display: "flex",
     justifyContent: "space-between",
     flexGrow: "1",
+    backgroundImage: theme.backgroundImage ? `url(${theme.backgroundImage})` : 'none',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'calc(50%) calc(100% - 32em)',
   };
 
   const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };

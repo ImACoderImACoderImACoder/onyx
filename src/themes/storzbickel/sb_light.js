@@ -1,5 +1,6 @@
 import { sb_lightThemeId } from "../../constants/themeIds";
-import { ReactComponent as VolcanoLogo } from './logo-v.svg';
+import { ReactComponent as volcanoLogo } from './logo-v.svg';
+import volcanoImage from './img-v.jpg'
 
 
 const backgroundColor = "#F6F6F6";
@@ -20,7 +21,8 @@ const temperatureRangeHigh = "#F5D020";
 const sb_light = {
   themeId: sb_lightThemeId,
   author: "mawize",
-  logo: VolcanoLogo,
+  logo: volcanoLogo,
+  backgroundImage: volcanoImage,
   borderStyle: "solid",
   borderColor: primaryColor,
   buttonColorMain: buttonColor,
