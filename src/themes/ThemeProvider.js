@@ -19,6 +19,7 @@ import GetAutoThemeId from "../constants/themeDates";
 import redscale from "./redScale";
 import purplescale from "./purpleScale";
 import autumnB from "./festivities/fall/autumnB";
+import sb_light from "./storzbickel/sb_light";
 
 const deepMergeWithBase = (theme) => merge(base(), { ...theme });
 
@@ -61,6 +62,8 @@ export default function GetTheme(type) {
       return deepMergeWithBase(stPatricksDay);
     case themeIds.autumnBId:
       return deepMergeWithBase(autumnB);
+    case themeIds.sb_lightThemeId:
+      return deepMergeWithBase(sb_light);
     default: {
       return GetTheme(GetAutoThemeId());
     }
