@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 const Button = styled.button`
   min-height: 30px;
@@ -31,10 +32,11 @@ export default function Ble(props) {
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
+  const { t } = useTranslation();
   return (
     <div>
       <Button onClick={props.onClick}>
-        <PrideText text="Tap anywhere to connect." />
+        <PrideText text={t("splashMessage")} />
         <br />
         <br />
         <PrideText text={`Pro Tip: ${tips[randomTipIndex]}`} />
