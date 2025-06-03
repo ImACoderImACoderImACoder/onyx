@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const glowStyles = css`
+  ${({ theme }) => {
+    return css`
+      box-shadow: 0 0 6px ${theme.primaryFontColor},
+        0 0 12px ${theme.primaryFontColor};
+    `;
+  }}
+`;
 
 export const InactiveButton = styled.button`
   font-size: 1.25rem;
@@ -17,7 +26,9 @@ export const InactiveButton = styled.button`
     border-color: ${(props) => props.theme.buttonActive.borderColor};
   }
 `;
-
+export const GlowyInactiveButton = styled(InactiveButton)`
+  ${glowStyles}
+`;
 export const ActiveButton = styled(InactiveButton)`
   background-color: ${(props) => props.theme.buttonActive.backgroundColor};
   color: ${(props) => props.theme.buttonActive.color};

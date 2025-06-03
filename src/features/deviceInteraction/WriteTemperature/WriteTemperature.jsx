@@ -1,8 +1,16 @@
 import { Div } from "./styledComponents";
-import { ActiveButton, InactiveButton } from "./styledComponents";
+import {
+  ActiveButton,
+  InactiveButton,
+  GlowyInactiveButton,
+} from "./styledComponents";
 
 function WriteTemperature(props) {
-  const Button = props.isActive ? ActiveButton : InactiveButton;
+  const Button = props.isActive
+    ? ActiveButton
+    : props.isGlowy
+    ? GlowyInactiveButton
+    : InactiveButton;
   const { onClick, buttonText, className, buttonClassName } = {
     ...props,
   };

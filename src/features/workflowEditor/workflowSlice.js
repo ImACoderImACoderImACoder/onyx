@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
+import {
+  ReadConfigFromLocalStorage,
+  WriteNewConfigToLocalStorage,
+} from "../../services/utils";
 
 export const workflowSlice = createSlice({
   name: "workflow",
@@ -7,10 +11,20 @@ export const workflowSlice = createSlice({
     currentWorkflow: undefined,
     currentWorkflowStepId: undefined,
     currentStepEllapsedTimeInSeconds: 0,
+    lastWorkflowRunId:
+      ReadConfigFromLocalStorage().workflows?.lastWorkflowRunId,
   },
   reducers: {
     setCurrentWorkflow: (state, action) => {
       state.currentWorkflow = action.payload;
+      const newLastWorkFlowRunId =
+        action.payload?.id || state.lastWorkflowRunId;
+      if (newLastWorkFlowRunId !== state.lastWorkflowRunId) {
+        state.lastWorkflowRunId = newLastWorkFlowRunId;
+        const config = ReadConfigFromLocalStorage();
+        config.workflows.lastWorkflowRunId = newLastWorkFlowRunId;
+        WriteNewConfigToLocalStorage(config);
+      }
     },
     setCurrentWorkflowStepId: (state, action) => {
       state.currentWorkflowStepId = action.payload;
@@ -26,6 +40,8 @@ export const workflowSlice = createSlice({
         currentWorkflow: undefined,
         currentWorkflowStepId: undefined,
         currentStepEllapsedTimeInSeconds: 0,
+        lastWorkflowRunId:
+          ReadConfigFromLocalStorage().workflows?.lastWorkflowRunId,
       };
     });
   },
