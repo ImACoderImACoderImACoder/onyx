@@ -44,8 +44,16 @@ export default function WorkFlow() {
   const workflows = useSelector(
     (state) => state.settings.config.workflows.items
   );
+
+  const highlightLastRunWorkflow = useSelector(
+    (state) => state.settings.config.highlightLastRunWorkflow
+  );
   const currentWorkflow = useSelector(
     (state) => state.workflow.currentWorkflow
+  );
+
+  const lastWorkflowRunId = useSelector(
+    (state) => state.workflow.lastWorkflowRunId
   );
 
   const executeWithManagedSetTimeout = (func, timeout = 100) => {
@@ -244,6 +252,7 @@ export default function WorkFlow() {
     <div className="temperature-write-div">
       {workflows.map((item, index) => {
         const isActive = currentWorkflow?.id === item.id;
+        const isLastRunWorkflow = item.id === lastWorkflowRunId && !isActive;
         const buttonText = isActive ? "Tap to Cancel" : item.name;
         return (
           <WriteTemperature
@@ -251,6 +260,7 @@ export default function WorkFlow() {
             onClick={() => onClick(index)}
             buttonText={<PrideText text={buttonText} />}
             isActive={isActive}
+            isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
           />
         );
       })}

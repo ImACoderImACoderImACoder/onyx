@@ -27,7 +27,7 @@ export default function Ble(props) {
     "10 minutes or less is the ideal time for a bag to store vapor",
     "For best results preheat the chamber for 2-5 seconds before attaching the bag",
     "Drag and drop can be used to reorder workflows and workflow items on all devices",
-    "New Setting! You can now have your Volcano automatically turn on the heat when connecting to the app",
+    "If you want to visually see the last workflow run you can enable highlight last run workflow in settings",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
   ];
 
