@@ -98,7 +98,9 @@ export default function Contact() {
       <p>
         It's always nice to hear from users. Maybe you have a feature request or
         even just want to say hi! If you would like a response be sure to
-        include some kind of contact information in the message.
+        include some kind of contact information in the message. I read every
+        message and respond to every message submitted with contact info, if you
+        did not receive a response please check your spam folder.
       </p>
       <form name="contact" method="post" onSubmit={handleSubmit}>
         <input type="hidden" name="form-name" value="contact" />
