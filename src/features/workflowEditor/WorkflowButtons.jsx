@@ -211,6 +211,20 @@ export default function WorkFlow() {
             executeWithManagedSetTimeout(next);
           };
         }
+        case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+          return async (next) => {
+            if (
+              store.getState().deviceInteraction.targetTemperature !==
+              item.payload
+            ) {
+              dispatch(setCurrentWorkflowStepId(1));
+              executeWithManagedSetTimeout(() => next(true));
+              return;
+            }
+            dispatch(setCurrentWorkflowStepId(index + 1));
+            executeWithManagedSetTimeout(next);
+          };
+        }
         case WorkflowItemTypes.WAIT: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(index + 1));

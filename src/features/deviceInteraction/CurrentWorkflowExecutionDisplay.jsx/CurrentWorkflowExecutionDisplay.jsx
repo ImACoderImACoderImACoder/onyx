@@ -100,6 +100,12 @@ export default function CurrentWorkflowExecutionDisplay() {
       case WorkflowItemTypes.WAIT:
         stepDisplayName = `Wait`;
         break;
+      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE:
+        stepDisplayName = "Loop";
+        break;
+      case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
+        stepDisplayName = "Heating from x to y";
+        break;
       default:
         stepDisplayName = "Unknown";
     }

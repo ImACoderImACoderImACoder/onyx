@@ -30,6 +30,30 @@ const workflowItemValidor = ({ payload, type }, isF, onError = () => {}) => {
         }
         return isPayloadValid;
       }
+      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+        const normalizedHeatOnValue = isF
+          ? convertToCelsiusFromFahrenheit(parsedPayloadInput)
+          : parsedPayloadInput;
+
+        const isPayloadValid = isValueInValidVolcanoCelciusRange(
+          normalizedHeatOnValue
+        );
+
+        const minTemperature = isF
+          ? convertToFahrenheitFromCelsius(MIN_CELSIUS_TEMP)
+          : MIN_CELSIUS_TEMP;
+        const MaxTemperature = isF
+          ? convertToFahrenheitFromCelsius(MAX_CELSIUS_TEMP)
+          : MAX_CELSIUS_TEMP;
+
+        if (!isPayloadValid) {
+          onError(
+            `Temperature must be between ${minTemperature} and ${MaxTemperature}`
+          );
+        }
+
+        return isPayloadValid;
+      }
       case WorkflowItemTypes.HEAT_ON: {
         const normalizedHeatOnValue = isF
           ? convertToCelsiusFromFahrenheit(parsedPayloadInput)

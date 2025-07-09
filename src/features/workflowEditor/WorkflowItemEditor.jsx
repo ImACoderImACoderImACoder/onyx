@@ -18,7 +18,7 @@ import {
   convertToCelsiusFromFahrenheit,
   convertToFahrenheitFromCelsius,
 } from "../../services/utils";
-import { DEGREE_SYMBOL } from "../../constants/temperature";
+import { DEGREE_SYMBOL, MIN_CELSIUS_TEMP } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
 import PrideText from "../../themes/PrideText";
 import { useEffect } from "react";
@@ -54,7 +54,11 @@ export default function WorkflowItemEditor(props) {
   const isF = useSelector((state) => state.settings.isF);
 
   useEffect(() => {
-    if (props.item.type === WorkflowItemTypes.HEAT_ON && props.item.payload) {
+    if (
+      (props.item.type === WorkflowItemTypes.HEAT_ON ||
+        props.item.type === WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE) &&
+      props.item.payload
+    ) {
       const nextPayloadInput = isF
         ? convertToFahrenheitFromCelsius(props.item.payload)
         : props.item.payload;
@@ -100,7 +104,10 @@ export default function WorkflowItemEditor(props) {
         return undefined;
       }
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
-        return "Brightnes (0-100)";
+        return "Brightness (0-100)";
+      }
+      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+        return "Loop workflow until target temperature is";
       }
       default: {
         return undefined;
@@ -127,6 +134,9 @@ export default function WorkflowItemEditor(props) {
       }
       case WorkflowItemTypes.WAIT: {
         return 1;
+      }
+      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+        return MIN_CELSIUS_TEMP;
       }
       default: {
         return undefined;
@@ -190,7 +200,11 @@ export default function WorkflowItemEditor(props) {
     const item = workflow.payload[itemIndex];
     item.payload = parseFloat(e.target.value);
 
-    if (item.type === WorkflowItemTypes.HEAT_ON && isF) {
+    if (
+      (item.type === WorkflowItemTypes.HEAT_ON ||
+        item.type === WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE) &&
+      isF
+    ) {
       item.payload = convertToCelsiusFromFahrenheit(item.payload);
     }
 
@@ -255,6 +269,9 @@ export default function WorkflowItemEditor(props) {
             <option value={WorkflowItemTypes.HEAT_OFF}>Heat Off</option>
             <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
               Set LED Brightness
+            </option>
+            <option value={WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE}>
+              Loop Workflow
             </option>
           </StyledSelect>
         </div>
