@@ -225,6 +225,107 @@ export default function WorkFlow() {
             executeWithManagedSetTimeout(next);
           };
         }
+        case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
+          return async (next) => {
+            const turnHeatOn = () => {
+              const blePayload = async () => {
+                const characteristic = getCharacteristic(heatOnUuid);
+                const buffer = convertToUInt8BLE(0);
+                await characteristic.writeValue(buffer);
+              };
+              AddToQueue(blePayload);
+            };
+            const payload = item.payload;
+            dispatch(setCurrentWorkflowStepId(index + 1));
+            const currentTargetTemperature =
+              store.getState().deviceInteraction.targetTemperature;
+            const nextCondition = payload.conditions.find(
+              (x) => x.ifTemp === currentTargetTemperature
+            );
+            const nextTemp = nextCondition
+              ? nextCondition.nextTemp
+              : payload.default.temp;
+            const nextWait = nextCondition
+              ? nextCondition.wait
+              : payload.default.wait;
+            const writePayloadTempToDevice = () => {
+              const blePayload = async () => {
+                if (isValueInValidVolcanoCelciusRange(nextTemp)) {
+                  const characteristic =
+                    getCharacteristic(writeTemperatureUuid);
+                  const buffer = convertToUInt32BLE(nextTemp * 10);
+                  await characteristic.writeValue(buffer);
+                  dispatch(setTargetTemperature(nextTemp));
+                }
+              };
+
+              AddToQueue(blePayload);
+            };
+
+            writePayloadTempToDevice();
+            turnHeatOn();
+            let previousTemperature;
+            let sameTemperatureIntervalStreak;
+            currentIntervals.push(
+              setInterval(() => {
+                const blePayload = async () => {
+                  const currentTemperature =
+                    store.getState().deviceInteraction.currentTemperature;
+
+                  if (previousTemperature !== currentTemperature) {
+                    previousTemperature = currentTemperature;
+                    sameTemperatureIntervalStreak = 0;
+                  } else {
+                    sameTemperatureIntervalStreak++;
+                  }
+
+                  //this is arbitrary.  If the on change event is missed heat will hang forever waiting for the target temperature to be reach (even tho it is on the device)
+                  //I thought it we read the same temperature 7 times in a row then we should probably reach out to the device.
+                  if (sameTemperatureIntervalStreak > 7) {
+                    sameTemperatureIntervalStreak = 0;
+                    const blePayload = async () => {
+                      const temperatureCharacteristic = getCharacteristic(
+                        currentTemperatureUuid
+                      );
+                      const value = await temperatureCharacteristic.readValue();
+                      const currentTemperature =
+                        convertCurrentTemperatureCharacteristicToCelcius(value);
+                      dispatch(setCurrentTemperature(currentTemperature));
+                      previousTemperature = currentTemperature;
+                      sameTemperatureIntervalStreak = 0;
+                    };
+
+                    AddToQueue(blePayload);
+                  }
+                  if (currentTemperature >= nextTemp) {
+                    clearIntervals();
+                    clearTimeouts();
+                    if (nextWait === 0) {
+                      alert("Click okay to resume the workflow!");
+                    }
+
+                    executeWithManagedSetTimeout(next, nextWait * 1000);
+                  }
+
+                  // if the temperature is changed to be below the target we will never get there.
+                  // The workflow must continue onward by any means necessary, therefore we shall set the payload temperature again
+                  if (
+                    store.getState().deviceInteraction.targetTemperature <
+                    nextTemp
+                  ) {
+                    writePayloadTempToDevice();
+                  }
+
+                  if (!store.getState().deviceInteraction.isHeatOn) {
+                    turnHeatOn();
+                    dispatch(setIsHeatOn(true));
+                  }
+                };
+                AddToQueue(blePayload);
+              }, 300)
+            );
+          };
+        }
         case WorkflowItemTypes.WAIT: {
           return async (next) => {
             dispatch(setCurrentWorkflowStepId(index + 1));

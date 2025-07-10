@@ -46,6 +46,9 @@ function TimerEstimate(props) {
 
 export default function CurrentWorkflowExecutionDisplay() {
   const executingWorkflow = useSelector((state) => state.workflow);
+  const targetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
   const isF = useSelector((state) => state.settings.isF);
   const [isRemovedFromDom, setIsRemovedFromDom] = useState(false);
   const containerRef = useRef();
@@ -104,7 +107,25 @@ export default function CurrentWorkflowExecutionDisplay() {
         stepDisplayName = "Loop";
         break;
       case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
-        stepDisplayName = "Heating from x to y";
+        const heatStep = payload.conditions.find(
+          (x) => x.nextTemp === targetTemperature
+        );
+        if (heatStep) {
+          const previousHeat = isF
+            ? convertToFahrenheitFromCelsius(heatStep.ifTemp)
+            : heatStep.ifTemp;
+          const nextHeat = isF
+            ? convertToFahrenheitFromCelsius(heatStep.nextTemp)
+            : heatStep.nextTemp;
+          stepDisplayName = `Heating from ${previousHeat} to ${nextHeat}`;
+        } else {
+          stepDisplayName = `Heating to ${
+            isF
+              ? convertToFahrenheitFromCelsius(payload.default.temp)
+              : payload.default.temp
+          }`;
+        }
+
         break;
       default:
         stepDisplayName = "Unknown";

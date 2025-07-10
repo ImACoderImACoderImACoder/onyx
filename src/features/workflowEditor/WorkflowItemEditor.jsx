@@ -24,13 +24,14 @@ import PrideText from "../../themes/PrideText";
 import { useEffect } from "react";
 import Drag from "./DND/WorkflowItemDrag";
 import WorkflowItemDrop from "./DND/WorkflowItemDrop";
+import ConditionalHeatItemEditor from "./ConditionalHeatItemEditor";
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
-const StyledLabel = styled(Label)`
+export const StyledLabel = styled(Label)`
   align-items: center;
   margin-right: auto;
 `;
@@ -65,6 +66,7 @@ export default function WorkflowItemEditor(props) {
       setPayloadInput(nextPayloadInput);
     }
   }, [isF, props.item]);
+
   let initialPayloadInputState;
   if (props.item.type !== WorkflowItemTypes.HEAT_ON) {
     initialPayloadInputState = props.item.payload;
@@ -137,6 +139,46 @@ export default function WorkflowItemEditor(props) {
       }
       case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
         return MIN_CELSIUS_TEMP;
+      }
+      case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
+        return {
+          default: {
+            temp: MIN_CELSIUS_TEMP,
+            wait: 5,
+          },
+          conditions: [
+            {
+              ifTemp: MIN_CELSIUS_TEMP,
+              nextTemp: 180,
+              wait: 5,
+            },
+            {
+              ifTemp: 180,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              ifTemp: 185,
+              nextTemp: 190,
+              wait: 5,
+            },
+            {
+              ifTemp: 190,
+              nextTemp: 195,
+              wait: 5,
+            },
+            {
+              ifTemp: 195,
+              nextTemp: 200,
+              wait: 5,
+            },
+            {
+              ifTemp: 200,
+              nextTemp: MIN_CELSIUS_TEMP,
+              wait: 5,
+            },
+          ],
+        };
       }
       default: {
         return undefined;
@@ -273,10 +315,16 @@ export default function WorkflowItemEditor(props) {
             <option value={WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE}>
               Loop Workflow
             </option>
+            <option value={WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS}>
+              Conditional Temperature Set
+            </option>
           </StyledSelect>
         </div>
 
-        {props.item.type !== WorkflowItemTypes.HEAT_OFF && (
+        {![
+          WorkflowItemTypes.HEAT_OFF,
+          WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS,
+        ].includes(props.item.type) && (
           <StyledPayloadDiv>
             <StyledLabel>{getPayloadLabelByType(props.item.type)}</StyledLabel>
             <StyledControl
@@ -291,6 +339,9 @@ export default function WorkflowItemEditor(props) {
             />
             <Control.Feedback type="invalid">{errorMessage}</Control.Feedback>
           </StyledPayloadDiv>
+        )}
+        {props.item.type === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS && (
+          <ConditionalHeatItemEditor />
         )}
       </WorkflowItemDiv>
       <WorkflowItemDrop
