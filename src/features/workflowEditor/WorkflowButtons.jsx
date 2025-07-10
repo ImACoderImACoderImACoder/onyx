@@ -7,8 +7,8 @@ import {
   LEDbrightnessUuid,
   currentTemperatureUuid,
 } from "../../constants/uuids";
-
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
+
 import {
   convertToUInt8BLE,
   convertToUInt32BLE,
@@ -28,7 +28,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
 import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
 import store from "../../store";
-import PrideText from "../../themes/PrideText";
 import {
   currentSetTimeouts,
   currentIntervals,
@@ -36,6 +35,7 @@ import {
   clearIntervals,
   clearTimeouts,
 } from "../../services/bleQueueing";
+import PrideText from "../../themes/PrideText";
 export default function WorkFlow() {
   const dispatch = useDispatch();
   const fanOnGlobal = useSelector(

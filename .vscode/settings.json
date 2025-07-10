@@ -1,4 +1,16 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/24b10228-1909-43af-9a40-43ce0170c420/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/projectonyx",
-    "appService.deploySubpath": "."
+  "appService.defaultWebAppToDeploy": "/subscriptions/24b10228-1909-43af-9a40-43ce0170c420/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/projectonyx",
+  "appService.deploySubpath": ".",
+  "eslint.enable": true,
+  "eslint.useFlatConfig": true, // only if using eslint.config.js
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always"
+  }
 }
