@@ -20,10 +20,14 @@ export default function HeatSettingsForm() {
 
   const handleDefaultBlur = (field) => (e) => {
     const value = parseInt(e.target.value, 10);
-    if (isNaN(value) || value < 0) {
+    //you need to do validation for time and temp separatlye
+    if (isNaN(value) || value < MIN_CELSIUS_TEMP) {
       setErrors((prev) => ({
         ...prev,
-        default: { ...prev.default, [field]: "Must be a positive number" },
+        default: {
+          ...prev.default,
+          [field]: `Must be a positive number greater than ${MIN_CELSIUS_TEMP}`,
+        },
       }));
       return;
     }

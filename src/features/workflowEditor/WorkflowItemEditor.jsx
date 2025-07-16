@@ -57,7 +57,8 @@ export default function WorkflowItemEditor(props) {
   useEffect(() => {
     if (
       (props.item.type === WorkflowItemTypes.HEAT_ON ||
-        props.item.type === WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE) &&
+        props.item.type ===
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS) &&
       props.item.payload
     ) {
       const nextPayloadInput = isF
@@ -108,8 +109,8 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
         return "Brightness (0-100)";
       }
-      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
-        return "Loop workflow until target temperature is";
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
+        return "Exit workflow until when target temperature is";
       }
       default: {
         return undefined;
@@ -131,13 +132,16 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.HEAT_OFF: {
         return undefined;
       }
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING: {
+        return undefined;
+      }
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
         return 70;
       }
       case WorkflowItemTypes.WAIT: {
         return 1;
       }
-      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
         return MIN_CELSIUS_TEMP;
       }
       case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
@@ -244,7 +248,8 @@ export default function WorkflowItemEditor(props) {
 
     if (
       (item.type === WorkflowItemTypes.HEAT_ON ||
-        item.type === WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE) &&
+        item.type ===
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS) &&
       isF
     ) {
       item.payload = convertToCelsiusFromFahrenheit(item.payload);
@@ -312,11 +317,16 @@ export default function WorkflowItemEditor(props) {
             <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
               Set LED Brightness
             </option>
-            <option value={WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE}>
-              Loop Workflow
+            <option
+              value={WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS}
+            >
+              Exit Workflow When Target Temperature Is
             </option>
             <option value={WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS}>
               Conditional Temperature Set
+            </option>
+            <option value={WorkflowItemTypes.LOOP_FROM_BEGINNING}>
+              Start Workflow From Beginning
             </option>
           </StyledSelect>
         </div>

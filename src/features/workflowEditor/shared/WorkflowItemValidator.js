@@ -30,7 +30,7 @@ const workflowItemValidor = ({ payload, type }, isF, onError = () => {}) => {
         }
         return isPayloadValid;
       }
-      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
         const normalizedHeatOnValue = isF
           ? convertToCelsiusFromFahrenheit(parsedPayloadInput)
           : parsedPayloadInput;

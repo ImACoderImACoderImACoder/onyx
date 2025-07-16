@@ -32,6 +32,7 @@ function TimerEstimate(props) {
 
     return () => {
       clearInterval(interval);
+      timerStartRef.current = undefined;
     };
   }, [props.stepId, dispatch]);
 
@@ -103,7 +104,10 @@ export default function CurrentWorkflowExecutionDisplay() {
       case WorkflowItemTypes.WAIT:
         stepDisplayName = `Wait`;
         break;
-      case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE:
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
+        stepDisplayName = "Check exit condition";
+        break;
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING:
         stepDisplayName = "Loop";
         break;
       case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:

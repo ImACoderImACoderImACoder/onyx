@@ -211,18 +211,23 @@ export default function WorkFlow() {
             executeWithManagedSetTimeout(next);
           };
         }
-        case WorkflowItemTypes.LOOP_UNTIL_TARGET_TEMPERATURE: {
+        case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
           return async (next) => {
             if (
-              store.getState().deviceInteraction.targetTemperature !==
+              store.getState().deviceInteraction.targetTemperature ===
               item.payload
             ) {
-              dispatch(setCurrentWorkflowStepId(1));
-              executeWithManagedSetTimeout(() => next(true));
+              cancelCurrentWorkflow();
               return;
             }
-            dispatch(setCurrentWorkflowStepId(index + 1));
-            executeWithManagedSetTimeout(next);
+            next();
+          };
+        }
+        case WorkflowItemTypes.LOOP_FROM_BEGINNING: {
+          return async (next) => {
+            dispatch(setCurrentWorkflowStepId(1));
+            executeWithManagedSetTimeout(() => next(true));
+            return;
           };
         }
         case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
