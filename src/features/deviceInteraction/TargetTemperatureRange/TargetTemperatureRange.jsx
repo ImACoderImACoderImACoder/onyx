@@ -87,30 +87,34 @@ export default function TargetTemperatureRange() {
             {children}
           </div>
         )}
-        renderThumb={({ props }) => (
-          <div
-            {...props}
-            aria-valuenow={
-              isF
-                ? convertToFahrenheitFromCelsius(targetTemperature)
-                : targetTemperature
-            }
-            aria-valuemax={MAX_ARIA_TEMP_VALUE}
-            style={{
-              ...props.style,
-              height: "42px",
-              width: "42px",
-              backgroundColor: theme.temperatureRange.rangeBoxColor,
-              borderColor: theme.temperatureRange.rangeBoxBorderColor,
-              borderStyle: "solid",
-              borderWidth: theme.temperatureRange.rangeBoxBorderWidth,
-              borderRadius: theme.temperatureRange.rangeBoxBorderRadius,
-              background:
-                theme.temperatureRange.rangeBackground ||
-                theme.temperatureRange.rangeBoxColor,
-            }}
-          />
-        )}
+        renderThumb={({ props }) => {
+          const { key, ...restProps } = props;
+          return (
+            <div
+              key={key}
+              {...restProps}
+              aria-valuenow={
+                isF
+                  ? convertToFahrenheitFromCelsius(targetTemperature)
+                  : targetTemperature
+              }
+              aria-valuemax={MAX_ARIA_TEMP_VALUE}
+              style={{
+                ...restProps.style,
+                height: "42px",
+                width: "42px",
+                backgroundColor: theme.temperatureRange.rangeBoxColor,
+                borderColor: theme.temperatureRange.rangeBoxBorderColor,
+                borderStyle: "solid",
+                borderWidth: theme.temperatureRange.rangeBoxBorderWidth,
+                borderRadius: theme.temperatureRange.rangeBoxBorderRadius,
+                background:
+                  theme.temperatureRange.rangeBackground ||
+                  theme.temperatureRange.rangeBoxColor,
+              }}
+            />
+          );
+        }}
       />
     </Div>
   );
