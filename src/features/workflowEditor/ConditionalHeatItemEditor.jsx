@@ -4,6 +4,9 @@ import Button from "../shared/styledComponents/Button";
 import StyledControl from "../shared/styledComponents/FormControl";
 import { StyledLabel } from "./WorkflowItemEditor";
 import { Col, Form, Row } from "react-bootstrap";
+import ModalWrapper from "../shared/styledComponents/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from "../shared/OutletRenderer/icons/DeleteIcon";
 
 const MIN_CELSIUS_TEMP = 150;
 
@@ -17,6 +20,20 @@ export default function HeatSettingsForm() {
   });
 
   const [errors, setErrors] = useState({ default: {}, conditions: {} });
+
+  const [show, setShow] = useState(false);
+  const config = useSelector((state) => state.settings.config);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (e) => {
+    e.preventDefault();
+    setShow(true);
+  };
+
+  const dispatch = useDispatch();
+  const handleConfirm = () => {
+    return;
+  };
 
   const handleDefaultBlur = (field) => (e) => {
     const value = parseInt(e.target.value, 10);
@@ -85,6 +102,11 @@ export default function HeatSettingsForm() {
     }));
   };
 
+  const handler = (e) => {
+    if (e.keyCode === enterKeyCode) {
+      handleShow(e);
+    }
+  };
   return (
     <>
       <h4>Default Settings</h4>
@@ -155,6 +177,23 @@ export default function HeatSettingsForm() {
             <StyledControl.Feedback type="invalid">
               {errors.conditions[idx]?.wait}
             </StyledControl.Feedback>
+          </Col>
+          <Col>
+            <StyledLabel>Delete</StyledLabel>
+            <DeleteIcon
+              aria-label={`Delete conditional heat item`}
+              onKeyDown={handler}
+              tabIndex={0}
+              onClick={handleShow}
+            />
+            <ModalWrapper
+              headerText={<PrideText text={`Delete Conditional Heat`} />}
+              bodyText="Are you sure you want to delete this workflow? This action cannot be undone"
+              confirmButtonText="Delete"
+              handleClose={handleClose}
+              handleConfirm={handleConfirm}
+              show={show}
+            />
           </Col>
         </Row>
       ))}

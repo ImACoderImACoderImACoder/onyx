@@ -134,7 +134,13 @@ export default function CurrentWorkflowExecutionDisplay() {
       default:
         stepDisplayName = "Unknown";
     }
-    totalSteps = currentWorkflow.payload.length;
+    totalSteps = currentWorkflow.payload.filter(
+      (item) =>
+        ![
+          WorkflowItemTypes.LOOP_FROM_BEGINNING,
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
+        ].includes(item.type)
+    ).length;
     showTimer = stepType.includes("fan") || stepType.includes("wait");
 
     expectedTime =
