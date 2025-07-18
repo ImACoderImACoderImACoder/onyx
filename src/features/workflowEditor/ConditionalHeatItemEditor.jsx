@@ -360,7 +360,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
           <StyledLabel>Default Temp</StyledLabel>
           <StyledControl
             type="number"
-            value={displayValues.default.temp || 0}
+            value={displayValues.default.temp}
             onChange={(e) =>
               setDisplayValues((prev) => ({
                 ...prev,
@@ -380,7 +380,11 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             type="number"
             step="1"
             placeholder="Optional"
-            value={displayValues.default.wait !== undefined ? displayValues.default.wait : ""}
+            value={
+              displayValues.default.wait !== undefined
+                ? displayValues.default.wait
+                : ""
+            }
             onChange={(e) =>
               setDisplayValues((prev) => ({
                 ...prev,
@@ -405,7 +409,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             <StyledLabel>If Temp</StyledLabel>
             <StyledControl
               type="number"
-              value={displayValues.conditions[idx]?.ifTemp || 0}
+              value={displayValues.conditions[idx]?.ifTemp}
               onChange={(e) =>
                 setDisplayValues((prev) => ({
                   ...prev,
@@ -426,7 +430,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             <StyledLabel>Next Temp</StyledLabel>
             <StyledControl
               type="number"
-              value={displayValues.conditions[idx]?.nextTemp || 0}
+              value={displayValues.conditions[idx]?.nextTemp}
               onChange={(e) =>
                 setDisplayValues((prev) => ({
                   ...prev,
@@ -452,7 +456,11 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
               type="number"
               step="1"
               placeholder="Optional"
-              value={displayValues.conditions[idx]?.wait !== undefined ? displayValues.conditions[idx]?.wait : ""}
+              value={
+                displayValues.conditions[idx]?.wait !== undefined
+                  ? displayValues.conditions[idx]?.wait
+                  : ""
+              }
               onChange={(e) =>
                 setDisplayValues((prev) => ({
                   ...prev,
