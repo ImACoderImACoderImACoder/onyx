@@ -27,13 +27,12 @@ export default function HighlightLastRunWorkflow() {
       <h2>
         <PrideText text="Highlight last run workflow" />
       </h2>
-      <div onClick={onChange}>
-        <StyledToggleSwitch
-          onText="On"
-          offText={<PrideTextWithDiv text="Off" />}
-          isToggleOn={highlightLastRunWorkflow}
-        />
-      </div>
+      <StyledToggleSwitch
+        onText="On"
+        offText={<PrideTextWithDiv text="Off" />}
+        isToggleOn={highlightLastRunWorkflow}
+        onChange={onChange}
+      />
     </Div>
   );
 }

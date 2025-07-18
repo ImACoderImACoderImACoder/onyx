@@ -27,13 +27,12 @@ export default function TurnHeatOnWhenConnectionIsEstablished() {
       <h2>
         <PrideText text="Automatically turn on heat when connecting to the Volcano" />
       </h2>
-      <div onClick={onChange}>
-        <StyledToggleSwitch
-          onText="On"
-          offText={<PrideTextWithDiv text="Off" />}
-          isToggleOn={onConnectTurnHeatOn}
-        />
-      </div>
+      <StyledToggleSwitch
+        onText="On"
+        offText={<PrideTextWithDiv text="Off" />}
+        isToggleOn={onConnectTurnHeatOn}
+        onChange={onChange}
+      />
     </Div>
   );
 }

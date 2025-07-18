@@ -103,6 +103,7 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.HEAT_ON: {
         return `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
       }
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING:
       case WorkflowItemTypes.HEAT_OFF: {
         return undefined;
       }
@@ -147,39 +148,15 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
         return {
           default: {
-            temp: MIN_CELSIUS_TEMP,
-            wait: 5,
+            temp: 180,
+            wait: undefined,
           },
           conditions: [
             {
-              ifTemp: MIN_CELSIUS_TEMP,
-              nextTemp: 180,
-              wait: 5,
-            },
-            {
+              id: Date.now(),
               ifTemp: 180,
               nextTemp: 185,
-              wait: 5,
-            },
-            {
-              ifTemp: 185,
-              nextTemp: 190,
-              wait: 5,
-            },
-            {
-              ifTemp: 190,
-              nextTemp: 195,
-              wait: 5,
-            },
-            {
-              ifTemp: 195,
-              nextTemp: 200,
-              wait: 5,
-            },
-            {
-              ifTemp: 200,
-              nextTemp: MIN_CELSIUS_TEMP,
-              wait: 5,
+              wait: undefined,
             },
           ],
         };
@@ -334,6 +311,7 @@ export default function WorkflowItemEditor(props) {
         {![
           WorkflowItemTypes.HEAT_OFF,
           WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS,
+          WorkflowItemTypes.LOOP_FROM_BEGINNING,
         ].includes(props.item.type) && (
           <StyledPayloadDiv>
             <StyledLabel>{getPayloadLabelByType(props.item.type)}</StyledLabel>
@@ -351,7 +329,10 @@ export default function WorkflowItemEditor(props) {
           </StyledPayloadDiv>
         )}
         {props.item.type === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS && (
-          <ConditionalHeatItemEditor />
+          <ConditionalHeatItemEditor
+            workflowId={props.workflowId}
+            item={props.item}
+          />
         )}
       </WorkflowItemDiv>
       <WorkflowItemDrop

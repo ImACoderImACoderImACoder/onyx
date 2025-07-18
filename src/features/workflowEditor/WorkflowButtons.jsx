@@ -305,11 +305,19 @@ export default function WorkFlow() {
                   if (currentTemperature >= nextTemp) {
                     clearIntervals();
                     clearTimeouts();
+
                     if (nextWait === 0) {
                       alert("Click okay to resume the workflow!");
+                      executeWithManagedSetTimeout(next);
+                      return;
                     }
 
+                    if (!nextWait) {
+                      executeWithManagedSetTimeout(next);
+                      return;
+                    }
                     executeWithManagedSetTimeout(next, nextWait * 1000);
+                    return;
                   }
 
                   // if the temperature is changed to be below the target we will never get there.
