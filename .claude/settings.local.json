@@ -10,7 +10,9 @@
       "Bash(npm view:*)",
       "Bash(timeout 10 npm run dev)",
       "Bash(timeout 8 npm run dev)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
