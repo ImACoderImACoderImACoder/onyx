@@ -7,6 +7,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import ModalWrapper from "../shared/styledComponents/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../shared/OutletRenderer/icons/DeleteIcon";
+import styled from "styled-components";
 import {
   WriteNewConfigToLocalStorage,
   convertToCelsiusFromFahrenheit,
@@ -18,6 +19,27 @@ import {
   MIN_CELSIUS_TEMP,
   MAX_CELSIUS_TEMP,
 } from "../../constants/temperature";
+
+const DeleteIconWrapper = styled.div`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const DeleteCol = styled(Col)`
+  flex: 0 0 40px;
+  max-width: 40px;
+  padding-left: 8px;
+  padding-right: 8px;
+`;
 
 export default function ConditionalHeatItemEditor({ workflowId, item }) {
   const [errors, setErrors] = useState({ default: {}, conditions: {} });
@@ -455,7 +477,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             <StyledControl
               type="number"
               step="1"
-              placeholder="Optional"
+              placeholder="(opt)"
               value={
                 displayValues.conditions[idx]?.wait !== undefined
                   ? displayValues.conditions[idx]?.wait
@@ -478,15 +500,17 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             </StyledControl.Feedback>
           </Col>
           {data.conditions.length > 1 && (
-            <Col>
-              <StyledLabel>Delete</StyledLabel>
-              <DeleteIcon
-                aria-label={`Delete condition ${idx + 1}`}
-                onKeyDown={handler(cond.id)}
-                tabIndex={0}
-                onClick={handleShow(cond.id)}
-              />
-            </Col>
+            <DeleteCol>
+              <StyledLabel>&nbsp;</StyledLabel>
+              <DeleteIconWrapper>
+                <DeleteIcon
+                  aria-label={`Delete condition ${idx + 1}`}
+                  onKeyDown={handler(cond.id)}
+                  tabIndex={0}
+                  onClick={handleShow(cond.id)}
+                />
+              </DeleteIconWrapper>
+            </DeleteCol>
           )}
         </Row>
       ))}
