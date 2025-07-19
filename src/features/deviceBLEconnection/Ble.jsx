@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 
@@ -14,6 +15,10 @@ const Button = styled.button`
 `;
 
 export default function Ble(props) {
+  useEffect(() => {
+    localStorage.removeItem("projectOnyxVapeApp");
+  }, []);
+
   const tips = [
     "Spacebar toggles the fan",
     "Setting the screen to 0 brightness turns it off",
