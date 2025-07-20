@@ -220,7 +220,7 @@ export default function WorkFlow() {
               cancelCurrentWorkflow();
               return;
             }
-            next();
+            executeWithManagedSetTimeout(next);
           };
         }
         case WorkflowItemTypes.LOOP_FROM_BEGINNING: {

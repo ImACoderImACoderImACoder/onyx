@@ -13,46 +13,68 @@ export const isMobile =
   /Android|webOS|iPhone|iPad|iPod|WebBLE|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   );
-
+const WHIP_WAIT_TIME = 200;
 export const defaultWorkflows = [
   {
     id: 1,
-    name: "Workflow #1",
+    name: "Vapesuvius Temp Step", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
-      { type: "heatOn", id: 1, payload: 185 },
-      { type: "wait", id: 2, payload: 5 },
-      { type: "fanOnGlobal", id: 3, payload: 36.5 },
-      { type: "heatOff", id: 4 },
-    ],
-  },
-  {
-    id: 2,
-    name: "Workflow #2",
-    payload: [
-      { type: "heatOn", id: 1, payload: 190 },
-      { type: "wait", id: 2, payload: 5 },
-      { type: "fanOnGlobal", id: 3, payload: 36.5 },
-      { type: "heatOff", id: 4 },
-    ],
-  },
-  {
-    id: 3,
-    name: "Workflow #3",
-    payload: [
-      { type: "heatOn", id: 1, payload: 195 },
-      { type: "wait", id: 2, payload: 5 },
-      { type: "fanOnGlobal", id: 3, payload: 36.5 },
-      { type: "heatOff", id: 4 },
-    ],
-  },
-  {
-    id: 4,
-    name: "Workflow #4",
-    payload: [
-      { type: "heatOn", id: 1, payload: 200 },
-      { type: "wait", id: 2, payload: 5 },
-      { type: "fanOnGlobal", id: 3, payload: 36.5 },
-      { type: "heatOff", id: 4 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 179,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 179,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 185,
+              nextTemp: 191,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 191,
+              nextTemp: 199,
+              wait: 5,
+            },
+            {
+              id: 4,
+              ifTemp: 199,
+              nextTemp: 205,
+              wait: 5,
+            },
+            {
+              id: 5,
+              ifTemp: 205,
+              nextTemp: 211,
+              wait: 5,
+            },
+            {
+              id: 6,
+              ifTemp: 211,
+              nextTemp: 217,
+              wait: 5,
+            },
+            {
+              id: 7,
+              ifTemp: 217,
+              nextTemp: 230,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOn", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
     ],
   },
 ];
@@ -60,28 +82,130 @@ export const defaultWorkflows = [
 export const premadeWorkflows = [
   {
     id: 1,
-    name: "7 Step for CBC",
+    name: "Vapesuvius Temp Step", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
-      { type: "heatOn", id: 1, payload: 179 },
-      { type: "fanOn", id: 2, payload: 12 },
-      { type: "heatOn", id: 3, payload: 185 },
-      { type: "fanOn", id: 4, payload: 12 },
-      { type: "heatOn", id: 5, payload: 191 },
-      { type: "fanOn", id: 6, payload: 12 },
-      { type: "heatOn", id: 7, payload: 197 },
-      { type: "fanOn", id: 8, payload: 12 },
-      { type: "heatOn", id: 9, payload: 205 },
-      { type: "fanOn", id: 10, payload: 12 },
-      { type: "heatOn", id: 11, payload: 211 },
-      { type: "fanOn", id: 12, payload: 12 },
-      { type: "heatOn", id: 13, payload: 222 },
-      { type: "fanOn", id: 14, payload: 12 },
-      { type: "heatOff", id: 15 },
-      { type: "heatOff", id: 16 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 179,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 179,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 185,
+              nextTemp: 191,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 191,
+              nextTemp: 199,
+              wait: 5,
+            },
+            {
+              id: 4,
+              ifTemp: 199,
+              nextTemp: 205,
+              wait: 5,
+            },
+            {
+              id: 5,
+              ifTemp: 205,
+              nextTemp: 211,
+              wait: 5,
+            },
+            {
+              id: 6,
+              ifTemp: 211,
+              nextTemp: 217,
+              wait: 5,
+            },
+            {
+              id: 7,
+              ifTemp: 217,
+              nextTemp: 230,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOnGlobal", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
     ],
   },
   {
     id: 2,
+    name: "Vapesuvius Temp Step Reverse ⏪",
+    payload: [
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 179,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 230,
+              nextTemp: 217,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 217,
+              nextTemp: 211,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 211,
+              nextTemp: 205,
+              wait: 5,
+            },
+            {
+              id: 4,
+              ifTemp: 205,
+              nextTemp: 199,
+              wait: 5,
+            },
+            {
+              id: 5,
+              ifTemp: 199,
+              nextTemp: 191,
+              wait: 5,
+            },
+            {
+              id: 6,
+              ifTemp: 191,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              id: 7,
+              ifTemp: 185,
+              nextTemp: 179,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOnGlobal", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
+    ],
+  },
+  {
+    id: 3,
     name: "Really Off",
     payload: [
       { type: "heatOff", id: 1 },
@@ -89,7 +213,7 @@ export const premadeWorkflows = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     name: "Really On",
     payload: [
       { type: "heatOn", id: 1, payload: null },
@@ -97,98 +221,242 @@ export const premadeWorkflows = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     name: "Developer's Special",
     payload: [
       { type: "setLEDbrightness", id: 1, payload: 70 },
-      { type: "heatOn", id: 2, payload: 187 },
-      { type: "wait", id: 3, payload: 0 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 180,
+            wait: 0,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 180,
+              nextTemp: 185,
+              wait: 0,
+            },
+            {
+              id: 2,
+              ifTemp: 185,
+              nextTemp: 190,
+              wait: 0,
+            },
+            {
+              id: 3,
+              ifTemp: 190,
+              nextTemp: 195,
+              wait: 0,
+            },
+            {
+              id: 4,
+              ifTemp: 195,
+              nextTemp: 200,
+              wait: 0,
+            },
+          ],
+        },
+      },
       { type: "fanOn", id: 4, payload: 3.75 },
       { type: "fanOn", id: 5, payload: 0.5 },
       { type: "fanOn", id: 6, payload: 0.5 },
       { type: "fanOn", id: 7, payload: 0.5 },
-      { type: "fanOnGlobal", id: 8, payload: 38 },
+      { type: "fanOnGlobal", id: 8, payload: 34 },
       { type: "heatOff", id: 9 },
       { type: "setLEDbrightness", id: 10, payload: 0 },
     ],
   },
   {
-    id: 5,
-    name: "TEMP 1 🟦",
-    payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 179 },
-    ],
-  },
-  {
     id: 6,
-    name: "TEMP 2 🔵",
+    name: "Developer's Special Reverse ⏪",
     payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 185 },
+      { type: "setLEDbrightness", id: 1, payload: 70 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 180,
+            wait: 0,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 185,
+              nextTemp: 180,
+              wait: 0,
+            },
+            {
+              id: 2,
+              ifTemp: 190,
+              nextTemp: 185,
+              wait: 0,
+            },
+            {
+              id: 3,
+              ifTemp: 195,
+              nextTemp: 190,
+              wait: 0,
+            },
+            {
+              id: 4,
+              ifTemp: 200,
+              nextTemp: 195,
+              wait: 0,
+            },
+          ],
+        },
+      },
+      { type: "fanOn", id: 4, payload: 3.75 },
+      { type: "fanOn", id: 5, payload: 0.5 },
+      { type: "fanOn", id: 6, payload: 0.5 },
+      { type: "fanOn", id: 7, payload: 0.5 },
+      { type: "fanOnGlobal", id: 8, payload: 34 },
+      { type: "heatOff", id: 9 },
+      { type: "setLEDbrightness", id: 10, payload: 0 },
     ],
   },
   {
     id: 7,
-    name: "TEMP 3 🟩",
+    name: "Vapesuvius Temp Step Dosing capsule", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 191 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 185,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 185,
+              nextTemp: 197,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 197,
+              nextTemp: 211,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 211,
+              nextTemp: 230,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOnGlobal", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
     ],
   },
   {
     id: 8,
-    name: "TEMP 4 🟢",
+    name: "Vapesuvius Temp Step Dosing Capsule Reverse ⏪", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 199 },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 185,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 197,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 211,
+              nextTemp: 197,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 230,
+              nextTemp: 211,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOnGlobal", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
     ],
   },
   {
     id: 9,
-    name: "TEMP 5 🟨",
+    name: "Temp Step Whip Loop Full Session", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 205 },
-    ],
-  },
-  {
-    id: 10,
-    name: "TEMP 6 🟡",
-    payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 211 },
-    ],
-  },
-  {
-    id: 11,
-    name: "TEMP 7 🟥",
-    payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 217 },
-    ],
-  },
-  {
-    id: 12,
-    name: "TEMP 8 🔴",
-    payload: [
-      { type: "heatOff", id: 1, payload: null },
-      { type: "heatOn", id: 2, payload: 230 },
-    ],
-  },
-  {
-    id: 13,
-    name: "PRIME 🌋",
-    payload: [{ type: "fanOn", id: 1, payload: 5 }],
-  },
-  {
-    id: 14,
-    name: "DRY TUBE ♨️",
-    payload: [
-      { type: "heatOn", id: 1, payload: 230 },
-      { type: "fanOn", id: 2, payload: 60 },
-      { type: "heatOn", id: 3, payload: 179 },
-      { type: "heatOff", id: 4, payload: null },
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 179,
+            wait: WHIP_WAIT_TIME,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 179,
+              nextTemp: 185,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 2,
+              ifTemp: 185,
+              nextTemp: 191,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 3,
+              ifTemp: 191,
+              nextTemp: 199,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 4,
+              ifTemp: 199,
+              nextTemp: 205,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 5,
+              ifTemp: 205,
+              nextTemp: 211,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 6,
+              ifTemp: 211,
+              nextTemp: 217,
+              wait: WHIP_WAIT_TIME,
+            },
+            {
+              id: 7,
+              ifTemp: 217,
+              nextTemp: 230,
+              wait: WHIP_WAIT_TIME,
+            },
+          ],
+        },
+      },
+      { type: "exitWorkflowWhenTargetTemperatureIs", id: 2, payload: 230 },
+      { type: "heatOff", id: 3 },
+      { type: "loopFromBeginning", id: 4 },
     ],
   },
 ];
