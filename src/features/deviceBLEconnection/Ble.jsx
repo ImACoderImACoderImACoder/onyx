@@ -28,6 +28,7 @@ export default function Ble(props) {
     "Drag and drop can be used to reorder workflows and workflow items on all devices",
     "If you want to visually see the last workflow run you can enable highlight last run workflow in settings",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
+    "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
   ];
 
   const randomTipIndex = Math.floor(Math.random() * tips.length);
