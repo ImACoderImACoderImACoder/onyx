@@ -32,6 +32,7 @@ function TimerEstimate(props) {
 
     return () => {
       clearInterval(interval);
+      timerStartRef.current = undefined;
     };
   }, [props.stepId, dispatch]);
 
@@ -46,6 +47,9 @@ function TimerEstimate(props) {
 
 export default function CurrentWorkflowExecutionDisplay() {
   const executingWorkflow = useSelector((state) => state.workflow);
+  const targetTemperature = useSelector(
+    (state) => state.deviceInteraction.targetTemperature
+  );
   const isF = useSelector((state) => state.settings.isF);
   const [isRemovedFromDom, setIsRemovedFromDom] = useState(false);
   const containerRef = useRef();
@@ -100,10 +104,43 @@ export default function CurrentWorkflowExecutionDisplay() {
       case WorkflowItemTypes.WAIT:
         stepDisplayName = `Wait`;
         break;
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
+        stepDisplayName = "Check exit condition";
+        break;
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING:
+        stepDisplayName = "Loop";
+        break;
+      case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
+        const heatStep = payload.conditions.find(
+          (x) => x.nextTemp === targetTemperature
+        );
+        if (heatStep) {
+          const previousHeat = isF
+            ? convertToFahrenheitFromCelsius(heatStep.ifTemp)
+            : heatStep.ifTemp;
+          const nextHeat = isF
+            ? convertToFahrenheitFromCelsius(heatStep.nextTemp)
+            : heatStep.nextTemp;
+          stepDisplayName = `Heating from ${previousHeat} to ${nextHeat}`;
+        } else {
+          stepDisplayName = `Heating to ${
+            isF
+              ? convertToFahrenheitFromCelsius(payload.default.temp)
+              : payload.default.temp
+          }`;
+        }
+
+        break;
       default:
         stepDisplayName = "Unknown";
     }
-    totalSteps = currentWorkflow.payload.length;
+    totalSteps = currentWorkflow.payload.filter(
+      (item) =>
+        ![
+          WorkflowItemTypes.LOOP_FROM_BEGINNING,
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
+        ].includes(item.type)
+    ).length;
     showTimer = stepType.includes("fan") || stepType.includes("wait");
 
     expectedTime =

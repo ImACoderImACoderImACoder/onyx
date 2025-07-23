@@ -27,13 +27,12 @@ export default function ShowCurrentWorkflowDetails() {
       <h2>
         <PrideText text="Show details for executing workflow" />
       </h2>
-      <div onClick={onChange}>
-        <StyledToggleSwitch
-          onText="On"
-          offText={<PrideTextWithDiv text="Off" />}
-          isToggleOn={showCurrentWorkflowDetails}
-        />
-      </div>
+      <StyledToggleSwitch
+        onText="On"
+        offText={<PrideTextWithDiv text="Off" />}
+        isToggleOn={showCurrentWorkflowDetails}
+        onChange={onChange}
+      />
     </Div>
   );
 }

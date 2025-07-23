@@ -8,13 +8,12 @@ export default function DisplayOnCoolingToggle(props) {
       <h2>
         <PrideText text="Volcano shows temperature when the heat is turned off" />
       </h2>
-      <div onClick={props.onChange}>
-        <StyledToggleSwitch
-          onText="On"
-          offText={<PrideTextWithDiv text="Off" />}
-          isToggleOn={props.isDisplayOnCooling}
-        />
-      </div>
+      <StyledToggleSwitch
+        onText="On"
+        offText={<PrideTextWithDiv text="Off" />}
+        isToggleOn={props.isDisplayOnCooling}
+        onChange={props.onChange}
+      />
     </Div>
   );
 }

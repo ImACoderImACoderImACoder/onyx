@@ -12,7 +12,7 @@ export default function CreateWorkflowItemButton(props) {
   const onClick = () => {
     const newConfig = cloneDeep(config);
     const workflow = newConfig.workflows.items.find((r) => r.id === props.id);
-    const nextId = workflow.payload.length + 1;
+    const nextId = Date.now();
     workflow.payload.push({
       type: WorkflowItemTypes.HEAT_OFF,
       id: nextId,

@@ -7,8 +7,8 @@ import {
   LEDbrightnessUuid,
   currentTemperatureUuid,
 } from "../../constants/uuids";
-
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
+
 import {
   convertToUInt8BLE,
   convertToUInt32BLE,
@@ -28,7 +28,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLEDbrightness } from "../settings/settingsSlice";
 import { setCurrentWorkflowStepId, setCurrentWorkflow } from "./workflowSlice";
 import store from "../../store";
-import PrideText from "../../themes/PrideText";
 import {
   currentSetTimeouts,
   currentIntervals,
@@ -36,6 +35,7 @@ import {
   clearIntervals,
   clearTimeouts,
 } from "../../services/bleQueueing";
+import PrideText from "../../themes/PrideText";
 export default function WorkFlow() {
   const dispatch = useDispatch();
   const fanOnGlobal = useSelector(
@@ -209,6 +209,134 @@ export default function WorkFlow() {
             const buffer = convertToUInt8BLE(0);
             await characteristic.writeValue(buffer);
             executeWithManagedSetTimeout(next);
+          };
+        }
+        case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
+          return async (next) => {
+            if (
+              store.getState().deviceInteraction.targetTemperature ===
+              item.payload
+            ) {
+              cancelCurrentWorkflow();
+              return;
+            }
+            executeWithManagedSetTimeout(next);
+          };
+        }
+        case WorkflowItemTypes.LOOP_FROM_BEGINNING: {
+          return async (next) => {
+            dispatch(setCurrentWorkflowStepId(1));
+            executeWithManagedSetTimeout(() => next(true));
+            return;
+          };
+        }
+        case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
+          return async (next) => {
+            const turnHeatOn = () => {
+              const blePayload = async () => {
+                const characteristic = getCharacteristic(heatOnUuid);
+                const buffer = convertToUInt8BLE(0);
+                await characteristic.writeValue(buffer);
+              };
+              AddToQueue(blePayload);
+            };
+            const payload = item.payload;
+            dispatch(setCurrentWorkflowStepId(index + 1));
+            const currentTargetTemperature =
+              store.getState().deviceInteraction.targetTemperature;
+            const nextCondition = payload.conditions.find(
+              (x) => x.ifTemp === currentTargetTemperature
+            );
+            const nextTemp = nextCondition
+              ? nextCondition.nextTemp
+              : payload.default.temp;
+            const nextWait = nextCondition
+              ? nextCondition.wait
+              : payload.default.wait;
+            const writePayloadTempToDevice = () => {
+              const blePayload = async () => {
+                if (isValueInValidVolcanoCelciusRange(nextTemp)) {
+                  const characteristic =
+                    getCharacteristic(writeTemperatureUuid);
+                  const buffer = convertToUInt32BLE(nextTemp * 10);
+                  await characteristic.writeValue(buffer);
+                  dispatch(setTargetTemperature(nextTemp));
+                }
+              };
+
+              AddToQueue(blePayload);
+            };
+
+            writePayloadTempToDevice();
+            turnHeatOn();
+            let previousTemperature;
+            let sameTemperatureIntervalStreak;
+            currentIntervals.push(
+              setInterval(() => {
+                const blePayload = async () => {
+                  const currentTemperature =
+                    store.getState().deviceInteraction.currentTemperature;
+
+                  if (previousTemperature !== currentTemperature) {
+                    previousTemperature = currentTemperature;
+                    sameTemperatureIntervalStreak = 0;
+                  } else {
+                    sameTemperatureIntervalStreak++;
+                  }
+
+                  //this is arbitrary.  If the on change event is missed heat will hang forever waiting for the target temperature to be reach (even tho it is on the device)
+                  //I thought it we read the same temperature 7 times in a row then we should probably reach out to the device.
+                  if (sameTemperatureIntervalStreak > 7) {
+                    sameTemperatureIntervalStreak = 0;
+                    const blePayload = async () => {
+                      const temperatureCharacteristic = getCharacteristic(
+                        currentTemperatureUuid
+                      );
+                      const value = await temperatureCharacteristic.readValue();
+                      const currentTemperature =
+                        convertCurrentTemperatureCharacteristicToCelcius(value);
+                      dispatch(setCurrentTemperature(currentTemperature));
+                      previousTemperature = currentTemperature;
+                      sameTemperatureIntervalStreak = 0;
+                    };
+
+                    AddToQueue(blePayload);
+                  }
+                  if (currentTemperature >= nextTemp) {
+                    clearIntervals();
+                    clearTimeouts();
+
+                    if (nextWait === 0) {
+                      alert("Click okay to resume the workflow!");
+                      executeWithManagedSetTimeout(next);
+                      return;
+                    }
+
+                    if (!nextWait) {
+                      executeWithManagedSetTimeout(next);
+                      return;
+                    }
+                    executeWithManagedSetTimeout(next, nextWait * 1000);
+                    return;
+                  }
+
+                  // if the temperature is changed to be below the target we will never get there.
+                  // The workflow must continue onward by any means necessary, therefore we shall set the payload temperature again
+                  if (
+                    store.getState().deviceInteraction.targetTemperature <
+                    nextTemp
+                  ) {
+                    writePayloadTempToDevice();
+                  }
+
+                  if (!store.getState().deviceInteraction.isHeatOn) {
+                    turnHeatOn();
+                    dispatch(setIsHeatOn(true));
+                  }
+                };
+                AddToQueue(blePayload);
+              }, 300)
+            );
           };
         }
         case WorkflowItemTypes.WAIT: {

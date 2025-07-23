@@ -18,19 +18,20 @@ import {
   convertToCelsiusFromFahrenheit,
   convertToFahrenheitFromCelsius,
 } from "../../services/utils";
-import { DEGREE_SYMBOL } from "../../constants/temperature";
+import { DEGREE_SYMBOL, MIN_CELSIUS_TEMP } from "../../constants/temperature";
 import isPayloadValid from "./shared/WorkflowItemValidator";
 import PrideText from "../../themes/PrideText";
 import { useEffect } from "react";
 import Drag from "./DND/WorkflowItemDrag";
 import WorkflowItemDrop from "./DND/WorkflowItemDrop";
+import ConditionalHeatItemEditor from "./ConditionalHeatItemEditor";
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
   border-color: ${(props) => props.theme.borderColor};
 `;
 
-const StyledLabel = styled(Label)`
+export const StyledLabel = styled(Label)`
   align-items: center;
   margin-right: auto;
 `;
@@ -54,13 +55,19 @@ export default function WorkflowItemEditor(props) {
   const isF = useSelector((state) => state.settings.isF);
 
   useEffect(() => {
-    if (props.item.type === WorkflowItemTypes.HEAT_ON && props.item.payload) {
+    if (
+      (props.item.type === WorkflowItemTypes.HEAT_ON ||
+        props.item.type ===
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS) &&
+      props.item.payload
+    ) {
       const nextPayloadInput = isF
         ? convertToFahrenheitFromCelsius(props.item.payload)
         : props.item.payload;
       setPayloadInput(nextPayloadInput);
     }
   }, [isF, props.item]);
+
   let initialPayloadInputState;
   if (props.item.type !== WorkflowItemTypes.HEAT_ON) {
     initialPayloadInputState = props.item.payload;
@@ -96,11 +103,15 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.HEAT_ON: {
         return `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
       }
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING:
       case WorkflowItemTypes.HEAT_OFF: {
         return undefined;
       }
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
-        return "Brightnes (0-100)";
+        return "Brightness (0-100)";
+      }
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
+        return "Exit workflow until when target temperature is";
       }
       default: {
         return undefined;
@@ -122,11 +133,33 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.HEAT_OFF: {
         return undefined;
       }
+      case WorkflowItemTypes.LOOP_FROM_BEGINNING: {
+        return undefined;
+      }
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
         return 70;
       }
       case WorkflowItemTypes.WAIT: {
         return 1;
+      }
+      case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
+        return MIN_CELSIUS_TEMP;
+      }
+      case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS: {
+        return {
+          default: {
+            temp: 180,
+            wait: undefined,
+          },
+          conditions: [
+            {
+              id: Date.now(),
+              ifTemp: 180,
+              nextTemp: 185,
+              wait: undefined,
+            },
+          ],
+        };
       }
       default: {
         return undefined;
@@ -190,7 +223,12 @@ export default function WorkflowItemEditor(props) {
     const item = workflow.payload[itemIndex];
     item.payload = parseFloat(e.target.value);
 
-    if (item.type === WorkflowItemTypes.HEAT_ON && isF) {
+    if (
+      (item.type === WorkflowItemTypes.HEAT_ON ||
+        item.type ===
+          WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS) &&
+      isF
+    ) {
       item.payload = convertToCelsiusFromFahrenheit(item.payload);
     }
 
@@ -256,10 +294,25 @@ export default function WorkflowItemEditor(props) {
             <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
               Set LED Brightness
             </option>
+            <option
+              value={WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS}
+            >
+              Exit Workflow When Target Temperature Is
+            </option>
+            <option value={WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS}>
+              Conditional Temperature Set
+            </option>
+            <option value={WorkflowItemTypes.LOOP_FROM_BEGINNING}>
+              Start Workflow From Beginning
+            </option>
           </StyledSelect>
         </div>
 
-        {props.item.type !== WorkflowItemTypes.HEAT_OFF && (
+        {![
+          WorkflowItemTypes.HEAT_OFF,
+          WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS,
+          WorkflowItemTypes.LOOP_FROM_BEGINNING,
+        ].includes(props.item.type) && (
           <StyledPayloadDiv>
             <StyledLabel>{getPayloadLabelByType(props.item.type)}</StyledLabel>
             <StyledControl
@@ -274,6 +327,12 @@ export default function WorkflowItemEditor(props) {
             />
             <Control.Feedback type="invalid">{errorMessage}</Control.Feedback>
           </StyledPayloadDiv>
+        )}
+        {props.item.type === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS && (
+          <ConditionalHeatItemEditor
+            workflowId={props.workflowId}
+            item={props.item}
+          />
         )}
       </WorkflowItemDiv>
       <WorkflowItemDrop
