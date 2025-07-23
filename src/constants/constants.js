@@ -7,7 +7,7 @@ export const twitterLink = "https://twitter.com/ImmACoder";
 export const cashAppLink = "https://cash.app/$imacoderimacoder";
 export const instagramLink =
   "https://www.instagram.com/imacoderimacoderimacoder";
-export const defaultTemperatureArray = [180, 205];
+export const defaultTemperatureArray = [];
 export const defaultGlobalFanOnTimeInSeconds = 36.5;
 export const isMobile =
   /Android|webOS|iPhone|iPad|iPod|WebBLE|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -17,6 +17,68 @@ const WHIP_WAIT_TIME = 200;
 export const defaultWorkflows = [
   {
     id: 1,
+    name: "Vapesuvius Temp Step ⏪",
+    payload: [
+      {
+        type: "heatOnWithConditions",
+        id: 1,
+        payload: {
+          default: {
+            temp: 179,
+            wait: 5,
+          },
+          conditions: [
+            {
+              id: 1,
+              ifTemp: 230,
+              nextTemp: 217,
+              wait: 5,
+            },
+            {
+              id: 2,
+              ifTemp: 217,
+              nextTemp: 211,
+              wait: 5,
+            },
+            {
+              id: 3,
+              ifTemp: 211,
+              nextTemp: 205,
+              wait: 5,
+            },
+            {
+              id: 4,
+              ifTemp: 205,
+              nextTemp: 199,
+              wait: 5,
+            },
+            {
+              id: 5,
+              ifTemp: 199,
+              nextTemp: 191,
+              wait: 5,
+            },
+            {
+              id: 6,
+              ifTemp: 191,
+              nextTemp: 185,
+              wait: 5,
+            },
+            {
+              id: 7,
+              ifTemp: 185,
+              nextTemp: 179,
+              wait: 5,
+            },
+          ],
+        },
+      },
+      { type: "fanOnGlobal", id: 2, payload: 34 },
+      { type: "heatOff", id: 3 },
+    ],
+  },
+  {
+    id: 2,
     name: "Vapesuvius Temp Step", //curtesy of Vapesuvius https://i.redd.it/03vbzulhmjhb1.png
     payload: [
       {
