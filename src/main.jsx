@@ -18,6 +18,11 @@ root.render(
 
 // Service worker registration is now handled by vite-plugin-pwa
 
+// Capture the install prompt event globally
+window.addEventListener('beforeinstallprompt', (e) => {
+  window.deferredPrompt = e;
+});
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

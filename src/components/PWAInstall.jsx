@@ -2,21 +2,38 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const InstallButton = styled.button`
-  background-color: ${props => props.theme.primaryColor};
-  color: ${props => props.theme.backgroundColor};
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  font-size: 1.25rem;
+  min-height: 2.75rem;
+  background: linear-gradient(135deg, ${props => props.theme.buttonColorMain}, ${props => props.theme.buttonColorMain});
+  color: ${props => props.theme.primaryFontColor};
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  padding: 0.5rem 1.5rem;
   cursor: pointer;
-  font-size: 14px;
-  margin: 10px 0;
-  transition: all 0.3s ease;
-
+  width: auto;
+  margin: 0px 2.5px 8px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  font-weight: 500;
+  
   &:hover {
-    opacity: 0.8;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
+    box-shadow: 
+      0 6px 8px rgba(0, 0, 0, 0.15),
+      0 3px 6px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
-
+  
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -29,19 +46,14 @@ const PWAInstall = () => {
   const [showInstall, setShowInstall] = useState(false);
 
   useEffect(() => {
-    console.log('PWAInstall component mounted');
-    
     const handleBeforeInstallPrompt = (e) => {
-      console.log('beforeinstallprompt event fired');
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
+      // Let Chrome show its automatic prompt while also capturing the event
       // Stash the event so it can be triggered later
       setDeferredPrompt(e);
       setShowInstall(true);
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA was installed');
       setShowInstall(false);
       setDeferredPrompt(null);
     };
@@ -51,16 +63,19 @@ const PWAInstall = () => {
 
     // Check if app is already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      console.log('App is already installed (standalone mode)');
       setShowInstall(false);
     }
 
-    // For debugging - check if we're in a PWA-capable browser
-    if (!('serviceWorker' in navigator)) {
-      console.log('Service Worker not supported');
-    }
+    // Force check after a delay (sometimes the event fires before React components mount)
+    const checkTimer = setTimeout(() => {
+      if (window.deferredPrompt) {
+        setDeferredPrompt(window.deferredPrompt);
+        setShowInstall(true);
+      }
+    }, 1000);
 
     return () => {
+      clearTimeout(checkTimer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
@@ -74,23 +89,22 @@ const PWAInstall = () => {
 
     // Wait for the user's response
     const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User response to the install prompt: ${outcome}`);
 
     // Clear the deferredPrompt so it can only be used once
     setDeferredPrompt(null);
     setShowInstall(false);
   };
 
-  console.log('PWAInstall render - showInstall:', showInstall, 'deferredPrompt:', deferredPrompt);
-
   if (!showInstall) {
     return null;
   }
 
   return (
-    <InstallButton onClick={handleInstallClick}>
-      📱 Install App
-    </InstallButton>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <InstallButton onClick={handleInstallClick}>
+        📱 Install App
+      </InstallButton>
+    </div>
   );
 };
 
