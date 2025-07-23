@@ -81,6 +81,8 @@ const PWAInstall = () => {
     setShowInstall(false);
   };
 
+  console.log('PWAInstall render - showInstall:', showInstall, 'deferredPrompt:', deferredPrompt);
+
   if (!showInstall) {
     return null;
   }
