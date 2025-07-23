@@ -29,7 +29,10 @@ const PWAInstall = () => {
   const [showInstall, setShowInstall] = useState(false);
 
   useEffect(() => {
+    console.log('PWAInstall component mounted');
+    
     const handleBeforeInstallPrompt = (e) => {
+      console.log('beforeinstallprompt event fired');
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later
@@ -48,7 +51,13 @@ const PWAInstall = () => {
 
     // Check if app is already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('App is already installed (standalone mode)');
       setShowInstall(false);
+    }
+
+    // For debugging - check if we're in a PWA-capable browser
+    if (!('serviceWorker' in navigator)) {
+      console.log('Service Worker not supported');
     }
 
     return () => {
