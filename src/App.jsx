@@ -64,6 +64,7 @@ function App() {
                   <Route path="WorkflowEditor" element={<WorkflowEditor />} />
                   <Route path="ContactMe" element={<ContactMe />} />
                 </Route>
+                <Route path="*" element={<BleConnectButtonContainer />} />
               </Routes>
             </BrowserRouter>
           </Div>
