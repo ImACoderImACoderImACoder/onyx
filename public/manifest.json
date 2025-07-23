@@ -1,6 +1,7 @@
 {
   "short_name": "Project Onyx",
-  "name": "Project Onyx",
+  "name": "Project Onyx - Volcano Hybrid Control",
+  "description": "Custom web application for controlling the Volcano Hybrid vaporizer with enhanced workflow management",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,21 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "maskable any"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "maskable any"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "categories": ["lifestyle", "utilities"],
+  "lang": "en-US"
 }

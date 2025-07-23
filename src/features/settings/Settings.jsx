@@ -12,6 +12,7 @@ import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
 import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
 import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRunWorkflow";
+import PWAInstall from "./InstallPWA/PWAInstall";
 export default function Settings() {
   return (
     <Div>
@@ -30,6 +31,7 @@ export default function Settings() {
       <ShowCurrentWorkflowDetails />
       <TurnHeatOnWhenConnectionIsEstablished />
       <TemperatureControlSettings />
+      <PWAInstall />
     </Div>
   );
 }
