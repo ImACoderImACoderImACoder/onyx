@@ -39,8 +39,29 @@ import AutoOff from "../../deviceInteraction/AutoOff/AutoOff";
 
 const ScrollingDiv = withScrolling("div");
 
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const ContentWrapper = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 `;
 
 const StyledNavBarToggle = styled(Navbar.Toggle)`
@@ -224,82 +245,84 @@ export default function VolcanoLoader(props) {
 
   const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
   return (
-    <ScrollingDiv className="main-div">
-      {
-        <StyledNavBar
-          expand="lg"
-          expanded={expanded}
-          onToggle={navBarToggleOnClick}
-        >
-          <Container>
-            <Navbar.Brand>
-              <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
-                <PrideTextWithDiv text="Project Onyx" />
-                <AutoOff style={{ marginLeft: "10px" }} />
-              </StyledHeaderNavDiv>
-            </Navbar.Brand>
+    <MainWrapper>
+      <StyledNavBar
+        expand="lg"
+        expanded={expanded}
+        onToggle={navBarToggleOnClick}
+      >
+        <Container>
+          <Navbar.Brand>
+            <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
+              <PrideTextWithDiv text="Project Onyx" />
+              <AutoOff style={{ marginLeft: "10px" }} />
+            </StyledHeaderNavDiv>
+          </Navbar.Brand>
 
-            <StyledNavBarToggle
+          <StyledNavBarToggle
+            onClick={navBarToggleOnClick}
+            aria-controls="basic-navbar-nav"
+          >
+            <div
+              style={{ color: theme.primaryFontColor }}
               onClick={navBarToggleOnClick}
-              aria-controls="basic-navbar-nav"
             >
-              <div
-                style={{ color: theme.primaryFontColor }}
-                onClick={navBarToggleOnClick}
+              <MenuBarIcon />
+            </div>
+          </StyledNavBarToggle>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <StyledNav className="me-auto">
+              <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
+                {<ControlsIcon />}
+                {<PrideTextWithDiv text="Controls" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/WorkflowEditor"
               >
-                <MenuBarIcon />
-              </div>
-            </StyledNavBarToggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <StyledNav className="me-auto">
-                <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
-                  {<ControlsIcon />}
-                  {<PrideTextWithDiv text="Controls" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/WorkflowEditor"
-                >
-                  {<WorkflowEditorIcon />}
-                  {<PrideTextWithDiv text="Workflow Editor" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/DeviceInformation"
-                >
-                  {<InformationIcon />}
-                  {<PrideTextWithDiv text="Device Info" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/Settings"
-                >
-                  {<SettingsIcon />}
-                  {<PrideTextWithDiv text="Settings" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/ContactMe"
-                >
-                  {<ContactMeIcon />}
-                  {<PrideTextWithDiv text="Contact Me" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
-                  <BluetoothDisconnectIcon />
-                  <PrideTextWithDiv text="Disconnect" />
-                </StyledRouterIconLink>
-              </StyledNav>
-            </Navbar.Collapse>
-          </Container>
-        </StyledNavBar>
-      }
+                {<WorkflowEditorIcon />}
+                {<PrideTextWithDiv text="Workflow Editor" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/DeviceInformation"
+              >
+                {<InformationIcon />}
+                {<PrideTextWithDiv text="Device Info" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/Settings"
+              >
+                {<SettingsIcon />}
+                {<PrideTextWithDiv text="Settings" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/ContactMe"
+              >
+                {<ContactMeIcon />}
+                {<PrideTextWithDiv text="Contact Me" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
+                <BluetoothDisconnectIcon />
+                <PrideTextWithDiv text="Disconnect" />
+              </StyledRouterIconLink>
+            </StyledNav>
+          </Navbar.Collapse>
+        </Container>
+      </StyledNavBar>
 
-      <div style={currentExecutingWorkflowStyling}>
-        <CurrentWorkflowExecutionDisplay />
-      </div>
-      <div style={outletStyling}>
-        <Outlet {...props} />
-      </div>
-    </ScrollingDiv>
+      <ContentWrapper>
+        <ScrollingDiv className="main-div">
+          <div style={currentExecutingWorkflowStyling}>
+            <CurrentWorkflowExecutionDisplay />
+          </div>
+          <div style={outletStyling}>
+            <Outlet {...props} />
+          </div>
+        </ScrollingDiv>
+      </ContentWrapper>
+    </MainWrapper>
   );
 }

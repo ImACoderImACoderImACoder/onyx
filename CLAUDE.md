@@ -75,3 +75,6 @@ No test commands are currently configured in package.json. Tests would use the @
 
 ## Core Principles
 - Everything you do must work for mobile
+
+## Code Best Practices
+- Always import the conversion function for changing between c and f instead of creating your own
