@@ -11,8 +11,7 @@ import { autoShutoffSettingUuid, heatOffUuid } from "../../../constants/uuids";
 import { setAutoShutoffTime } from "../settingsSlice";
 import { useEffect, useState } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
-import Div from "../Shared/StyledComponents/Div";
-import PrideText from "../../../themes/PrideText";
+import SettingsItem from "../SettingsItem";
 import { setIsHeatOn } from "../../deviceInteraction/deviceInteractionSlice";
 
 export default function AdjustAutoShutoffTimeContainer() {
@@ -70,19 +69,21 @@ export default function AdjustAutoShutoffTimeContainer() {
   };
 
   return (
-    <Div>
-      <h2>
-        <PrideText text="Auto Shutoff Time" />
-      </h2>
-      Current Auto Shutoff Time: {autoShutoffTime}
-      <SettingsRange
-        values={[autoShutoffTime || 30]}
-        step={5}
-        min={5}
-        max={360}
-        onChange={onChange}
-        onFinalChange={onMouseUp}
-      />
-    </Div>
+    <SettingsItem
+      title="Auto Shutoff Timer"
+      description="Set how long the heater stays on before automatically turning off for safety. The circle with a number on the controls screen shows the countdown. Adjusting this will temporarily turn off the heat."
+    >
+      <div>
+        Current Time: {autoShutoffTime} minutes
+        <SettingsRange
+          values={[autoShutoffTime || 30]}
+          step={5}
+          min={5}
+          max={360}
+          onChange={onChange}
+          onFinalChange={onMouseUp}
+        />
+      </div>
+    </SettingsItem>
   );
 }

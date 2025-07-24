@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
-import Div from "../Shared/StyledComponents/Div";
-import PrideText, { PrideTextWithDiv } from "../../../themes/PrideText";
+import SettingsItem from "../SettingsItem";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 import { useDispatch } from "react-redux";
 import {
   ReadConfigFromLocalStorage,
@@ -23,16 +23,16 @@ export default function ShowCurrentWorkflowDetails() {
   };
 
   return (
-    <Div>
-      <h2>
-        <PrideText text="Show details for executing workflow" />
-      </h2>
+    <SettingsItem
+      title="Show Active Workflow Step"
+      description="Display the currently executing workflow step in the workflow editor for real-time tracking."
+    >
       <StyledToggleSwitch
         onText="On"
         offText={<PrideTextWithDiv text="Off" />}
         isToggleOn={showCurrentWorkflowDetails}
         onChange={onChange}
       />
-    </Div>
+    </SettingsItem>
   );
 }

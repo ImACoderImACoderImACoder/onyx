@@ -12,26 +12,61 @@ import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
 import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
 import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRunWorkflow";
-import PWAInstall from "./InstallPWA/PWAInstall";
+import PWAInstall, { usePWAInstallAvailable } from "./InstallPWA/PWAInstall";
+import SettingsSection from "./SettingsSection";
+
 export default function Settings() {
+  const isPWAAvailable = usePWAInstallAvailable();
   return (
     <Div>
       <h1>
         <PrideText text="Settings" />
       </h1>
-      <ThemesContainer />
-      <FOrCLoader useSpinnerToShowLoader>
-        <FOrC />
-      </FOrCLoader>
-      <AdjustLEDbrightnessContainer />
-      <AdjustAutoShutoffTimeContainer />
-      <VibrationToggleContainer />
-      <DisplayOnCoolingToggleContainer />
-      <HighlightLastRunWorkflow />
-      <ShowCurrentWorkflowDetails />
-      <TurnHeatOnWhenConnectionIsEstablished />
-      <TemperatureControlSettings />
-      <PWAInstall />
+
+      <SettingsSection
+        title="Appearance"
+        icon="🎨"
+        description="Customize the look of your app"
+        defaultExpanded={true}
+      >
+        <ThemesContainer />
+      </SettingsSection>
+
+      <SettingsSection
+        title="Volcano Controls"
+        icon="🌋"
+        description="Configure your Volcano's settings"
+        defaultExpanded={false}
+      >
+        <AdjustAutoShutoffTimeContainer />
+        <AdjustLEDbrightnessContainer />
+        <VibrationToggleContainer />
+        <DisplayOnCoolingToggleContainer />
+        <FOrCLoader useSpinnerToShowLoader>
+          <FOrC />
+        </FOrCLoader>
+      </SettingsSection>
+
+      <SettingsSection
+        title="App Behavior"
+        icon="⚙️"
+        description="Control how the app behaves and displays information"
+      >
+        <TurnHeatOnWhenConnectionIsEstablished />
+        <HighlightLastRunWorkflow />
+        <ShowCurrentWorkflowDetails />
+        <TemperatureControlSettings />
+      </SettingsSection>
+
+      {isPWAAvailable && (
+        <SettingsSection
+          title="System"
+          icon="📱"
+          description="System settings and app installation"
+        >
+          <PWAInstall />
+        </SettingsSection>
+      )}
     </Div>
   );
 }
