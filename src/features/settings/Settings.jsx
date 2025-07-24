@@ -10,7 +10,6 @@ import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import ThemesContainer from "./Theming/ThemesContainer";
 import PrideText from "../../themes/PrideText";
 import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsEstablished/TurnHeatOnWhenConnectionIsEstablished";
-import ShowCurrentWorkflowDetails from "./ShowCurrentWorkflowDetails/ShowCurrentWorkflowDetails";
 import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRunWorkflow";
 import PWAInstall, { usePWAInstallAvailable } from "./InstallPWA/PWAInstall";
 import SettingsSection from "./SettingsSection";
@@ -54,7 +53,6 @@ export default function Settings() {
       >
         <TurnHeatOnWhenConnectionIsEstablished />
         <HighlightLastRunWorkflow />
-        <ShowCurrentWorkflowDetails />
         <TemperatureControlSettings />
       </SettingsSection>
 

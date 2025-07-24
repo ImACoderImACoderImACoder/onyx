@@ -40,9 +40,6 @@ export const settingsSlice = createSlice({
     setFanOnGlobal: (state, action) => {
       state.config.workflows.fanOnGlobal = action.payload;
     },
-    setShowCurrentWorkflowDetails: (state, action) => {
-      state.config.showCurrentWorkflowDetails = action.payload;
-    },
     setHighlightLastRunWorkflow: (state, action) => {
       state.config.highlightLastRunWorkflow = action.payload;
     },
@@ -72,7 +69,6 @@ export const {
   setCurrentTheme,
   setCurrentWorkflows,
   setFanOnGlobal,
-  setShowCurrentWorkflowDetails,
   setHighlightLastRunWorkflow,
 } = settingsSlice.actions;
 

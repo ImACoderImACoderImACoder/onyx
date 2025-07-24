@@ -243,7 +243,6 @@ export default function VolcanoLoader(props) {
     flexGrow: "1",
   };
 
-  const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
   return (
     <MainWrapper>
       <StyledNavBar
@@ -253,10 +252,13 @@ export default function VolcanoLoader(props) {
       >
         <Container>
           <Navbar.Brand>
-            <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
-              <PrideTextWithDiv text="Project Onyx" />
+            <div style={{ display: "flex" }}>
+              <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
+                <PrideTextWithDiv text="Project Onyx" />
+              </StyledHeaderNavDiv>
               <AutoOff style={{ marginLeft: "10px" }} />
-            </StyledHeaderNavDiv>
+              <CurrentWorkflowExecutionDisplay />
+            </div>
           </Navbar.Brand>
 
           <StyledNavBarToggle
@@ -315,9 +317,6 @@ export default function VolcanoLoader(props) {
 
       <ContentWrapper>
         <ScrollingDiv className="main-div">
-          <div style={currentExecutingWorkflowStyling}>
-            <CurrentWorkflowExecutionDisplay />
-          </div>
           <div style={outletStyling}>
             <Outlet {...props} />
           </div>

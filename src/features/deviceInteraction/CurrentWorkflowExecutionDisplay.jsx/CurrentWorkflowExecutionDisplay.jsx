@@ -4,48 +4,16 @@ import { setCurrentStepEllapsedTimeInSeconds } from "../../workflowEditor/workfl
 import PrideText, { PrideTextWithDiv } from "../../../themes/PrideText";
 import WorkflowItemTypes from "../../../constants/enums";
 import { DEGREE_SYMBOL } from "../../../constants/temperature";
-import { convertToFahrenheitFromCelsius, convertToCelsiusFromFahrenheit } from "../../../services/utils";
+import {
+  convertToFahrenheitFromCelsius,
+  convertToCelsiusFromFahrenheit,
+} from "../../../services/utils";
 import { useRef } from "react";
 import { ActiveButton } from "../WriteTemperature/styledComponents";
 import { cancelCurrentWorkflow } from "../../../services/bleQueueing";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-
-// Algorithm to estimate heating time based on temperature delta
-// Adjusted to match real-world Volcano performance
-function estimateHeatingTime(currentTemp, targetTemp) {
-  const tempDelta = Math.abs(targetTemp - currentTemp);
-  
-  // If target is lower than current, no heating time needed
-  if (targetTemp <= currentTemp) {
-    return 0;
-  }
-  
-  // Real-world heating rates are slower than theoretical
-  // Adjusted to be ~3x longer based on user feedback
-  let heatingRate;
-  
-  if (targetTemp <= 200) {
-    // Normal range: ~0.6°C/second (was 1.8)
-    heatingRate = 0.6;
-  } else if (targetTemp <= 220) {
-    // Higher temps: ~0.5°C/second (was 1.5)
-    heatingRate = 0.5;
-  } else {
-    // Maximum temps: ~0.4°C/second (was 1.2)
-    heatingRate = 0.4;
-  }
-  
-  // Calculate base time
-  let totalTime = tempDelta / heatingRate;
-  
-  // Add overhead for device stabilization and BLE delays (10-15 seconds)
-  const baseOverhead = Math.min(15, tempDelta * 0.1);
-  totalTime += baseOverhead;
-  
-  return Math.round(totalTime);
-}
 
 function TimerEstimate(props) {
   const dispatch = useDispatch();
@@ -110,128 +78,239 @@ const slideUp = keyframes`
   }
 `;
 
-const WorkflowContainer = styled.div`
-  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
-  border-radius: 12px;
-  margin: 12px auto;
-  padding: 16px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: ${props => props.isVisible ? 'translateY(0)' : 'translateY(-100%)'};
-  opacity: ${props => props.isVisible ? '1' : '0'};
-  max-height: ${props => props.isVisible ? 'auto' : '0'};
-  overflow: ${props => props.isVisible ? 'visible' : 'hidden'};
-  width: calc(100% - 40px);
-  max-width: 800px;
-  min-width: 320px;
-  
-  @media (max-width: 768px) {
-    margin: 8px auto;
-    padding: 12px 16px;
-    width: calc(100% - 24px);
+const WorkflowWidget = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  transition: opacity 0.75s;
+`;
+
+const MinimizedButton = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
   }
 `;
 
-const WorkflowHeader = styled.div`
+const ExpandedTooltip = styled.div`
+  position: fixed;
+  top: ${(props) => props.top || "60px"};
+  left: ${(props) => props.left || "50%"};
+  transform: translateX(-50%);
+  background: ${(props) => props.theme.backgroundColor || "rgba(0, 0, 0, 0.9)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  min-width: 280px;
+  max-width: 400px;
+  pointer-events: auto;
+  color: ${(props) => props.theme.primaryFontColor};
+  animation: ${slideDown} 0.2s ease-out;
+  animation-fill-mode: forwards;
+
+  /* Tooltip arrow pointing to minimized button */
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: ${(props) => props.arrowLeft || "50%"};
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: ${(props) =>
+      props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: ${(props) => props.arrowLeft || "50%"};
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-bottom-color: ${(props) =>
+      props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
+    margin-top: 1px;
+  }
+
+  @media (max-width: 768px) {
+    left: 20px;
+    right: 20px;
+    transform: none;
+
+    &::before,
+    &::after {
+      left: ${(props) => props.arrowLeft || "50%"};
+    }
+  }
+`;
+
+const WidgetHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
+  margin-bottom: ${(props) => (props.isExpanded ? "12px" : "0")};
 `;
 
-const HeaderRight = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-`;
-
-const WorkflowTitle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 1.1rem;
-`;
-
-const WorkflowIcon = styled.span`
-  font-size: 1.2rem;
-  opacity: 0.8;
-`;
-
-const ProgressContainer = styled.div`
+const WidgetTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
+  font-weight: 600;
+`;
+
+const WidgetProgress = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
   opacity: 0.8;
 `;
 
-const ProgressBar = styled.div`
-  background: ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+const MiniProgressBar = styled.div`
+  background: ${(props) =>
+    props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 10px;
-  height: 6px;
-  width: 60px;
+  height: 4px;
+  width: 40px;
   overflow: hidden;
-  
+
   &::after {
-    content: '';
+    content: "";
     display: block;
     height: 100%;
-    width: ${props => (props.current / props.total) * 100}%;
-    background: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+    width: ${(props) => (props.current / props.total) * 100}%;
+    background: ${(props) =>
+      props.theme.primaryColor || props.theme.primaryFontColor};
     border-radius: 10px;
     transition: width 0.3s ease;
   }
 `;
 
-const WorkflowDetails = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 8px;
+const ExpandedDetails = styled.div`
+  display: ${(props) => (props.isExpanded ? "block" : "none")};
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
+`;
+
+const DetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;
 
-const DetailItem = styled.div`
-  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-`;
-
-const DetailLabel = styled.div`
+const DetailLabel = styled.span`
   opacity: 0.7;
-  font-size: 0.75rem;
-  margin-bottom: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
-const DetailValue = styled.div`
+const DetailValue = styled.span`
   font-weight: 500;
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
-const CancelButton = styled(ActiveButton)`
-  width: auto;
-  padding: 6px 12px;
-  font-size: 0.8rem;
+const WidgetActions = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-end;
+`;
+
+const MiniButton = styled.button`
+  background: ${(props) =>
+    props.theme.buttonColorMain || "rgba(255, 255, 255, 0.1)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.2)"};
   border-radius: 6px;
-  margin: 0;
+  padding: 4px 8px;
+  color: ${(props) => props.theme.primaryFontColor};
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${(props) =>
+      props.theme.buttonActive?.backgroundColor || props.theme.primaryColor};
+  }
+`;
+
+const WorkflowIcon = styled.span`
+  font-size: 1.2rem;
+  opacity: 0.8;
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 const LoopIndicator = styled.span`
-  color: ${props => props.theme.iconColor};
+  color: ${(props) => props.theme.iconColor};
   font-size: 0.85em;
   opacity: 0.9;
+`;
+
+const CircularProgress = styled.div`
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3.8px solid
+      ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.2)"};
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2.8px solid transparent;
+    border-top: 2.8px solid
+      ${(props) => props.theme.primaryColor || props.theme.primaryFontColor};
+    border-radius: 50%;
+    transform: rotate(${(props) => (props.progress / 100) * 360}deg);
+    transition: transform 0.3s ease;
+  }
+`;
+
+const CircularProgressText = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${(props) => props.theme.primaryFontColor};
+  z-index: 1;
+`;
+
+const MinimizedContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
 `;
 
 export default function CurrentWorkflowExecutionDisplay() {
@@ -243,20 +322,22 @@ export default function CurrentWorkflowExecutionDisplay() {
     (state) => state.deviceInteraction.currentTemperature
   );
   const isF = useSelector((state) => state.settings.isF);
-  const [isRemovedFromDom, setIsRemovedFromDom] = useState(false);
-  const [heatingStartTemp, setHeatingStartTemp] = useState(null);
-  const [heatingTargetTemp, setHeatingTargetTemp] = useState(null);
-  const [calculatedHeatingTime, setCalculatedHeatingTime] = useState(null);
   const [wasWaiting, setWasWaiting] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [tooltipPosition, setTooltipPosition] = useState({
+    top: "60px",
+    left: "50%",
+    arrowLeft: "50%",
+  });
   const containerRef = useRef();
+  const buttonRef = useRef();
   const dispatch = useDispatch();
-  const showCurrentWorkflowDetails = useSelector(
-    (state) => state.settings.config.showCurrentWorkflowDetails
-  );
 
   const fanOnGlobalValue = useSelector(
     (state) => state.settings.config.workflows.fanOnGlobal
   );
+
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
 
   const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
   const currentWorkflow = executingWorkflow?.currentWorkflow;
@@ -274,10 +355,10 @@ export default function CurrentWorkflowExecutionDisplay() {
     workflowName = currentWorkflow.name;
     stepType = currentWorkflow.payload[currentStepId - 1].type;
     const payload = currentWorkflow.payload[currentStepId - 1].payload;
-    
+
     // Check if workflow contains a loop
     hasLoop = currentWorkflow.payload.some(
-      item => item.type === WorkflowItemTypes.LOOP_FROM_BEGINNING
+      (item) => item.type === WorkflowItemTypes.LOOP_FROM_BEGINNING
     );
     switch (stepType) {
       case WorkflowItemTypes.FAN_ON:
@@ -317,7 +398,7 @@ export default function CurrentWorkflowExecutionDisplay() {
         const heatStep = payload.conditions.find(
           (x) => x.nextTemp === targetTemperature
         );
-        
+
         if (heatStep) {
           const previousHeat = isF
             ? convertToFahrenheitFromCelsius(heatStep.ifTemp)
@@ -325,27 +406,31 @@ export default function CurrentWorkflowExecutionDisplay() {
           const nextHeat = isF
             ? convertToFahrenheitFromCelsius(heatStep.nextTemp)
             : heatStep.nextTemp;
-          
+
           // Check if we've reached target temp and are now waiting
-          const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+          const currentTempC = isF
+            ? convertToCelsiusFromFahrenheit(currentTemperature)
+            : currentTemperature;
           const targetTempC = heatStep.nextTemp;
-          
+
           if (currentTempC >= targetTempC && heatStep.wait > 0) {
-            stepDisplayName = `Waiting at ${nextHeat}°${isF ? 'F' : 'C'}`;
+            stepDisplayName = `Waiting at ${nextHeat}°${isF ? "F" : "C"}`;
           } else {
-            stepDisplayName = `Heating from ${previousHeat} to ${nextHeat}`;
+            stepDisplayName = `Heating to ${nextHeat}°${isF ? "F" : "C"}`;
           }
         } else {
           const defaultTemp = isF
             ? convertToFahrenheitFromCelsius(payload.default.temp)
             : payload.default.temp;
-          
+
           // Check if we've reached default temp and are waiting
-          const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+          const currentTempC = isF
+            ? convertToCelsiusFromFahrenheit(currentTemperature)
+            : currentTemperature;
           const targetTempC = payload.default.temp;
-          
+
           if (currentTempC >= targetTempC && payload.default.wait > 0) {
-            stepDisplayName = `Waiting at ${defaultTemp}°${isF ? 'F' : 'C'}`;
+            stepDisplayName = `Waiting at ${defaultTemp}°${isF ? "F" : "C"}`;
           } else {
             stepDisplayName = `Heating to ${defaultTemp}`;
           }
@@ -362,21 +447,37 @@ export default function CurrentWorkflowExecutionDisplay() {
           WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
         ].includes(item.type)
     ).length;
-    showTimer = stepType.includes("fan") || stepType.includes("wait") || stepType.includes("heat");
-    
+    showTimer =
+      stepType.includes("fan") ||
+      stepType.includes("wait") ||
+      stepType.includes("heat");
+
     // For conditional heat, check if we're in waiting mode to show timer
     if (stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
       const payload = currentWorkflow.payload[currentStepId - 1].payload;
-      const heatStep = payload.conditions.find((x) => x.nextTemp === targetTemperature);
-      
+      const heatStep = payload.conditions.find(
+        (x) => x.nextTemp === targetTemperature
+      );
+
       if (heatStep) {
-        const currentTempC = isF ? (currentTemperature - 32) * 5/9 : currentTemperature;
-        const targetTempC = isF ? (heatStep.nextTemp - 32) * 5/9 : heatStep.nextTemp;
-        showTimer = showTimer || (currentTempC >= targetTempC && heatStep.wait > 0);
+        const currentTempC = isF
+          ? ((currentTemperature - 32) * 5) / 9
+          : currentTemperature;
+        const targetTempC = isF
+          ? ((heatStep.nextTemp - 32) * 5) / 9
+          : heatStep.nextTemp;
+        showTimer =
+          showTimer || (currentTempC >= targetTempC && heatStep.wait > 0);
       } else {
-        const currentTempC = isF ? (currentTemperature - 32) * 5/9 : currentTemperature;
-        const targetTempC = isF ? (payload.default.temp - 32) * 5/9 : payload.default.temp;
-        showTimer = showTimer || (currentTempC >= targetTempC && payload.default.wait > 0);
+        const currentTempC = isF
+          ? ((currentTemperature - 32) * 5) / 9
+          : currentTemperature;
+        const targetTempC = isF
+          ? ((payload.default.temp - 32) * 5) / 9
+          : payload.default.temp;
+        showTimer =
+          showTimer ||
+          (currentTempC >= targetTempC && payload.default.wait > 0);
       }
     }
 
@@ -394,189 +495,341 @@ export default function CurrentWorkflowExecutionDisplay() {
       }`;
     } else if (stepType.includes("heat")) {
       // Get target temperature for heating steps
-      let heatTargetTemp = 0;
       let isWaiting = false;
-      
-      if (stepType === WorkflowItemTypes.HEAT_ON) {
-        heatTargetTemp = currentWorkflow.payload[currentStepId - 1].payload;
-      } else if (stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
+
+      if (stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
         const payload = currentWorkflow.payload[currentStepId - 1].payload;
         const heatStep = payload.conditions.find(
           (x) => x.nextTemp === targetTemperature
         );
-        
+
         if (heatStep) {
-          heatTargetTemp = heatStep.nextTemp;
           // Check if we're in waiting phase
-          const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+          const currentTempC = isF
+            ? convertToCelsiusFromFahrenheit(currentTemperature)
+            : currentTemperature;
           const targetTempC = heatStep.nextTemp;
-          
+
           if (currentTempC >= targetTempC && heatStep.wait > 0) {
             // We're waiting - show wait time
-            expectedTime = `${heatStep.wait} ${heatStep.wait === 1 ? "Second" : "Seconds"}`;
+            expectedTime = `${heatStep.wait} ${
+              heatStep.wait === 1 ? "Second" : "Seconds"
+            }`;
             isWaiting = true;
           }
         } else {
-          heatTargetTemp = payload.default.temp;
           // Check if we're in waiting phase for default
-          const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+          const currentTempC = isF
+            ? convertToCelsiusFromFahrenheit(currentTemperature)
+            : currentTemperature;
           const targetTempC = payload.default.temp;
-          
+
           if (currentTempC >= targetTempC && payload.default.wait > 0) {
             // We're waiting - show wait time
-            expectedTime = `${payload.default.wait} ${payload.default.wait === 1 ? "Second" : "Seconds"}`;
+            expectedTime = `${payload.default.wait} ${
+              payload.default.wait === 1 ? "Second" : "Seconds"
+            }`;
             isWaiting = true;
           }
         }
       }
-      
+
       if (!isWaiting) {
-        // Use pre-calculated heating time instead of recalculating
-        if (calculatedHeatingTime !== null) {
-          expectedTime = calculatedHeatingTime > 0 ? `~${calculatedHeatingTime} Seconds` : "Already at target";
-        } else {
-          expectedTime = "~60 Seconds";
-        }
+        expectedTime = "N/A";
       }
     } else {
       expectedTime = showTimer ? "N/A" : "";
     }
   }
 
-  // Track when we start a new heating step to calculate time once
-  useEffect(() => {
-    if (isWorkflowExecuting && stepType && stepType.includes("heat")) {
-      // Check if this is a new heating step (different step ID or different target)
-      const payload = currentWorkflow.payload[currentStepId - 1].payload;
-      let newTargetTemp = 0;
-      
-      if (stepType === WorkflowItemTypes.HEAT_ON) {
-        newTargetTemp = payload;
-      } else if (stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
-        const heatStep = payload.conditions?.find(
-          (x) => x.nextTemp === targetTemperature
-        );
-        newTargetTemp = heatStep ? heatStep.nextTemp : payload.default?.temp || 0;
-      }
-      
-      // If target temperature changed or we just started heating, calculate time
-      if (newTargetTemp > 0 && (newTargetTemp !== heatingTargetTemp || heatingStartTemp === null)) {
-        const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
-        const targetTempC = newTargetTemp;
-        
-        setHeatingStartTemp(currentTempC);
-        setHeatingTargetTemp(targetTempC);
-        
-        const estimatedTime = estimateHeatingTime(currentTempC, targetTempC);
-        setCalculatedHeatingTime(estimatedTime);
-      }
-    } else {
-      // Reset when not heating
-      setHeatingStartTemp(null);
-      setHeatingTargetTemp(null);
-      setCalculatedHeatingTime(null);
-    }
-  }, [currentStepId, stepType, isWorkflowExecuting, currentWorkflow, targetTemperature, currentTemperature, isF, heatingTargetTemp, heatingStartTemp]);
-
   // Detect transition from heating to waiting and reset elapsed time
   useEffect(() => {
-    if (isWorkflowExecuting && stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
+    if (
+      isWorkflowExecuting &&
+      stepType === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS
+    ) {
       const payload = currentWorkflow.payload[currentStepId - 1].payload;
-      const heatStep = payload.conditions?.find((x) => x.nextTemp === targetTemperature);
-      
+      const heatStep = payload.conditions?.find(
+        (x) => x.nextTemp === targetTemperature
+      );
+
       let isCurrentlyWaiting = false;
       if (heatStep) {
-        const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+        const currentTempC = isF
+          ? convertToCelsiusFromFahrenheit(currentTemperature)
+          : currentTemperature;
         const targetTempC = heatStep.nextTemp;
         isCurrentlyWaiting = currentTempC >= targetTempC && heatStep.wait > 0;
       } else if (payload.default) {
-        const currentTempC = isF ? convertToCelsiusFromFahrenheit(currentTemperature) : currentTemperature;
+        const currentTempC = isF
+          ? convertToCelsiusFromFahrenheit(currentTemperature)
+          : currentTemperature;
         const targetTempC = payload.default.temp;
-        isCurrentlyWaiting = currentTempC >= targetTempC && payload.default.wait > 0;
+        isCurrentlyWaiting =
+          currentTempC >= targetTempC && payload.default.wait > 0;
       }
-      
+
       // If we just transitioned from heating to waiting, reset the timer
       if (isCurrentlyWaiting && !wasWaiting) {
         dispatch(setCurrentStepEllapsedTimeInSeconds(0));
       }
-      
+
       setWasWaiting(isCurrentlyWaiting);
     }
-  }, [currentTemperature, targetTemperature, isF, stepType, currentWorkflow, currentStepId, isWorkflowExecuting, wasWaiting, dispatch]);
+  }, [
+    currentTemperature,
+    targetTemperature,
+    isF,
+    stepType,
+    currentWorkflow,
+    currentStepId,
+    isWorkflowExecuting,
+    wasWaiting,
+    dispatch,
+  ]);
 
-  let prevTimeoutId = useRef();
+  const location = useLocation();
+
+  // Always expand when workflow starts and calculate position
   useEffect(() => {
-    if (!isWorkflowExecuting) {
-      prevTimeoutId.current = setTimeout(() => {
-        setIsRemovedFromDom(true);
-      }, 350);
-    } else {
-      setIsRemovedFromDom(false);
-      if (prevTimeoutId.current) {
-        clearTimeout(prevTimeoutId.current);
-        prevTimeoutId.current = undefined;
-      }
+    if (isWorkflowExecuting) {
+      console.log("Workflow started, expanding widget");
+      setIsExpanded(true);
+
+      // Calculate position after a short delay to ensure DOM is ready
+      setTimeout(() => {
+        if (buttonRef.current) {
+          const rect = buttonRef.current.getBoundingClientRect();
+          const buttonCenter = rect.left + rect.width / 2;
+          const isMobile = window.innerWidth <= 768;
+
+          if (isMobile) {
+            // On mobile, tooltip spans 20px to (window.innerWidth - 20px)
+            // Account for tooltip padding and arrow width for perfect alignment
+            const tooltipLeft = 20;
+            const tooltipWidth = window.innerWidth - 40; // 20px on each side
+            const arrowPositionInTooltip = buttonCenter - tooltipLeft;
+            // Add small offset to account for arrow size (6px) and center it perfectly
+            const adjustedPosition = arrowPositionInTooltip + 0; // No offset adjustment
+            const arrowLeftPercent = Math.max(
+              15,
+              Math.min((adjustedPosition / tooltipWidth) * 100, 85)
+            );
+
+            console.log("Mobile positioning:", {
+              buttonCenter,
+              tooltipLeft,
+              tooltipWidth,
+              arrowPositionInTooltip,
+              arrowLeftPercent: `${arrowLeftPercent}%`,
+            });
+
+            setTooltipPosition({
+              top: `${rect.bottom + 8}px`,
+              left: `${buttonCenter}px`, // Not used on mobile but kept for consistency
+              arrowLeft: `${arrowLeftPercent}%`,
+            });
+          } else {
+            console.log("Desktop positioning:", {
+              rect: rect,
+              buttonCenter: buttonCenter,
+              top: rect.bottom + 8,
+              left: buttonCenter,
+            });
+
+            setTooltipPosition({
+              top: `${rect.bottom + 8}px`,
+              left: `${buttonCenter}px`,
+              arrowLeft: "50%",
+            });
+          }
+        } else {
+          console.log("Button ref not available yet");
+        }
+      }, 200);
     }
   }, [isWorkflowExecuting]);
 
-  const location = useLocation();
-  
-  if (!showCurrentWorkflowDetails) {
-    return null;
-  }
+  const handleWidgetClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Prevent expansion when clicking on buttons
+    if (e.target.closest("button")) return;
+
+    console.log("Widget clicked, buttonRef.current:", buttonRef.current);
+
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const buttonCenter = rect.left + rect.width / 2;
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // Use same mobile calculation as auto-expand
+        const tooltipLeft = 20;
+        const tooltipWidth = window.innerWidth - 40; // 20px on each side
+        const arrowPositionInTooltip = buttonCenter - tooltipLeft;
+        const adjustedPosition = arrowPositionInTooltip + 0; // No offset adjustment
+        const arrowLeftPercent = Math.max(
+          15,
+          Math.min((adjustedPosition / tooltipWidth) * 100, 85)
+        );
+
+        console.log("Mobile click positioning:", {
+          buttonCenter,
+          tooltipLeft,
+          tooltipWidth,
+          arrowPositionInTooltip,
+          arrowLeftPercent: `${arrowLeftPercent}%`,
+        });
+
+        setTooltipPosition({
+          top: `${rect.bottom + 8}px`,
+          left: `${buttonCenter}px`, // Not used on mobile but kept for consistency
+          arrowLeft: `${arrowLeftPercent}%`,
+        });
+      } else {
+        console.log("Desktop click positioning:", {
+          rect: rect,
+          buttonCenter: buttonCenter,
+          top: rect.bottom + 8,
+          left: buttonCenter,
+        });
+
+        setTooltipPosition({
+          top: `${rect.bottom + 8}px`,
+          left: `${buttonCenter}px`,
+          arrowLeft: "50%", // Center the arrow in the tooltip
+        });
+      }
+    }
+
+    setIsExpanded(!isExpanded);
+  };
 
   return (
-    <WorkflowContainer 
-      ref={containerRef}
-      isVisible={isWorkflowExecuting && !isRemovedFromDom}
-    >
-      {!isRemovedFromDom && (
-        <>
-          <WorkflowHeader>
-            <WorkflowTitle>
+    <WorkflowWidget ref={containerRef} isVisible={isWorkflowExecuting}>
+      <MinimizedButton
+        ref={buttonRef}
+        onClick={handleWidgetClick}
+        data-widget-button="true"
+      >
+        <CircularProgress progress={(currentStepId / totalSteps) * 100}>
+          <CircularProgressText>
+            {isWorkflowExecuting
+              ? hasLoop
+                ? "∞"
+                : `${currentStepId}/${totalSteps}`
+              : ""}
+          </CircularProgressText>
+        </CircularProgress>
+      </MinimizedButton>
+
+      {isExpanded && isWorkflowExecuting && (
+        <ExpandedTooltip
+          top={tooltipPosition.top}
+          left={tooltipPosition.left}
+          arrowLeft={tooltipPosition.arrowLeft}
+          data-tooltip="workflow-expanded"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <WidgetHeader isExpanded={isExpanded}>
+            <WidgetTitle>
               <WorkflowIcon>⚡</WorkflowIcon>
-              <PrideText text={workflowName || "Current Workflow"} />
-            </WorkflowTitle>
-            <HeaderRight>
-              <ProgressContainer>
-                <span>{currentStepId}/{totalSteps}</span>
-                <ProgressBar current={currentStepId} total={totalSteps} />
-                {hasLoop && <LoopIndicator>(🔄 looping)</LoopIndicator>}
-              </ProgressContainer>
-              <CancelButton
-                onClick={() => {
+              <PrideText text={workflowName || "Workflow"} />
+            </WidgetTitle>
+            <WidgetProgress>
+              <PrideText text={`${currentStepId}/${totalSteps}`} />
+              <MiniProgressBar current={currentStepId} total={totalSteps} />
+            </WidgetProgress>
+          </WidgetHeader>
+
+          <div
+            style={{
+              fontSize: "0.8rem",
+              opacity: "0.8",
+              marginTop: "4px",
+              display: "flex",
+              justifyContent: "space-between",
+              color: "inherit",
+            }}
+          >
+            <PrideText text={stepDisplayName} />
+            {hasLoop && <LoopIndicator>(Loop Mode 🔄)</LoopIndicator>}
+          </div>
+
+          <ExpandedDetails isExpanded={true}>
+            <DetailRow>
+              <DetailLabel>
+                <PrideText text="Current Temp:" />
+              </DetailLabel>
+              <DetailValue>
+                <PrideText
+                  text={`${
+                    isF
+                      ? convertToFahrenheitFromCelsius(currentTemperature)
+                      : currentTemperature
+                  }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
+                />
+              </DetailValue>
+            </DetailRow>
+
+            <DetailRow>
+              <DetailLabel>
+                <PrideText text="Target Temp:" />
+              </DetailLabel>
+              <DetailValue>
+                <PrideText
+                  text={`${
+                    isF
+                      ? convertToFahrenheitFromCelsius(targetTemperature)
+                      : targetTemperature
+                  }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
+                />
+              </DetailValue>
+            </DetailRow>
+
+            <DetailRow>
+              <DetailLabel>
+                <PrideText text="Expected Time:" />
+              </DetailLabel>
+              <DetailValue>
+                <PrideText text={expectedTime || "N/A"} />
+              </DetailValue>
+            </DetailRow>
+
+            <DetailRow>
+              <DetailLabel>
+                <PrideText text="Elapsed Time:" />
+              </DetailLabel>
+              <DetailValue>
+                <TimerEstimate
+                  stepId={currentStepId}
+                  resetKey={wasWaiting ? "waiting" : "heating"}
+                />
+              </DetailValue>
+            </DetailRow>
+
+            <WidgetActions>
+              <MiniButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(false);
+                }}
+              >
+                <PrideText text="Minimize" />
+              </MiniButton>
+              <MiniButton
+                onClick={(e) => {
+                  e.stopPropagation();
                   cancelCurrentWorkflow();
                 }}
               >
                 <PrideText text="Cancel" />
-              </CancelButton>
-            </HeaderRight>
-          </WorkflowHeader>
-
-          <WorkflowDetails>
-            <DetailItem>
-              <DetailLabel>Current Step</DetailLabel>
-              <DetailValue>
-                <PrideText text={stepDisplayName} />
-              </DetailValue>
-            </DetailItem>
-            
-            <DetailItem>
-              <DetailLabel>Expected Time</DetailLabel>
-              <DetailValue>
-                <PrideText text={expectedTime || "N/A"} />
-              </DetailValue>
-            </DetailItem>
-            
-            <DetailItem>
-              <DetailLabel>Elapsed Time</DetailLabel>
-              <DetailValue>
-                <TimerEstimate stepId={currentStepId} resetKey={wasWaiting ? 'waiting' : 'heating'} />
-              </DetailValue>
-            </DetailItem>
-          </WorkflowDetails>
-        </>
+              </MiniButton>
+            </WidgetActions>
+          </ExpandedDetails>
+        </ExpandedTooltip>
       )}
-    </WorkflowContainer>
+    </WorkflowWidget>
   );
 }
