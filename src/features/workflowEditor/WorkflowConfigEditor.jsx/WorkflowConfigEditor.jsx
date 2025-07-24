@@ -15,6 +15,14 @@ import {
 import Button from "../shared/WorkflowFooterButtons";
 import PrideText from "../../../themes/PrideText";
 import { defaultGlobalFanOnTimeInSeconds } from "../../../constants/constants";
+import CopyButton from "../../deviceInformation/CopyButton";
+import styled from "styled-components";
+
+const CopyButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+`;
 
 export default function WorkflowConfigEdtior() {
   const [show, setShow] = useState(false);
@@ -89,6 +97,9 @@ export default function WorkflowConfigEdtior() {
         handleConfirm={handleConfirm}
       >
         <div>Paste Workflow JSON Below (use "[]" to make empty config)</div>
+        <CopyButtonContainer>
+          <CopyButton text={configString} label="Copy JSON" />
+        </CopyButtonContainer>
         <ControlWrapper
           value={configString}
           onChange={(e) => setConfigString(e.target.value)}

@@ -19,7 +19,7 @@ export default function AppendWorkflowConfigJson() {
 
   const dispatch = useDispatch();
 
-  const [configString, setConfigString] = useState();
+  const [configString, setConfigString] = useState("");
 
   const config = useSelector((state) => state.settings.config);
 
@@ -67,8 +67,10 @@ export default function AppendWorkflowConfigJson() {
 
   const handleShow = () => {
     setConfigString("");
+    setIsValid(true);
     setShow(true);
   };
+
   return (
     <>
       <Button onClick={handleShow}>
