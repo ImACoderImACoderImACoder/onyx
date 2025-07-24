@@ -28,22 +28,64 @@ import ConditionalHeatItemEditor from "./ConditionalHeatItemEditor";
 const StyledSelect = styled(Select)`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
-  border-color: ${(props) => props.theme.borderColor};
+  border: 2px solid ${(props) => props.theme.borderColor};
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: ${(props) => props.theme.primaryColor};
+    background-color: ${(props) => props.theme.buttonColorMain};
+  }
+  
+  &:focus {
+    border-color: ${(props) => props.theme.buttonActive.borderColor};
+    box-shadow: 0 0 0 3px ${(props) => props.theme.buttonActive.borderColor}33;
+    outline: none;
+  }
 `;
 
 export const StyledLabel = styled(Label)`
   align-items: center;
   margin-right: auto;
+  font-weight: 600;
+  font-size: 1rem;
+  color: ${(props) => props.theme.primaryFontColor};
+  margin-bottom: 8px;
+  display: block;
 `;
 
 const StyledActionTypeHeader = styled.div`
   display: flex;
-  justify-content: end;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 const StyledPayloadDiv = styled.div`
-  margin-top: 8px;
+  margin-top: 20px;
+  background: ${(props) => props.theme.backgroundColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 8px;
+  padding: 16px;
+`;
+
+const ActionTypeContainer = styled.div`
+  margin-bottom: 16px;
+`;
+
+const ActionControlsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  @media (max-width: 768px) {
+    gap: 6px;
+  }
 `;
 
 export default function WorkflowItemEditor(props) {
@@ -252,21 +294,21 @@ export default function WorkflowItemEditor(props) {
         />
       )}
       <WorkflowItemDiv>
-        <div>
-          <StyledActionTypeHeader>
-            <Drag
-              onDrag={() => {}}
-              key={props.item.id}
-              itemId={props.item.id}
-              workflowId={props.workflowId}
-              itemIndex={props.itemIndex}
-              itemName={name}
-            >
-              <StyledLabel>
-                <PrideText text={name} />
-              </StyledLabel>
-            </Drag>
+        <StyledActionTypeHeader>
+          <Drag
+            onDrag={() => {}}
+            key={props.item.id}
+            itemId={props.item.id}
+            workflowId={props.workflowId}
+            itemIndex={props.itemIndex}
+            itemName={name}
+          >
+            <StyledLabel>
+              <PrideText text={name} />
+            </StyledLabel>
+          </Drag>
 
+          <ActionControlsContainer>
             <MoveWorkflowItemDownOneIndex
               workflowId={props.workflowId}
               workflowItemId={props.item.id}
@@ -282,31 +324,35 @@ export default function WorkflowItemEditor(props) {
               workflowItemId={props.item.id}
               name={name}
             />
-          </StyledActionTypeHeader>
+          </ActionControlsContainer>
+        </StyledActionTypeHeader>
+        
+        <ActionTypeContainer>
+          <StyledLabel>Action Type</StyledLabel>
           <StyledSelect defaultValue={props.item.type} onChange={onChange}>
-            <option value={WorkflowItemTypes.HEAT_ON}>Heat On</option>
-            <option value={WorkflowItemTypes.FAN_ON}>Fan On</option>
+            <option value={WorkflowItemTypes.HEAT_ON}>🔥 Heat On</option>
+            <option value={WorkflowItemTypes.FAN_ON}>🌪️ Fan On</option>
             <option value={WorkflowItemTypes.FAN_ON_GLOBAL}>
-              Fan On Global
+              🌍 Fan On Global
             </option>
-            <option value={WorkflowItemTypes.WAIT}>Pause/Wait</option>
-            <option value={WorkflowItemTypes.HEAT_OFF}>Heat Off</option>
+            <option value={WorkflowItemTypes.WAIT}>⏸️ Pause/Wait</option>
+            <option value={WorkflowItemTypes.HEAT_OFF}>❄️ Heat Off</option>
             <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
-              Set LED Brightness
+              💡 Set LED Brightness
             </option>
             <option
               value={WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS}
             >
-              Exit Workflow When Target Temperature Is
+              🚪 Exit When Target Temperature
             </option>
             <option value={WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS}>
-              Conditional Temperature Set
+              🎯 Conditional Temperature Set
             </option>
             <option value={WorkflowItemTypes.LOOP_FROM_BEGINNING}>
-              Start Workflow From Beginning
+              🔄 Start Workflow From Beginning
             </option>
           </StyledSelect>
-        </div>
+        </ActionTypeContainer>
 
         {![
           WorkflowItemTypes.HEAT_OFF,

@@ -27,7 +27,7 @@ const DeleteIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  
+
   svg {
     width: 16px;
     height: 16px;
@@ -39,6 +39,12 @@ const DeleteCol = styled(Col)`
   max-width: 40px;
   padding-left: 8px;
   padding-right: 8px;
+`;
+
+const WideStyledControl = styled(StyledControl)`
+  min-width: 70px;
+  width: 100%;
+  font-size: 0.9rem;
 `;
 
 export default function ConditionalHeatItemEditor({ workflowId, item }) {
@@ -382,6 +388,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
           <StyledLabel>Default Temp</StyledLabel>
           <StyledControl
             type="number"
+            inputMode="decimal"
             value={displayValues.default.temp}
             onChange={(e) =>
               setDisplayValues((prev) => ({
@@ -390,16 +397,18 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
               }))
             }
             onBlur={handleDefaultChange("temp")}
+            isValid={!errors.default.temp}
             isInvalid={!!errors.default.temp}
           />
-          {errors.default.temp && (
-            <div className="text-danger small mt-1">{errors.default.temp}</div>
-          )}
+          <StyledControl.Feedback type="invalid">
+            {errors.default.temp}
+          </StyledControl.Feedback>
         </Col>
         <Col>
           <StyledLabel>Default Wait</StyledLabel>
           <StyledControl
             type="number"
+            inputMode="decimal"
             step="1"
             placeholder="Optional"
             value={
@@ -414,11 +423,12 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
               }))
             }
             onBlur={handleDefaultChange("wait")}
+            isValid={!errors.default.wait}
             isInvalid={!!errors.default.wait}
           />
-          {errors.default.wait && (
-            <div className="text-danger small mt-1">{errors.default.wait}</div>
-          )}
+          <StyledControl.Feedback type="invalid">
+            {errors.default.wait}
+          </StyledControl.Feedback>
         </Col>
       </Row>
 
@@ -426,11 +436,12 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
 
       <h4>Heat Conditions</h4>
       {data.conditions.map((cond, idx) => (
-        <Row className="mb-3" key={cond.id || idx}>
-          <Col>
+        <div className="d-flex gap-2 mb-3" key={cond.id || idx}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <StyledLabel>If Temp</StyledLabel>
-            <StyledControl
+            <WideStyledControl
               type="number"
+              inputMode="decimal"
               value={displayValues.conditions[idx]?.ifTemp}
               onChange={(e) =>
                 setDisplayValues((prev) => ({
@@ -442,16 +453,18 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
                 }))
               }
               onBlur={handleConditionChange(idx, "ifTemp")}
+              isValid={!errors.conditions[idx]?.ifTemp}
               isInvalid={!!errors.conditions[idx]?.ifTemp}
             />
-            <StyledControl.Feedback type="invalid">
+            <WideStyledControl.Feedback type="invalid">
               {errors.conditions[idx]?.ifTemp}
-            </StyledControl.Feedback>
-          </Col>
-          <Col>
-            <StyledLabel>Next Temp</StyledLabel>
-            <StyledControl
+            </WideStyledControl.Feedback>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <StyledLabel>Then Set</StyledLabel>
+            <WideStyledControl
               type="number"
+              inputMode="decimal"
               value={displayValues.conditions[idx]?.nextTemp}
               onChange={(e) =>
                 setDisplayValues((prev) => ({
@@ -466,16 +479,18 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
                 }))
               }
               onBlur={handleConditionChange(idx, "nextTemp")}
+              isValid={!errors.conditions[idx]?.nextTemp}
               isInvalid={!!errors.conditions[idx]?.nextTemp}
             />
-            <StyledControl.Feedback type="invalid">
+            <WideStyledControl.Feedback type="invalid">
               {errors.conditions[idx]?.nextTemp}
-            </StyledControl.Feedback>
-          </Col>
-          <Col>
+            </WideStyledControl.Feedback>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <StyledLabel>Wait</StyledLabel>
-            <StyledControl
+            <WideStyledControl
               type="number"
+              inputMode="decimal"
               step="1"
               placeholder="(opt)"
               value={
@@ -493,26 +508,25 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
                 }))
               }
               onBlur={handleConditionChange(idx, "wait")}
+              isValid={!errors.conditions[idx]?.wait}
               isInvalid={!!errors.conditions[idx]?.wait}
             />
-            <StyledControl.Feedback type="invalid">
+            <WideStyledControl.Feedback type="invalid">
               {errors.conditions[idx]?.wait}
-            </StyledControl.Feedback>
-          </Col>
-          {data.conditions.length > 1 && (
-            <DeleteCol>
-              <StyledLabel>&nbsp;</StyledLabel>
-              <DeleteIconWrapper>
-                <DeleteIcon
-                  aria-label={`Delete condition ${idx + 1}`}
-                  onKeyDown={handler(cond.id)}
-                  tabIndex={0}
-                  onClick={handleShow(cond.id)}
-                />
-              </DeleteIconWrapper>
-            </DeleteCol>
-          )}
-        </Row>
+            </WideStyledControl.Feedback>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'end', paddingBottom: '0.375rem', flexShrink: 0, width: '32px', justifyContent: 'center' }}>
+            <DeleteIconWrapper
+              onClick={handleShow(cond.id)}
+              onKeyDown={handler(cond.id)}
+              tabIndex={0}
+              role="button"
+              aria-label={`Delete condition ${idx + 1}`}
+            >
+              <DeleteIcon />
+            </DeleteIconWrapper>
+          </div>
+        </div>
       ))}
 
       <Button onClick={addCondition}>
