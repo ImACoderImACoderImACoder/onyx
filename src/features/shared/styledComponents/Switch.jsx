@@ -73,7 +73,8 @@ const SwitchOnState = styled.span`
   background: ${(props) => props.theme.ToggleButtons.onBackgroundColor};
   border-color: ${(props) => props.theme.ToggleButtons.onBorderColor};
   text-shadow: 1px 1px black;
-  font-size: xx-large;
+  font-size: 1.4rem;
+  font-weight: 700;
   justify-content: center;
   display: flex;
   flex-direction: column;

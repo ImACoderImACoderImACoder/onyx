@@ -118,4 +118,40 @@ const PWAInstall = () => {
   );
 };
 
+// Export a hook to check if PWA install is available
+export const usePWAInstallAvailable = () => {
+  const [isAvailable, setIsAvailable] = useState(false);
+
+  useEffect(() => {
+    const checkAvailability = () => {
+      // Check if already installed
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        setIsAvailable(false);
+        return;
+      }
+      
+      // Check if there's a deferred prompt
+      if (window.deferredPrompt) {
+        setIsAvailable(true);
+        return;
+      }
+      
+      // Listen for the prompt event
+      const handler = (e) => {
+        setIsAvailable(true);
+      };
+      
+      window.addEventListener('beforeinstallprompt', handler);
+      
+      return () => {
+        window.removeEventListener('beforeinstallprompt', handler);
+      };
+    };
+
+    checkAvailability();
+  }, []);
+
+  return isAvailable;
+};
+
 export default PWAInstall;

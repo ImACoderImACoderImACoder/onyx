@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
-import Div from "../Shared/StyledComponents/Div";
-import PrideText, { PrideTextWithDiv } from "../../../themes/PrideText";
+import SettingsItem from "../SettingsItem";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 import {
   ReadConfigFromLocalStorage,
   WriteNewConfigToLocalStorage,
@@ -19,16 +19,16 @@ export default function TurnHeatOnWhenConnectionIsEstablished() {
   };
 
   return (
-    <Div>
-      <h2>
-        <PrideText text="Automatically turn on heat when connecting to the Volcano" />
-      </h2>
+    <SettingsItem
+      title="Auto-Start Heating"
+      description="Automatically turn on the heater when you connect to your Volcano device, saving you a step."
+    >
       <StyledToggleSwitch
         onText="On"
         offText={<PrideTextWithDiv text="Off" />}
         isToggleOn={onConnectTurnHeatOn}
         onChange={onChange}
       />
-    </Div>
+    </SettingsItem>
   );
 }

@@ -3,7 +3,8 @@ import ToggleSwitch from "../../../shared/styledComponents/Switch";
 
 const StyledToggleDiv = styled.div`
   min-height: 40px;
-  max-width: 80px;
+  min-width: 100px;
+  max-width: 120px;
   display: flex;
 `;
 

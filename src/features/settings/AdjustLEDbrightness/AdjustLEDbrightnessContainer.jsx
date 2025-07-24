@@ -11,8 +11,7 @@ import { LEDbrightnessUuid } from "../../../constants/uuids";
 import { setLEDbrightness } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
-import Div from "../../../features/settings/Shared/StyledComponents/Div";
-import PrideText from "../../../themes/PrideText";
+import SettingsItem from "../SettingsItem";
 
 export default function AdjustLEDbrightnessContainer() {
   const LEDbrightness = useSelector((state) => state.settings.LEDbrightness);
@@ -44,17 +43,21 @@ export default function AdjustLEDbrightnessContainer() {
   };
 
   return (
-    <Div>
-      <h2><PrideText text="LED Brightness"/></h2>
-      Current Brightness Level: {LEDbrightness}
-      <SettingsRange
-        values={[LEDbrightness || 0]}
-        step={10}
-        min={0}
-        max={100}
-        onChange={onChange}
-        onFinalChange={onMouseUp}
-      />
-    </Div>
+    <SettingsItem
+      title="LED Display Brightness"
+      description="Adjust the brightness of your Volcano's LED display. Set to 0 to turn off the display completely."
+    >
+      <div>
+        Current Level: {LEDbrightness}
+        <SettingsRange
+          values={[LEDbrightness || 0]}
+          step={10}
+          min={0}
+          max={100}
+          onChange={onChange}
+          onFinalChange={onMouseUp}
+        />
+      </div>
+    </SettingsItem>
   );
 }
