@@ -65,7 +65,7 @@ const StyledAccordionHeader = styled(Accordion.Header)`
   .accordion-button:not(.collapsed) {
     color: ${(props) => props.theme.buttonActive.color};
     background-color: ${(props) =>
-      props.theme.workflowEditor.accordianExpandedColor};
+      props.theme.workflowEditor.accordionExpandedColor};
     border-color: ${(props) => props.theme.buttonActive.borderColor};
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }

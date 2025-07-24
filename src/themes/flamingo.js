@@ -28,7 +28,7 @@ const flamingo = {
     rangeBoxBorderColor: "#fccddf",
   },
   workflowEditor: {
-    accordianExpandedColor: "darkgray",
+    accordionExpandedColor: "darkgray",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "white",

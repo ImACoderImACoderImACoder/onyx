@@ -1,41 +1,35 @@
 import { grayscaleId } from "../constants/themeIds";
+import { createScaleTheme } from "./generators/scaleTheme";
 
-const grayscale = {
-  themeId: grayscaleId,
-  buttonColorMain: "#242526",
-  borderColor: "#B0B3B8",
-  buttonActive: {
-    color: "white",
-    backgroundColor: "#AAAAAA",
-    borderColor: "black",
-  },
-  backgroundColor: "#18191A",
-  primaryFontColor: "#E4E6EB",
-  iconColor: "#3A3B3C",
+const grayscale = createScaleTheme(
+  grayscaleId,
+  "#E4E6EB", // primaryColor - light gray for good contrast
+  {
+    backgroundColor: "#18191A",
+    borderColor: "#3A3B3C",
+    buttonColorMain: "#242526",
+    currentTemperatureColor: "#B0B3B8",
+    targetTemperatureColor: "#E4E6EB"
+  }
+);
+
+// Override specific properties that differ from the scale pattern
+Object.assign(grayscale, {
+  iconColor: "#B0B3B8",
   iconTextColor: "#E4E6EB",
-  temperatureRange: {
-    background: "linear-gradient(315deg, #B0B3B8 0%, #242526 74%)",
-    rangeBoxColor: "#242526",
-    rangeBoxBorderColor: "#B0B3B8",
-  },
-  plusMinusButtons: {
-    backgroundColor: "#242526",
-    color: "#E4E6EB",
-    borderColor: "#B0B3B8",
-  },
-  workflowEditor: {
-    accordianExpandedColor: "#B0B3B8",
+  buttonActive: {
+    color: "#18191A",
+    backgroundColor: "#E4E6EB",
+    borderColor: "#E4E6EB",
   },
   ToggleButtons: {
+    ...grayscale.ToggleButtons,
     sliderBackgroundColorOn: "#3A3B3C",
-    sliderBorderColorOn: "#f8f9fa",
-    onBackgroundColor: "#AAAAAA",
-    onBorderColor: "#AAAAAA",
-    onColor: "white",
-    offBackgroundColor: "#242526",
-    offBorderColor: "#242526",
+    onBackgroundColor: "#E4E6EB",
+    onColor: "#18191A",
+    offBackgroundColor: "#3A3B3C",
     offColor: "#E4E6EB",
   },
-};
+});
 
 export default grayscale;

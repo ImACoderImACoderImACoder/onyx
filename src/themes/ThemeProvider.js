@@ -5,6 +5,7 @@ import valentinesDay from "./festivities/ValentinesDay";
 import flamingo from "./flamingo";
 import base from "./base";
 import merge from "lodash/merge";
+import { validateTheme } from "./validation";
 import grayscale from "./grayScale";
 import prideClassic from "./prideClassic";
 import prideVibrant from "./prideVibrant";
@@ -20,49 +21,51 @@ import redscale from "./redScale";
 import purplescale from "./purpleScale";
 import autumnB from "./festivities/fall/autumnB";
 
-const deepMergeWithBase = (theme) => merge(base(), { ...theme });
+const deepMergeWithBase = (theme) => {
+  const mergedTheme = merge(base(), { ...theme });
+  
+  // Validate theme in development
+  if (process.env.NODE_ENV === 'development') {
+    validateTheme(mergedTheme);
+  }
+  
+  return mergedTheme;
+};
+
+// Theme registry for O(1) lookup instead of switch statement
+const THEME_REGISTRY = new Map([
+  [themeIds.darkThemeId, dark],
+  [themeIds.lightThemeId, light],
+  [themeIds.volcanicAshId, volcanicAsh],
+  [themeIds.valentinesDayId, valentinesDay],
+  [themeIds.flamingoId, flamingo],
+  [themeIds.grayscaleId, grayscale],
+  [themeIds.redScaleId, redscale],
+  [themeIds.purpleScaleId, purplescale],
+  [themeIds.greenscaleId, greenscale],
+  [themeIds.prideClassicId, prideClassic],
+  [themeIds.prideVibrantId, prideVibrant],
+  [themeIds.funId, fun],
+  [themeIds.halloweenId, halloween],
+  [themeIds.christmasId, christmas],
+  [themeIds.christmasWithoutSnowId, christmas],
+  [themeIds.christmasPeppermintHolidayId, peppermintHoliday],
+  [themeIds.feastOfSaintPatrickId, stPatricksDay],
+  [themeIds.autumnBId, autumnB]
+]);
 
 export default function GetTheme(type) {
-  switch (type) {
-    case themeIds.darkThemeId:
-      return deepMergeWithBase(dark);
-    case themeIds.lightThemeId:
-      return deepMergeWithBase(light);
-    case themeIds.volcanicAshId:
-      return deepMergeWithBase(volcanicAsh);
-    case themeIds.valentinesDayId:
-      return deepMergeWithBase(valentinesDay);
-    case themeIds.flamingoId:
-      return deepMergeWithBase(flamingo);
-    case themeIds.grayscaleId:
-      return deepMergeWithBase(grayscale);
-    case themeIds.redScaleId:
-      return deepMergeWithBase(redscale);
-    case themeIds.purpleScaleId:
-      return deepMergeWithBase(purplescale);
-    case themeIds.greenscaleId:
-      return deepMergeWithBase(greenscale);
-    case themeIds.prideClassicId:
-      return deepMergeWithBase(prideClassic);
-    case themeIds.prideVibrantId:
-      return deepMergeWithBase(prideVibrant);
-    case themeIds.funId:
-      return deepMergeWithBase(fun);
-    case themeIds.halloweenId:
-      return deepMergeWithBase(halloween);
-    case themeIds.christmasId:
-    case themeIds.christmasWithoutSnowId:
-      return deepMergeWithBase(christmas);
-    case themeIds.christmasPeppermintHolidayId:
-      return deepMergeWithBase(peppermintHoliday);
-    case themeIds.aSuperSpecialAutoThemeSettingsId:
-      return GetTheme(GetAutoThemeId());
-    case themeIds.feastOfSaintPatrickId:
-      return deepMergeWithBase(stPatricksDay);
-    case themeIds.autumnBId:
-      return deepMergeWithBase(autumnB);
-    default: {
-      return GetTheme(GetAutoThemeId());
-    }
+  // Handle auto theme selection
+  if (type === themeIds.aSuperSpecialAutoThemeSettingsId) {
+    return GetTheme(GetAutoThemeId());
   }
+
+  // Get theme from registry
+  const theme = THEME_REGISTRY.get(type);
+  if (theme) {
+    return deepMergeWithBase(theme);
+  }
+
+  // Fallback to auto theme
+  return GetTheme(GetAutoThemeId());
 }
