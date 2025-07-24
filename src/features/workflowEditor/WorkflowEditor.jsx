@@ -19,8 +19,10 @@ import CreatePremadeWorkflowButtonContainer from "./CreatePremadeWorkflowButtonC
 
 const StyledAccordionBody = styled(Accordion.Body)`
   background-color: ${(props) => props.theme.backgroundColor};
-  padding: 24px;
+  padding: 20px;
   border-radius: 0 0 12px 12px;
+  margin-top: 4px;
+  overflow: hidden;
 `;
 
 const WorkflowDiv = styled.div`
@@ -35,12 +37,18 @@ const StyledAccordionHeader = styled(Accordion.Header)`
   .accordion-button {
     background-color: ${(props) => props.theme.backgroundColor};
     color: ${(props) => props.theme.primaryFontColor};
-    border: 2px solid ${(props) => props.theme.borderColor};
+    border: none;
     border-radius: 12px 12px 0 0;
-    padding: 20px 24px;
+    padding: 16px 20px;
+    margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.3s ease;
+  }
+
+  .accordion-button.collapsed {
+    border-radius: 12px;
+  }
 
     &:hover {
       background-color: ${(props) => props.theme.buttonColorMain};
@@ -89,8 +97,8 @@ const StyledAccordionHeader = styled(Accordion.Header)`
 const WorkflowButtonsDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid ${(props) => props.theme.borderColor};
 `;
@@ -270,9 +278,10 @@ const WorkflowCreationCardDescription = styled.p`
 `;
 
 const AccordionItemWrapper = styled(Accordion.Item)`
-  border: 2px solid ${(props) => props.theme.borderColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding: 4px;
   background: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.primaryFontColor};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -290,13 +299,13 @@ const AccordionItemWrapper = styled(Accordion.Item)`
 
 const WorkflowHeaderContainer = styled.div`
   text-align: center;
-  margin-bottom: 32px;
-  padding: 24px;
+  margin-bottom: 28px;
+  padding: 20px;
   background: ${(props) =>
     props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
   border: 1px solid
     ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
-  border-radius: 12px;
+  border-radius: 16px;
 
   h1 {
     margin-bottom: 16px;
