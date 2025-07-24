@@ -15,46 +15,6 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
-function TimerEstimate(props) {
-  const dispatch = useDispatch();
-  const timerStartRef = useRef();
-
-  const currentTimeInSeconds = useSelector(
-    (state) => state.workflow.currentStepEllapsedTimeInSeconds
-  );
-
-  useEffect(() => {
-    // Reset the timer start reference when currentTimeInSeconds is 0
-    // This handles the case when we manually reset the timer
-    if (currentTimeInSeconds === 0) {
-      timerStartRef.current = new Date();
-    }
-  }, [currentTimeInSeconds]);
-
-  useEffect(() => {
-    timerStartRef.current = new Date();
-    const interval = setInterval(() => {
-      dispatch(
-        setCurrentStepEllapsedTimeInSeconds(
-          Math.round((new Date() - timerStartRef.current) / 1000)
-        )
-      );
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-      timerStartRef.current = undefined;
-    };
-  }, [props.stepId, props.resetKey, dispatch]);
-
-  return (
-    <PrideTextWithDiv
-      text={`Elapsed Time: ${currentTimeInSeconds} ${
-        currentTimeInSeconds === 1 ? "second" : "seconds"
-      }`}
-    />
-  );
-}
 
 const slideDown = keyframes`
   from {
@@ -331,7 +291,12 @@ export default function CurrentWorkflowExecutionDisplay() {
   });
   const containerRef = useRef();
   const buttonRef = useRef();
+  const timerStartRef = useRef();
   const dispatch = useDispatch();
+
+  const currentTimeInSeconds = useSelector(
+    (state) => state.workflow.currentStepEllapsedTimeInSeconds
+  );
 
   const fanOnGlobalValue = useSelector(
     (state) => state.settings.config.workflows.fanOnGlobal
@@ -541,6 +506,33 @@ export default function CurrentWorkflowExecutionDisplay() {
       expectedTime = showTimer ? "N/A" : "";
     }
   }
+
+  // Timer logic moved from TimerEstimate component
+  useEffect(() => {
+    // Reset the timer start reference when currentTimeInSeconds is 0
+    // This handles the case when we manually reset the timer
+    if (currentTimeInSeconds === 0) {
+      timerStartRef.current = new Date();
+    }
+  }, [currentTimeInSeconds]);
+
+  useEffect(() => {
+    if (!isWorkflowExecuting) return;
+    
+    timerStartRef.current = new Date();
+    const interval = setInterval(() => {
+      dispatch(
+        setCurrentStepEllapsedTimeInSeconds(
+          Math.round((new Date() - timerStartRef.current) / 1000)
+        )
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+      timerStartRef.current = undefined;
+    };
+  }, [currentStepId, wasWaiting, dispatch, isWorkflowExecuting]);
 
   // Detect transition from heating to waiting and reset elapsed time
   useEffect(() => {
@@ -820,9 +812,10 @@ export default function CurrentWorkflowExecutionDisplay() {
                 <PrideText text="Elapsed Time:" />
               </DetailLabel>
               <DetailValue>
-                <TimerEstimate
-                  stepId={currentStepId}
-                  resetKey={wasWaiting ? "waiting" : "heating"}
+                <PrideText
+                  text={`${currentTimeInSeconds} ${
+                    currentTimeInSeconds === 1 ? "second" : "seconds"
+                  }`}
                 />
               </DetailValue>
             </DetailRow>
