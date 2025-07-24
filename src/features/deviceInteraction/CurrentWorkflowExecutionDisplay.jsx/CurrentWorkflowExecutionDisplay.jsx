@@ -650,6 +650,24 @@ export default function CurrentWorkflowExecutionDisplay() {
     }
   }, [isWorkflowExecuting]);
 
+  // Close tooltip when clicking outside
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handleClickOutside = (e) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target) &&
+        !e.target.closest('[data-tooltip="workflow-expanded"]')
+      ) {
+        setIsExpanded(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [isExpanded]);
+
   const handleWidgetClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -813,14 +831,6 @@ export default function CurrentWorkflowExecutionDisplay() {
               <MiniButton
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsExpanded(false);
-                }}
-              >
-                <PrideText text="Minimize" />
-              </MiniButton>
-              <MiniButton
-                onClick={(e) => {
-                  e.stopPropagation();
                   cancelCurrentWorkflow();
                 }}
               >
@@ -828,6 +838,21 @@ export default function CurrentWorkflowExecutionDisplay() {
               </MiniButton>
             </WidgetActions>
           </ExpandedDetails>
+          
+          <div style={{ 
+            position: 'absolute', 
+            bottom: '8px', 
+            left: '8px' 
+          }}>
+            <MiniButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(false);
+              }}
+            >
+              <PrideText text="−" />
+            </MiniButton>
+          </div>
         </ExpandedTooltip>
       )}
     </WorkflowWidget>
