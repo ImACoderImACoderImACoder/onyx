@@ -72,3 +72,6 @@ No test commands are currently configured in package.json. Tests would use the @
 
 ## Development Considerations
 - Always think about how your changes effect the complex themeing structure. Pay special attention to pridetext
+
+## Core Principles
+- Everything you do must work for mobile
