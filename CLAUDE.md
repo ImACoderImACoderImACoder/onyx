@@ -69,3 +69,6 @@ No test commands are currently configured in package.json. Tests would use the @
 - Bootstrap integration for base styling
 - Responsive design with mobile touch support
 - Custom fonts (digital-7.mono.ttf) for display elements
+
+## Development Considerations
+- Always think about how your changes effect the complex themeing structure. Pay special attention to pridetext

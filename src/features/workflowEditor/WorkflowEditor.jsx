@@ -61,6 +61,166 @@ const WorkflowButtonsDiv = styled.div`
   justify-content: space-evenly;
 `;
 
+const ConfigEditorSection = styled.div`
+  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  border-radius: 12px;
+  padding: 24px;
+  margin: 30px 0;
+  transition: all 0.3s ease;
+`;
+
+const ConfigEditorHeader = styled.div`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const ConfigDescription = styled.p`
+  color: ${props => props.theme.primaryFontColor};
+  opacity: 0.8;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 12px 0 0 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const ConfigButtonsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+`;
+
+const ConfigCard = styled.div`
+  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const ConfigCardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+`;
+
+const ConfigCardIcon = styled.span`
+  font-size: 1.5rem;
+  opacity: 0.8;
+`;
+
+const ConfigCardTitle = styled.h3`
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+`;
+
+const ConfigCardDescription = styled.p`
+  margin: 0 0 20px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: ${props => props.theme.primaryFontColor};
+  opacity: 0.8;
+`;
+
+const WorkflowCreationSection = styled.div`
+  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  border-radius: 12px;
+  padding: 24px;
+  margin: 30px 0;
+  transition: all 0.3s ease;
+`;
+
+const WorkflowCreationHeader = styled.div`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const WorkflowCreationDescription = styled.p`
+  color: ${props => props.theme.primaryFontColor};
+  opacity: 0.8;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 12px 0 0 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const WorkflowCreationButtonsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+`;
+
+const WorkflowCreationCard = styled.div`
+  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const WorkflowCreationCardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+`;
+
+const WorkflowCreationCardIcon = styled.span`
+  font-size: 1.5rem;
+  opacity: 0.8;
+`;
+
+const WorkflowCreationCardTitle = styled.h3`
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+`;
+
+const WorkflowCreationCardDescription = styled.p`
+  margin: 0 0 20px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: ${props => props.theme.primaryFontColor};
+  opacity: 0.8;
+`;
+
 const AccordionItemWrapper = styled(Accordion.Item)`
   border-color: ${(props) => props.theme.borderColor};
   color: ${(props) => props.theme.primaryFontColor};
@@ -150,32 +310,75 @@ export default function WorkflowEditor() {
         <WorkflowDrop itemId={0} />
       </div>
       <Accordion activeKey={currentAccordionId}>{workflowAccordions}</Accordion>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "15px",
-        }}
-      >
-        <CreateWorkflowButton onClick={onCreateWorkflow} />
-        <CreatePremadeWorkflowButtonContainer />
-      </div>
+      <WorkflowCreationSection>
+        <WorkflowCreationHeader>
+          <h2>
+            <PrideText text="➕ Create New Workflows" />
+          </h2>
+          <WorkflowCreationDescription>
+            Start building your vaporizer routines by creating custom workflows or choosing from our premade templates.
+          </WorkflowCreationDescription>
+        </WorkflowCreationHeader>
+        <WorkflowCreationButtonsContainer>
+          <WorkflowCreationCard>
+            <WorkflowCreationCardHeader>
+              <WorkflowCreationCardIcon>🎨</WorkflowCreationCardIcon>
+              <WorkflowCreationCardTitle>Custom Workflow</WorkflowCreationCardTitle>
+            </WorkflowCreationCardHeader>
+            <WorkflowCreationCardDescription>
+              Build a workflow from scratch with your preferred temperature settings and timing.
+            </WorkflowCreationCardDescription>
+            <CreateWorkflowButton onClick={onCreateWorkflow} />
+          </WorkflowCreationCard>
+          <WorkflowCreationCard>
+            <WorkflowCreationCardHeader>
+              <WorkflowCreationCardIcon>📋</WorkflowCreationCardIcon>
+              <WorkflowCreationCardTitle>Premade Templates</WorkflowCreationCardTitle>
+            </WorkflowCreationCardHeader>
+            <WorkflowCreationCardDescription>
+              Quick start with expertly crafted workflows designed for different vaping styles.
+            </WorkflowCreationCardDescription>
+            <CreatePremadeWorkflowButtonContainer />
+          </WorkflowCreationCard>
+        </WorkflowCreationButtonsContainer>
+      </WorkflowCreationSection>
       <Container></Container>
       <div style={{ marginTop: "20px" }}>
         <WorkflowTips />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <h2>
-          <PrideText text="Config Editor" />
-        </h2>
-        {
-          "Use this to backup existing workflows. Just save the text somewhere and you can paste it back in anytime. You can also add someone else's workflows to your workflows by pasting in the append workflow JSON modal"
-        }
-        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <WorkflowConfigEdtior />
-          <AppendWorkflowConfigJson />
-        </div>
-      </div>
+      <ConfigEditorSection>
+        <ConfigEditorHeader>
+          <h2>
+            <PrideText text="⚙️ Config Editor" />
+          </h2>
+          <ConfigDescription>
+            Backup and manage your workflow configurations. Export your workflows as JSON to save them, 
+            or import configurations from others to expand your collection.
+          </ConfigDescription>
+        </ConfigEditorHeader>
+        <ConfigButtonsContainer>
+          <ConfigCard>
+            <ConfigCardHeader>
+              <ConfigCardIcon>📤</ConfigCardIcon>
+              <ConfigCardTitle>Export & Edit</ConfigCardTitle>
+            </ConfigCardHeader>
+            <ConfigCardDescription>
+              View and modify your current workflow configuration, or export it for backup.
+            </ConfigCardDescription>
+            <WorkflowConfigEdtior />
+          </ConfigCard>
+          <ConfigCard>
+            <ConfigCardHeader>
+              <ConfigCardIcon>📥</ConfigCardIcon>
+              <ConfigCardTitle>Import Workflows</ConfigCardTitle>
+            </ConfigCardHeader>
+            <ConfigCardDescription>
+              Add new workflows from JSON configuration files shared by others.
+            </ConfigCardDescription>
+            <AppendWorkflowConfigJson />
+          </ConfigCard>
+        </ConfigButtonsContainer>
+      </ConfigEditorSection>
     </Div>
   );
 }

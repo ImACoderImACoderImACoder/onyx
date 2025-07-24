@@ -26,13 +26,20 @@ const StyledModalFooter = styled(Modal.Footer)`
   border-color: ${(props) => props.theme.borderColor};
 `;
 
+const StyledModal = styled(Modal)`
+  .modal-content {
+    border: 2px solid ${(props) => props.theme.borderColor};
+    border-radius: 12px;
+  }
+`;
+
 const StyledModalButtons = styled(Button)`
   color: ${(props) => props.theme.primaryFontColor};
 `;
 
 export default function ModalWrapper(props) {
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <StyledModal show={props.show} onHide={props.handleClose}>
       <StyledModalHeader closeButton>
         <StyledModalTitle>{props.headerText}</StyledModalTitle>
       </StyledModalHeader>
@@ -45,6 +52,6 @@ export default function ModalWrapper(props) {
           {props.confirmButtonText}
         </StyledModalButtons>
       </StyledModalFooter>
-    </Modal>
+    </StyledModal>
   );
 }

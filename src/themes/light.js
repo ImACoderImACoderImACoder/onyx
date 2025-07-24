@@ -13,7 +13,7 @@ const light = {
   buttonActive: {
     color: "white",
     backgroundColor: "#FF6600",
-    borderColor: "white",
+    borderColor: "#FF6600",
   },
   backgroundColor: "white",
   primaryFontColor: "black",
