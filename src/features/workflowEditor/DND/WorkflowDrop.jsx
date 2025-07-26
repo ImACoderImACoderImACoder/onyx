@@ -57,40 +57,61 @@ export default function WorkflowDrop(props) {
   );
 
   const canDrop = item?.id !== props.itemId && item?.id - 1 !== props.itemId;
+  const isDragging = !!item;
+  
   return (
     <div
       ref={drop}
       style={{
-        height: isOver && canDrop ? "80px" : "16px",
-        backgroundColor: isOver && canDrop ? theme.buttonActive.backgroundColor : 'transparent',
-        border: isOver && canDrop ? `2px dashed ${theme.buttonActive.borderColor}` : '2px dashed transparent',
-        borderRadius: "12px",
+        height: isDragging ? "50px" : "8px",
+        backgroundColor: isOver && canDrop ? `${theme.buttonActive.backgroundColor}80` : 'transparent',
+        border: isOver && canDrop 
+          ? `2px solid ${theme.buttonActive.borderColor}` 
+          : isDragging 
+            ? `1px dashed ${theme.borderColor}60`
+            : '1px dashed transparent',
+        borderRadius: isDragging ? "8px" : "4px",
         flexGrow: "1",
-        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "all 0.2s ease-in-out",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        margin: "8px 0",
+        margin: "4px 0",
+        maxWidth: "100%",
+        overflow: "hidden",
         ...(isOver && canDrop && {
-          boxShadow: `0 4px 20px ${theme.buttonActive.borderColor}40`,
-          transform: "scale(1.02)",
+          backgroundColor: theme.buttonActive.backgroundColor,
+          boxShadow: `0 2px 12px ${theme.buttonActive.borderColor}50`,
+          transform: "scaleY(1.15)",
         }),
       }}
     >
       {isOver && canDrop && (
-        <div style={{
+        <span style={{
           color: theme.buttonActive.color,
           fontSize: "0.9rem",
           fontWeight: "600",
           opacity: "0.8",
           pointerEvents: "none",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px"
+          textAlign: "center",
+          whiteSpace: "nowrap"
         }}>
           📍 Drop workflow here
-        </div>
+        </span>
+      )}
+      {isDragging && !isOver && canDrop && (
+        <span style={{
+          color: theme.primaryFontColor,
+          fontSize: "0.8rem",
+          fontWeight: "500",
+          opacity: "0.5",
+          pointerEvents: "none",
+          textAlign: "center",
+          whiteSpace: "nowrap"
+        }}>
+          ↕️ Drop zone
+        </span>
       )}
     </div>
   );

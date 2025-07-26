@@ -30,7 +30,7 @@ import {
   setIsHeatOn,
   setIsFanOn,
 } from "../../deviceInteraction/deviceInteractionSlice";
-import { setIsF } from "../../settings/settingsSlice";
+import { setIsF, setIsMinimalistMode } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
@@ -99,6 +99,11 @@ export default function VolcanoLoader(props) {
     await bleDevice.gatt.disconnect();
     clearCache();
     navigate("/");
+  };
+
+  const onMinimalistModeClick = () => {
+    dispatch(setIsMinimalistMode(true));
+    setExpanded(false);
   };
 
   const theme = useTheme();
@@ -279,6 +284,14 @@ export default function VolcanoLoader(props) {
                 {<PrideTextWithDiv text="Controls" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
+                as="div"
+                onClick={onMinimalistModeClick}
+                style={{ cursor: "pointer" }}
+              >
+                <MenuBarIcon />
+                <PrideTextWithDiv text="Mini Mode" />
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/WorkflowEditor"
               >
@@ -287,10 +300,10 @@ export default function VolcanoLoader(props) {
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
-                to="/Volcano/DeviceInformation"
+                to="/Volcano/ContactMe"
               >
-                {<InformationIcon />}
-                {<PrideTextWithDiv text="Device Info" />}
+                {<ContactMeIcon />}
+                {<PrideTextWithDiv text="Contact Me" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
@@ -299,13 +312,7 @@ export default function VolcanoLoader(props) {
                 {<SettingsIcon />}
                 {<PrideTextWithDiv text="Settings" />}
               </StyledRouterIconLink>
-              <StyledRouterIconLink
-                onClick={onLinkClick}
-                to="/Volcano/ContactMe"
-              >
-                {<ContactMeIcon />}
-                {<PrideTextWithDiv text="Contact Me" />}
-              </StyledRouterIconLink>
+
               <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
                 <BluetoothDisconnectIcon />
                 <PrideTextWithDiv text="Disconnect" />
