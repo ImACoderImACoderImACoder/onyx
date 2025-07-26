@@ -29,7 +29,7 @@ const autumnB = {
     rangeBoxBorderColor: primaryLight,
   },
   workflowEditor: {
-    accordianExpandedColor: "#146B3A",
+    accordionExpandedColor: "#146B3A",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: primaryLight,

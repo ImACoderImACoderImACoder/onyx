@@ -28,7 +28,7 @@ const valentinesDay = {
     rangeBoxBorderColor: "white",
   },
   workflowEditor: {
-    accordianExpandedColor: "#ea379d",
+    accordionExpandedColor: "#ea379d",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "gray",

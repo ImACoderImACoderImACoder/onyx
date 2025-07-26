@@ -12,7 +12,10 @@
       "Bash(timeout 8 npm run dev)",
       "Bash(npm run dev:*)",
       "Bash(mkdir:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(node:*)",
+      "Bash(find:*)",
+      "Bash(powershell:*)"
     ],
     "deny": []
   }

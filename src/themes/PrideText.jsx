@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import {
   aSuperSpecialAutoThemeSettingsId,
@@ -18,156 +19,128 @@ export default function PrideText(props) {
   });
 
   if (theme === prideClassicId) {
-    let spans = [];
+    const colors = [
+      "#D12229",
+      "#F68A1E", 
+      "#FDE01A",
+      "#007940",
+      "#004efd",
+      "#732982",
+    ];
+    let colorIndex = 0;
 
-    let currentColorIndex = 0;
-
-    for (let i = 0; i < props.text.length; i++) {
-      let currentSpanColor;
-      switch (currentColorIndex % 6) {
-        case 0:
-          currentSpanColor = "#D12229";
-          break;
-        case 1:
-          currentSpanColor = "#F68A1E";
-          break;
-        case 2:
-          currentSpanColor = "#FDE01A";
-          break;
-        case 3:
-          currentSpanColor = "#007940";
-          break;
-        case 4:
-          currentSpanColor = "#004efd";
-          break;
-        case 5:
-          currentSpanColor = "#732982";
-          break;
-        default:
-          currentSpanColor = "#FFFFFF";
-      }
-
-      if (props.text[i] !== " ") {
-        currentColorIndex++;
-      }
-
-      spans.push(
-        <span
-          key={i}
-          style={{
-            color: currentSpanColor,
-          }}
-        >
-          {props.text[i]}
-        </span>
-      );
-    }
-    return <>{spans}</>;
+    return (
+      <div style={{ 
+        whiteSpace: 'normal', 
+        wordWrap: 'break-word', 
+        overflowWrap: 'break-word',
+        display: 'inline'
+      }}>
+        {props.text.split("").map((char, index) => {
+          if (char === " ") {
+            return " ";
+          }
+          
+          const currentColor = colors[colorIndex % colors.length];
+          colorIndex++;
+          
+          return (
+            <span key={index} style={{ color: currentColor }}>
+              {char}
+            </span>
+          );
+        })}
+      </div>
+    );
   }
 
   if (theme === funId) {
-    let spans = [];
-
-    let currentColorIndex = Math.floor(Math.random() * 6);
+    const colors = [
+      "#FF0000",
+      "#FFA500", 
+      "#FFFF00",
+      "#00FF00",
+      "#004efd",
+      "#7f00ff",
+    ];
+    let colorIndex = Math.floor(Math.random() * 6);
 
     const textShadowOptions = ["AAFA0F", "FFC0CB", "50e3ff"];
+    const textShadowColor =
+      textShadowOptions[Math.floor(Math.random() * textShadowOptions.length)];
+    const textShadowOffset = "0.5";
 
-    const currentShadowColorIndex = Math.floor(
-      Math.random() * textShadowOptions.length
+    return (
+      <div style={{ 
+        whiteSpace: 'normal', 
+        wordWrap: 'break-word', 
+        overflowWrap: 'break-word',
+        display: 'inline'
+      }}>
+        {props.text.split("").map((char, index) => {
+          if (char === " ") {
+            return " ";
+          }
+          
+          const currentColor = colors[colorIndex % colors.length];
+          colorIndex++;
+          
+          return (
+            <span
+              key={index}
+              style={{
+                color: currentColor,
+                textShadow: `-${textShadowOffset}px ${textShadowOffset}px 1px #${textShadowColor}, ${textShadowOffset}px ${textShadowOffset}px 1px #${textShadowColor}, ${textShadowOffset}px -${textShadowOffset}px 1px #${textShadowColor}, -${textShadowOffset}px -${textShadowOffset}px 1px #${textShadowColor}`,
+              }}
+            >
+              {char}
+            </span>
+          );
+        })}
+      </div>
     );
-
-    const textShadowColor = textShadowOptions[currentShadowColorIndex];
-
-    for (let i = 0; i < props.text.length; i++) {
-      let currentSpanColor;
-      switch (currentColorIndex % 6) {
-        case 0:
-          currentSpanColor = "#FF0000";
-          break;
-        case 1:
-          currentSpanColor = "#FFA500";
-          break;
-        case 2:
-          currentSpanColor = "#FFFF00";
-          break;
-        case 3:
-          currentSpanColor = "#00FF00";
-          break;
-        case 4:
-          currentSpanColor = "#004efd";
-          break;
-        case 5:
-          currentSpanColor = "#7f00ff";
-          break;
-        default:
-          currentSpanColor = "#FFFFFF";
-      }
-
-      if (props.text[i] !== " ") {
-        currentColorIndex++;
-      }
-
-      const textShadowOffset = "0.5";
-
-      spans.push(
-        <span
-          key={i}
-          style={{
-            color: currentSpanColor,
-            textShadow: `-${textShadowOffset}px ${textShadowOffset}px 1px #${textShadowColor}, ${textShadowOffset}px ${textShadowOffset}px 1px #${textShadowColor}, ${textShadowOffset}px -${textShadowOffset}px 1px #${textShadowColor}, -0${textShadowOffset}px -${textShadowOffset}px  1px #${textShadowColor}`,
-          }}
-        >
-          {props.text[i]}
-        </span>
-      );
-    }
-    return <>{spans}</>;
   }
 
   if (theme === prideVibrantId) {
-    let spans = [];
-    let currentColorIndex = Math.floor(Math.random() * 6);
+    const colors = [
+      "#FF0000",
+      "#FFA500",
+      "#FFFF00", 
+      "#00FF00",
+      "#004efd",
+      "#7f00ff",
+    ];
+    let colorIndex = Math.floor(Math.random() * 6);
 
-    for (let i = 0; i < props.text.length; i++) {
-      let currentSpanColor;
-      switch (currentColorIndex % 6) {
-        case 0:
-          currentSpanColor = "#FF0000";
-          break;
-        case 1:
-          currentSpanColor = "#FFA500";
-          break;
-        case 2:
-          currentSpanColor = "#FFFF00";
-          break;
-        case 3:
-          currentSpanColor = "#00FF00";
-          break;
-        case 4:
-          currentSpanColor = "#004efd";
-          break;
-        case 5:
-          currentSpanColor = "#7f00ff";
-          break;
-        default:
-          currentSpanColor = "#FFFFFF";
-      }
-
-      if (props.text[i] !== " ") {
-        currentColorIndex++;
-      }
-      //#FFC0CB pink
-      // #50e3ff blue
-      spans.push(
-        <span
-          key={i}
-          style={{ color: currentSpanColor, textShadow: "0.5px 0.5px #ed75b3" }}
-        >
-          {props.text[i]}
-        </span>
-      );
-    }
-    return <>{spans}</>;
+    return (
+      <div style={{ 
+        whiteSpace: 'normal', 
+        wordWrap: 'break-word', 
+        overflowWrap: 'break-word',
+        display: 'inline'
+      }}>
+        {props.text.split("").map((char, index) => {
+          if (char === " ") {
+            return " ";
+          }
+          
+          const currentColor = colors[colorIndex % colors.length];
+          colorIndex++;
+          
+          return (
+            <span 
+              key={index}
+              style={{ 
+                color: currentColor, 
+                textShadow: "0.5px 0.5px #ed75b3" 
+              }}
+            >
+              {char}
+            </span>
+          );
+        })}
+      </div>
+    );
   }
   return props.text;
 }

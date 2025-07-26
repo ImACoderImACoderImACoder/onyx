@@ -38,7 +38,7 @@ const christmas = {
     rangeBoxBorderColor: "#BB2528",
   },
   workflowEditor: {
-    accordianExpandedColor: "#146B3A",
+    accordionExpandedColor: "#146B3A",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "beige",

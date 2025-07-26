@@ -65,7 +65,7 @@ export default function GetAutoThemeId() {
     isInDateRange(
       currentDate,
       new Date(`06/01/${currentYear}`),
-      new Date(`06/31/${currentYear}`)
+      new Date(`06/30/${currentYear}`)
     )
   ) {
     return Math.floor(Math.random() * 2)
@@ -89,22 +89,24 @@ export default function GetAutoThemeId() {
     return randomTheme;
   }
 
+  const excludedThemes = new Set([
+    themeIds.aSuperSpecialAutoThemeSettingsId,
+    themeIds.christmasId,
+    themeIds.christmasPeppermintHolidayId,
+    themeIds.christmasWithoutSnowId,
+    themeIds.valentinesDayId,
+    themeIds.flamingoId,
+    themeIds.funId,
+    themeIds.prideClassicId,
+    themeIds.prideVibrantId,
+    themeIds.lightThemeId,
+    themeIds.feastOfSaintPatrickId,
+    themeIds.halloweenId,
+    themeIds.autumnBId
+  ]);
+  
   const themeKeys = Object.keys(themeIds).filter(
-    (key) =>
-      themeIds[key] !== themeIds.aSuperSpecialAutoThemeSettingsId &&
-      themeIds[key] !== themeIds.christmasId &&
-      themeIds[key] !== themeIds.christmasPeppermintHolidayId &&
-      themeIds[key] !== themeIds.christmasWithoutSnowId &&
-      themeIds[key] !== themeIds.valentinesDayId &&
-      themeIds[key] !== themeIds.flamingoId &&
-      themeIds[key] !== themeIds.funId &&
-      themeIds[key] !== themeIds.prideClassicId &&
-      themeIds[key] !== themeIds.prideVibrantId &&
-      themeIds[key] !== themeIds.lightThemeId &&
-      themeIds[key] !== themeIds.funId &&
-      themeIds[key] !== themeIds.feastOfSaintPatrickId &&
-      themeIds[key] !== themeIds.halloweenId &&
-      themeIds[key] !== themeIds.autumnBId
+    (key) => !excludedThemes.has(themeIds[key])
   );
   randomTheme =
     themeIds[themeKeys[Math.floor(Math.random() * themeKeys.length)]];

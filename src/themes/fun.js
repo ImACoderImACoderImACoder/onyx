@@ -49,7 +49,7 @@ const pride = {
       rgb(85, 205, 252) 80%, rgb(85, 205, 252) 100%)`,
   },
   workflowEditor: {
-    accordianExpandedColor: "#2d3237",
+    accordionExpandedColor: "#2d3237",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "white",

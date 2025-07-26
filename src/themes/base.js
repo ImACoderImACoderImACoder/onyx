@@ -31,7 +31,7 @@ const base = () => {
       rangeBoxBorderWidth: "3px",
     },
     workflowEditor: {
-      accordianExpandedColor: "#D2D2D2",
+      accordionExpandedColor: "#D2D2D2",
     },
     ToggleButtons: {
       sliderBackgroundColorOn: "gray",
