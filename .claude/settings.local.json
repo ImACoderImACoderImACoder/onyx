@@ -15,7 +15,8 @@
       "Bash(ls:*)",
       "Bash(node:*)",
       "Bash(find:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(timeout 5 npm run dev)"
     ],
     "deny": []
   }

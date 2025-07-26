@@ -58,7 +58,8 @@ const StyledAccordionHeader = styled(Accordion.Header)`
 
     &:focus {
       border-color: ${(props) => props.theme.buttonActive.borderColor};
-      box-shadow: 0 0 0 3px ${(props) => props.theme.buttonActive.borderColor}33;
+      box-shadow: 0 0 0 3px ${(props) =>
+        props.theme.buttonActive.borderColor}33;
     }
   }
 
@@ -438,19 +439,6 @@ export default function WorkflowEditor() {
         <WorkflowCreationButtonsContainer>
           <WorkflowCreationCard>
             <WorkflowCreationCardHeader>
-              <WorkflowCreationCardIcon>📋</WorkflowCreationCardIcon>
-              <WorkflowCreationCardTitle>
-                Premade Workflows
-              </WorkflowCreationCardTitle>
-            </WorkflowCreationCardHeader>
-            <WorkflowCreationCardDescription>
-              Quick start with expertly crafted workflows designed for different
-              vaping styles.
-            </WorkflowCreationCardDescription>
-            <CreatePremadeWorkflowButtonContainer />
-          </WorkflowCreationCard>
-          <WorkflowCreationCard>
-            <WorkflowCreationCardHeader>
               <WorkflowCreationCardIcon>🎨</WorkflowCreationCardIcon>
               <WorkflowCreationCardTitle>
                 Custom Workflow
@@ -461,6 +449,19 @@ export default function WorkflowEditor() {
               settings and timing.
             </WorkflowCreationCardDescription>
             <CreateWorkflowButton onClick={onCreateWorkflow} />
+          </WorkflowCreationCard>
+          <WorkflowCreationCard>
+            <WorkflowCreationCardHeader>
+              <WorkflowCreationCardIcon>📋</WorkflowCreationCardIcon>
+              <WorkflowCreationCardTitle>
+                Workflow Templates
+              </WorkflowCreationCardTitle>
+            </WorkflowCreationCardHeader>
+            <WorkflowCreationCardDescription>
+              Quick start with expertly crafted workflows designed for different
+              vaping styles.
+            </WorkflowCreationCardDescription>
+            <CreatePremadeWorkflowButtonContainer />
           </WorkflowCreationCard>
         </WorkflowCreationButtonsContainer>
       </WorkflowCreationSection>

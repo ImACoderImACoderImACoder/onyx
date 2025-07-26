@@ -78,3 +78,4 @@ No test commands are currently configured in package.json. Tests would use the @
 
 ## Code Best Practices
 - Always import the conversion function for changing between c and f instead of creating your own
+- Always take the isF flag and the correct temperature conversion into account when dealing with temperature

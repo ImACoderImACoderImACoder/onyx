@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ReadConfigFromLocalStorage } from "../../services/utils";
+import { ReadConfigFromLocalStorage, WriteNewConfigToLocalStorage } from "../../services/utils";
 import { RE_INITIALIZE_STORE } from "../../constants/actions";
 
 export const settingsSlice = createSlice({
@@ -43,6 +43,11 @@ export const settingsSlice = createSlice({
     setHighlightLastRunWorkflow: (state, action) => {
       state.config.highlightLastRunWorkflow = action.payload;
     },
+    setIsMinimalistMode: (state, action) => {
+      state.config.isMinimalistMode = action.payload;
+      console.log('Saving minimalist mode to localStorage:', action.payload, state.config);
+      WriteNewConfigToLocalStorage(state.config);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(RE_INITIALIZE_STORE, (state) => {
@@ -70,6 +75,7 @@ export const {
   setCurrentWorkflows,
   setFanOnGlobal,
   setHighlightLastRunWorkflow,
+  setIsMinimalistMode,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

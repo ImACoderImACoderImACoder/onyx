@@ -89,6 +89,7 @@ export function isValueInValidVolcanoCelciusRange(value) {
 
 export function ReadConfigFromLocalStorage() {
   let config = JSON.parse(window.localStorage.getItem(localStorageKey));
+  console.log('Reading config from localStorage:', config);
   const defaultConfig = {
     temperatureControlValues: defaultTemperatureArray,
     currentTheme: aSuperSpecialAutoThemeSettingsId,
@@ -97,6 +98,7 @@ export function ReadConfigFromLocalStorage() {
       [WorkflowItemTypes.FAN_ON_GLOBAL]: defaultGlobalFanOnTimeInSeconds,
     },
     onConnectTurnHeatOn: false,
+    isMinimalistMode: false,
   };
   if (!config) {
     window.localStorage.setItem(localStorageKey, JSON.stringify(defaultConfig));

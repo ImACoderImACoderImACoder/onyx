@@ -10,7 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
-  
+
   @media (min-width: 768px) {
     padding: 40px;
   }
@@ -29,11 +29,13 @@ const MainContent = styled.div`
 `;
 
 const LargeConnectButton = styled.button`
-  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
-  border: 2px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  background: ${(props) =>
+    props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
+  border: 2px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 20px;
   padding: 60px 48px;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   cursor: pointer;
   transition: all 0.3s ease;
   min-height: 60vh;
@@ -45,17 +47,18 @@ const LargeConnectButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 24px;
-  
+
   &:hover {
     transform: translateY(-6px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-    border-color: ${props => props.theme.buttonActive?.borderColor || props.theme.primaryColor};
+    border-color: ${(props) =>
+      props.theme.buttonActive?.borderColor || props.theme.primaryColor};
   }
-  
+
   &:active {
     transform: translateY(-3px);
   }
-  
+
   @media (max-width: 768px) {
     padding: 48px 36px;
     min-height: 50vh;
@@ -68,7 +71,7 @@ const ConnectTitle = styled.h1`
   margin: 0;
   font-size: 3rem;
   font-weight: 700;
-  
+
   @media (max-width: 768px) {
     font-size: 2.2rem;
   }
@@ -80,7 +83,7 @@ const ConnectDescription = styled.p`
   line-height: 1.6;
   opacity: 0.8;
   max-width: 500px;
-  
+
   @media (max-width: 768px) {
     font-size: 1.1rem;
   }
@@ -90,26 +93,28 @@ const ConnectInstruction = styled.div`
   font-size: 1.1rem;
   opacity: 0.7;
   margin-top: 8px;
-  
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }
 `;
 
 const ProTipCard = styled.div`
-  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  background: ${(props) =>
+    props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 12px;
   padding: 20px;
   width: 100%;
   max-width: 500px;
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-  
+
   @media (max-width: 768px) {
     width: 96%;
     max-width: none;
@@ -138,7 +143,7 @@ const ProTipTitle = styled.h3`
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryColor || props.theme.primaryFontColor};
 `;
 
 const ProTipNavigation = styled.div`
@@ -148,11 +153,13 @@ const ProTipNavigation = styled.div`
 `;
 
 const NavButton = styled.button`
-  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.2)'};
+  background: ${(props) =>
+    props.theme.buttonColorMain || "rgba(255, 255, 255, 0.1)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.2)"};
   border-radius: 6px;
   padding: 6px 8px;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -161,23 +168,25 @@ const NavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:hover {
-    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryColor};
+    background: ${(props) =>
+      props.theme.buttonActive?.backgroundColor || props.theme.primaryColor};
     transform: translateY(-1px);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    
+
     &:hover {
       transform: none;
-      background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'};
+      background: ${(props) =>
+        props.theme.buttonColorMain || "rgba(255, 255, 255, 0.1)"};
     }
   }
 `;
@@ -192,15 +201,16 @@ const TipCounter = styled.span`
 const ProTipContent = styled.div`
   font-size: 1rem;
   line-height: 1.5;
-  color: ${props => props.theme.primaryFontColor};
-  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
+  color: ${(props) => props.theme.primaryFontColor};
+  background: ${(props) =>
+    props.theme.buttonColorMain || "rgba(255, 255, 255, 0.05)"};
   padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   min-height: 120px;
   display: flex;
   align-items: center;
-  
+
   @media (max-width: 768px) {
     min-height: 100px;
   }
@@ -222,9 +232,12 @@ export default function Ble(props) {
     "If you want to visually see the last workflow run you can enable highlight last run workflow in settings",
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
     "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
+    'Mini mode available now! Just click "Mini Mode" in the nav menu!',
   ];
 
-  const [currentTipIndex, setCurrentTipIndex] = useState(Math.floor(Math.random() * tips.length));
+  const [currentTipIndex, setCurrentTipIndex] = useState(
+    Math.floor(Math.random() * tips.length)
+  );
 
   const nextTip = () => {
     setCurrentTipIndex((prev) => (prev + 1) % tips.length);
@@ -233,7 +246,7 @@ export default function Ble(props) {
   const prevTip = () => {
     setCurrentTipIndex((prev) => (prev - 1 + tips.length) % tips.length);
   };
-  
+
   return (
     <Container>
       <MainContent>
@@ -242,13 +255,14 @@ export default function Ble(props) {
             <PrideText text="🔗 Connect to Volcano" />
           </ConnectTitle>
           <ConnectDescription>
-            Ready to take control of your Volcano Hybrid? Tap here to establish a Bluetooth connection and unlock all the advanced features.
+            Ready to take control of your Volcano Hybrid? Tap here to establish
+            a Bluetooth connection and unlock all the advanced features.
           </ConnectDescription>
           <ConnectInstruction>
             Make sure your Volcano is powered on and nearby
           </ConnectInstruction>
         </LargeConnectButton>
-        
+
         <ProTipCard>
           <ProTipHeader>
             <ProTipLeft>

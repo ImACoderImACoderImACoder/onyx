@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import BleConnectButtonContainer from "./features/deviceBLEconnection/BleContainer";
 import VolcanoLoaderLoader from "./features/shared/OutletRenderer/VolcanoLoaderLoader";
 import Volcano from "./features/deviceInteraction/DeviceInteraction";
-import { DeviceInformationWithToggleControls } from "./features/deviceInformation/DeviceInformation";
 import ContactMe from "./features/contactMe/ContactMe";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,6 +18,7 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import Snowfall from "./features/shared/Snowfall";
 import { isMobile } from "./constants/constants";
 import DragPreview from "./features/workflowEditor/DND/DragPreview";
+import MinimalistLayout from "./features/shared/MinimalistLayout";
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -26,6 +26,30 @@ const Div = styled.div`
   height: 100vh;
   display: flex;
 `;
+
+function AppRoutes({ isMinimalistMode }) {
+  const location = useLocation();
+  
+  // Show minimalist mode only when connected (not on home page)
+  const shouldShowMinimalistMode = isMinimalistMode && location.pathname !== "/";
+  
+  if (shouldShowMinimalistMode) {
+    return <MinimalistLayout />;
+  }
+  
+  return (
+    <Routes>
+      <Route path="/" element={<BleConnectButtonContainer />} />
+      <Route path="Volcano" element={<VolcanoLoaderLoader />}>
+        <Route path="App" element={<Volcano />} />
+        <Route path="Settings" element={<Settings />} />
+        <Route path="WorkflowEditor" element={<WorkflowEditor />} />
+        <Route path="ContactMe" element={<ContactMe />} />
+      </Route>
+      <Route path="*" element={<BleConnectButtonContainer />} />
+    </Routes>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -38,6 +62,7 @@ function App() {
   const themeId = useSelector(
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
+  const isMinimalistMode = useSelector((state) => state.settings.config?.isMinimalistMode || false);
 
   useEffect(() => {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
@@ -52,20 +77,7 @@ function App() {
           <DragPreview />
           <Div>
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<BleConnectButtonContainer />} />
-                <Route path="Volcano" element={<VolcanoLoaderLoader />}>
-                  <Route path="App" element={<Volcano />} />
-                  <Route
-                    path="DeviceInformation"
-                    element={<DeviceInformationWithToggleControls />}
-                  />
-                  <Route path="Settings" element={<Settings />} />
-                  <Route path="WorkflowEditor" element={<WorkflowEditor />} />
-                  <Route path="ContactMe" element={<ContactMe />} />
-                </Route>
-                <Route path="*" element={<BleConnectButtonContainer />} />
-              </Routes>
+              <AppRoutes isMinimalistMode={isMinimalistMode} />
             </BrowserRouter>
           </Div>
         </ThemeProvider>
