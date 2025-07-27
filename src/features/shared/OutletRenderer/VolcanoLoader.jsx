@@ -117,6 +117,7 @@ export default function VolcanoLoader(props) {
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
   );
+
   /* eslint-enable no-unused-vars */
 
   useEffect(() => {

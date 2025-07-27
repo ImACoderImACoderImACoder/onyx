@@ -19,6 +19,8 @@ import Snowfall from "./features/shared/Snowfall";
 import { isMobile } from "./constants/constants";
 import DragPreview from "./features/workflowEditor/DND/DragPreview";
 import MinimalistLayout from "./features/shared/MinimalistLayout";
+import { convertToFahrenheitFromCelsius } from "./services/utils";
+import { DEGREE_SYMBOL, MIN_CELSIUS_TEMP, MAX_CELSIUS_TEMP } from "./constants/temperature";
 const Div = styled.div`
   color: ${(props) => props.theme.primaryFontColor};
   background-color: ${(props) => props.theme.backgroundColor};
@@ -63,10 +65,38 @@ function App() {
     (state) => state.settings.config?.currentTheme || GetTheme().themeId
   );
   const isMinimalistMode = useSelector((state) => state.settings.config?.isMinimalistMode || false);
+  
+  // Temperature state for page title
+  const currentTemperature = useSelector((state) => state.deviceInteraction.currentTemperature);
+  const isF = useSelector((state) => state.settings.isF);
+  const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
 
   useEffect(() => {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
   }, [themeId]);
+
+  // Update page title with current temperature (works for both regular and minimalist mode)
+  useEffect(() => {
+    const temperature = currentTemperature || currentTemperature === 0
+      ? isF
+        ? convertToFahrenheitFromCelsius(currentTemperature)
+        : currentTemperature
+      : currentTemperature;
+
+    const showCurrentTemp = (!isNaN(parseInt(currentTemperature)) &&
+      currentTemperature > MIN_CELSIUS_TEMP &&
+      currentTemperature <= MAX_CELSIUS_TEMP) || isHeatOn;
+
+    const displayTemperature = temperature && !isNaN(parseInt(temperature))
+      ? Math.round(temperature)
+      : null;
+    
+    if (displayTemperature && showCurrentTemp) {
+      document.title = `${displayTemperature}${DEGREE_SYMBOL}${isF ? "F" : "C"} - Onyx`;
+    } else {
+      document.title = "Onyx";
+    }
+  }, [currentTemperature, isF, isHeatOn]);
 
   return (
     <>

@@ -108,6 +108,7 @@ export default function CurrentTemperatureContainer() {
       currentTemperature > MIN_CELSIUS_TEMP &&
       currentTemperature <= MAX_CELSIUS_TEMP) ||
     isHeatOn;
+
   return (
     <CurrentTemperature
       style={{ opacity: showCurrentTemp ? "1" : "0", transition: "all 0.35s" }}

@@ -77,9 +77,10 @@ const MinimalistWrapper = styled.div`
 
 const LeftColumn = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   padding: 0 5px;
   gap: 10px;
+  justify-content: flex-start;
 `;
 
 const MiddleColumn = styled.div`
@@ -174,38 +175,6 @@ const ExitButton = styled(WriteTemperature)`
     &:active {
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       outline: none !important;
-    }
-  }
-`;
-
-const DisconnectButton = styled(WriteTemperature)`
-  flex: 1;
-  height: 50%;
-
-  & > div {
-    height: 100% !important;
-  }
-
-  button {
-    background: linear-gradient(145deg, #dc3545, #dc3545cc);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 4px;
-    font-size: 14px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    &:hover {
-      background: #c82333;
     }
   }
 `;
@@ -314,13 +283,30 @@ const HeatButton = styled(WriteTemperature)`
 
     &:hover {
       background: ${(props) =>
-        props.theme.hoverBackgroundColor ||
-        props.theme.buttonColorMain} !important;
+        props.isActive
+          ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
+          : `linear-gradient(145deg, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc)`} !important;
+      color: ${(props) =>
+        props.isActive
+          ? props.theme.buttonActive.color
+          : props.theme.primaryFontColor} !important;
     }
 
     &:focus,
     &:active {
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      background: ${(props) =>
+        props.isActive
+          ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
+          : `linear-gradient(145deg, ${props.theme.buttonColorMain}, ${props.theme.buttonColorMain}cc)`} !important;
+      color: ${(props) =>
+        props.isActive
+          ? props.theme.buttonActive.color
+          : props.theme.primaryFontColor} !important;
+      border: 1px solid
+        ${(props) =>
+          props.isActive
+            ? props.theme.buttonActive.borderColor
+            : "rgba(255, 255, 255, 0.1)"} !important;
       outline: none !important;
     }
   }
@@ -364,18 +350,34 @@ const FanButton = styled(WriteTemperature)`
 
     &:hover {
       background: ${(props) =>
-        props.theme.hoverBackgroundColor ||
-        props.theme.buttonColorMain} !important;
+        props.isActive
+          ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
+          : `linear-gradient(145deg, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc)`} !important;
+      color: ${(props) =>
+        props.isActive
+          ? props.theme.buttonActive.color
+          : props.theme.primaryFontColor} !important;
     }
 
     &:focus,
     &:active {
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      background: ${(props) =>
+        props.isActive
+          ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
+          : `linear-gradient(145deg, ${props.theme.buttonColorMain}, ${props.theme.buttonColorMain}cc)`} !important;
+      color: ${(props) =>
+        props.isActive
+          ? props.theme.buttonActive.color
+          : props.theme.primaryFontColor} !important;
+      border: 1px solid
+        ${(props) =>
+          props.isActive
+            ? props.theme.buttonActive.borderColor
+            : "rgba(255, 255, 255, 0.1)"} !important;
       outline: none !important;
     }
   }
 `;
-
 
 const MinimalistPlusMinusButton = styled(WriteTemperature)`
   width: 100%;
@@ -430,7 +432,6 @@ const MinimalistPlusMinusButton = styled(WriteTemperature)`
 const HiddenWorkflowContainer = styled.div`
   display: none;
 `;
-
 
 const TemperatureRow = styled.div`
   display: flex;
@@ -495,13 +496,17 @@ export default function MinimalistLayout() {
       try {
         const characteristic = getCharacteristic(currentTemperatureUuid);
         if (!characteristic) {
-          console.warn("Current temperature characteristic not found in minimalist mode");
+          console.warn(
+            "Current temperature characteristic not found in minimalist mode"
+          );
           return;
         }
 
         const onCharacteristicChange = (event) => {
           const currentTemperature =
-            convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
+            convertCurrentTemperatureCharacteristicToCelcius(
+              event.target.value
+            );
           if (
             store.getState().deviceInteraction.currentTemperature !==
             currentTemperature
@@ -534,11 +539,14 @@ export default function MinimalistLayout() {
           );
         };
       } catch (error) {
-        console.error("Error setting up current temperature BLE handler in minimalist mode:", error);
+        console.error(
+          "Error setting up current temperature BLE handler in minimalist mode:",
+          error
+        );
         navigate("/");
       }
     };
-    
+
     AddToQueue(BlePayload);
   }, [dispatch, navigate]);
 
@@ -548,13 +556,17 @@ export default function MinimalistLayout() {
       try {
         const characteristic = getCharacteristic(writeTemperatureUuid);
         if (!characteristic) {
-          console.warn("Target temperature characteristic not found in minimalist mode");
+          console.warn(
+            "Target temperature characteristic not found in minimalist mode"
+          );
           return;
         }
 
         const handleTargetTemperatureChanged = (event) => {
           const targetTemperature =
-            convertCurrentTemperatureCharacteristicToCelcius(event.target.value);
+            convertCurrentTemperatureCharacteristicToCelcius(
+              event.target.value
+            );
           if (
             store.getState().deviceInteraction.targetTemperature !==
             targetTemperature
@@ -587,7 +599,10 @@ export default function MinimalistLayout() {
           );
         };
       } catch (error) {
-        console.error("Error setting up target temperature BLE handler in minimalist mode:", error);
+        console.error(
+          "Error setting up target temperature BLE handler in minimalist mode:",
+          error
+        );
         navigate("/");
       }
     };
@@ -614,7 +629,10 @@ export default function MinimalistLayout() {
                 dispatch(setCurrentTemperature(normalizedValue));
               }
             } catch (error) {
-              console.error("Error reading current temperature on visibility change:", error);
+              console.error(
+                "Error reading current temperature on visibility change:",
+                error
+              );
               navigate("/");
             }
           };
@@ -635,7 +653,10 @@ export default function MinimalistLayout() {
                 dispatch(setTargetTemperature(targetTemperature));
               }
             } catch (error) {
-              console.error("Error reading target temperature on visibility change:", error);
+              console.error(
+                "Error reading target temperature on visibility change:",
+                error
+              );
               navigate("/");
             }
           };
@@ -685,7 +706,7 @@ export default function MinimalistLayout() {
           onRegister1Change
         );
         await characteristic.startNotifications();
-        
+
         // Initial read
         const value = await characteristic.readValue();
         const currentVal = convertBLEtoUint16(value);
@@ -713,7 +734,10 @@ export default function MinimalistLayout() {
           );
         };
       } catch (error) {
-        console.error("Error setting up heat/fan status BLE handler in minimalist mode:", error);
+        console.error(
+          "Error setting up heat/fan status BLE handler in minimalist mode:",
+          error
+        );
         navigate("/");
       }
     };
@@ -747,7 +771,7 @@ export default function MinimalistLayout() {
           onRegister2Change
         );
         await characteristic.startNotifications();
-        
+
         // Initial read
         const value = await characteristic.readValue();
         const convertedValue = convertBLEtoUint16(value);
@@ -768,7 +792,10 @@ export default function MinimalistLayout() {
           );
         };
       } catch (error) {
-        console.error("Error setting up temperature unit BLE handler in minimalist mode:", error);
+        console.error(
+          "Error setting up temperature unit BLE handler in minimalist mode:",
+          error
+        );
         navigate("/");
       }
     };
@@ -794,7 +821,9 @@ export default function MinimalistLayout() {
         if (targetTemperature !== value) {
           characteristic = getCharacteristic(writeTemperatureUuid);
           if (!characteristic) {
-            console.error("Temperature characteristic not found - redirecting to home");
+            console.error(
+              "Temperature characteristic not found - redirecting to home"
+            );
             navigate("/");
             return;
           }
@@ -806,7 +835,9 @@ export default function MinimalistLayout() {
         if (!isHeatOn && !disableAutoHeatOn) {
           characteristic = getCharacteristic(heatOnUuid);
           if (!characteristic) {
-            console.error("Heat characteristic not found - redirecting to home");
+            console.error(
+              "Heat characteristic not found - redirecting to home"
+            );
             navigate("/");
             return;
           }
@@ -829,7 +860,9 @@ export default function MinimalistLayout() {
           let characteristic, buffer;
           characteristic = getCharacteristic(heatOnUuid);
           if (!characteristic) {
-            console.error("Heat characteristic not found - redirecting to home");
+            console.error(
+              "Heat characteristic not found - redirecting to home"
+            );
             navigate("/");
             return;
           }
@@ -939,6 +972,11 @@ export default function MinimalistLayout() {
   return (
     <MinimalistWrapper className="minimalist-mode">
       <LeftColumn>
+        <ExitButton
+          onClick={handleDisconnect}
+          buttonText={<BluetoothDisconnectIcon />}
+        />
+        <ExitButton onClick={handleExit} buttonText={<ControlsIcon />} />
         <LeftColumnTemperatureDisplay>
           <TemperatureRow>
             <CurrentTemperature
@@ -946,21 +984,17 @@ export default function MinimalistLayout() {
               temperatureSuffix={temperatureSuffix}
             />
           </TemperatureRow>
-          <TemperatureRow style={{ opacity: isHeatOn ? "1" : "0", transition: "all 0.35s" }}>
+          <TemperatureRow
+            style={{ opacity: isHeatOn ? "1" : "0", transition: "all 0.35s" }}
+          >
             <CurrentTargetTemperature
               currentTargetTemperature={displayTargetTemperature}
               temperatureSuffix={temperatureSuffix}
             />
           </TemperatureRow>
         </LeftColumnTemperatureDisplay>
-        
-        <ExitButton onClick={handleExit} buttonText={<ControlsIcon />} />
-        <ExitButton
-          onClick={handleDisconnect}
-          buttonText={<BluetoothDisconnectIcon />}
-        />
       </LeftColumn>
-      
+
       <MiddleColumn
         className={workflows.length === 0 ? "temperature-grid" : ""}
       >

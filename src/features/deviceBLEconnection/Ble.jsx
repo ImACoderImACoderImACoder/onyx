@@ -233,6 +233,7 @@ export default function Ble(props) {
     "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
     "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
     'Mini mode available now! Just click "Mini Mode" in the nav menu!',
+    "If you don't have any workflows saved mini mode will display a grid of temperatures.",
   ];
 
   const [currentTipIndex, setCurrentTipIndex] = useState(
