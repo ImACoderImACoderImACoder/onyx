@@ -88,13 +88,14 @@ const MiddleColumn = styled.div`
   overflow-y: auto;
   gap: 10px;
   padding: 0 10px;
+  justify-content: flex-end;
 
   &.temperature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
     gap: 5px;
-    align-content: start;
+    align-content: stretch;
     align-items: stretch;
   }
 `;
@@ -103,25 +104,23 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: column-reverse;
   gap: 10px;
-  position: relative;
+  padding: 0 5px;
 `;
 
 const HeatFanSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  overflow: hidden;
-  height: 60px;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 60px;
 `;
 
 const PlusMinusSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  overflow: hidden;
-  height: 60px;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 60px;
 `;
 
 const LeftColumnTemperatureDisplay = styled.div`
@@ -212,9 +211,8 @@ const DisconnectButton = styled(WriteTemperature)`
 `;
 
 const WorkflowButton = styled(WriteTemperature)`
-  flex: 0 0 auto;
+  flex: 1;
   min-height: 45px;
-  max-height: 45px;
 
   & > div {
     height: 100% !important;
@@ -278,23 +276,13 @@ const WorkflowButton = styled(WriteTemperature)`
 
 const HeatButton = styled(WriteTemperature)`
   width: 100%;
-  height: 50px;
-  max-height: 50px;
+  height: 100%;
 
   & > div {
     height: 100% !important;
   }
 
   button {
-    padding: 8px 4px;
-    font-size: 14px;
-    height: 100%;
-    width: 100%;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     background: ${(props) =>
       props.isActive
         ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
@@ -308,31 +296,13 @@ const HeatButton = styled(WriteTemperature)`
         props.isActive
           ? props.theme.buttonActive.borderColor
           : "rgba(255, 255, 255, 0.1)"} !important;
+    padding: 8px 4px;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &:hover {
-      opacity: 0.9;
-    }
-
-    &:focus,
-    &:focus-visible {
-      background: ${(props) =>
-        props.isActive
-          ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
-          : `linear-gradient(145deg, ${props.theme.buttonColorMain}, ${props.theme.buttonColorMain}cc)`} !important;
-      color: ${(props) =>
-        props.isActive
-          ? props.theme.buttonActive.color
-          : props.theme.primaryFontColor} !important;
-      border: 1px solid
-        ${(props) =>
-          props.isActive
-            ? props.theme.buttonActive.borderColor
-            : "rgba(255, 255, 255, 0.1)"} !important;
-      outline: none !important;
-    }
 
     .heat-icon {
       font-size: 24px;
@@ -341,28 +311,30 @@ const HeatButton = styled(WriteTemperature)`
       transform: none;
       line-height: 1;
     }
+
+    &:hover {
+      background: ${(props) =>
+        props.theme.hoverBackgroundColor ||
+        props.theme.buttonColorMain} !important;
+    }
+
+    &:focus,
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      outline: none !important;
+    }
   }
 `;
 
 const FanButton = styled(WriteTemperature)`
   width: 100%;
-  height: 50px;
-  max-height: 50px;
+  height: 100%;
 
   & > div {
     height: 100% !important;
   }
 
   button {
-    padding: 8px 4px;
-    font-size: 14px;
-    height: 100%;
-    width: 100%;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     background: ${(props) =>
       props.isActive
         ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
@@ -376,12 +348,30 @@ const FanButton = styled(WriteTemperature)`
         props.isActive
           ? props.theme.buttonActive.borderColor
           : "rgba(255, 255, 255, 0.1)"} !important;
+    padding: 8px 4px;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
     &:hover {
-      opacity: 0.9;
+      background: ${(props) =>
+        props.theme.hoverBackgroundColor ||
+        props.theme.buttonColorMain} !important;
+    }
+
+    &:focus,
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      outline: none !important;
     }
   }
 `;
@@ -424,7 +414,15 @@ const MinimalistPlusMinusButton = styled(WriteTemperature)`
     }
 
     &:hover {
-      opacity: 0.9;
+      background: ${(props) =>
+        props.theme.hoverBackgroundColor ||
+        props.theme.buttonColorMain} !important;
+    }
+
+    &:focus,
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      outline: none !important;
     }
   }
 `;
@@ -1061,7 +1059,6 @@ export default function MinimalistLayout() {
             isActive={isFanOn}
           />
         </HeatFanSection>
-
       </RightColumn>
 
       <HiddenWorkflowContainer ref={workflowRef}>
