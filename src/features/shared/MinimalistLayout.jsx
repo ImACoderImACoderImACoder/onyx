@@ -46,11 +46,13 @@ import {
 import { setIsF } from "../settings/settingsSlice";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../constants/constants";
-import { DEGREE_SYMBOL } from "../../constants/temperature";
+import { DEGREE_SYMBOL, MAX_CELSIUS_TEMP } from "../../constants/temperature";
 import { heatingMask, fanMask, fahrenheitMask } from "../../constants/masks";
 import store from "../../store";
 import CurrentTemperature from "../deviceInteraction/CurrentTemperature/CurrentTemperature";
 import CurrentTargetTemperature from "../deviceInteraction/CurrentTargetTemperature/CurrentTargetTemperature";
+import { Range } from "react-range";
+import { useTheme } from "styled-components";
 
 const MinimalistWrapper = styled.div`
   width: 100%;
@@ -285,7 +287,11 @@ const HeatButton = styled(WriteTemperature)`
       background: ${(props) =>
         props.isActive
           ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
-          : `linear-gradient(145deg, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc)`} !important;
+          : `linear-gradient(145deg, ${
+              props.theme.hoverBackgroundColor || props.theme.buttonColorMain
+            }, ${
+              props.theme.hoverBackgroundColor || props.theme.buttonColorMain
+            }cc)`} !important;
       color: ${(props) =>
         props.isActive
           ? props.theme.buttonActive.color
@@ -352,7 +358,11 @@ const FanButton = styled(WriteTemperature)`
       background: ${(props) =>
         props.isActive
           ? `linear-gradient(145deg, ${props.theme.buttonActive.backgroundColor}, ${props.theme.buttonActive.backgroundColor}cc)`
-          : `linear-gradient(145deg, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}, ${props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc)`} !important;
+          : `linear-gradient(145deg, ${
+              props.theme.hoverBackgroundColor || props.theme.buttonColorMain
+            }, ${
+              props.theme.hoverBackgroundColor || props.theme.buttonColorMain
+            }cc)`} !important;
       color: ${(props) =>
         props.isActive
           ? props.theme.buttonActive.color
@@ -453,6 +463,17 @@ const TemperatureRow = styled.div`
   }
 `;
 
+const VerticalRangeContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  min-height: 200px;
+  touch-action: none; /* Prevent scroll on mobile when dragging */
+  user-select: none; /* Prevent text selection on drag */
+`;
+
 export default function MinimalistLayout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -479,6 +500,7 @@ export default function MinimalistLayout() {
   const isF = useSelector((state) => state.settings.isF);
   const workflowRef = useRef(null);
   const [useIcons, setUseIcons] = useState(false);
+  const theme = useTheme();
 
   useEffect(() => {
     const checkColumnWidth = () => {
@@ -884,6 +906,61 @@ export default function MinimalistLayout() {
     onTemperatureIncrementDecrementDebounceRef.current(nextTemp, true);
   };
 
+  // Vertical temperature range functionality
+  const MIN_CELSIUS_TEMP = 170;
+  const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
+  const sliderDisplayValue =
+    targetTemperature > MIN_CELSIUS_TEMP ? targetTemperature : MIN_CELSIUS_TEMP;
+
+  const onRangeMouseUp = (e) => {
+    const blePayload = async () => {
+      try {
+        const characteristic = getCharacteristic(writeTemperatureUuid);
+        if (!characteristic) {
+          console.error(
+            "Temperature characteristic not found - redirecting to home"
+          );
+          navigate("/");
+          return;
+        }
+        const buffer = convertToUInt32BLE(e[0] * 10);
+        await characteristic.writeValue(buffer);
+      } catch (error) {
+        console.error(
+          "Error setting temperature range in minimalist mode:",
+          error
+        );
+        navigate("/");
+      }
+    };
+    AddToQueue(blePayload);
+  };
+
+  const onRangeChange = (e) => {
+    if (!isHeatOn) {
+      const blePayload = async () => {
+        try {
+          const characteristic = getCharacteristic(heatOnUuid);
+          if (!characteristic) {
+            console.error(
+              "Heat characteristic not found - redirecting to home"
+            );
+            navigate("/");
+            return;
+          }
+          const buffer = convertToUInt8BLE(0);
+          await characteristic.writeValue(buffer);
+          dispatch(setIsHeatOn(true));
+        } catch (error) {
+          console.error("Error turning on heat in minimalist mode:", error);
+          navigate("/");
+        }
+      };
+      AddToPriorityQueue(blePayload);
+    }
+    dispatch(setTargetTemperature(e[0]));
+  };
+
   const handleExit = () => {
     dispatch(setIsMinimalistMode(false));
     navigate("/Volcano/App");
@@ -977,6 +1054,7 @@ export default function MinimalistLayout() {
           buttonText={<BluetoothDisconnectIcon />}
         />
         <ExitButton onClick={handleExit} buttonText={<ControlsIcon />} />
+
         <LeftColumnTemperatureDisplay>
           <TemperatureRow>
             <CurrentTemperature
@@ -993,6 +1071,75 @@ export default function MinimalistLayout() {
             />
           </TemperatureRow>
         </LeftColumnTemperatureDisplay>
+        <VerticalRangeContainer>
+          <Range
+            step={1}
+            min={MIN_CELSIUS_TEMP}
+            max={MAX_CELSIUS_TEMP}
+            values={[sliderDisplayValue]}
+            onChange={(values) => onRangeChange(values)}
+            onFinalChange={onRangeMouseUp}
+            direction="to top"
+            renderTrack={({ props, children }) => (
+              <div
+                {...props}
+                style={{
+                  ...props.style,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  width: "6px",
+                  borderRadius: ".25rem",
+                  background:
+                    theme.temperatureRange?.backgroundVertical ||
+                    `linear-gradient(to top, #f5d020, #f53803)`,
+                  backgroundColor: "#f53803",
+                  touchAction: "none",
+                }}
+                onTouchStart={(e) => e.preventDefault()}
+                onTouchMove={(e) => e.preventDefault()}
+              >
+                {children}
+              </div>
+            )}
+            renderThumb={({ props }) => {
+              const { key, ...restProps } = props;
+              return (
+                <div
+                  key={key}
+                  {...restProps}
+                  aria-valuenow={
+                    isF
+                      ? convertToFahrenheitFromCelsius(targetTemperature)
+                      : targetTemperature
+                  }
+                  style={{
+                    ...restProps.style,
+                    height: "60px",
+                    width: "60px",
+                    backgroundColor:
+                      theme.temperatureRange?.rangeBoxColor || "#ffffff",
+                    borderColor:
+                      theme.temperatureRange?.rangeBoxBorderColor || "#f53803",
+                    borderStyle: "solid",
+                    borderWidth:
+                      theme.temperatureRange?.rangeBoxBorderWidth || "2px",
+                    borderRadius:
+                      theme.temperatureRange?.rangeBoxBorderRadius || "50%",
+                    background:
+                      theme.temperatureRange?.rangeBackground ||
+                      theme.temperatureRange?.rangeBoxColor ||
+                      "#ffffff",
+                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
+                    touchAction: "none",
+                  }}
+                  onTouchStart={(e) => e.preventDefault()}
+                  onTouchMove={(e) => e.preventDefault()}
+                />
+              );
+            }}
+          />
+        </VerticalRangeContainer>
       </LeftColumn>
 
       <MiddleColumn

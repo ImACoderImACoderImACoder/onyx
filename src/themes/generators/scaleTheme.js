@@ -32,6 +32,7 @@ export const createScaleTheme = (themeId, primaryColor, options = {}) => {
       lowTemperatureColor: "#f53803",
       highTemperatureColor: "#f5d020",
       background: `linear-gradient(315deg, ${primaryColor} 0%, ${gradientEnd} 74%)`,
+      backgroundVertical: `linear-gradient(to top, ${gradientEnd}, ${primaryColor})`,
       rangeBoxColor: primaryColor,
       rangeBoxBorderColor: borderColor,
       rangeBackground: undefined,
