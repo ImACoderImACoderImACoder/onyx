@@ -98,6 +98,30 @@ const MiddleColumn = styled.div`
   max-height: calc(100vh - 10px);
   box-sizing: border-box;
 
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${props => props.theme.backgroundColor};
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${props => props.theme.buttonColorMain || props.theme.borderColor};
+    border-radius: 4px;
+    border: 1px solid ${props => props.theme.borderColor};
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryFontColor};
+  }
+
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: ${props => props.theme.buttonColorMain || props.theme.borderColor} ${props => props.theme.backgroundColor};
+
   &.temperature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));

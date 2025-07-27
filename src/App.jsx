@@ -7,7 +7,7 @@ import ContactMe from "./features/contactMe/ContactMe";
 import { clearCache } from "./services/BleCharacteristicCache";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "./features/settings/Settings";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import GetTheme from "./themes/ThemeProvider";
@@ -27,6 +27,39 @@ const Div = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  /* Custom scrollbar styling for Webkit browsers */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: ${props => props.theme.backgroundColor};
+    border-radius: 5px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: ${props => props.theme.buttonColorMain || props.theme.borderColor};
+    border-radius: 5px;
+    border: 1px solid ${props => props.theme.borderColor};
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryFontColor};
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: ${props => props.theme.backgroundColor};
+  }
+
+  /* Firefox scrollbar styling */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: ${props => props.theme.buttonColorMain || props.theme.borderColor} ${props => props.theme.backgroundColor};
+  }
 `;
 
 function AppRoutes({ isMinimalistMode }) {
@@ -117,6 +150,7 @@ function App() {
         backend={window.ontouchstart || isMobile ? TouchBackend : HTML5Backend}
       >
         <ThemeProvider theme={GetTheme(themeId)}>
+          <GlobalStyle />
           <DragPreview />
           <Div>
             <BrowserRouter>
