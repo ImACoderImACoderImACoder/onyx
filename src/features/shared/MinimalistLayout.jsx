@@ -58,7 +58,7 @@ const MinimalistWrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: grid;
-  grid-template-columns: 12% 59% 29%;
+  grid-template-columns: minmax(auto, 75px) 1fr 29%;
   grid-template-rows: 1fr;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.primaryFontColor};
@@ -66,6 +66,7 @@ const MinimalistWrapper = styled.div`
   overflow: hidden;
   gap: 5px;
   padding: 5px;
+  box-sizing: border-box;
 
   /* Global override for WriteTemperature Div width constraint */
   .temperature-write-div > div,
@@ -83,19 +84,24 @@ const LeftColumn = styled.div`
   padding: 0 5px;
   gap: 10px;
   justify-content: flex-start;
+  max-width: 75px;
 `;
 
 const MiddleColumn = styled.div`
   display: flex;
   flex-direction: column-reverse;
   overflow-y: auto;
+  overflow-x: hidden;
   gap: 10px;
-  padding: 0 10px;
-  justify-content: flex-end;
+  padding: 10px;
+  height: calc(100vh - 10px); /* Explicit height minus wrapper padding */
+  max-height: calc(100vh - 10px);
+  box-sizing: border-box;
 
   &.temperature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-auto-rows: minmax(60px, 1fr);
     grid-template-rows: repeat(auto-fit, minmax(50px, 1fr));
     gap: 5px;
     align-content: stretch;
@@ -108,22 +114,27 @@ const RightColumn = styled.div`
   flex-direction: column-reverse;
   gap: 10px;
   padding: 0 5px;
+  height: calc(100vh - 10px);
+  max-height: calc(100vh - 10px);
+  box-sizing: border-box;
 `;
 
 const HeatFanSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1;
-  min-height: 60px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 50%;
 `;
 
 const PlusMinusSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1;
-  min-height: 60px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 50%;
 `;
 
 const LeftColumnTemperatureDisplay = styled.div`
@@ -182,8 +193,9 @@ const ExitButton = styled(WriteTemperature)`
 `;
 
 const WorkflowButton = styled(WriteTemperature)`
-  flex: 1;
+  flex: 0 1 auto; /* Don't grow, can shrink, auto basis */
   min-height: 45px;
+  max-height: 200px; /* Reasonable max to prevent huge buttons */
 
   & > div {
     height: 100% !important;
@@ -248,6 +260,7 @@ const WorkflowButton = styled(WriteTemperature)`
 const HeatButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
+  min-height: 40px;
 
   & > div {
     height: 100% !important;
@@ -321,6 +334,7 @@ const HeatButton = styled(WriteTemperature)`
 const FanButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
+  min-height: 40px;
 
   & > div {
     height: 100% !important;
@@ -392,6 +406,7 @@ const FanButton = styled(WriteTemperature)`
 const MinimalistPlusMinusButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
+  min-height: 40px;
 
   & > div {
     height: 100% !important;
@@ -1159,6 +1174,7 @@ export default function MinimalistLayout() {
                   buttonText={<PrideText text={buttonText} />}
                   isActive={isActive}
                   isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
+                  totalItems={workflows.length}
                 />
               );
             })
