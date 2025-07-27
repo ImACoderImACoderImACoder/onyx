@@ -58,7 +58,7 @@ const MinimalistWrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: grid;
-  grid-template-columns: 12% 64% 24%;
+  grid-template-columns: 12% 59% 29%;
   grid-template-rows: 1fr;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.primaryFontColor};
