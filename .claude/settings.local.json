@@ -16,7 +16,8 @@
       "Bash(node:*)",
       "Bash(find:*)",
       "Bash(powershell:*)",
-      "Bash(timeout 5 npm run dev)"
+      "Bash(timeout 5 npm run dev)",
+      "Bash(npx eslint:*)"
     ],
     "deny": []
   }

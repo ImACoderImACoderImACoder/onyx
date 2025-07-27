@@ -520,13 +520,15 @@ export default function CurrentWorkflowExecutionDisplay() {
     if (!isWorkflowExecuting) return;
     
     timerStartRef.current = new Date();
+    
+    // Use higher precision timer for dramatic countdown effect (especially for fan operations)
     const interval = setInterval(() => {
-      dispatch(
-        setCurrentStepEllapsedTimeInSeconds(
-          Math.round((new Date() - timerStartRef.current) / 1000)
-        )
-      );
-    }, 1000);
+      const elapsedMs = new Date() - timerStartRef.current;
+      const elapsedSeconds = elapsedMs / 1000;
+      
+      // Store with decimal precision for dramatic countdown
+      dispatch(setCurrentStepEllapsedTimeInSeconds(elapsedSeconds));
+    }, 100); // Update every 100ms for smooth countdown
 
     return () => {
       clearInterval(interval);
@@ -813,9 +815,17 @@ export default function CurrentWorkflowExecutionDisplay() {
               </DetailLabel>
               <DetailValue>
                 <PrideText
-                  text={`${currentTimeInSeconds} ${
-                    currentTimeInSeconds === 1 ? "second" : "seconds"
-                  }`}
+                  text={
+                    // Show dramatic decimal precision for fan operations
+                    stepType === WorkflowItemTypes.FAN_ON || 
+                    stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                      ? `${currentTimeInSeconds.toFixed(1)} ${
+                          Math.abs(currentTimeInSeconds - 1) < 0.05 ? "second" : "seconds"
+                        }`
+                      : `${Math.floor(currentTimeInSeconds)} ${
+                          Math.floor(currentTimeInSeconds) === 1 ? "second" : "seconds"
+                        }`
+                  }
                 />
               </DetailValue>
             </DetailRow>

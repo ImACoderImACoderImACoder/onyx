@@ -5,6 +5,8 @@ import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTempera
 import PrideText from "../../themes/PrideText";
 import { useRef, useEffect, useState } from "react";
 import WorkFlow from "../workflowEditor/WorkflowButtons";
+import ActiveWorkflowDisplay from "./ActiveWorkflowDisplay";
+import CurrentWorkflowExecutionDisplay from "../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import {
   setIsHeatOn,
   setIsFanOn,
@@ -28,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 import FanIcon from "./OutletRenderer/icons/FanIcon";
 import BluetoothDisconnectIcon from "./OutletRenderer/icons/BluetoothDisconnectIcon";
 import ControlsIcon from "./OutletRenderer/icons/ControlsIcon";
-import PlusMinusButton from "../deviceInteraction/WriteTemperature/PlusMinusButton";
+// import PlusMinusButton from "../deviceInteraction/WriteTemperature/PlusMinusButton";
 import {
   convertToUInt32BLE,
   convertToUInt8BLE,
@@ -218,7 +220,7 @@ const ExitButton = styled(WriteTemperature)`
 
 const WorkflowButton = styled(WriteTemperature)`
   flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
-  min-height: 45px;
+  min-height: 60px; /* Increased to accommodate word wrapping */
 
   & > div {
     height: 100% !important;
@@ -229,20 +231,26 @@ const WorkflowButton = styled(WriteTemperature)`
     font-size: 16px;
     height: 100%;
     width: 100%;
-    white-space: nowrap !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
     line-height: 1.3;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Target PrideText spans inside buttons */
   span {
-    white-space: nowrap !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    display: block;
+    width: 100%;
+    text-align: center;
     font-size: 18px;
     font-weight: 500;
   }
@@ -481,6 +489,7 @@ const HiddenWorkflowContainer = styled.div`
   display: none;
 `;
 
+
 const TemperatureRow = styled.div`
   display: flex;
   align-items: center;
@@ -537,18 +546,8 @@ export default function MinimalistLayout() {
   );
   const isF = useSelector((state) => state.settings.isF);
   const workflowRef = useRef(null);
-  const [useIcons, setUseIcons] = useState(false);
+  const [showActiveWorkflow, setShowActiveWorkflow] = useState(false);
   const theme = useTheme();
-
-  useEffect(() => {
-    const checkColumnWidth = () => {
-      setUseIcons(window.innerWidth < 600); // Use icons when window is narrow
-    };
-
-    checkColumnWidth();
-    window.addEventListener("resize", checkColumnWidth);
-    return () => window.removeEventListener("resize", checkColumnWidth);
-  }, []);
 
   // Current temperature BLE handler
   useEffect(() => {
@@ -862,6 +861,15 @@ export default function MinimalistLayout() {
     AddToQueue(blePayload);
   }, [dispatch, navigate]);
 
+  // Auto-show active workflow when workflow starts
+  useEffect(() => {
+    if (currentWorkflow && currentWorkflow.payload && currentWorkflow.payload.length > 0) {
+      setShowActiveWorkflow(true);
+    } else {
+      setShowActiveWorkflow(false);
+    }
+  }, [currentWorkflow]);
+
   // Temperature increment/decrement functionality (copied from WriteTemperatureContainer)
   const onTemperatureIncrementDecrementDebounceRef = useRef(
     debounce((newTemp, disableAutoHeatOn) => {
@@ -946,7 +954,6 @@ export default function MinimalistLayout() {
 
   // Vertical temperature range functionality
   const MIN_CELSIUS_TEMP = 170;
-  const middleValue = (MIN_CELSIUS_TEMP + MAX_CELSIUS_TEMP) / 2;
   const sliderDisplayValue =
     targetTemperature > MIN_CELSIUS_TEMP ? targetTemperature : MIN_CELSIUS_TEMP;
 
@@ -1005,12 +1012,20 @@ export default function MinimalistLayout() {
   };
 
   const handleWorkflowClick = (index) => {
-    // Click the corresponding button in the hidden WorkFlow component
-    const buttons = workflowRef.current?.querySelectorAll(
-      ".temperature-write-div button"
-    );
-    if (buttons && buttons[index]) {
-      buttons[index].click();
+    const workflow = workflows[index];
+    const isActive = currentWorkflow?.id === workflow.id;
+    
+    if (isActive) {
+      // If workflow is active, show the details view
+      setShowActiveWorkflow(true);
+    } else {
+      // Click the corresponding button in the hidden WorkFlow component
+      const buttons = workflowRef.current?.querySelectorAll(
+        ".temperature-write-div button"
+      );
+      if (buttons && buttons[index]) {
+        buttons[index].click();
+      }
     }
   };
 
@@ -1188,7 +1203,7 @@ export default function MinimalistLayout() {
               const isActive = currentWorkflow?.id === item.id;
               const isLastRunWorkflow =
                 item.id === lastWorkflowRunId && !isActive;
-              const buttonText = isActive ? "Tap to Cancel" : item.name;
+              const buttonText = isActive ? "View Details" : item.name;
 
               return (
                 <WorkflowButton
@@ -1284,6 +1299,18 @@ export default function MinimalistLayout() {
       <HiddenWorkflowContainer ref={workflowRef}>
         <WorkFlow />
       </HiddenWorkflowContainer>
+
+
+      {/* Active Workflow Full-Screen Display */}
+      <ActiveWorkflowDisplay
+        isVisible={showActiveWorkflow}
+        onClose={() => setShowActiveWorkflow(false)}
+      />
+
+      {/* Hidden timer component - needed for timer logic */}
+      <div style={{ display: "none" }}>
+        <CurrentWorkflowExecutionDisplay />
+      </div>
     </MinimalistWrapper>
   );
 }
