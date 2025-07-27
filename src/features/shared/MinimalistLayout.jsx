@@ -193,9 +193,8 @@ const ExitButton = styled(WriteTemperature)`
 `;
 
 const WorkflowButton = styled(WriteTemperature)`
-  flex: 0 1 auto; /* Don't grow, can shrink, auto basis */
+  flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
   min-height: 45px;
-  max-height: 200px; /* Reasonable max to prevent huge buttons */
 
   & > div {
     height: 100% !important;

@@ -68,6 +68,7 @@ function App() {
   
   // Temperature state for page title
   const currentTemperature = useSelector((state) => state.deviceInteraction.currentTemperature);
+  const targetTemperature = useSelector((state) => state.deviceInteraction.targetTemperature);
   const isF = useSelector((state) => state.settings.isF);
   const isHeatOn = useSelector((state) => state.deviceInteraction.isHeatOn);
 
@@ -75,28 +76,40 @@ function App() {
     document.body.style = `background: ${GetTheme(themeId).backgroundColor};`;
   }, [themeId]);
 
-  // Update page title with current temperature (works for both regular and minimalist mode)
+  // Update page title with current and target temperature (works for both regular and minimalist mode)
   useEffect(() => {
-    const temperature = currentTemperature || currentTemperature === 0
+    const currentTemp = currentTemperature || currentTemperature === 0
       ? isF
         ? convertToFahrenheitFromCelsius(currentTemperature)
         : currentTemperature
       : currentTemperature;
 
+    const targetTemp = targetTemperature || targetTemperature === 0
+      ? isF
+        ? convertToFahrenheitFromCelsius(targetTemperature)
+        : targetTemperature
+      : targetTemperature;
+
     const showCurrentTemp = (!isNaN(parseInt(currentTemperature)) &&
       currentTemperature > MIN_CELSIUS_TEMP &&
       currentTemperature <= MAX_CELSIUS_TEMP) || isHeatOn;
 
-    const displayTemperature = temperature && !isNaN(parseInt(temperature))
-      ? Math.round(temperature)
+    const displayCurrentTemperature = currentTemp && !isNaN(parseInt(currentTemp))
+      ? Math.round(currentTemp)
+      : null;
+      
+    const displayTargetTemperature = targetTemp && !isNaN(parseInt(targetTemp))
+      ? Math.round(targetTemp)
       : null;
     
-    if (displayTemperature && showCurrentTemp) {
-      document.title = `${displayTemperature}${DEGREE_SYMBOL}${isF ? "F" : "C"} - Onyx`;
+    if (displayCurrentTemperature && displayTargetTemperature && showCurrentTemp) {
+      document.title = `${displayCurrentTemperature}/${displayTargetTemperature}${DEGREE_SYMBOL}${isF ? "F" : "C"} - Onyx`;
+    } else if (displayCurrentTemperature && showCurrentTemp) {
+      document.title = `${displayCurrentTemperature}${DEGREE_SYMBOL}${isF ? "F" : "C"} - Onyx`;
     } else {
       document.title = "Onyx";
     }
-  }, [currentTemperature, isF, isHeatOn]);
+  }, [currentTemperature, targetTemperature, isF, isHeatOn]);
 
   return (
     <>
