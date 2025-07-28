@@ -1,19 +1,22 @@
 import { useEffect } from "react";
 import { getCharacteristic } from "../../../services/BleCharacteristicCache";
-import { currentTemperatureUuid } from "../../../constants/uuids";
-import { AddToQueue } from "../../../services/bleQueueing";
+import { currentTemperatureUuid, register2Uuid } from "../../../constants/uuids";
+import { AddToQueue, AddToPriorityQueue } from "../../../services/bleQueueing";
 import CurrentTemperature from "./CurrentTemperature";
 import {
   convertCurrentTemperatureCharacteristicToCelcius,
   convertToFahrenheitFromCelsius,
+  convertToUInt32BLE,
 } from "../../../services/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTemperature } from "../deviceInteractionSlice";
+import { setIsF } from "../../settings/settingsSlice";
 import {
   DEGREE_SYMBOL,
   MAX_CELSIUS_TEMP,
   MIN_CELSIUS_TEMP,
 } from "../../../constants/temperature";
+import { fahrenheitMask, celciusMask } from "../../../constants/masks";
 import store from "../../../store";
 
 export default function CurrentTemperatureContainer() {
@@ -109,11 +112,36 @@ export default function CurrentTemperatureContainer() {
       currentTemperature <= MAX_CELSIUS_TEMP) ||
     isHeatOn;
 
+  const handleTemperatureUnitToggle = () => {
+    const blePayload = async () => {
+      try {
+        const characteristicPrj2V = getCharacteristic(register2Uuid);
+        if (!characteristicPrj2V) {
+          console.error("Register2 characteristic not found");
+          return;
+        }
+        
+        const mask = isF ? celciusMask : fahrenheitMask;
+        const buffer = convertToUInt32BLE(mask);
+        await characteristicPrj2V.writeValue(buffer);
+        dispatch(setIsF(!isF));
+      } catch (error) {
+        console.error("Error toggling temperature units:", error);
+      }
+    };
+    AddToPriorityQueue(blePayload);
+  };
+
   return (
     <CurrentTemperature
-      style={{ opacity: showCurrentTemp ? "1" : "0", transition: "all 0.35s" }}
+      style={{ 
+        opacity: showCurrentTemp ? "1" : "0", 
+        transition: "all 0.35s",
+        cursor: "pointer"
+      }}
       currentTemperature={temperature}
       temperatureSuffix={temperatureSuffix}
+      onClick={handleTemperatureUnitToggle}
     />
   );
 }

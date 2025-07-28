@@ -52,7 +52,12 @@ import { setIsF, setAutoShutoffTime } from "../settings/settingsSlice";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../constants/constants";
 import { DEGREE_SYMBOL, MAX_CELSIUS_TEMP } from "../../constants/temperature";
-import { heatingMask, fanMask, fahrenheitMask } from "../../constants/masks";
+import {
+  heatingMask,
+  fanMask,
+  fahrenheitMask,
+  celciusMask,
+} from "../../constants/masks";
 import store from "../../store";
 import CurrentTemperature from "../deviceInteraction/CurrentTemperature/CurrentTemperature";
 import CurrentTargetTemperature from "../deviceInteraction/CurrentTargetTemperature/CurrentTargetTemperature";
@@ -93,32 +98,37 @@ const LeftColumn = styled.div`
   max-width: 75px;
   align-items: center;
   height: calc(100vh - 10px);
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
-  
+
   /* Custom scrollbar styling */
   &::-webkit-scrollbar {
     width: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    background: ${props => props.theme.backgroundColor};
+    background: ${(props) => props.theme.backgroundColor};
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.buttonColorMain || props.theme.borderColor};
+    background: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor};
     border-radius: 3px;
-    border: 1px solid ${props => props.theme.borderColor};
+    border: 1px solid ${(props) => props.theme.borderColor};
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryFontColor};
+    background: ${(props) =>
+      props.theme.buttonActive?.backgroundColor ||
+      props.theme.primaryFontColor};
   }
 
   /* Firefox scrollbar styling */
   scrollbar-width: thin;
-  scrollbar-color: ${props => props.theme.buttonColorMain || props.theme.borderColor} ${props => props.theme.backgroundColor};
+  scrollbar-color: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor}
+    ${(props) => props.theme.backgroundColor};
 `;
 
 const MiddleColumn = styled.div`
@@ -180,15 +190,45 @@ const RightColumn = styled.div`
   height: calc(100vh - 10px);
   max-height: calc(100vh - 10px);
   box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${(props) => props.theme.backgroundColor};
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor};
+    border-radius: 3px;
+    border: 1px solid ${(props) => props.theme.borderColor};
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${(props) =>
+      props.theme.buttonActive?.backgroundColor ||
+      props.theme.primaryFontColor};
+  }
+
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor}
+    ${(props) => props.theme.backgroundColor};
 `;
 
 const HeatFanSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 50%;
+  flex: 1 1 60px;
+  min-height: 60px;
   z-index: 10;
   position: relative;
 `;
@@ -197,9 +237,8 @@ const PlusMinusSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 50%;
+  flex: 1 1 60px;
+  min-height: 60px;
   z-index: 5;
   position: relative;
 `;
@@ -1102,7 +1141,7 @@ export default function MinimalistLayout() {
       console.warn("Invalid temperature value for range:", e);
       return;
     }
-    
+
     const blePayload = async () => {
       try {
         const characteristic = getCharacteristic(writeTemperatureUuid);
@@ -1131,7 +1170,7 @@ export default function MinimalistLayout() {
       console.warn("Invalid temperature value for range change:", e);
       return;
     }
-    
+
     if (!isHeatOn) {
       const blePayload = async () => {
         try {
@@ -1234,6 +1273,33 @@ export default function MinimalistLayout() {
     navigate("/");
   };
 
+  const handleTemperatureUnitToggle = () => {
+    const blePayload = async () => {
+      try {
+        const characteristicPrj2V = getCharacteristic(register2Uuid);
+        if (!characteristicPrj2V) {
+          console.error(
+            "Register2 characteristic not found - redirecting to home"
+          );
+          navigate("/");
+          return;
+        }
+
+        const mask = isF ? celciusMask : fahrenheitMask;
+        const buffer = convertToUInt32BLE(mask);
+        await characteristicPrj2V.writeValue(buffer);
+        dispatch(setIsF(!isF));
+      } catch (error) {
+        console.error(
+          "Error toggling temperature units in minimalist mode:",
+          error
+        );
+        navigate("/");
+      }
+    };
+    AddToQueue(blePayload);
+  };
+
   // Calculate temperature values and suffix for display
   const temperatureSuffix = `${DEGREE_SYMBOL}${isF ? "F" : "C"}`;
   const displayCurrentTemperature =
@@ -1294,14 +1360,24 @@ export default function MinimalistLayout() {
         <ExitButton onClick={handleExit} buttonText={<ControlsIcon />} />
 
         <LeftColumnTemperatureDisplay>
-          <TemperatureRow>
+          <TemperatureRow
+            onClick={handleTemperatureUnitToggle}
+            style={{ cursor: "pointer" }}
+          >
             <CurrentTemperature
               currentTemperature={displayCurrentTemperature}
               temperatureSuffix={temperatureSuffix}
             />
           </TemperatureRow>
           <TemperatureRow
-            style={{ opacity: isHeatOn ? "1" : "0", transition: "all 0.35s" }}
+            onClick={handleTemperatureUnitToggle}
+            style={{
+              opacity: isHeatOn ? "1" : "0",
+              transition: "all 0.35s",
+              filter: "grayscale(1)",
+              color: "white",
+              cursor: "pointer",
+            }}
           >
             <CurrentTargetTemperature
               currentTargetTemperature={displayTargetTemperature}
@@ -1325,14 +1401,14 @@ export default function MinimalistLayout() {
                   display: "flex",
                   flexDirection: "column",
                   height: "100%",
-                  width: "36px !important",
-                  minWidth: "36px",
-                  maxWidth: "36px",
+                  width: "32px !important",
+                  minWidth: "32px",
+                  maxWidth: "32px",
                   minHeight: "200px",
                   borderRadius: ".25rem",
                   backgroundColor: "#f53803",
-                  backgroundImage: 
-                    theme?.temperatureRange?.backgroundVertical || 
+                  backgroundImage:
+                    theme?.temperatureRange?.backgroundVertical ||
                     "linear-gradient(to top, #f5d020, #f53803)",
                   opacity: 1,
                   touchAction: "none",
@@ -1351,13 +1427,15 @@ export default function MinimalistLayout() {
                   {...restProps}
                   aria-valuenow={
                     isF && targetTemperature
-                      ? Math.round(convertToFahrenheitFromCelsius(targetTemperature))
+                      ? Math.round(
+                          convertToFahrenheitFromCelsius(targetTemperature)
+                        )
                       : targetTemperature || MIN_CELSIUS_TEMP
                   }
                   style={{
                     ...restProps.style,
-                    height: "60px",
-                    width: "60px",
+                    height: "64px",
+                    width: "64px",
                     backgroundColor:
                       theme?.temperatureRange?.rangeBoxColor || "#ffffff",
                     borderColor:
