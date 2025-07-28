@@ -72,8 +72,25 @@ const StyledNavBarToggle = styled(Navbar.Toggle)`
 `;
 
 const StyledNav = styled(Nav)`
-  justify-content: space-evenly;
+  justify-content: flex-end;
   flex-grow: 1;
+  margin-left: auto;
+  width: 100%;
+  text-align: right;
+  
+  & > * {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+  
+  @media (max-width: 991.98px) {
+    align-items: flex-end;
+    
+    & > * {
+      align-self: flex-end;
+      text-align: right;
+    }
+  }
 `;
 
 const StyledHeaderNavDiv = styled(StyledRouterIconLink)`
@@ -279,44 +296,44 @@ export default function VolcanoLoader(props) {
             </div>
           </StyledNavBarToggle>
           <Navbar.Collapse id="basic-navbar-nav">
-            <StyledNav className="me-auto">
+            <StyledNav>
               <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
-                {<ControlsIcon />}
                 {<PrideTextWithDiv text="Controls" />}
+                {<ControlsIcon />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 as="div"
                 onClick={onMinimalistModeClick}
                 style={{ cursor: "pointer" }}
               >
-                <MenuBarIcon />
                 <PrideTextWithDiv text="Mini Mode" />
+                <MenuBarIcon />
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/WorkflowEditor"
               >
-                {<WorkflowEditorIcon />}
                 {<PrideTextWithDiv text="Workflow Editor" />}
+                {<WorkflowEditorIcon />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/ContactMe"
               >
-                {<ContactMeIcon />}
                 {<PrideTextWithDiv text="Contact Me" />}
+                {<ContactMeIcon />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/Settings"
               >
-                {<SettingsIcon />}
                 {<PrideTextWithDiv text="Settings" />}
+                {<SettingsIcon />}
               </StyledRouterIconLink>
 
               <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
-                <BluetoothDisconnectIcon />
                 <PrideTextWithDiv text="Disconnect" />
+                <BluetoothDisconnectIcon />
               </StyledRouterIconLink>
             </StyledNav>
           </Navbar.Collapse>

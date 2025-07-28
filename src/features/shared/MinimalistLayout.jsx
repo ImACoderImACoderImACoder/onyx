@@ -4,6 +4,10 @@ import styled from "styled-components";
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
 import PrideText from "../../themes/PrideText";
 import { useRef, useEffect, useState } from "react";
+import { StyledRouterIconLink } from "./OutletRenderer/icons/Shared/IconLink";
+import SettingsIcon from "./OutletRenderer/icons/SettingsIcon";
+import ContactMeIcon from "./OutletRenderer/icons/ContactMeIcon";
+import WorkflowEditorIcon from "./OutletRenderer/icons/WorkflowEditorIcon";
 import WorkFlow from "../workflowEditor/WorkflowButtons";
 import ActiveWorkflowDisplay from "./ActiveWorkflowDisplay";
 import CurrentWorkflowExecutionDisplay from "../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
@@ -33,6 +37,7 @@ import { useNavigate } from "react-router-dom";
 import FanIcon from "./OutletRenderer/icons/FanIcon";
 import BluetoothDisconnectIcon from "./OutletRenderer/icons/BluetoothDisconnectIcon";
 import ControlsIcon from "./OutletRenderer/icons/ControlsIcon";
+import MenuBarIcon from "./OutletRenderer/icons/MenuBarIcon";
 // import PlusMinusButton from "../deviceInteraction/WriteTemperature/PlusMinusButton";
 import {
   convertToUInt32BLE,
@@ -137,7 +142,7 @@ const MiddleColumn = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   gap: 10px;
-  padding: 10px;
+  padding: 0;
   height: calc(100vh - 10px); /* Explicit height minus wrapper padding */
   max-height: calc(100vh - 10px);
   box-sizing: border-box;
@@ -170,6 +175,17 @@ const MiddleColumn = styled.div`
   scrollbar-color: ${(props) =>
       props.theme.buttonColorMain || props.theme.borderColor}
     ${(props) => props.theme.backgroundColor};
+
+  /* Remove vertical padding from first and last elements */
+  & > *:first-child {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  & > *:last-child {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
   &.temperature-grid {
     display: grid;
@@ -255,11 +271,17 @@ const LeftColumnTemperatureDisplay = styled.div`
 `;
 
 const ExitButton = styled(WriteTemperature)`
-  flex: 1;
-  max-height: 60px; /* Prevent excessive growth */
+  flex: 0 0 24px;
+  height: 24px;
+  max-height: 24px;
+  width: 24px;
+  min-height: 24px;
 
   & > div {
-    height: 100% !important;
+    height: 24px !important;
+    max-height: 24px !important;
+    width: 24px !important;
+    max-width: 24px !important;
   }
 
   button {
@@ -270,17 +292,19 @@ const ExitButton = styled(WriteTemperature)`
     ) !important;
     color: ${(props) => props.theme.primaryFontColor} !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 8px 4px;
-    font-size: 14px;
-    height: 100%;
-    width: 100%;
+    padding: 2px;
+    font-size: 10px;
+    height: 24px;
+    max-height: 24px;
+    width: 24px;
+    max-width: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
@@ -474,8 +498,8 @@ const FanButton = styled(WriteTemperature)`
     justify-content: center;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
@@ -546,8 +570,8 @@ const MinimalistPlusMinusButton = styled(WriteTemperature)`
     justify-content: center;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       fill: currentColor;
     }
 
@@ -569,11 +593,186 @@ const HiddenWorkflowContainer = styled.div`
   display: none;
 `;
 
+const DisconnectButton = styled(WriteTemperature)`
+  width: 100%;
+  flex: 0 0 10%;
+  max-height: 10%;
+  min-height: 40px;
+
+  & > div {
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  button {
+    background: linear-gradient(
+      145deg,
+      ${(props) => props.theme.buttonColorMain},
+      ${(props) => props.theme.buttonColorMain}cc
+    ) !important;
+    color: ${(props) => props.theme.primaryFontColor} !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 8px 4px;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    &:hover {
+      background: ${(props) =>
+        props.theme.hoverBackgroundColor ||
+        props.theme.buttonColorMain} !important;
+    }
+
+    &:focus,
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      outline: none !important;
+    }
+  }
+`;
+
+const ControlsButton = styled(WriteTemperature)`
+  width: 100%;
+  flex: 0 0 10%;
+  max-height: 10%;
+  min-height: 40px;
+
+  & > div {
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  button {
+    background: linear-gradient(
+      145deg,
+      ${(props) => props.theme.buttonColorMain},
+      ${(props) => props.theme.buttonColorMain}cc
+    ) !important;
+    color: ${(props) => props.theme.primaryFontColor} !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 8px 4px;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    &:hover {
+      background: ${(props) =>
+        props.theme.hoverBackgroundColor ||
+        props.theme.buttonColorMain} !important;
+    }
+
+    &:focus,
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      outline: none !important;
+    }
+  }
+`;
+
+const NavigationOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: ${props => props.isVisible ? 'flex' : 'none'};
+  align-items: center;
+  justify-content: center;
+`;
+
+const NavigationMenu = styled.div`
+  background: ${props => props.theme.backgroundColor};
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 380px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+  border: 2px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.15)'};
+  backdrop-filter: blur(15px);
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const NavigationItem = styled(StyledRouterIconLink)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  margin: 6px 0;
+  border-radius: 14px;
+  background: ${props => props.theme.buttonColorMain};
+  color: ${props => props.theme.primaryFontColor};
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 17px;
+  font-weight: 500;
+  min-height: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  &:first-child {
+    margin-top: 8px;
+  }
+  
+  &:last-child {
+    margin-bottom: 8px;
+  }
+  
+  &:hover {
+    background: ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain};
+    transform: translateX(-8px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  &:active {
+    transform: translateX(-6px) scale(0.98);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  svg {
+    width: 26px;
+    height: 26px;
+    margin-left: 16px;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+  
+  span {
+    flex: 1;
+    text-align: left;
+    line-height: 1.3;
+  }
+`;
+
 const AutoOffCircleContainer = styled.div`
   width: 60px;
   height: 60px;
   position: relative;
-  margin-left: -8px;
+  margin-left: -9px;
   opacity: ${(props) => (props.isActive ? 1 : 0.3725)};
   transition: all 0.75s;
   svg {
@@ -669,6 +868,7 @@ export default function MinimalistLayout() {
   );
   const workflowRef = useRef(null);
   const [showActiveWorkflow, setShowActiveWorkflow] = useState(false);
+  const [showNavigation, setShowNavigation] = useState(false);
   const theme = useTheme();
 
   // Current temperature BLE handler
@@ -1195,9 +1395,14 @@ export default function MinimalistLayout() {
     dispatch(setTargetTemperature(e[0]));
   };
 
-  const handleExit = () => {
+  const handleNavigationToggle = () => {
+    setShowNavigation(!showNavigation);
+  };
+
+  const handleNavigationItemClick = (action) => {
+    setShowNavigation(false);
     dispatch(setIsMinimalistMode(false));
-    navigate("/Volcano/App");
+    if (action) action();
   };
 
   const handleWorkflowClick = (index) => {
@@ -1353,11 +1558,6 @@ export default function MinimalistLayout() {
             </text>
           </svg>
         </AutoOffCircleContainer>
-        <ExitButton
-          onClick={handleDisconnect}
-          buttonText={<BluetoothDisconnectIcon />}
-        />
-        <ExitButton onClick={handleExit} buttonText={<ControlsIcon />} />
 
         <LeftColumnTemperatureDisplay>
           <TemperatureRow
@@ -1503,6 +1703,19 @@ export default function MinimalistLayout() {
       </MiddleColumn>
 
       <RightColumn>
+        <HeatFanSection>
+          <HeatButton
+            onClick={handleHeatClick}
+            buttonText={<span className="heat-icon">🔥</span>}
+            isActive={isHeatOn}
+          />
+          <FanButton
+            onClick={handleFanClick}
+            buttonText={<FanIcon size="24px" />}
+            isActive={isFanOn}
+          />
+        </HeatFanSection>
+
         <PlusMinusSection>
           <MinimalistPlusMinusButton
             aria-label="Decrease temperature"
@@ -1548,18 +1761,10 @@ export default function MinimalistLayout() {
           />
         </PlusMinusSection>
 
-        <HeatFanSection>
-          <HeatButton
-            onClick={handleHeatClick}
-            buttonText={<span className="heat-icon">🔥</span>}
-            isActive={isHeatOn}
-          />
-          <FanButton
-            onClick={handleFanClick}
-            buttonText={<FanIcon size="24px" />}
-            isActive={isFanOn}
-          />
-        </HeatFanSection>
+        <ControlsButton
+          onClick={handleNavigationToggle}
+          buttonText={<MenuBarIcon />}
+        />
       </RightColumn>
 
       <HiddenWorkflowContainer ref={workflowRef}>
@@ -1576,6 +1781,55 @@ export default function MinimalistLayout() {
       <div style={{ display: "none" }}>
         <CurrentWorkflowExecutionDisplay />
       </div>
+      
+      {/* Navigation Overlay */}
+      <NavigationOverlay isVisible={showNavigation} onClick={() => setShowNavigation(false)}>
+        <NavigationMenu onClick={(e) => e.stopPropagation()}>
+          <NavigationItem
+            as="div"
+            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/App"))}
+            style={{ cursor: "pointer" }}
+          >
+            <PrideText text="Controls" />
+            <ControlsIcon />
+          </NavigationItem>
+          <NavigationItem
+            as="div"
+            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/WorkflowEditor"))}
+            style={{ cursor: "pointer" }}
+          >
+            <PrideText text="Workflow Editor" />
+            <WorkflowEditorIcon />
+          </NavigationItem>
+          <NavigationItem
+            as="div"
+            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/ContactMe"))}
+            style={{ cursor: "pointer" }}
+          >
+            <PrideText text="Contact Me" />
+            <ContactMeIcon />
+          </NavigationItem>
+          <NavigationItem
+            as="div"
+            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/Settings"))}
+            style={{ cursor: "pointer" }}
+          >
+            <PrideText text="Settings" />
+            <SettingsIcon />
+          </NavigationItem>
+          <NavigationItem
+            as="div"
+            onClick={() => {
+              setShowNavigation(false);
+              handleDisconnect();
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <PrideText text="Disconnect" />
+            <BluetoothDisconnectIcon />
+          </NavigationItem>
+        </NavigationMenu>
+      </NavigationOverlay>
     </MinimalistWrapper>
   );
 }
