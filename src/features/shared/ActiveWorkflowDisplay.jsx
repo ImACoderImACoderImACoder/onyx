@@ -79,120 +79,165 @@ const FullScreenOverlay = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   max-width: 1200px;
-  height: 90px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
   position: relative;
   padding: 12px 75px 12px 30px; /* Right padding for buttons */
   box-sizing: border-box;
   
-  @media (max-width: 1024px) {
-    gap: 15px;
-    padding: 10px 70px 10px 20px;
-    height: 85px;
-  }
-  
-  @media (max-width: 768px) {
-    gap: 8px;
-    padding: 8px 60px 8px 15px;
-    height: 75px;
-  }
-  
-  @media (max-width: 480px) {
+  /* Desktop/Large screens - utilize vertical space better */
+  @media (min-width: 769px) {
     flex-direction: column;
+    align-items: center;
+    gap: 25px;
     height: auto;
-    min-height: 120px;
-    padding: 25px 75px 10px 8px;
-    gap: 6px;
-    align-items: stretch;
+    min-height: 200px;
+    padding: 30px 75px 30px 30px;
+  }
+  
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    height: 85px;
+    padding: 10px 70px 10px 20px;
+  }
+  
+  /* Small/Mobile screens - compact horizontal layout */
+  @media (max-width: 480px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    height: 75px;
+    padding: 8px 60px 8px 15px;
   }
 `;
 
 const LeftSection = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 200px;
   
-  @media (max-width: 480px) {
-    min-width: auto;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
     width: 100%;
-    order: 1; /* First on mobile */
     text-align: center;
-    margin-bottom: 4px;
+    margin-bottom: 15px;
+  }
+  
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    flex: 1;
+    min-width: 180px;
+  }
+  
+  /* Small/Mobile screens */
+  @media (max-width: 480px) {
+    flex: 1;
+    min-width: 120px;
   }
 `;
 
 const WorkflowTitle = styled.h2`
-  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
   margin: 0 0 3px 0;
   line-height: 1.1;
   word-break: break-word;
   font-weight: 600;
   
-  @media (max-width: 480px) {
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    font-size: clamp(1.4rem, 3vw, 2rem);
     text-align: center;
+    margin: 0 0 8px 0;
+  }
+  
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+  
+  /* Small/Mobile screens */
+  @media (max-width: 480px) {
     font-size: 0.8rem;
     margin: 0 0 1px 0;
   }
 `;
 
 const StepTitle = styled.h3`
-  font-size: clamp(0.75rem, 2vw, 1rem);
   margin: 0;
   line-height: 1.1;
   opacity: 0.8;
   font-weight: 500;
   
-  @media (max-width: 480px) {
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     text-align: center;
+    margin: 0 0 5px 0;
+  }
+  
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+  }
+  
+  /* Small/Mobile screens */
+  @media (max-width: 480px) {
     font-size: 0.65rem;
   }
 `;
 
 const CenterSection = styled.div`
-  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 180px;
   position: relative;
   
-  @media (max-width: 768px) {
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    width: 100%;
+    gap: 20px;
+  }
+  
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    flex: 2;
     min-width: 150px;
   }
   
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
-    min-width: auto;
-    width: 100%;
-    order: 2; /* Second on mobile */
-    margin: 6px 0;
+    flex: 1;
+    min-width: 100px;
   }
 `;
 
 const CompactProgressContainer = styled.div`
   width: 100%;
-  max-width: 300px;
   background: ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
-  height: 5px;
   border-radius: 3px;
   overflow: hidden;
-  margin-top: 5px;
   
-  @media (max-width: 480px) {
-    height: 3px;
-    margin-top: 2px;
-    max-width: 200px;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    max-width: 500px;
+    height: 8px;
+    margin: 15px 0;
   }
   
-  @media (max-width: 400px) {
-    height: 2px;
-    margin-top: 1px;
-    max-width: 180px;
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    max-width: 300px;
+    height: 5px;
+    margin-top: 5px;
+  }
+  
+  /* Small/Mobile screens */
+  @media (max-width: 480px) {
+    max-width: 120px;
+    height: 3px;
+    margin-top: 2px;
   }
 `;
 
@@ -201,24 +246,26 @@ const RightSection = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
   flex-wrap: wrap;
   
-  @media (max-width: 768px) {
-    gap: 4px;
-    margin-top: 6px;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    gap: 20px;
+    margin-top: 10px;
   }
   
-  @media (max-width: 640px) {
-    gap: 3px;
-    margin-top: 4px;
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    gap: 8px;
+    margin-top: 8px;
   }
   
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
     gap: 4px;
-    margin-top: 6px;
+    margin-top: 4px;
     justify-content: space-around;
+    flex: 1;
   }
 `;
 
@@ -258,7 +305,6 @@ const ProgressBar = styled.div`
 // Removed unused styled components (InfoGrid, InfoCard, InfoLabel, InfoValue)
 
 const TimerDisplay = styled.div`
-  font-size: clamp(1.4rem, 4vw, 2.2rem);
   font-weight: 700;
   text-align: center;
   margin: 0;
@@ -304,103 +350,105 @@ const TimerDisplay = styled.div`
     }
   }
   
-  @media (max-width: 768px) {
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 10px 0;
   }
   
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+  }
+  
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
     font-size: 0.9rem;
     margin: 2px 0;
-  }
-  
-  @media (max-width: 400px) {
-    font-size: 0.8rem;
   }
 `;
 
 const CompactInfoCard = styled.div`
   text-align: center;
-  padding: 6px 10px;
   background: ${(props) => props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
   border: 1px solid ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 6px;
-  min-width: 65px;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   
-  @media (max-width: 768px) {
-    padding: 5px 8px;
-    min-width: 60px;
-    border-radius: 5px;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    padding: 15px 20px;
+    min-width: 100px;
+    border-radius: 8px;
   }
   
-  @media (max-width: 640px) {
-    padding: 4px 6px;
-    min-width: 50px;
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    padding: 6px 10px;
+    min-width: 65px;
+    flex-shrink: 0;
   }
   
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
-    padding: 3px 6px;
-    min-width: 75px;
+    padding: 3px 4px;
+    min-width: 50px;
     border-radius: 3px;
     flex: 1;
-    max-width: 100px;
-    font-size: 0.75rem;
+    max-width: 70px;
     height: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  @media (max-width: 400px) {
-    padding: 2px 4px;
-    min-width: 65px;
-    height: 28px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 `;
 
 const CompactLabel = styled.div`
-  font-size: 0.65rem;
   opacity: 0.7;
   margin-bottom: 1px;
   font-weight: 500;
   
-  @media (max-width: 640px) {
-    font-size: 0.6rem;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
   }
   
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    font-size: 0.65rem;
+  }
+  
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
     font-size: 0.55rem;
     margin-bottom: 0px;
   }
-  
-  @media (max-width: 380px) {
-    font-size: 0.5rem;
-  }
 `;
 
 const CompactValue = styled.div`
-  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
   font-weight: 600;
   line-height: 1;
   font-family: ${(props) => props.theme.digitalFontFamily || "'Courier New', monospace"};
-  min-width: 55px;
   display: flex;
   justify-content: center;
   align-items: center;
   
-  @media (max-width: 640px) {
-    font-size: 0.7rem;
-    min-width: 50px;
+  /* Desktop/Large screens */
+  @media (min-width: 769px) {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    min-width: 80px;
   }
   
+  /* Medium screens */
+  @media (max-width: 768px) and (min-width: 481px) {
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    min-width: 55px;
+  }
+  
+  /* Small/Mobile screens */
   @media (max-width: 480px) {
     font-size: 0.6rem;
-    min-width: 45px;
-  }
-  
-  @media (max-width: 380px) {
-    font-size: 0.55rem;
     min-width: 40px;
   }
 `;
@@ -669,11 +717,7 @@ export default function ActiveWorkflowDisplay({ isVisible, onClose }) {
           <div style={{ 
             fontSize: "0.7rem", 
             opacity: 0.7, 
-            marginTop: "2px",
-            "@media (max-width: 480px)": {
-              fontSize: "0.65rem",
-              marginTop: "1px"
-            }
+            marginTop: "2px"
           }}>
             <PrideText text={`Step ${currentStepId}/${totalSteps}`} />
             {hasLoop && <span style={{ marginLeft: "6px" }}>🔄 Loop</span>}

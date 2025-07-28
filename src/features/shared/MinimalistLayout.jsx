@@ -11,6 +11,7 @@ import {
   setIsHeatOn,
   setIsFanOn,
 } from "../deviceInteraction/deviceInteractionSlice";
+import { setAutoOffTimeInSeconds } from "../deviceInformation/deviceInformationSlice";
 import {
   getCharacteristic,
   clearCache,
@@ -25,6 +26,8 @@ import {
   currentTemperatureUuid,
   register1Uuid,
   register2Uuid,
+  autoShutoffUuid,
+  autoShutoffSettingUuid,
 } from "../../constants/uuids";
 import { useNavigate } from "react-router-dom";
 import FanIcon from "./OutletRenderer/icons/FanIcon";
@@ -45,7 +48,7 @@ import {
   setTargetTemperature,
   setCurrentTemperature,
 } from "../deviceInteraction/deviceInteractionSlice";
-import { setIsF } from "../settings/settingsSlice";
+import { setIsF, setAutoShutoffTime } from "../settings/settingsSlice";
 import debounce from "lodash/debounce";
 import { temperatureIncrementedDecrementedDebounceTime } from "../../constants/constants";
 import { DEGREE_SYMBOL, MAX_CELSIUS_TEMP } from "../../constants/temperature";
@@ -83,10 +86,39 @@ const MinimalistWrapper = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 5px;
+  padding: 0;
   gap: 10px;
   justify-content: flex-start;
+  width: 75px;
   max-width: 75px;
+  align-items: center;
+  height: calc(100vh - 10px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${props => props.theme.backgroundColor};
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${props => props.theme.buttonColorMain || props.theme.borderColor};
+    border-radius: 3px;
+    border: 1px solid ${props => props.theme.borderColor};
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryFontColor};
+  }
+
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: ${props => props.theme.buttonColorMain || props.theme.borderColor} ${props => props.theme.backgroundColor};
 `;
 
 const MiddleColumn = styled.div`
@@ -106,23 +138,28 @@ const MiddleColumn = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: ${props => props.theme.backgroundColor};
+    background: ${(props) => props.theme.backgroundColor};
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.buttonColorMain || props.theme.borderColor};
+    background: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor};
     border-radius: 4px;
-    border: 1px solid ${props => props.theme.borderColor};
+    border: 1px solid ${(props) => props.theme.borderColor};
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme.buttonActive?.backgroundColor || props.theme.primaryFontColor};
+    background: ${(props) =>
+      props.theme.buttonActive?.backgroundColor ||
+      props.theme.primaryFontColor};
   }
 
   /* Firefox scrollbar styling */
   scrollbar-width: thin;
-  scrollbar-color: ${props => props.theme.buttonColorMain || props.theme.borderColor} ${props => props.theme.backgroundColor};
+  scrollbar-color: ${(props) =>
+      props.theme.buttonColorMain || props.theme.borderColor}
+    ${(props) => props.theme.backgroundColor};
 
   &.temperature-grid {
     display: grid;
@@ -152,6 +189,8 @@ const HeatFanSection = styled.div`
   flex: 1 1 auto;
   min-height: 0;
   max-height: 50%;
+  z-index: 10;
+  position: relative;
 `;
 
 const PlusMinusSection = styled.div`
@@ -161,6 +200,8 @@ const PlusMinusSection = styled.div`
   flex: 1 1 auto;
   min-height: 0;
   max-height: 50%;
+  z-index: 5;
+  position: relative;
 `;
 
 const LeftColumnTemperatureDisplay = styled.div`
@@ -489,6 +530,40 @@ const HiddenWorkflowContainer = styled.div`
   display: none;
 `;
 
+const AutoOffCircleContainer = styled.div`
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin-left: -8px;
+  opacity: ${(props) => (props.isActive ? 1 : 0.3725)};
+  transition: all 0.75s;
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .circle-bg {
+    fill: none;
+    stroke: ${(props) => props.theme.iconColor};
+    stroke-width: 3.8;
+  }
+
+  .circle {
+    fill: none;
+    stroke: ${(props) => props.theme.backgroundColor};
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.75s ease;
+  }
+
+  .percentage {
+    font-size: 0.675em;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: ${(props) => props.theme.iconColor};
+  }
+`;
 
 const TemperatureRow = styled.div`
   display: flex;
@@ -519,6 +594,8 @@ const VerticalRangeContainer = styled.div`
   min-height: 200px;
   touch-action: none; /* Prevent scroll on mobile when dragging */
   user-select: none; /* Prevent text selection on drag */
+  z-index: 1;
+  position: relative;
 `;
 
 export default function MinimalistLayout() {
@@ -545,6 +622,12 @@ export default function MinimalistLayout() {
     (state) => state.deviceInteraction.currentTemperature
   );
   const isF = useSelector((state) => state.settings.isF);
+  const autoOffTimeInSeconds = useSelector(
+    (state) => state.deviceInformation.autoOffTimeInSeconds
+  );
+  const autoShutoffTimeSetting = useSelector(
+    (state) => state.settings.autoShutoffTime
+  );
   const workflowRef = useRef(null);
   const [showActiveWorkflow, setShowActiveWorkflow] = useState(false);
   const theme = useTheme();
@@ -861,9 +944,64 @@ export default function MinimalistLayout() {
     AddToQueue(blePayload);
   }, [dispatch, navigate]);
 
+  // Auto-shutoff monitoring
+  useEffect(() => {
+    const intervalFunction = () => {
+      const blePayload = async () => {
+        if (!isHeatOn) {
+          return;
+        }
+
+        try {
+          const characteristic = getCharacteristic(autoShutoffUuid);
+          if (!characteristic) return;
+          const value = await characteristic.readValue();
+          const actualValue = convertBLEtoUint16(value);
+          dispatch(setAutoOffTimeInSeconds(actualValue));
+        } catch (error) {
+          console.error("Error reading auto-shutoff time:", error);
+        }
+      };
+
+      const blePayload2 = async () => {
+        try {
+          const characteristic = getCharacteristic(autoShutoffSettingUuid);
+          if (!characteristic) return;
+          const value = await characteristic.readValue();
+          const normalizedValue = convertBLEtoUint16(value) / 60;
+          dispatch(setAutoShutoffTime(normalizedValue));
+        } catch (error) {
+          console.error("Error reading auto-shutoff setting:", error);
+        }
+      };
+
+      AddToQueue(blePayload);
+      AddToQueue(blePayload2);
+    };
+
+    intervalFunction();
+    const interval = setInterval(() => {
+      if (isHeatOn) {
+        intervalFunction();
+      }
+    }, 15000); // Update every 15 seconds
+
+    if (!isHeatOn) {
+      dispatch(setAutoOffTimeInSeconds(0));
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [dispatch, isHeatOn]);
+
   // Auto-show active workflow when workflow starts
   useEffect(() => {
-    if (currentWorkflow && currentWorkflow.payload && currentWorkflow.payload.length > 0) {
+    if (
+      currentWorkflow &&
+      currentWorkflow.payload &&
+      currentWorkflow.payload.length > 0
+    ) {
       setShowActiveWorkflow(true);
     } else {
       setShowActiveWorkflow(false);
@@ -954,10 +1092,17 @@ export default function MinimalistLayout() {
 
   // Vertical temperature range functionality
   const MIN_CELSIUS_TEMP = 170;
-  const sliderDisplayValue =
-    targetTemperature > MIN_CELSIUS_TEMP ? targetTemperature : MIN_CELSIUS_TEMP;
+  const sliderDisplayValue = Math.max(
+    MIN_CELSIUS_TEMP,
+    Math.min(MAX_CELSIUS_TEMP, targetTemperature || MIN_CELSIUS_TEMP)
+  );
 
   const onRangeMouseUp = (e) => {
+    if (!e || !e[0] || !isValueInValidVolcanoCelciusRange(e[0])) {
+      console.warn("Invalid temperature value for range:", e);
+      return;
+    }
+    
     const blePayload = async () => {
       try {
         const characteristic = getCharacteristic(writeTemperatureUuid);
@@ -982,6 +1127,11 @@ export default function MinimalistLayout() {
   };
 
   const onRangeChange = (e) => {
+    if (!e || !e[0] || !isValueInValidVolcanoCelciusRange(e[0])) {
+      console.warn("Invalid temperature value for range change:", e);
+      return;
+    }
+    
     if (!isHeatOn) {
       const blePayload = async () => {
         try {
@@ -1014,7 +1164,7 @@ export default function MinimalistLayout() {
   const handleWorkflowClick = (index) => {
     const workflow = workflows[index];
     const isActive = currentWorkflow?.id === workflow.id;
-    
+
     if (isActive) {
       // If workflow is active, show the details view
       setShowActiveWorkflow(true);
@@ -1102,6 +1252,41 @@ export default function MinimalistLayout() {
   return (
     <MinimalistWrapper className="minimalist-mode">
       <LeftColumn>
+        <AutoOffCircleContainer isActive={isHeatOn}>
+          <svg viewBox="0 0 36 36" className="circular-chart">
+            <path
+              className="circle-bg"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path
+              className="circle"
+              strokeDasharray="100, 100"
+              strokeDashoffset={
+                isHeatOn &&
+                autoOffTimeInSeconds > 0 &&
+                autoShutoffTimeSetting > 0
+                  ? (autoOffTimeInSeconds / 60 / autoShutoffTimeSetting) *
+                    100 *
+                    -1
+                  : isHeatOn
+                  ? -100
+                  : 0
+              }
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="19" className="percentage">
+              {isHeatOn &&
+                ((autoOffTimeInSeconds > 60 &&
+                  Math.round(autoOffTimeInSeconds / 60)) ||
+                  (autoOffTimeInSeconds > 0 && "< 1") ||
+                  autoShutoffTimeSetting)}
+            </text>
+          </svg>
+        </AutoOffCircleContainer>
         <ExitButton
           onClick={handleDisconnect}
           buttonText={<BluetoothDisconnectIcon />}
@@ -1137,16 +1322,19 @@ export default function MinimalistLayout() {
               <div
                 {...props}
                 style={{
-                  ...props.style,
                   display: "flex",
                   flexDirection: "column",
                   height: "100%",
-                  width: "6px",
+                  width: "36px !important",
+                  minWidth: "36px",
+                  maxWidth: "36px",
+                  minHeight: "200px",
                   borderRadius: ".25rem",
-                  background:
-                    theme.temperatureRange?.backgroundVertical ||
-                    `linear-gradient(to top, #f5d020, #f53803)`,
                   backgroundColor: "#f53803",
+                  backgroundImage: 
+                    theme?.temperatureRange?.backgroundVertical || 
+                    "linear-gradient(to top, #f5d020, #f53803)",
+                  opacity: 1,
                   touchAction: "none",
                 }}
                 onTouchStart={(e) => e.preventDefault()}
@@ -1162,26 +1350,26 @@ export default function MinimalistLayout() {
                   key={key}
                   {...restProps}
                   aria-valuenow={
-                    isF
-                      ? convertToFahrenheitFromCelsius(targetTemperature)
-                      : targetTemperature
+                    isF && targetTemperature
+                      ? Math.round(convertToFahrenheitFromCelsius(targetTemperature))
+                      : targetTemperature || MIN_CELSIUS_TEMP
                   }
                   style={{
                     ...restProps.style,
                     height: "60px",
                     width: "60px",
                     backgroundColor:
-                      theme.temperatureRange?.rangeBoxColor || "#ffffff",
+                      theme?.temperatureRange?.rangeBoxColor || "#ffffff",
                     borderColor:
-                      theme.temperatureRange?.rangeBoxBorderColor || "#f53803",
+                      theme?.temperatureRange?.rangeBoxBorderColor || "#f53803",
                     borderStyle: "solid",
                     borderWidth:
-                      theme.temperatureRange?.rangeBoxBorderWidth || "2px",
+                      theme?.temperatureRange?.rangeBoxBorderWidth || "2px",
                     borderRadius:
-                      theme.temperatureRange?.rangeBoxBorderRadius || "50%",
+                      theme?.temperatureRange?.rangeBoxBorderRadius || "50%",
                     background:
-                      theme.temperatureRange?.rangeBackground ||
-                      theme.temperatureRange?.rangeBoxColor ||
+                      theme?.temperatureRange?.rangeBackground ||
+                      theme?.temperatureRange?.rangeBoxColor ||
                       "#ffffff",
                     boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
                     touchAction: "none",
@@ -1299,7 +1487,6 @@ export default function MinimalistLayout() {
       <HiddenWorkflowContainer ref={workflowRef}>
         <WorkFlow />
       </HiddenWorkflowContainer>
-
 
       {/* Active Workflow Full-Screen Display */}
       <ActiveWorkflowDisplay
