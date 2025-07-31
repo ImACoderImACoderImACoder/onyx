@@ -97,6 +97,18 @@ const StyledHeaderNavDiv = styled(StyledRouterIconLink)`
   color: ${(props) => props.theme.iconColor};
 `;
 
+const WhiteMenuIconWrapper = styled.div`
+  color: ${(props) => props.theme.primaryFontColor};
+  
+  & > div {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
+  
+  & svg {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
+`;
+
 export default function VolcanoLoader(props) {
   const [expanded, setExpanded] = useState(false);
 
@@ -288,12 +300,9 @@ export default function VolcanoLoader(props) {
             onClick={navBarToggleOnClick}
             aria-controls="basic-navbar-nav"
           >
-            <div
-              style={{ color: theme.primaryFontColor }}
-              onClick={navBarToggleOnClick}
-            >
+            <WhiteMenuIconWrapper onClick={navBarToggleOnClick}>
               <MenuBarIcon />
-            </div>
+            </WhiteMenuIconWrapper>
           </StyledNavBarToggle>
           <Navbar.Collapse id="basic-navbar-nav">
             <StyledNav>

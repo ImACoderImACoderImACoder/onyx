@@ -3,7 +3,7 @@ import { setIsMinimalistMode } from "../settings/settingsSlice";
 import styled, { keyframes, css } from "styled-components";
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
 import PrideText from "../../themes/PrideText";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { StyledRouterIconLink } from "./OutletRenderer/icons/Shared/IconLink";
 import SettingsIcon from "./OutletRenderer/icons/SettingsIcon";
 import ContactMeIcon from "./OutletRenderer/icons/ContactMeIcon";
@@ -1564,7 +1564,7 @@ export default function MinimalistLayout() {
     AddToPriorityQueue(blePayload);
   };
 
-  const handleFanClick = () => {
+  const handleFanClick = useCallback(() => {
     const blePayload = async () => {
       try {
         const uuid = isFanOn ? fanOffUuid : fanOnUuid;
@@ -1583,7 +1583,22 @@ export default function MinimalistLayout() {
       }
     };
     AddToPriorityQueue(blePayload);
-  };
+  }, [isFanOn, navigate, dispatch]);
+
+  // Spacebar fan toggle functionality
+  useEffect(() => {
+    const spaceBarKeycode = 32;
+    const handler = (e) => {
+      if (e.keyCode === spaceBarKeycode) {
+        handleFanClick();
+      }
+    };
+    document.addEventListener("keyup", handler);
+
+    return () => {
+      document.removeEventListener("keyup", handler);
+    };
+  }, [handleFanClick]);
 
   const handleDisconnect = async () => {
     try {
