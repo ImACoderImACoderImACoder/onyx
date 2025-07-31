@@ -73,6 +73,7 @@ import CurrentTargetTemperature from "../deviceInteraction/CurrentTargetTemperat
 import { Range } from "react-range";
 import { useTheme } from "styled-components";
 import WorkflowItemTypes from "../../constants/enums";
+import { setCurrentStepStartTimestamp } from "../workflowEditor/workflowSlice";
 
 const MinimalistWrapper = styled.div`
   width: 100%;
@@ -985,6 +986,10 @@ export default function MinimalistLayout() {
   const currentTimeInSeconds = useSelector(
     (state) => state.workflow.currentStepEllapsedTimeInSeconds || 0
   );
+
+  const currentStepStartTimestamp = useSelector(
+    (state) => state.workflow.currentStepStartTimestamp
+  );
   const fanOnGlobalValue = useSelector(
     (state) => state.settings.config.workflows.fanOnGlobal || 0
   );
@@ -1375,29 +1380,16 @@ export default function MinimalistLayout() {
     }
   }, [currentWorkflow, workflows]);
 
-  // Local timer management for mini mode
+  // Local timer management for mini mode using stored timestamp
   useEffect(() => {
     const currentStepId = executingWorkflow?.currentWorkflowStepId;
-    
-    if (currentWorkflow && currentStepId) {
-      // Check if step changed or timer needs initialization
-      const stepChanged = lastStepId !== currentStepId;
-      
-      if (!localTimerStart || stepChanged) {
-        // Sync with store timer on initialization or step change
-        const existingElapsed = currentTimeInSeconds || 0;
-        const startTime = new Date().getTime() - (existingElapsed * 1000);
-        setLocalTimerStart(startTime);
-        setLocalElapsedTime(existingElapsed);
-        setLastStepId(currentStepId);
-      }
 
+    if (currentWorkflow && currentStepId && currentStepStartTimestamp) {
       // Update local elapsed time every 50ms for smoother countdown
       const interval = setInterval(() => {
-        if (localTimerStart) {
-          const elapsed = (new Date().getTime() - localTimerStart) / 1000;
-          setLocalElapsedTime(elapsed);
-        }
+        const now = Date.now();
+        const elapsed = (now - currentStepStartTimestamp) / 1000;
+        setLocalElapsedTime(elapsed);
       }, 50);
 
       return () => clearInterval(interval);
@@ -1407,42 +1399,61 @@ export default function MinimalistLayout() {
       setLocalElapsedTime(0);
       setLastStepId(null);
     }
-  }, [currentWorkflow, executingWorkflow?.currentWorkflowStepId, localTimerStart, currentTimeInSeconds, lastStepId]);
+  }, [
+    currentWorkflow,
+    executingWorkflow?.currentWorkflowStepId,
+    currentStepStartTimestamp,
+  ]);
 
   // Reset local timer when transitioning to waiting phase for conditional heat
   useEffect(() => {
     if (currentWorkflow && executingWorkflow?.currentWorkflowStepId) {
-      const currentStep = currentWorkflow.payload[executingWorkflow.currentWorkflowStepId - 1];
+      const currentStep =
+        currentWorkflow.payload[executingWorkflow.currentWorkflowStepId - 1];
       if (currentStep?.type === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
         const payload = currentStep.payload;
         let isWaiting = false;
 
         // Check if we're in waiting phase
         if (payload?.conditions) {
-          const heatStep = payload.conditions.find(x => x.nextTemp === targetTemperature);
+          const heatStep = payload.conditions.find(
+            (x) => x.nextTemp === targetTemperature
+          );
           if (heatStep) {
-            const storeCurrentTemp = store.getState().deviceInteraction.currentTemperature;
+            const storeCurrentTemp =
+              store.getState().deviceInteraction.currentTemperature;
             const currentTempC = storeCurrentTemp; // Already in Celsius
             const targetTempC = heatStep.nextTemp;
-            isWaiting = currentTempC >= (targetTempC - 1) && heatStep.wait > 0;
+            isWaiting = currentTempC >= targetTempC - 1 && heatStep.wait > 0;
           } else if (payload.default) {
-            const storeCurrentTemp = store.getState().deviceInteraction.currentTemperature;
+            const storeCurrentTemp =
+              store.getState().deviceInteraction.currentTemperature;
             const currentTempC = storeCurrentTemp; // Already in Celsius
             const targetTempC = payload.default.temp;
-            isWaiting = currentTempC >= (targetTempC - 1) && payload.default.wait > 0;
+            isWaiting =
+              currentTempC >= targetTempC - 1 && payload.default.wait > 0;
           }
         }
 
         // Reset timer when transitioning from heating to waiting
         if (isWaiting && !wasWaitingLocal) {
-          setLocalTimerStart(new Date().getTime());
+          const now = Date.now();
+          dispatch(setCurrentStepStartTimestamp(now));
+          setLocalTimerStart(now);
           setLocalElapsedTime(0);
         }
-        
+
         setWasWaitingLocal(isWaiting);
       }
     }
-  }, [currentWorkflow, executingWorkflow?.currentWorkflowStepId, targetTemperature, currentTemperature, isF, wasWaitingLocal]);
+  }, [
+    currentWorkflow,
+    executingWorkflow?.currentWorkflowStepId,
+    targetTemperature,
+    currentTemperature,
+    isF,
+    wasWaitingLocal,
+  ]);
 
   // Temperature increment/decrement functionality (copied from WriteTemperatureContainer)
   const onTemperatureIncrementDecrementDebounceRef = useRef(
@@ -1910,9 +1921,16 @@ export default function MinimalistLayout() {
                               executingWorkflow?.currentWorkflowStepId || "";
                             if (!currentStepId || !currentWorkflow.payload)
                               return (
-                                <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <div
+                                  style={{
+                                    textAlign: "center",
+                                    minHeight: "70px",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                  }}
+                                >
                                   <div>Loading</div>
-                                  <div>Please wait</div>
                                 </div>
                               );
 
@@ -1920,9 +1938,16 @@ export default function MinimalistLayout() {
                               currentWorkflow.payload[currentStepId - 1];
                             if (!currentStep)
                               return (
-                                <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                                  <div>Loading step</div>
-                                  <div>Please wait</div>
+                                <div
+                                  style={{
+                                    textAlign: "center",
+                                    minHeight: "70px",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <div>Loading</div>
                                 </div>
                               );
 
@@ -1986,8 +2011,9 @@ export default function MinimalistLayout() {
                                       const currentTempC = storeCurrentTemp; // Already in Celsius
                                       const targetTempC = heatStep.nextTemp;
 
-
-                                      const shouldWait = currentTempC >= (targetTempC - 1) && heatStep.wait > 0;
+                                      const shouldWait =
+                                        currentTempC >= targetTempC - 1 &&
+                                        heatStep.wait > 0;
                                       if (shouldWait) {
                                         stepDisplayName = `Waiting at ${nextHeat}°${
                                           isF ? "F" : "C"
@@ -2017,7 +2043,7 @@ export default function MinimalistLayout() {
 
                                       // Add small tolerance for temperature comparison (within 1 degree)
                                       if (
-                                        currentTempC >= (targetTempC - 1) &&
+                                        currentTempC >= targetTempC - 1 &&
                                         payload.default.wait > 0
                                       ) {
                                         stepDisplayName = `Waiting at ${defaultTemp}°${
@@ -2154,7 +2180,8 @@ export default function MinimalistLayout() {
                                                   store.getState()
                                                     .deviceInteraction
                                                     .currentTemperature;
-                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const currentTempC =
+                                                  storeCurrentTemp; // Already in Celsius
                                                 const targetTempC =
                                                   heatStep.nextTemp;
                                                 // If we've reached target temp and have wait time, use it for countdown (within 1 degree tolerance)
@@ -2174,7 +2201,8 @@ export default function MinimalistLayout() {
                                                   store.getState()
                                                     .deviceInteraction
                                                     .currentTemperature;
-                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const currentTempC =
+                                                  storeCurrentTemp; // Already in Celsius
                                                 const targetTempC =
                                                   payload.default.temp;
                                                 // If we've reached default temp and have wait time, use it for countdown (within 1 degree tolerance)
@@ -2196,7 +2224,9 @@ export default function MinimalistLayout() {
                                           if (!hasCountdown) return "inherit";
 
                                           // Use local timer for mini mode
-                                          const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                          const currentElapsed =
+                                            localElapsedTime ||
+                                            currentTimeInSeconds;
                                           const timeRemaining = Math.max(
                                             0,
                                             stepDurationSeconds - currentElapsed
@@ -2260,7 +2290,8 @@ export default function MinimalistLayout() {
                                                   store.getState()
                                                     .deviceInteraction
                                                     .currentTemperature;
-                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const currentTempC =
+                                                  storeCurrentTemp; // Already in Celsius
                                                 const targetTempC =
                                                   heatStep.nextTemp;
                                                 // If we've reached target temp and have wait time, use it for countdown (within 1 degree tolerance)
@@ -2280,7 +2311,8 @@ export default function MinimalistLayout() {
                                                   store.getState()
                                                     .deviceInteraction
                                                     .currentTemperature;
-                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const currentTempC =
+                                                  storeCurrentTemp; // Already in Celsius
                                                 const targetTempC =
                                                   payload.default.temp;
                                                 // If we've reached default temp and have wait time, use it for countdown (within 1 degree tolerance)
@@ -2303,10 +2335,13 @@ export default function MinimalistLayout() {
                                           if (hasCountdown) {
                                             // Show countdown with decimals for fan operations
                                             // Use local timer for mini mode
-                                            const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                            const currentElapsed =
+                                              localElapsedTime ||
+                                              currentTimeInSeconds;
                                             const timeRemaining = Math.max(
                                               0,
-                                              stepDurationSeconds - currentElapsed
+                                              stepDurationSeconds -
+                                                currentElapsed
                                             );
                                             const mins = Math.floor(
                                               timeRemaining / 60
@@ -2325,10 +2360,13 @@ export default function MinimalistLayout() {
                                                 WorkflowItemTypes.FAN_ON_GLOBAL
                                             ) {
                                               // Use local timer for mini mode
-                                              const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                              const currentElapsed =
+                                                localElapsedTime ||
+                                                currentTimeInSeconds;
                                               const timeRemaining = Math.max(
                                                 0,
-                                                stepDurationSeconds - currentElapsed
+                                                stepDurationSeconds -
+                                                  currentElapsed
                                               );
                                               const mins = Math.floor(
                                                 timeRemaining / 60
@@ -2337,7 +2375,8 @@ export default function MinimalistLayout() {
                                                 timeRemaining % 60
                                               );
                                               const deciseconds = Math.floor(
-                                                Math.round(timeRemaining * 10) % 10
+                                                Math.round(timeRemaining * 10) %
+                                                  10
                                               );
                                               // Fan operations: show 1 decimal place "0:05.4"
                                               return `${mins
@@ -2354,12 +2393,33 @@ export default function MinimalistLayout() {
                                               stepType ===
                                                 WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS
                                             ) {
-                                              // Wait operations and conditional heat waiting: no decimals "0:05"
+                                              // Wait operations and conditional heat waiting: show decimals like fan "0:05.4"
+                                              const currentElapsed =
+                                                localElapsedTime ||
+                                                currentTimeInSeconds;
+                                              const timeRemaining = Math.max(
+                                                0,
+                                                stepDurationSeconds -
+                                                  currentElapsed
+                                              );
+                                              const mins = Math.floor(
+                                                timeRemaining / 60
+                                              );
+                                              const secs = Math.floor(
+                                                timeRemaining % 60
+                                              );
+                                              const deciseconds = Math.floor(
+                                                Math.round(timeRemaining * 10) %
+                                                  10
+                                              );
                                               return `${mins
                                                 .toString()
-                                                .padStart(2, "0")}:${wholeSecs
+                                                .padStart(2, "0")}:${secs
                                                 .toString()
-                                                .padStart(2, "0")}`;
+                                                .padStart(
+                                                  2,
+                                                  "0"
+                                                )}.${deciseconds}`;
                                             } else {
                                               // Default: no decimals "0:05"
                                               return `${mins
@@ -2371,7 +2431,9 @@ export default function MinimalistLayout() {
                                           } else {
                                             // Show elapsed time for non-timed steps
                                             // Use local timer for mini mode
-                                            const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                            const currentElapsed =
+                                              localElapsedTime ||
+                                              currentTimeInSeconds;
                                             const mins = Math.floor(
                                               currentElapsed / 60
                                             );
@@ -2396,7 +2458,19 @@ export default function MinimalistLayout() {
                               "Error rendering workflow details:",
                               error
                             );
-                            return <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>Error loading workflow details</div>;
+                            return (
+                              <div
+                                style={{
+                                  textAlign: "center",
+                                  minHeight: "70px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                Error loading workflow details
+                              </div>
+                            );
                           }
                         })()}
                       </WorkflowDetailsCard>
