@@ -520,15 +520,13 @@ export default function CurrentWorkflowExecutionDisplay() {
     if (!isWorkflowExecuting) return;
     
     timerStartRef.current = new Date();
-    
-    // Use higher precision timer for dramatic countdown effect (especially for fan operations)
     const interval = setInterval(() => {
-      const elapsedMs = new Date() - timerStartRef.current;
-      const elapsedSeconds = elapsedMs / 1000;
-      
-      // Store with decimal precision for dramatic countdown
-      dispatch(setCurrentStepEllapsedTimeInSeconds(elapsedSeconds));
-    }, 100); // Update every 100ms for smooth countdown
+      dispatch(
+        setCurrentStepEllapsedTimeInSeconds(
+          Math.round((new Date() - timerStartRef.current) / 1000)
+        )
+      );
+    }, 1000);
 
     return () => {
       clearInterval(interval);
@@ -730,9 +728,7 @@ export default function CurrentWorkflowExecutionDisplay() {
             {isWorkflowExecuting
               ? hasLoop
                 ? "∞"
-                : showTimer && stepType === WorkflowItemTypes.FAN_ON || stepType === WorkflowItemTypes.FAN_ON_GLOBAL
-                  ? `${currentTimeInSeconds.toFixed(0)}s`
-                  : `${currentStepId}/${totalSteps}`
+                : `${currentStepId}/${totalSteps}`
               : ""}
           </CircularProgressText>
         </CircularProgress>
@@ -759,19 +755,16 @@ export default function CurrentWorkflowExecutionDisplay() {
 
           <div
             style={{
-              fontSize: "0.85rem",
-              opacity: "0.9",
-              marginTop: "6px",
-              marginBottom: "8px",
+              fontSize: "0.8rem",
+              opacity: "0.8",
+              marginTop: "4px",
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
               color: "inherit",
-              fontWeight: "600"
             }}
           >
             <PrideText text={stepDisplayName} />
-            {hasLoop && <LoopIndicator>(∞ Loop)</LoopIndicator>}
+            {hasLoop && <LoopIndicator>(Loop Mode 🔄)</LoopIndicator>}
           </div>
 
           <ExpandedDetails isExpanded={true}>
@@ -820,41 +813,14 @@ export default function CurrentWorkflowExecutionDisplay() {
               </DetailLabel>
               <DetailValue>
                 <PrideText
-                  text={
-                    // Show dramatic decimal precision for fan operations
-                    stepType === WorkflowItemTypes.FAN_ON || 
-                    stepType === WorkflowItemTypes.FAN_ON_GLOBAL
-                      ? `${currentTimeInSeconds.toFixed(1)} ${
-                          Math.abs(currentTimeInSeconds - 1) < 0.05 ? "second" : "seconds"
-                        }`
-                      : `${Math.floor(currentTimeInSeconds)} ${
-                          Math.floor(currentTimeInSeconds) === 1 ? "second" : "seconds"
-                        }`
-                  }
+                  text={`${currentTimeInSeconds} ${
+                    currentTimeInSeconds === 1 ? "second" : "seconds"
+                  }`}
                 />
               </DetailValue>
             </DetailRow>
 
-            {/* Show timer for current step */}
-            {showTimer && (
-              <DetailRow>
-                <DetailLabel>
-                  <PrideText text="Timer:" />
-                </DetailLabel>
-                <DetailValue>
-                  <PrideText
-                    text={
-                      stepType === WorkflowItemTypes.FAN_ON || 
-                      stepType === WorkflowItemTypes.FAN_ON_GLOBAL
-                        ? `${currentTimeInSeconds.toFixed(1)}s`
-                        : `${Math.floor(currentTimeInSeconds)}s`
-                    }
-                  />
-                </DetailValue>
-              </DetailRow>
-            )}
-            
-            <WidgetActions style={{ marginTop: "12px", gap: "8px" }}>
+            <WidgetActions>
               <MiniButton
                 onClick={(e) => {
                   e.stopPropagation();
@@ -863,16 +829,23 @@ export default function CurrentWorkflowExecutionDisplay() {
               >
                 <PrideText text="Cancel" />
               </MiniButton>
-              <MiniButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsExpanded(false);
-                }}
-              >
-                <PrideText text="−" />
-              </MiniButton>
             </WidgetActions>
           </ExpandedDetails>
+          
+          <div style={{ 
+            position: 'absolute', 
+            bottom: '8px', 
+            left: '8px' 
+          }}>
+            <MiniButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(false);
+              }}
+            >
+              <PrideText text="−" />
+            </MiniButton>
+          </div>
         </ExpandedTooltip>
       )}
     </WorkflowWidget>

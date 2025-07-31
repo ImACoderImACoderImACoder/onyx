@@ -48,7 +48,11 @@ import {
   convertBLEtoUint16,
   convertToggleCharacteristicToBool,
 } from "../../services/utils";
-import { AddToPriorityQueue, AddToQueue, cancelCurrentWorkflow } from "../../services/bleQueueing";
+import {
+  AddToPriorityQueue,
+  AddToQueue,
+  cancelCurrentWorkflow,
+} from "../../services/bleQueueing";
 import {
   setTargetTemperature,
   setCurrentTemperature,
@@ -265,7 +269,7 @@ const LeftColumnTemperatureDisplay = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 0px;
   flex: 0 0 auto;
   height: 80px;
   max-height: 80px;
@@ -332,19 +336,21 @@ const subtlePulse = keyframes`
 const WorkflowButton = styled(WriteTemperature)`
   flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
   min-height: 60px; /* Increased to accommodate word wrapping */
-  ${props => props.isExpanded && css`
-    min-height: auto;
-  `}
+  ${(props) =>
+    props.isExpanded &&
+    css`
+      min-height: auto;
+    `}
 
   & > div {
     height: 100% !important;
   }
-  
+
   /* Override any hover transforms from parent component */
   &:hover {
     transform: none !important;
   }
-  
+
   & > div:hover {
     transform: none !important;
   }
@@ -361,20 +367,23 @@ const WorkflowButton = styled(WriteTemperature)`
     line-height: 1.3;
     border-radius: 8px;
     display: flex;
-    align-items: ${props => props.isExpanded ? 'flex-start' : 'center'};
-    justify-content: ${props => props.isExpanded ? 'flex-start' : 'center'};
-    cursor: ${props => props.isExpanded ? 'default' : 'pointer'};
-    ${props => props.isActive && props.canExpand && css`
-      animation: ${subtlePulse} 2s ease-in-out infinite;
-      cursor: pointer !important;
-    `}
-    
+    align-items: ${(props) => (props.isExpanded ? "flex-start" : "center")};
+    justify-content: ${(props) => (props.isExpanded ? "flex-start" : "center")};
+    cursor: ${(props) => (props.isExpanded ? "default" : "pointer")};
+    ${(props) =>
+      props.isActive &&
+      props.canExpand &&
+      css`
+        animation: ${subtlePulse} 2s ease-in-out infinite;
+        cursor: pointer !important;
+      `}
+
     &:hover {
       transform: none !important;
-      cursor: ${props => props.isExpanded ? 'default' : 'pointer'};
+      cursor: ${(props) => (props.isExpanded ? "default" : "pointer")};
     }
   }
-  
+
   /* Ensure no child elements have transforms on hover */
   * {
     &:hover {
@@ -419,7 +428,7 @@ const WorkflowButton = styled(WriteTemperature)`
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       &:hover {
         transform: none !important;
       }
@@ -735,13 +744,13 @@ const NavigationOverlay = styled.div`
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
-  display: ${props => props.isVisible ? 'flex' : 'none'};
+  display: ${(props) => (props.isVisible ? "flex" : "none")};
   align-items: center;
   justify-content: center;
 `;
 
 const NavigationMenu = styled.div`
-  background: ${props => props.theme.backgroundColor};
+  background: ${(props) => props.theme.backgroundColor};
   border-radius: 20px;
   padding: 28px;
   max-width: 380px;
@@ -749,7 +758,8 @@ const NavigationMenu = styled.div`
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
-  border: 2px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.15)'};
+  border: 2px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.15)"};
   backdrop-filter: blur(15px);
   gap: 8px;
   display: flex;
@@ -763,8 +773,8 @@ const NavigationItem = styled(StyledRouterIconLink)`
   padding: 18px 22px;
   margin: 6px 0;
   border-radius: 14px;
-  background: ${props => props.theme.buttonColorMain};
-  color: ${props => props.theme.primaryFontColor};
+  background: ${(props) => props.theme.buttonColorMain};
+  color: ${(props) => props.theme.primaryFontColor};
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 17px;
@@ -772,27 +782,28 @@ const NavigationItem = styled(StyledRouterIconLink)`
   min-height: 64px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
+
   &:first-child {
     margin-top: 8px;
   }
-  
+
   &:last-child {
     margin-bottom: 8px;
   }
-  
+
   &:hover {
-    background: ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain};
+    background: ${(props) =>
+      props.theme.hoverBackgroundColor || props.theme.buttonColorMain};
     transform: translateX(-8px) scale(1.03);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.2);
   }
-  
+
   &:active {
     transform: translateX(-6px) scale(0.98);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
-  
+
   svg {
     width: 26px;
     height: 26px;
@@ -800,7 +811,7 @@ const NavigationItem = styled(StyledRouterIconLink)`
     flex-shrink: 0;
     opacity: 0.9;
   }
-  
+
   span {
     flex: 1;
     text-align: left;
@@ -880,7 +891,7 @@ const WorkflowDetailsCard = styled.div`
   background: transparent;
   border: none;
   border-radius: 0;
-  padding: 8px;
+  padding: 0;
   margin: 0;
   box-shadow: none;
   width: 100%;
@@ -890,7 +901,7 @@ const WorkflowDetailsCard = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
 `;
 
 const WorkflowDetailRow = styled.div`
@@ -912,10 +923,11 @@ const WorkflowDetailValue = styled.span`
 const WorkflowActionButton = styled.button`
   background: linear-gradient(
     145deg,
-    ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'},
-    ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'}cc
+    ${(props) => props.theme.buttonColorMain || "rgba(255, 255, 255, 0.1)"},
+    ${(props) => props.theme.buttonColorMain || "rgba(255, 255, 255, 0.1)"}cc
   );
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.2)'};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.2)"};
   color: inherit;
   border-radius: 6px;
   padding: 6px 12px;
@@ -925,12 +937,14 @@ const WorkflowActionButton = styled.button`
   transition: all 0.2s ease;
   margin: 2px;
   flex-shrink: 0;
-  
+
   &:hover {
     background: linear-gradient(
       145deg,
-      ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain},
-      ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc
+      ${(props) =>
+        props.theme.hoverBackgroundColor || props.theme.buttonColorMain},
+      ${(props) =>
+        props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc
     );
     transform: scale(1.02);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -977,6 +991,10 @@ export default function MinimalistLayout() {
   const workflowRef = useRef(null);
   const [showNavigation, setShowNavigation] = useState(false);
   const [expandedWorkflowIndex, setExpandedWorkflowIndex] = useState(null);
+  const [localTimerStart, setLocalTimerStart] = useState(null);
+  const [localElapsedTime, setLocalElapsedTime] = useState(0);
+  const [lastStepId, setLastStepId] = useState(null);
+  const [wasWaitingLocal, setWasWaitingLocal] = useState(false);
   const theme = useTheme();
 
   // Current temperature BLE handler
@@ -1342,12 +1360,13 @@ export default function MinimalistLayout() {
     };
   }, [dispatch, isHeatOn]);
 
-
   // Auto-expand executing workflow and close when it completes
   useEffect(() => {
     if (currentWorkflow) {
       // Find the index of the executing workflow and auto-expand it
-      const executingIndex = workflows.findIndex(w => w.id === currentWorkflow.id);
+      const executingIndex = workflows.findIndex(
+        (w) => w.id === currentWorkflow.id
+      );
       if (executingIndex !== -1) {
         setExpandedWorkflowIndex(executingIndex);
       }
@@ -1355,6 +1374,75 @@ export default function MinimalistLayout() {
       setExpandedWorkflowIndex(null);
     }
   }, [currentWorkflow, workflows]);
+
+  // Local timer management for mini mode
+  useEffect(() => {
+    const currentStepId = executingWorkflow?.currentWorkflowStepId;
+    
+    if (currentWorkflow && currentStepId) {
+      // Check if step changed or timer needs initialization
+      const stepChanged = lastStepId !== currentStepId;
+      
+      if (!localTimerStart || stepChanged) {
+        // Sync with store timer on initialization or step change
+        const existingElapsed = currentTimeInSeconds || 0;
+        const startTime = new Date().getTime() - (existingElapsed * 1000);
+        setLocalTimerStart(startTime);
+        setLocalElapsedTime(existingElapsed);
+        setLastStepId(currentStepId);
+      }
+
+      // Update local elapsed time every 100ms for smooth countdown
+      const interval = setInterval(() => {
+        if (localTimerStart) {
+          const elapsed = (new Date().getTime() - localTimerStart) / 1000;
+          setLocalElapsedTime(elapsed);
+        }
+      }, 100);
+
+      return () => clearInterval(interval);
+    } else {
+      // No workflow running, reset timer
+      setLocalTimerStart(null);
+      setLocalElapsedTime(0);
+      setLastStepId(null);
+    }
+  }, [currentWorkflow, executingWorkflow?.currentWorkflowStepId, localTimerStart, currentTimeInSeconds, lastStepId]);
+
+  // Reset local timer when transitioning to waiting phase for conditional heat
+  useEffect(() => {
+    if (currentWorkflow && executingWorkflow?.currentWorkflowStepId) {
+      const currentStep = currentWorkflow.payload[executingWorkflow.currentWorkflowStepId - 1];
+      if (currentStep?.type === WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS) {
+        const payload = currentStep.payload;
+        let isWaiting = false;
+
+        // Check if we're in waiting phase
+        if (payload?.conditions) {
+          const heatStep = payload.conditions.find(x => x.nextTemp === targetTemperature);
+          if (heatStep) {
+            const storeCurrentTemp = store.getState().deviceInteraction.currentTemperature;
+            const currentTempC = storeCurrentTemp; // Already in Celsius
+            const targetTempC = heatStep.nextTemp;
+            isWaiting = currentTempC >= (targetTempC - 1) && heatStep.wait > 0;
+          } else if (payload.default) {
+            const storeCurrentTemp = store.getState().deviceInteraction.currentTemperature;
+            const currentTempC = storeCurrentTemp; // Already in Celsius
+            const targetTempC = payload.default.temp;
+            isWaiting = currentTempC >= (targetTempC - 1) && payload.default.wait > 0;
+          }
+        }
+
+        // Reset timer when transitioning from heating to waiting
+        if (isWaiting && !wasWaitingLocal) {
+          setLocalTimerStart(new Date().getTime());
+          setLocalElapsedTime(0);
+        }
+        
+        setWasWaitingLocal(isWaiting);
+      }
+    }
+  }, [currentWorkflow, executingWorkflow?.currentWorkflowStepId, targetTemperature, currentTemperature, isF, wasWaitingLocal]);
 
   // Temperature increment/decrement functionality (copied from WriteTemperatureContainer)
   const onTemperatureIncrementDecrementDebounceRef = useRef(
@@ -1521,25 +1609,26 @@ export default function MinimalistLayout() {
 
       if (isActive) {
         // Toggle expanded state for active workflow
-        setExpandedWorkflowIndex(expandedWorkflowIndex === index ? null : index);
+        setExpandedWorkflowIndex(
+          expandedWorkflowIndex === index ? null : index
+        );
       } else {
         // Click the corresponding button in the hidden WorkFlow component
         if (!workflowRef.current) {
-          console.error('Workflow ref not available');
+          console.error("Workflow ref not available");
           return;
         }
         const buttons = workflowRef.current?.querySelectorAll(
           ".temperature-write-div button"
         );
-        console.log('Found buttons:', buttons?.length);
         if (buttons && buttons[index]) {
           buttons[index].click();
         } else {
-          console.error('Button not found at index:', index);
+          console.error("Button not found at index:", index);
         }
       }
     } catch (error) {
-      console.error('Error in handleWorkflowClick:', error);
+      console.error("Error in handleWorkflowClick:", error);
     }
   };
 
@@ -1811,251 +1900,510 @@ export default function MinimalistLayout() {
                 <WorkflowButton
                   key={index}
                   onClick={() => handleWorkflowClick(index)}
-                  buttonText={isExpanded && currentWorkflow ? (
-                    <WorkflowDetailsCard onClick={(e) => e.stopPropagation()}>
-                      {(() => {
-                        try {
-                          // Get current workflow step info
-                          const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
-                          if (!currentStepId || !currentWorkflow.payload) return (
-                            <div style={{ textAlign: 'center' }}>
-                              <div>Loading</div>
-                              <div>Please wait</div>
-                            </div>
-                          );
-                          
-                          const currentStep = currentWorkflow.payload[currentStepId - 1];
-                          if (!currentStep) return (
-                            <div style={{ textAlign: 'center' }}>
-                              <div>Loading step</div>
-                              <div>Please wait</div>
-                            </div>
-                          );
-                          
-                          const stepType = currentStep?.type;
-                          const payload = currentStep?.payload;
-                      
-                      // Get step display name
-                      let stepDisplayName = "N/A";
-                      switch (stepType) {
-                        case WorkflowItemTypes.FAN_ON:
-                          stepDisplayName = "Fan On";
-                          break;
-                        case WorkflowItemTypes.FAN_ON_GLOBAL:
-                          stepDisplayName = "Fan On (Global)";
-                          break;
-                        case WorkflowItemTypes.HEAT_OFF:
-                          stepDisplayName = "Turning Heat Off";
-                          break;
-                        case WorkflowItemTypes.HEAT_ON:
-                          if (payload && payload > 0) {
-                            stepDisplayName = `Heating to ${
-                              isF
-                                ? `${convertToFahrenheitFromCelsius(payload)}${DEGREE_SYMBOL}F`
-                                : `${payload}${DEGREE_SYMBOL}C`
-                            }`;
-                          } else {
-                            stepDisplayName = "Heat On";
-                          }
-                          break;
-                        case WorkflowItemTypes.SET_LED_BRIGHTNESS:
-                          stepDisplayName = `Set LED Brightness to ${payload}`;
-                          break;
-                        case WorkflowItemTypes.WAIT:
-                          stepDisplayName = "Waiting";
-                          break;
-                        case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
+                  buttonText={
+                    isExpanded && currentWorkflow ? (
+                      <WorkflowDetailsCard onClick={(e) => e.stopPropagation()}>
+                        {(() => {
                           try {
-                            if (payload && payload.conditions && Array.isArray(payload.conditions)) {
-                              const heatStep = payload.conditions.find(
-                                (x) => x.nextTemp === targetTemperature
+                            // Get current workflow step info
+                            const currentStepId =
+                              executingWorkflow?.currentWorkflowStepId || "";
+                            if (!currentStepId || !currentWorkflow.payload)
+                              return (
+                                <div style={{ textAlign: "center" }}>
+                                  <div>Loading</div>
+                                  <div>Please wait</div>
+                                </div>
                               );
 
-                              if (heatStep) {
-                                const nextHeat = isF
-                                  ? convertToFahrenheitFromCelsius(heatStep.nextTemp)
-                                  : heatStep.nextTemp;
+                            const currentStep =
+                              currentWorkflow.payload[currentStepId - 1];
+                            if (!currentStep)
+                              return (
+                                <div style={{ textAlign: "center" }}>
+                                  <div>Loading step</div>
+                                  <div>Please wait</div>
+                                </div>
+                              );
 
-                                // Check if we've reached target temp and are now waiting
-                                const currentTempC = isF
-                                  ? convertToCelsiusFromFahrenheit(currentTemperature)
-                                  : currentTemperature;
-                                const targetTempC = heatStep.nextTemp;
+                            const stepType = currentStep?.type;
+                            const payload = currentStep?.payload;
 
-                                if (currentTempC >= targetTempC && heatStep.wait > 0) {
-                                  stepDisplayName = `Waiting at ${nextHeat}°${isF ? "F" : "C"}`;
+                            // Get step display name
+                            let stepDisplayName = "N/A";
+                            switch (stepType) {
+                              case WorkflowItemTypes.FAN_ON:
+                                stepDisplayName = "Fan On";
+                                break;
+                              case WorkflowItemTypes.FAN_ON_GLOBAL:
+                                stepDisplayName = "Fan On (Global)";
+                                break;
+                              case WorkflowItemTypes.HEAT_OFF:
+                                stepDisplayName = "Turning Heat Off";
+                                break;
+                              case WorkflowItemTypes.HEAT_ON:
+                                if (payload && payload > 0) {
+                                  stepDisplayName = `Heating to ${
+                                    isF
+                                      ? `${convertToFahrenheitFromCelsius(
+                                          payload
+                                        )}${DEGREE_SYMBOL}F`
+                                      : `${payload}${DEGREE_SYMBOL}C`
+                                  }`;
                                 } else {
-                                  stepDisplayName = `Heating to ${nextHeat}°${isF ? "F" : "C"}`;
+                                  stepDisplayName = "Heat On";
                                 }
-                              } else if (payload.default && payload.default.temp) {
-                                const defaultTemp = isF
-                                  ? convertToFahrenheitFromCelsius(payload.default.temp)
-                                  : payload.default.temp;
+                                break;
+                              case WorkflowItemTypes.SET_LED_BRIGHTNESS:
+                                stepDisplayName = `Set LED Brightness to ${payload}`;
+                                break;
+                              case WorkflowItemTypes.WAIT:
+                                stepDisplayName = "Waiting";
+                                break;
+                              case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
+                                try {
+                                  if (
+                                    payload &&
+                                    payload.conditions &&
+                                    Array.isArray(payload.conditions)
+                                  ) {
+                                    const heatStep = payload.conditions.find(
+                                      (x) => x.nextTemp === targetTemperature
+                                    );
 
-                                // Check if we've reached default temp and are waiting
-                                const currentTempC = isF
-                                  ? convertToCelsiusFromFahrenheit(currentTemperature)
-                                  : currentTemperature;
-                                const targetTempC = payload.default.temp;
+                                    if (heatStep) {
+                                      const nextHeat = isF
+                                        ? convertToFahrenheitFromCelsius(
+                                            heatStep.nextTemp
+                                          )
+                                        : heatStep.nextTemp;
 
-                                if (currentTempC >= targetTempC && payload.default.wait > 0) {
-                                  stepDisplayName = `Waiting at ${defaultTemp}°${isF ? "F" : "C"}`;
-                                } else {
-                                  stepDisplayName = `Heating to ${defaultTemp}°${isF ? "F" : "C"}`;
-                                }
-                              } else {
-                                stepDisplayName = "Conditional Heat";
-                              }
-                            } else {
-                              stepDisplayName = "Conditional Heat";
-                            }
-                          } catch (error) {
-                            console.error('Error in conditional heat logic:', error);
-                            stepDisplayName = "Conditional Heat";
-                          }
-                          break;
-                        case WorkflowItemTypes.LOOP_FROM_BEGINNING:
-                          stepDisplayName = "Looping to Start";
-                          break;
-                        case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
-                          stepDisplayName = "Checking Exit Condition";
-                          break;
-                        default:
-                          stepDisplayName = "Processing...";
-                      }
-                      
-                      const totalSteps = currentWorkflow.payload.filter(
-                        (item) =>
-                          ![
-                            WorkflowItemTypes.LOOP_FROM_BEGINNING,
-                            WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
-                          ].includes(item.type)
-                      ).length;
-                      
-                      return (
-                        <>
-                          <WorkflowActionButton
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              cancelCurrentWorkflow();
-                              setExpandedWorkflowIndex(null);
-                            }}
-                            style={{
-                              position: 'absolute',
-                              bottom: '8px',
-                              right: '8px',
-                              padding: '4px 8px',
-                              fontSize: '0.75rem',
-                              margin: 0,
-                              width: 'auto',
-                              height: 'auto'
-                            }}
-                          >
-                            <PrideText text="Cancel" />
-                          </WorkflowActionButton>
-                          
-                          <div style={{ 
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '4px'
-                          }}>
-                            <div style={{ fontSize: '0.95rem', fontWeight: 600 }}>
-                              <PrideText text={`${currentStepId}/${totalSteps} ${stepDisplayName}`} />
-                            </div>
-                            
-                            <div style={{ 
-                              display: 'flex', 
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '0.85rem'
-                            }}>
-                              <span style={{ 
-                              fontFamily: 'digital-mono, monospace',
-                              fontSize: '1rem',
-                              fontWeight: 600,
-                              whiteSpace: 'nowrap',
-                              color: (() => {
-                                // Determine if we have a countdown
-                                let stepDurationSeconds = null;
-                                if (stepType === WorkflowItemTypes.FAN_ON) {
-                                  stepDurationSeconds = payload;
-                                } else if (stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
-                                  stepDurationSeconds = fanOnGlobalValue;
-                                } else if (stepType === WorkflowItemTypes.WAIT) {
-                                  stepDurationSeconds = payload;
-                                }
-                                
-                                const hasCountdown = stepDurationSeconds !== null && stepDurationSeconds > 0;
-                                if (!hasCountdown) return 'inherit';
-                                
-                                const timeRemaining = Math.max(0, stepDurationSeconds - currentTimeInSeconds);
-                                
-                                // Apply countdown colors
-                                if (timeRemaining <= 5 && timeRemaining > 3) {
-                                  return '#ff9500';
-                                } else if (timeRemaining <= 3 && timeRemaining > 1) {
-                                  return '#ff6b35';
-                                } else if (timeRemaining <= 1) {
-                                  return '#ff0000';
-                                }
-                                return 'inherit';
-                              })()
-                            }}>
-                              <PrideText text={(() => {
-                                // Determine if we have a countdown
-                                let stepDurationSeconds = null;
-                                if (stepType === WorkflowItemTypes.FAN_ON) {
-                                  stepDurationSeconds = payload;
-                                } else if (stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
-                                  stepDurationSeconds = fanOnGlobalValue;
-                                } else if (stepType === WorkflowItemTypes.WAIT) {
-                                  stepDurationSeconds = payload;
-                                }
-                                
-                                const hasCountdown = stepDurationSeconds !== null && stepDurationSeconds > 0;
-                                
-                                if (hasCountdown) {
-                                  // Show countdown with decimals for fan operations
-                                  const timeRemaining = Math.max(0, stepDurationSeconds - currentTimeInSeconds);
-                                  const mins = Math.floor(timeRemaining / 60);
-                                  const wholeSecs = Math.floor(timeRemaining % 60);
-                                  const decimals = Math.floor((timeRemaining % 1) * 10);
-                                  
-                                  if (stepType === WorkflowItemTypes.FAN_ON || stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
-                                    // Fan operations: show decimals "0:05.3"
-                                    return `${mins.toString().padStart(2, "0")}:${wholeSecs
-                                      .toString()
-                                      .padStart(2, "0")}.${decimals}`;
+                                      // Check if we've reached target temp and are now waiting
+                                      // Store temperatures are always in Celsius
+                                      const storeCurrentTemp =
+                                        store.getState().deviceInteraction
+                                          .currentTemperature;
+                                      const currentTempC = storeCurrentTemp; // Already in Celsius
+                                      const targetTempC = heatStep.nextTemp;
+
+
+                                      const shouldWait = currentTempC >= (targetTempC - 1) && heatStep.wait > 0;
+                                      if (shouldWait) {
+                                        stepDisplayName = `Waiting at ${nextHeat}°${
+                                          isF ? "F" : "C"
+                                        }`;
+                                      } else {
+                                        stepDisplayName = `Heating to ${nextHeat}°${
+                                          isF ? "F" : "C"
+                                        }`;
+                                      }
+                                    } else if (
+                                      payload.default &&
+                                      payload.default.temp
+                                    ) {
+                                      const defaultTemp = isF
+                                        ? convertToFahrenheitFromCelsius(
+                                            payload.default.temp
+                                          )
+                                        : payload.default.temp;
+
+                                      // Check if we've reached default temp and are waiting
+                                      // Store temperatures are always in Celsius
+                                      const storeCurrentTemp =
+                                        store.getState().deviceInteraction
+                                          .currentTemperature;
+                                      const currentTempC = storeCurrentTemp; // Already in Celsius
+                                      const targetTempC = payload.default.temp;
+
+                                      // Add small tolerance for temperature comparison (within 1 degree)
+                                      if (
+                                        currentTempC >= (targetTempC - 1) &&
+                                        payload.default.wait > 0
+                                      ) {
+                                        stepDisplayName = `Waiting at ${defaultTemp}°${
+                                          isF ? "F" : "C"
+                                        }`;
+                                      } else {
+                                        stepDisplayName = `Heating to ${defaultTemp}°${
+                                          isF ? "F" : "C"
+                                        }`;
+                                      }
+                                    } else {
+                                      stepDisplayName = "Conditional Heat";
+                                    }
                                   } else {
-                                    // Wait operations: no decimals "0:05"
-                                    return `${mins.toString().padStart(2, "0")}:${wholeSecs
-                                      .toString()
-                                      .padStart(2, "0")}`;
+                                    stepDisplayName = "Conditional Heat";
                                   }
-                                } else {
-                                  // Show elapsed time for non-timed steps
-                                  const mins = Math.floor(currentTimeInSeconds / 60);
-                                  const secs = Math.floor(currentTimeInSeconds % 60);
-                                  return `${mins.toString().padStart(2, "0")}:${secs
-                                    .toString()
-                                    .padStart(2, "0")}`;
+                                } catch (error) {
+                                  console.error(
+                                    "Error in conditional heat logic:",
+                                    error
+                                  );
+                                  stepDisplayName = "Conditional Heat";
                                 }
-                              })()} />
-                            </span>
-                          </div>
-                        </div>
-                        </>
-                      );
-                      } catch (error) {
-                        console.error('Error rendering workflow details:', error);
-                        return <div>Error loading workflow details</div>;
-                      }
-                    })()}
-                  </WorkflowDetailsCard>
-                ) : (
-                  <PrideText text={buttonText} />
-                )}
+                                break;
+                              case WorkflowItemTypes.LOOP_FROM_BEGINNING:
+                                stepDisplayName = "Looping to Start";
+                                break;
+                              case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
+                                stepDisplayName = "Checking Exit Condition";
+                                break;
+                              default:
+                                stepDisplayName = "Processing...";
+                            }
+
+                            const totalSteps = currentWorkflow.payload.filter(
+                              (item) =>
+                                ![
+                                  WorkflowItemTypes.LOOP_FROM_BEGINNING,
+                                  WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
+                                ].includes(item.type)
+                            ).length;
+
+                            return (
+                              <>
+                                <WorkflowActionButton
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    cancelCurrentWorkflow();
+                                    setExpandedWorkflowIndex(null);
+                                  }}
+                                  style={{
+                                    position: "absolute",
+                                    bottom: "8px",
+                                    right: "8px",
+                                    padding: "4px 8px",
+                                    fontSize: "0.75rem",
+                                    margin: 0,
+                                    width: "auto",
+                                    height: "auto",
+                                  }}
+                                >
+                                  <PrideText text="Cancel" />
+                                </WorkflowActionButton>
+
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: "1.05rem",
+                                      fontWeight: 600,
+                                    }}
+                                  >
+                                    <PrideText
+                                      text={`${currentStepId}/${totalSteps} ${stepDisplayName}`}
+                                    />
+                                  </div>
+
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontSize: "0.85rem",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        fontFamily: "digital-mono, monospace",
+                                        fontSize: "1.3rem",
+                                        fontWeight: 600,
+                                        whiteSpace: "nowrap",
+                                        color: (() => {
+                                          // Determine if we have a countdown
+                                          let stepDurationSeconds = null;
+                                          if (
+                                            stepType ===
+                                            WorkflowItemTypes.FAN_ON
+                                          ) {
+                                            stepDurationSeconds = payload;
+                                          } else if (
+                                            stepType ===
+                                            WorkflowItemTypes.FAN_ON_GLOBAL
+                                          ) {
+                                            stepDurationSeconds =
+                                              fanOnGlobalValue;
+                                          } else if (
+                                            stepType === WorkflowItemTypes.WAIT
+                                          ) {
+                                            stepDurationSeconds = payload;
+                                          } else if (
+                                            stepType ===
+                                            WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS
+                                          ) {
+                                            // Check if we're in waiting phase for conditional heat
+                                            if (
+                                              payload &&
+                                              payload.conditions &&
+                                              Array.isArray(payload.conditions)
+                                            ) {
+                                              const heatStep =
+                                                payload.conditions.find(
+                                                  (x) =>
+                                                    x.nextTemp ===
+                                                    targetTemperature
+                                                );
+                                              if (heatStep) {
+                                                const storeCurrentTemp =
+                                                  store.getState()
+                                                    .deviceInteraction
+                                                    .currentTemperature;
+                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const targetTempC =
+                                                  heatStep.nextTemp;
+                                                // If we've reached target temp and have wait time, use it for countdown (within 1 degree tolerance)
+                                                if (
+                                                  currentTempC >=
+                                                    targetTempC - 1 &&
+                                                  heatStep.wait > 0
+                                                ) {
+                                                  stepDurationSeconds =
+                                                    heatStep.wait;
+                                                }
+                                              } else if (
+                                                payload.default &&
+                                                payload.default.temp
+                                              ) {
+                                                const storeCurrentTemp =
+                                                  store.getState()
+                                                    .deviceInteraction
+                                                    .currentTemperature;
+                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const targetTempC =
+                                                  payload.default.temp;
+                                                // If we've reached default temp and have wait time, use it for countdown (within 1 degree tolerance)
+                                                if (
+                                                  currentTempC >=
+                                                    targetTempC - 1 &&
+                                                  payload.default.wait > 0
+                                                ) {
+                                                  stepDurationSeconds =
+                                                    payload.default.wait;
+                                                }
+                                              }
+                                            }
+                                          }
+
+                                          const hasCountdown =
+                                            stepDurationSeconds !== null &&
+                                            stepDurationSeconds > 0;
+                                          if (!hasCountdown) return "inherit";
+
+                                          // Use local timer for mini mode
+                                          const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                          const timeRemaining = Math.max(
+                                            0,
+                                            stepDurationSeconds - currentElapsed
+                                          );
+
+                                          // Apply countdown colors
+                                          if (
+                                            timeRemaining <= 5 &&
+                                            timeRemaining > 3
+                                          ) {
+                                            return "#ff9500";
+                                          } else if (
+                                            timeRemaining <= 3 &&
+                                            timeRemaining > 1
+                                          ) {
+                                            return "#ff6b35";
+                                          } else if (timeRemaining <= 1) {
+                                            return "#ff0000";
+                                          }
+                                          return "inherit";
+                                        })(),
+                                      }}
+                                    >
+                                      <PrideText
+                                        text={(() => {
+                                          // Determine if we have a countdown
+                                          let stepDurationSeconds = null;
+                                          if (
+                                            stepType ===
+                                            WorkflowItemTypes.FAN_ON
+                                          ) {
+                                            stepDurationSeconds = payload;
+                                          } else if (
+                                            stepType ===
+                                            WorkflowItemTypes.FAN_ON_GLOBAL
+                                          ) {
+                                            stepDurationSeconds =
+                                              fanOnGlobalValue;
+                                          } else if (
+                                            stepType === WorkflowItemTypes.WAIT
+                                          ) {
+                                            stepDurationSeconds = payload;
+                                          } else if (
+                                            stepType ===
+                                            WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS
+                                          ) {
+                                            // Check if we're in waiting phase for conditional heat
+                                            if (
+                                              payload &&
+                                              payload.conditions &&
+                                              Array.isArray(payload.conditions)
+                                            ) {
+                                              const heatStep =
+                                                payload.conditions.find(
+                                                  (x) =>
+                                                    x.nextTemp ===
+                                                    targetTemperature
+                                                );
+                                              if (heatStep) {
+                                                const storeCurrentTemp =
+                                                  store.getState()
+                                                    .deviceInteraction
+                                                    .currentTemperature;
+                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const targetTempC =
+                                                  heatStep.nextTemp;
+                                                // If we've reached target temp and have wait time, use it for countdown (within 1 degree tolerance)
+                                                if (
+                                                  currentTempC >=
+                                                    targetTempC - 1 &&
+                                                  heatStep.wait > 0
+                                                ) {
+                                                  stepDurationSeconds =
+                                                    heatStep.wait;
+                                                }
+                                              } else if (
+                                                payload.default &&
+                                                payload.default.temp
+                                              ) {
+                                                const storeCurrentTemp =
+                                                  store.getState()
+                                                    .deviceInteraction
+                                                    .currentTemperature;
+                                                const currentTempC = storeCurrentTemp; // Already in Celsius
+                                                const targetTempC =
+                                                  payload.default.temp;
+                                                // If we've reached default temp and have wait time, use it for countdown (within 1 degree tolerance)
+                                                if (
+                                                  currentTempC >=
+                                                    targetTempC - 1 &&
+                                                  payload.default.wait > 0
+                                                ) {
+                                                  stepDurationSeconds =
+                                                    payload.default.wait;
+                                                }
+                                              }
+                                            }
+                                          }
+
+                                          const hasCountdown =
+                                            stepDurationSeconds !== null &&
+                                            stepDurationSeconds > 0;
+
+                                          if (hasCountdown) {
+                                            // Show countdown with decimals for fan operations
+                                            // Use local timer for mini mode
+                                            const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                            const timeRemaining = Math.max(
+                                              0,
+                                              stepDurationSeconds - currentElapsed
+                                            );
+                                            const mins = Math.floor(
+                                              timeRemaining / 60
+                                            );
+                                            const wholeSecs = Math.floor(
+                                              timeRemaining % 60
+                                            );
+                                            const decimals = Math.floor(
+                                              (timeRemaining % 1) * 100
+                                            );
+
+                                            if (
+                                              stepType ===
+                                                WorkflowItemTypes.FAN_ON ||
+                                              stepType ===
+                                                WorkflowItemTypes.FAN_ON_GLOBAL
+                                            ) {
+                                              // Use local timer for mini mode
+                                              const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                              const timeRemaining = Math.max(
+                                                0,
+                                                stepDurationSeconds - currentElapsed
+                                              );
+                                              const mins = Math.floor(
+                                                timeRemaining / 60
+                                              );
+                                              const secs = Math.floor(
+                                                timeRemaining % 60
+                                              );
+                                              const tensPlace = Math.floor(
+                                                (timeRemaining % 1) * 10
+                                              );
+                                              // Fan operations: show 1 decimal place "0:05.3"
+                                              return `${mins
+                                                .toString()
+                                                .padStart(2, "0")}:${secs
+                                                .toString()
+                                                .padStart(
+                                                  2,
+                                                  "0"
+                                                )}.${tensPlace}`;
+                                            } else if (
+                                              stepType ===
+                                                WorkflowItemTypes.WAIT ||
+                                              stepType ===
+                                                WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS
+                                            ) {
+                                              // Wait operations and conditional heat waiting: no decimals "0:05"
+                                              return `${mins
+                                                .toString()
+                                                .padStart(2, "0")}:${wholeSecs
+                                                .toString()
+                                                .padStart(2, "0")}`;
+                                            } else {
+                                              // Default: no decimals "0:05"
+                                              return `${mins
+                                                .toString()
+                                                .padStart(2, "0")}:${wholeSecs
+                                                .toString()
+                                                .padStart(2, "0")}`;
+                                            }
+                                          } else {
+                                            // Show elapsed time for non-timed steps
+                                            // Use local timer for mini mode
+                                            const currentElapsed = localElapsedTime || currentTimeInSeconds;
+                                            const mins = Math.floor(
+                                              currentElapsed / 60
+                                            );
+                                            const secs = Math.floor(
+                                              currentElapsed % 60
+                                            );
+                                            return `${mins
+                                              .toString()
+                                              .padStart(2, "0")}:${secs
+                                              .toString()
+                                              .padStart(2, "0")}`;
+                                          }
+                                        })()}
+                                      />
+                                    </span>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          } catch (error) {
+                            console.error(
+                              "Error rendering workflow details:",
+                              error
+                            );
+                            return <div>Error loading workflow details</div>;
+                          }
+                        })()}
+                      </WorkflowDetailsCard>
+                    ) : (
+                      <PrideText text={buttonText} />
+                    )
+                  }
                   isActive={isActive}
                   isExpanded={isExpanded}
                   canExpand={isActive && !isExpanded}
@@ -2157,13 +2505,18 @@ export default function MinimalistLayout() {
       <div style={{ display: "none" }}>
         <CurrentWorkflowExecutionDisplay />
       </div>
-      
+
       {/* Navigation Overlay */}
-      <NavigationOverlay isVisible={showNavigation} onClick={() => setShowNavigation(false)}>
+      <NavigationOverlay
+        isVisible={showNavigation}
+        onClick={() => setShowNavigation(false)}
+      >
         <NavigationMenu onClick={(e) => e.stopPropagation()}>
           <NavigationItem
             as="div"
-            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/App"))}
+            onClick={() =>
+              handleNavigationItemClick(() => navigate("/Volcano/App"))
+            }
             style={{ cursor: "pointer" }}
           >
             <PrideText text="Controls" />
@@ -2171,7 +2524,11 @@ export default function MinimalistLayout() {
           </NavigationItem>
           <NavigationItem
             as="div"
-            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/WorkflowEditor"))}
+            onClick={() =>
+              handleNavigationItemClick(() =>
+                navigate("/Volcano/WorkflowEditor")
+              )
+            }
             style={{ cursor: "pointer" }}
           >
             <PrideText text="Workflow Editor" />
@@ -2179,7 +2536,9 @@ export default function MinimalistLayout() {
           </NavigationItem>
           <NavigationItem
             as="div"
-            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/ContactMe"))}
+            onClick={() =>
+              handleNavigationItemClick(() => navigate("/Volcano/ContactMe"))
+            }
             style={{ cursor: "pointer" }}
           >
             <PrideText text="Contact Me" />
@@ -2187,7 +2546,9 @@ export default function MinimalistLayout() {
           </NavigationItem>
           <NavigationItem
             as="div"
-            onClick={() => handleNavigationItemClick(() => navigate("/Volcano/Settings"))}
+            onClick={() =>
+              handleNavigationItemClick(() => navigate("/Volcano/Settings"))
+            }
             style={{ cursor: "pointer" }}
           >
             <PrideText text="Settings" />

@@ -89,7 +89,6 @@ export function isValueInValidVolcanoCelciusRange(value) {
 
 export function ReadConfigFromLocalStorage() {
   let config = JSON.parse(window.localStorage.getItem(localStorageKey));
-  console.log('Reading config from localStorage:', config);
   const defaultConfig = {
     temperatureControlValues: defaultTemperatureArray,
     currentTheme: aSuperSpecialAutoThemeSettingsId,
