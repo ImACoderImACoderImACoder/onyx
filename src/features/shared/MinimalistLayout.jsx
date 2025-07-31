@@ -861,15 +861,15 @@ const TemperatureRow = styled.div`
   width: 100%;
 
   & > div {
-    font-size: 1.5rem !important;
+    font-size: 2rem !important;
     margin-bottom: 0 !important;
 
     div {
-      font-size: 1.5rem !important;
+      font-size: 2rem !important;
     }
 
     span {
-      font-size: 1rem !important;
+      font-size: 1.3rem !important;
     }
   }
 `;
@@ -1392,13 +1392,13 @@ export default function MinimalistLayout() {
         setLastStepId(currentStepId);
       }
 
-      // Update local elapsed time every 100ms for smooth countdown
+      // Update local elapsed time every 50ms for smoother countdown
       const interval = setInterval(() => {
         if (localTimerStart) {
           const elapsed = (new Date().getTime() - localTimerStart) / 1000;
           setLocalElapsedTime(elapsed);
         }
-      }, 100);
+      }, 50);
 
       return () => clearInterval(interval);
     } else {
@@ -2092,7 +2092,7 @@ export default function MinimalistLayout() {
                                 >
                                   <div
                                     style={{
-                                      fontSize: "1.05rem",
+                                      fontSize: "1.25rem",
                                       fontWeight: 600,
                                     }}
                                   >
@@ -2112,7 +2112,7 @@ export default function MinimalistLayout() {
                                     <span
                                       style={{
                                         fontFamily: "digital-mono, monospace",
-                                        fontSize: "1.3rem",
+                                        fontSize: "1.8rem",
                                         fontWeight: 600,
                                         whiteSpace: "nowrap",
                                         color: (() => {
@@ -2336,10 +2336,10 @@ export default function MinimalistLayout() {
                                               const secs = Math.floor(
                                                 timeRemaining % 60
                                               );
-                                              const tensPlace = Math.floor(
-                                                (timeRemaining % 1) * 10
+                                              const deciseconds = Math.floor(
+                                                Math.round(timeRemaining * 10) % 10
                                               );
-                                              // Fan operations: show 1 decimal place "0:05.3"
+                                              // Fan operations: show 1 decimal place "0:05.4"
                                               return `${mins
                                                 .toString()
                                                 .padStart(2, "0")}:${secs
@@ -2347,7 +2347,7 @@ export default function MinimalistLayout() {
                                                 .padStart(
                                                   2,
                                                   "0"
-                                                )}.${tensPlace}`;
+                                                )}.${deciseconds}`;
                                             } else if (
                                               stepType ===
                                                 WorkflowItemTypes.WAIT ||
