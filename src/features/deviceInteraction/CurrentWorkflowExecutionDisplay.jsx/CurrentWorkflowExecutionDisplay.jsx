@@ -860,11 +860,6 @@ export default function CurrentWorkflowExecutionDisplay() {
                   e.stopPropagation();
                   cancelCurrentWorkflow();
                 }}
-                style={{ 
-                  background: "linear-gradient(145deg, rgba(220, 53, 69, 0.8), rgba(220, 53, 69, 0.6))",
-                  borderColor: "rgba(220, 53, 69, 0.6)",
-                  color: "#ffffff"
-                }}
               >
                 <PrideText text="Cancel" />
               </MiniButton>

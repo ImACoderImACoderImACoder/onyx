@@ -43,6 +43,7 @@ import {
   convertToUInt8BLE,
   isValueInValidVolcanoCelciusRange,
   convertToFahrenheitFromCelsius,
+  convertToCelsiusFromFahrenheit,
   convertCurrentTemperatureCharacteristicToCelcius,
   convertBLEtoUint16,
   convertToggleCharacteristicToBool,
@@ -96,7 +97,7 @@ const MinimalistWrapper = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 2px 0 0 0;
   gap: 10px;
   justify-content: flex-start;
   width: 75px;
@@ -138,7 +139,7 @@ const LeftColumn = styled.div`
 
 const MiddleColumn = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 10px;
@@ -202,7 +203,7 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: column-reverse;
   gap: 10px;
-  padding: 0 5px;
+  padding: 2px 5px 0 5px;
   height: calc(100vh - 10px);
   max-height: calc(100vh - 10px);
   box-sizing: border-box;
@@ -331,13 +332,25 @@ const subtlePulse = keyframes`
 const WorkflowButton = styled(WriteTemperature)`
   flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
   min-height: 60px; /* Increased to accommodate word wrapping */
+  ${props => props.isExpanded && css`
+    min-height: auto;
+  `}
 
   & > div {
     height: 100% !important;
   }
+  
+  /* Override any hover transforms from parent component */
+  &:hover {
+    transform: none !important;
+  }
+  
+  & > div:hover {
+    transform: none !important;
+  }
 
   button {
-    padding: 8px 12px;
+    padding: 0;
     font-size: 16px;
     height: 100%;
     width: 100%;
@@ -348,12 +361,25 @@ const WorkflowButton = styled(WriteTemperature)`
     line-height: 1.3;
     border-radius: 8px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: ${props => props.isExpanded ? 'flex-start' : 'center'};
+    justify-content: ${props => props.isExpanded ? 'flex-start' : 'center'};
+    cursor: ${props => props.isExpanded ? 'default' : 'pointer'};
     ${props => props.isActive && props.canExpand && css`
       animation: ${subtlePulse} 2s ease-in-out infinite;
       cursor: pointer !important;
     `}
+    
+    &:hover {
+      transform: none !important;
+      cursor: ${props => props.isExpanded ? 'default' : 'pointer'};
+    }
+  }
+  
+  /* Ensure no child elements have transforms on hover */
+  * {
+    &:hover {
+      transform: none !important;
+    }
   }
 
   /* Target PrideText spans inside buttons */
@@ -384,7 +410,7 @@ const WorkflowButton = styled(WriteTemperature)`
     }
 
     button {
-      padding: 8px 4px;
+      padding: 0;
       font-size: 16px;
       border-radius: 8px;
       height: 100%;
@@ -393,6 +419,10 @@ const WorkflowButton = styled(WriteTemperature)`
       display: flex;
       align-items: center;
       justify-content: center;
+      
+      &:hover {
+        transform: none !important;
+      }
     }
 
     span {
@@ -847,25 +877,31 @@ const VerticalRangeContainer = styled.div`
 `;
 
 const WorkflowDetailsCard = styled.div`
-  background: ${props => props.theme.backgroundColor};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.15)'};
-  border-radius: 12px;
-  padding: 16px;
-  margin: 8px 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 8px;
+  margin: 0;
+  box-shadow: none;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: ${props => props.theme.primaryFontColor};
 `;
 
 const WorkflowDetailRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 8px 0;
-  font-size: 0.9rem;
+  margin: 4px 0;
+  font-size: 0.85rem;
 `;
 
 const WorkflowDetailLabel = styled.span`
-  opacity: 0.8;
   font-weight: 500;
 `;
 
@@ -880,14 +916,15 @@ const WorkflowActionButton = styled.button`
     ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'}cc
   );
   border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.2)'};
-  color: ${props => props.theme.primaryFontColor};
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 0.85rem;
+  color: inherit;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
   font-weight: 600;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: all 0.2s ease;
-  margin: 4px;
+  margin: 2px;
+  flex-shrink: 0;
   
   &:hover {
     background: linear-gradient(
@@ -895,8 +932,8 @@ const WorkflowActionButton = styled.button`
       ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain},
       ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc
     );
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -1756,27 +1793,32 @@ export default function MinimalistLayout() {
               const buttonText = item.name;
 
               return (
-                <React.Fragment key={index}>
-                  <WorkflowButton
-                    onClick={() => handleWorkflowClick(index)}
-                    buttonText={<PrideText text={buttonText} />}
-                    isActive={isActive}
-                    canExpand={isActive && !isExpanded}
-                    isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
-                    totalItems={workflows.length}
-                  />
-                  {isExpanded && currentWorkflow && <WorkflowDetailsCard>
-                    {(() => {
-                      try {
-                        // Get current workflow step info
-                        const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
-                        if (!currentStepId || !currentWorkflow.payload) return <div>Loading...</div>;
-                        
-                        const currentStep = currentWorkflow.payload[currentStepId - 1];
-                        if (!currentStep) return <div>Loading step...</div>;
-                        
-                        const stepType = currentStep?.type;
-                        const payload = currentStep?.payload;
+                <WorkflowButton
+                  key={index}
+                  onClick={() => handleWorkflowClick(index)}
+                  buttonText={isExpanded && currentWorkflow ? (
+                    <WorkflowDetailsCard onClick={(e) => e.stopPropagation()}>
+                      {(() => {
+                        try {
+                          // Get current workflow step info
+                          const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
+                          if (!currentStepId || !currentWorkflow.payload) return (
+                            <div style={{ textAlign: 'center' }}>
+                              <div>Loading</div>
+                              <div>Please wait</div>
+                            </div>
+                          );
+                          
+                          const currentStep = currentWorkflow.payload[currentStepId - 1];
+                          if (!currentStep) return (
+                            <div style={{ textAlign: 'center' }}>
+                              <div>Loading step</div>
+                              <div>Please wait</div>
+                            </div>
+                          );
+                          
+                          const stepType = currentStep?.type;
+                          const payload = currentStep?.payload;
                       
                       // Get step display name
                       let stepDisplayName = "N/A";
@@ -1808,7 +1850,54 @@ export default function MinimalistLayout() {
                           stepDisplayName = "Waiting";
                           break;
                         case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
-                          stepDisplayName = "Conditional Heat";
+                          try {
+                            if (payload && payload.conditions && Array.isArray(payload.conditions)) {
+                              const heatStep = payload.conditions.find(
+                                (x) => x.nextTemp === targetTemperature
+                              );
+
+                              if (heatStep) {
+                                const nextHeat = isF
+                                  ? convertToFahrenheitFromCelsius(heatStep.nextTemp)
+                                  : heatStep.nextTemp;
+
+                                // Check if we've reached target temp and are now waiting
+                                const currentTempC = isF
+                                  ? convertToCelsiusFromFahrenheit(currentTemperature)
+                                  : currentTemperature;
+                                const targetTempC = heatStep.nextTemp;
+
+                                if (currentTempC >= targetTempC && heatStep.wait > 0) {
+                                  stepDisplayName = `Waiting at ${nextHeat}°${isF ? "F" : "C"}`;
+                                } else {
+                                  stepDisplayName = `Heating to ${nextHeat}°${isF ? "F" : "C"}`;
+                                }
+                              } else if (payload.default && payload.default.temp) {
+                                const defaultTemp = isF
+                                  ? convertToFahrenheitFromCelsius(payload.default.temp)
+                                  : payload.default.temp;
+
+                                // Check if we've reached default temp and are waiting
+                                const currentTempC = isF
+                                  ? convertToCelsiusFromFahrenheit(currentTemperature)
+                                  : currentTemperature;
+                                const targetTempC = payload.default.temp;
+
+                                if (currentTempC >= targetTempC && payload.default.wait > 0) {
+                                  stepDisplayName = `Waiting at ${defaultTemp}°${isF ? "F" : "C"}`;
+                                } else {
+                                  stepDisplayName = `Heating to ${defaultTemp}°${isF ? "F" : "C"}`;
+                                }
+                              } else {
+                                stepDisplayName = "Conditional Heat";
+                              }
+                            } else {
+                              stepDisplayName = "Conditional Heat";
+                            }
+                          } catch (error) {
+                            console.error('Error in conditional heat logic:', error);
+                            stepDisplayName = "Conditional Heat";
+                          }
                           break;
                         case WorkflowItemTypes.LOOP_FROM_BEGINNING:
                           stepDisplayName = "Looping to Start";
@@ -1830,26 +1919,47 @@ export default function MinimalistLayout() {
                       
                       return (
                         <>
-                          <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '12px' }}>
-                            <PrideText text={stepDisplayName} />
-                          </div>
+                          <WorkflowActionButton
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              cancelCurrentWorkflow();
+                              setExpandedWorkflowIndex(null);
+                            }}
+                            style={{
+                              position: 'absolute',
+                              bottom: '8px',
+                              right: '8px',
+                              padding: '4px 8px',
+                              fontSize: '0.75rem',
+                              margin: 0,
+                              width: 'auto',
+                              height: 'auto'
+                            }}
+                          >
+                            <PrideText text="Cancel" />
+                          </WorkflowActionButton>
                           
-                          <WorkflowDetailRow>
-                            <WorkflowDetailLabel>
-                              <PrideText text="Step Progress:" />
-                            </WorkflowDetailLabel>
-                            <WorkflowDetailValue>
-                              <PrideText text={`${currentStepId} / ${totalSteps}`} />
-                            </WorkflowDetailValue>
-                          </WorkflowDetailRow>
-                          
-                          <WorkflowDetailRow>
-                            <WorkflowDetailLabel>
-                              <PrideText text="Timer:" />
-                            </WorkflowDetailLabel>
-                            <WorkflowDetailValue style={{ 
+                          <div style={{ 
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}>
+                            <div style={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                              <PrideText text={`${currentStepId}/${totalSteps} ${stepDisplayName}`} />
+                            </div>
+                            
+                            <div style={{ 
+                              display: 'flex', 
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '0.85rem'
+                            }}>
+                              <span style={{ 
                               fontFamily: 'digital-mono, monospace',
-                              fontSize: '1.2rem',
+                              fontSize: '1rem',
+                              fontWeight: 600,
+                              whiteSpace: 'nowrap',
                               color: (() => {
                                 // Determine if we have a countdown
                                 let stepDurationSeconds = null;
@@ -1914,31 +2024,12 @@ export default function MinimalistLayout() {
                                   const secs = Math.floor(currentTimeInSeconds % 60);
                                   return `${mins.toString().padStart(2, "0")}:${secs
                                     .toString()
-                                    .padStart(2, "0")} elapsed`;
+                                    .padStart(2, "0")}`;
                                 }
                               })()} />
-                            </WorkflowDetailValue>
-                          </WorkflowDetailRow>
-                          
-                          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
-                            <WorkflowActionButton
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedWorkflowIndex(null);
-                              }}
-                            >
-                              <PrideText text="Close" />
-                            </WorkflowActionButton>
-                            <WorkflowActionButton
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                cancelCurrentWorkflow();
-                                setExpandedWorkflowIndex(null);
-                              }}
-                            >
-                              <PrideText text="Cancel Workflow" />
-                            </WorkflowActionButton>
+                            </span>
                           </div>
+                        </div>
                         </>
                       );
                       } catch (error) {
@@ -1946,8 +2037,16 @@ export default function MinimalistLayout() {
                         return <div>Error loading workflow details</div>;
                       }
                     })()}
-                  </WorkflowDetailsCard>}
-                </React.Fragment>
+                  </WorkflowDetailsCard>
+                ) : (
+                  <PrideText text={buttonText} />
+                )}
+                  isActive={isActive}
+                  isExpanded={isExpanded}
+                  canExpand={isActive && !isExpanded}
+                  isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
+                  totalItems={workflows.length}
+                />
               );
             })
           : // Temperature grid when no workflows exist (170°C to 230°C in 5°C increments)

@@ -298,42 +298,42 @@ export default function VolcanoLoader(props) {
           <Navbar.Collapse id="basic-navbar-nav">
             <StyledNav>
               <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
-                {<PrideTextWithDiv text="Controls" />}
                 {<ControlsIcon />}
+                {<PrideTextWithDiv text="Controls" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 as="div"
                 onClick={onMinimalistModeClick}
                 style={{ cursor: "pointer" }}
               >
-                <PrideTextWithDiv text="Mini Mode" />
                 <MenuBarIcon />
+                <PrideTextWithDiv text="Mini Mode" />
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/WorkflowEditor"
               >
-                {<PrideTextWithDiv text="Workflow Editor" />}
                 {<WorkflowEditorIcon />}
+                {<PrideTextWithDiv text="Workflow Editor" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/ContactMe"
               >
-                {<PrideTextWithDiv text="Contact Me" />}
                 {<ContactMeIcon />}
+                {<PrideTextWithDiv text="Contact Me" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/Settings"
               >
-                {<PrideTextWithDiv text="Settings" />}
                 {<SettingsIcon />}
+                {<PrideTextWithDiv text="Settings" />}
               </StyledRouterIconLink>
 
               <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
-                <PrideTextWithDiv text="Disconnect" />
                 <BluetoothDisconnectIcon />
+                <PrideTextWithDiv text="Disconnect" />
               </StyledRouterIconLink>
             </StyledNav>
           </Navbar.Collapse>
