@@ -248,8 +248,8 @@ const HeatFanSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1 1 60px;
-  min-height: 60px;
+  flex: 1 1 70px;
+  min-height: 70px;
   z-index: 10;
   position: relative;
 `;
@@ -258,8 +258,8 @@ const PlusMinusSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  flex: 1 1 60px;
-  min-height: 60px;
+  flex: 1 1 70px;
+  min-height: 70px;
   z-index: 5;
   position: relative;
 `;
@@ -335,7 +335,7 @@ const subtlePulse = keyframes`
 
 const WorkflowButton = styled(WriteTemperature)`
   flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
-  min-height: 60px; /* Increased to accommodate word wrapping */
+  min-height: 70px; /* Increased to accommodate word wrapping */
   ${(props) =>
     props.isExpanded &&
     css`
@@ -444,7 +444,7 @@ const WorkflowButton = styled(WriteTemperature)`
 const HeatButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
-  min-height: 40px;
+  min-height: 70px;
 
   & > div {
     height: 100% !important;
@@ -518,7 +518,7 @@ const HeatButton = styled(WriteTemperature)`
 const FanButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
-  min-height: 40px;
+  min-height: 70px;
 
   & > div {
     height: 100% !important;
@@ -590,7 +590,7 @@ const FanButton = styled(WriteTemperature)`
 const MinimalistPlusMinusButton = styled(WriteTemperature)`
   width: 100%;
   height: 100%;
-  min-height: 40px;
+  min-height: 70px;
 
   & > div {
     height: 100% !important;
@@ -646,7 +646,7 @@ const DisconnectButton = styled(WriteTemperature)`
   width: 100%;
   flex: 0 0 10%;
   max-height: 10%;
-  min-height: 40px;
+  min-height: 70px;
 
   & > div {
     height: 100% !important;
@@ -693,7 +693,7 @@ const ControlsButton = styled(WriteTemperature)`
   width: 100%;
   flex: 0 0 10%;
   max-height: 10%;
-  min-height: 40px;
+  min-height: 70px;
 
   & > div {
     height: 100% !important;
@@ -1910,7 +1910,7 @@ export default function MinimalistLayout() {
                               executingWorkflow?.currentWorkflowStepId || "";
                             if (!currentStepId || !currentWorkflow.payload)
                               return (
-                                <div style={{ textAlign: "center" }}>
+                                <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                   <div>Loading</div>
                                   <div>Please wait</div>
                                 </div>
@@ -1920,7 +1920,7 @@ export default function MinimalistLayout() {
                               currentWorkflow.payload[currentStepId - 1];
                             if (!currentStep)
                               return (
-                                <div style={{ textAlign: "center" }}>
+                                <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                                   <div>Loading step</div>
                                   <div>Please wait</div>
                                 </div>
@@ -2396,7 +2396,7 @@ export default function MinimalistLayout() {
                               "Error rendering workflow details:",
                               error
                             );
-                            return <div>Error loading workflow details</div>;
+                            return <div style={{ textAlign: "center", minHeight: "70px", display: "flex", flexDirection: "column", justifyContent: "center" }}>Error loading workflow details</div>;
                           }
                         })()}
                       </WorkflowDetailsCard>
