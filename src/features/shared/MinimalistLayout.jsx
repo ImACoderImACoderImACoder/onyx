@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMinimalistMode } from "../settings/settingsSlice";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import WriteTemperature from "../deviceInteraction/WriteTemperature/WriteTemperature";
 import PrideText from "../../themes/PrideText";
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { StyledRouterIconLink } from "./OutletRenderer/icons/Shared/IconLink";
 import SettingsIcon from "./OutletRenderer/icons/SettingsIcon";
 import ContactMeIcon from "./OutletRenderer/icons/ContactMeIcon";
 import WorkflowEditorIcon from "./OutletRenderer/icons/WorkflowEditorIcon";
 import WorkFlow from "../workflowEditor/WorkflowButtons";
-import ActiveWorkflowDisplay from "./ActiveWorkflowDisplay";
 import CurrentWorkflowExecutionDisplay from "../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import {
   setIsHeatOn,
@@ -48,7 +47,7 @@ import {
   convertBLEtoUint16,
   convertToggleCharacteristicToBool,
 } from "../../services/utils";
-import { AddToPriorityQueue, AddToQueue } from "../../services/bleQueueing";
+import { AddToPriorityQueue, AddToQueue, cancelCurrentWorkflow } from "../../services/bleQueueing";
 import {
   setTargetTemperature,
   setCurrentTemperature,
@@ -68,6 +67,7 @@ import CurrentTemperature from "../deviceInteraction/CurrentTemperature/CurrentT
 import CurrentTargetTemperature from "../deviceInteraction/CurrentTargetTemperature/CurrentTargetTemperature";
 import { Range } from "react-range";
 import { useTheme } from "styled-components";
+import WorkflowItemTypes from "../../constants/enums";
 
 const MinimalistWrapper = styled.div`
   width: 100%;
@@ -322,6 +322,12 @@ const ExitButton = styled(WriteTemperature)`
   }
 `;
 
+const subtlePulse = keyframes`
+  0% { opacity: 1; }
+  50% { opacity: 0.85; }
+  100% { opacity: 1; }
+`;
+
 const WorkflowButton = styled(WriteTemperature)`
   flex: 1 1 auto; /* Grow to fill space, can shrink, auto basis */
   min-height: 60px; /* Increased to accommodate word wrapping */
@@ -344,6 +350,10 @@ const WorkflowButton = styled(WriteTemperature)`
     display: flex;
     align-items: center;
     justify-content: center;
+    ${props => props.isActive && props.canExpand && css`
+      animation: ${subtlePulse} 2s ease-in-out infinite;
+      cursor: pointer !important;
+    `}
   }
 
   /* Target PrideText spans inside buttons */
@@ -836,6 +846,60 @@ const VerticalRangeContainer = styled.div`
   position: relative;
 `;
 
+const WorkflowDetailsCard = styled.div`
+  background: ${props => props.theme.backgroundColor};
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.15)'};
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+`;
+
+const WorkflowDetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 0.9rem;
+`;
+
+const WorkflowDetailLabel = styled.span`
+  opacity: 0.8;
+  font-weight: 500;
+`;
+
+const WorkflowDetailValue = styled.span`
+  font-weight: 600;
+`;
+
+const WorkflowActionButton = styled.button`
+  background: linear-gradient(
+    145deg,
+    ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'},
+    ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'}cc
+  );
+  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.2)'};
+  color: ${props => props.theme.primaryFontColor};
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 4px;
+  
+  &:hover {
+    background: linear-gradient(
+      145deg,
+      ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain},
+      ${props => props.theme.hoverBackgroundColor || props.theme.buttonColorMain}cc
+    );
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+`;
+
 export default function MinimalistLayout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -843,10 +907,11 @@ export default function MinimalistLayout() {
     (state) => state.settings.config.workflows.items
   );
   const currentWorkflow = useSelector(
-    (state) => state.workflow.currentWorkflow
+    (state) => state.workflow?.currentWorkflow
   );
+  const executingWorkflow = useSelector((state) => state.workflow || {});
   const lastWorkflowRunId = useSelector(
-    (state) => state.workflow.lastWorkflowRunId
+    (state) => state.workflow?.lastWorkflowRunId
   );
   const highlightLastRunWorkflow = useSelector(
     (state) => state.settings.config.highlightLastRunWorkflow
@@ -866,9 +931,15 @@ export default function MinimalistLayout() {
   const autoShutoffTimeSetting = useSelector(
     (state) => state.settings.autoShutoffTime
   );
+  const currentTimeInSeconds = useSelector(
+    (state) => state.workflow.currentStepEllapsedTimeInSeconds || 0
+  );
+  const fanOnGlobalValue = useSelector(
+    (state) => state.settings.config.workflows.fanOnGlobal || 0
+  );
   const workflowRef = useRef(null);
-  const [showActiveWorkflow, setShowActiveWorkflow] = useState(false);
   const [showNavigation, setShowNavigation] = useState(false);
+  const [expandedWorkflowIndex, setExpandedWorkflowIndex] = useState(null);
   const theme = useTheme();
 
   // Current temperature BLE handler
@@ -1234,18 +1305,19 @@ export default function MinimalistLayout() {
     };
   }, [dispatch, isHeatOn]);
 
-  // Auto-show active workflow when workflow starts
+
+  // Auto-expand executing workflow and close when it completes
   useEffect(() => {
-    if (
-      currentWorkflow &&
-      currentWorkflow.payload &&
-      currentWorkflow.payload.length > 0
-    ) {
-      setShowActiveWorkflow(true);
+    if (currentWorkflow) {
+      // Find the index of the executing workflow and auto-expand it
+      const executingIndex = workflows.findIndex(w => w.id === currentWorkflow.id);
+      if (executingIndex !== -1) {
+        setExpandedWorkflowIndex(executingIndex);
+      }
     } else {
-      setShowActiveWorkflow(false);
+      setExpandedWorkflowIndex(null);
     }
-  }, [currentWorkflow]);
+  }, [currentWorkflow, workflows]);
 
   // Temperature increment/decrement functionality (copied from WriteTemperatureContainer)
   const onTemperatureIncrementDecrementDebounceRef = useRef(
@@ -1406,20 +1478,31 @@ export default function MinimalistLayout() {
   };
 
   const handleWorkflowClick = (index) => {
-    const workflow = workflows[index];
-    const isActive = currentWorkflow?.id === workflow.id;
+    try {
+      const workflow = workflows[index];
+      const isActive = currentWorkflow?.id === workflow.id;
 
-    if (isActive) {
-      // If workflow is active, show the details view
-      setShowActiveWorkflow(true);
-    } else {
-      // Click the corresponding button in the hidden WorkFlow component
-      const buttons = workflowRef.current?.querySelectorAll(
-        ".temperature-write-div button"
-      );
-      if (buttons && buttons[index]) {
-        buttons[index].click();
+      if (isActive) {
+        // Toggle expanded state for active workflow
+        setExpandedWorkflowIndex(expandedWorkflowIndex === index ? null : index);
+      } else {
+        // Click the corresponding button in the hidden WorkFlow component
+        if (!workflowRef.current) {
+          console.error('Workflow ref not available');
+          return;
+        }
+        const buttons = workflowRef.current?.querySelectorAll(
+          ".temperature-write-div button"
+        );
+        console.log('Found buttons:', buttons?.length);
+        if (buttons && buttons[index]) {
+          buttons[index].click();
+        } else {
+          console.error('Button not found at index:', index);
+        }
       }
+    } catch (error) {
+      console.error('Error in handleWorkflowClick:', error);
     }
   };
 
@@ -1669,17 +1752,202 @@ export default function MinimalistLayout() {
               const isActive = currentWorkflow?.id === item.id;
               const isLastRunWorkflow =
                 item.id === lastWorkflowRunId && !isActive;
-              const buttonText = isActive ? "View Details" : item.name;
+              const isExpanded = expandedWorkflowIndex === index && isActive;
+              const buttonText = item.name;
 
               return (
-                <WorkflowButton
-                  key={index}
-                  onClick={() => handleWorkflowClick(index)}
-                  buttonText={<PrideText text={buttonText} />}
-                  isActive={isActive}
-                  isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
-                  totalItems={workflows.length}
-                />
+                <React.Fragment key={index}>
+                  <WorkflowButton
+                    onClick={() => handleWorkflowClick(index)}
+                    buttonText={<PrideText text={buttonText} />}
+                    isActive={isActive}
+                    canExpand={isActive && !isExpanded}
+                    isGlowy={highlightLastRunWorkflow && isLastRunWorkflow}
+                    totalItems={workflows.length}
+                  />
+                  {isExpanded && currentWorkflow && <WorkflowDetailsCard>
+                    {(() => {
+                      try {
+                        // Get current workflow step info
+                        const currentStepId = executingWorkflow?.currentWorkflowStepId || "";
+                        if (!currentStepId || !currentWorkflow.payload) return <div>Loading...</div>;
+                        
+                        const currentStep = currentWorkflow.payload[currentStepId - 1];
+                        if (!currentStep) return <div>Loading step...</div>;
+                        
+                        const stepType = currentStep?.type;
+                        const payload = currentStep?.payload;
+                      
+                      // Get step display name
+                      let stepDisplayName = "N/A";
+                      switch (stepType) {
+                        case WorkflowItemTypes.FAN_ON:
+                          stepDisplayName = "Fan On";
+                          break;
+                        case WorkflowItemTypes.FAN_ON_GLOBAL:
+                          stepDisplayName = "Fan On (Global)";
+                          break;
+                        case WorkflowItemTypes.HEAT_OFF:
+                          stepDisplayName = "Turning Heat Off";
+                          break;
+                        case WorkflowItemTypes.HEAT_ON:
+                          if (payload && payload > 0) {
+                            stepDisplayName = `Heating to ${
+                              isF
+                                ? `${convertToFahrenheitFromCelsius(payload)}${DEGREE_SYMBOL}F`
+                                : `${payload}${DEGREE_SYMBOL}C`
+                            }`;
+                          } else {
+                            stepDisplayName = "Heat On";
+                          }
+                          break;
+                        case WorkflowItemTypes.SET_LED_BRIGHTNESS:
+                          stepDisplayName = `Set LED Brightness to ${payload}`;
+                          break;
+                        case WorkflowItemTypes.WAIT:
+                          stepDisplayName = "Waiting";
+                          break;
+                        case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
+                          stepDisplayName = "Conditional Heat";
+                          break;
+                        case WorkflowItemTypes.LOOP_FROM_BEGINNING:
+                          stepDisplayName = "Looping to Start";
+                          break;
+                        case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
+                          stepDisplayName = "Checking Exit Condition";
+                          break;
+                        default:
+                          stepDisplayName = "Processing...";
+                      }
+                      
+                      const totalSteps = currentWorkflow.payload.filter(
+                        (item) =>
+                          ![
+                            WorkflowItemTypes.LOOP_FROM_BEGINNING,
+                            WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS,
+                          ].includes(item.type)
+                      ).length;
+                      
+                      return (
+                        <>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '12px' }}>
+                            <PrideText text={stepDisplayName} />
+                          </div>
+                          
+                          <WorkflowDetailRow>
+                            <WorkflowDetailLabel>
+                              <PrideText text="Step Progress:" />
+                            </WorkflowDetailLabel>
+                            <WorkflowDetailValue>
+                              <PrideText text={`${currentStepId} / ${totalSteps}`} />
+                            </WorkflowDetailValue>
+                          </WorkflowDetailRow>
+                          
+                          <WorkflowDetailRow>
+                            <WorkflowDetailLabel>
+                              <PrideText text="Timer:" />
+                            </WorkflowDetailLabel>
+                            <WorkflowDetailValue style={{ 
+                              fontFamily: 'digital-mono, monospace',
+                              fontSize: '1.2rem',
+                              color: (() => {
+                                // Determine if we have a countdown
+                                let stepDurationSeconds = null;
+                                if (stepType === WorkflowItemTypes.FAN_ON) {
+                                  stepDurationSeconds = payload;
+                                } else if (stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
+                                  stepDurationSeconds = fanOnGlobalValue;
+                                } else if (stepType === WorkflowItemTypes.WAIT) {
+                                  stepDurationSeconds = payload;
+                                }
+                                
+                                const hasCountdown = stepDurationSeconds !== null && stepDurationSeconds > 0;
+                                if (!hasCountdown) return 'inherit';
+                                
+                                const timeRemaining = Math.max(0, stepDurationSeconds - currentTimeInSeconds);
+                                
+                                // Apply countdown colors
+                                if (timeRemaining <= 5 && timeRemaining > 3) {
+                                  return '#ff9500';
+                                } else if (timeRemaining <= 3 && timeRemaining > 1) {
+                                  return '#ff6b35';
+                                } else if (timeRemaining <= 1) {
+                                  return '#ff0000';
+                                }
+                                return 'inherit';
+                              })()
+                            }}>
+                              <PrideText text={(() => {
+                                // Determine if we have a countdown
+                                let stepDurationSeconds = null;
+                                if (stepType === WorkflowItemTypes.FAN_ON) {
+                                  stepDurationSeconds = payload;
+                                } else if (stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
+                                  stepDurationSeconds = fanOnGlobalValue;
+                                } else if (stepType === WorkflowItemTypes.WAIT) {
+                                  stepDurationSeconds = payload;
+                                }
+                                
+                                const hasCountdown = stepDurationSeconds !== null && stepDurationSeconds > 0;
+                                
+                                if (hasCountdown) {
+                                  // Show countdown with decimals for fan operations
+                                  const timeRemaining = Math.max(0, stepDurationSeconds - currentTimeInSeconds);
+                                  const mins = Math.floor(timeRemaining / 60);
+                                  const wholeSecs = Math.floor(timeRemaining % 60);
+                                  const decimals = Math.floor((timeRemaining % 1) * 10);
+                                  
+                                  if (stepType === WorkflowItemTypes.FAN_ON || stepType === WorkflowItemTypes.FAN_ON_GLOBAL) {
+                                    // Fan operations: show decimals "0:05.3"
+                                    return `${mins.toString().padStart(2, "0")}:${wholeSecs
+                                      .toString()
+                                      .padStart(2, "0")}.${decimals}`;
+                                  } else {
+                                    // Wait operations: no decimals "0:05"
+                                    return `${mins.toString().padStart(2, "0")}:${wholeSecs
+                                      .toString()
+                                      .padStart(2, "0")}`;
+                                  }
+                                } else {
+                                  // Show elapsed time for non-timed steps
+                                  const mins = Math.floor(currentTimeInSeconds / 60);
+                                  const secs = Math.floor(currentTimeInSeconds % 60);
+                                  return `${mins.toString().padStart(2, "0")}:${secs
+                                    .toString()
+                                    .padStart(2, "0")} elapsed`;
+                                }
+                              })()} />
+                            </WorkflowDetailValue>
+                          </WorkflowDetailRow>
+                          
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
+                            <WorkflowActionButton
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedWorkflowIndex(null);
+                              }}
+                            >
+                              <PrideText text="Close" />
+                            </WorkflowActionButton>
+                            <WorkflowActionButton
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                cancelCurrentWorkflow();
+                                setExpandedWorkflowIndex(null);
+                              }}
+                            >
+                              <PrideText text="Cancel Workflow" />
+                            </WorkflowActionButton>
+                          </div>
+                        </>
+                      );
+                      } catch (error) {
+                        console.error('Error rendering workflow details:', error);
+                        return <div>Error loading workflow details</div>;
+                      }
+                    })()}
+                  </WorkflowDetailsCard>}
+                </React.Fragment>
               );
             })
           : // Temperature grid when no workflows exist (170°C to 230°C in 5°C increments)
@@ -1770,12 +2038,6 @@ export default function MinimalistLayout() {
       <HiddenWorkflowContainer ref={workflowRef}>
         <WorkFlow />
       </HiddenWorkflowContainer>
-
-      {/* Active Workflow Full-Screen Display */}
-      <ActiveWorkflowDisplay
-        isVisible={showActiveWorkflow}
-        onClose={() => setShowActiveWorkflow(false)}
-      />
 
       {/* Hidden timer component - needed for timer logic */}
       <div style={{ display: "none" }}>

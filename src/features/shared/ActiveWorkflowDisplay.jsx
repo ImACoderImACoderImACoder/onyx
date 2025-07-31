@@ -9,6 +9,8 @@ import {
   convertToCelsiusFromFahrenheit,
 } from "../../services/utils";
 import { cancelCurrentWorkflow } from "../../services/bleQueueing";
+import CurrentTemperature from "../deviceInteraction/CurrentTemperature/CurrentTemperature";
+import CurrentTargetTemperature from "../deviceInteraction/CurrentTargetTemperature/CurrentTargetTemperature";
 
 const fadeIn = keyframes`
   from {
@@ -77,227 +79,143 @@ const FullScreenOverlay = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  position: relative;
-  padding: 12px 75px 12px 30px; /* Right padding for buttons */
-  box-sizing: border-box;
-  
-  /* Desktop/Large screens - utilize vertical space better */
-  @media (min-width: 769px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    height: auto;
-    min-height: 200px;
-    padding: 30px 75px 30px 30px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    height: 85px;
-    padding: 10px 70px 10px 20px;
-  }
-  
-  /* Small/Mobile screens - compact horizontal layout */
-  @media (max-width: 480px) {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    height: 75px;
-    padding: 8px 60px 8px 15px;
-  }
-`;
-
-const LeftSection = styled.div`
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    flex: 1;
-    min-width: 180px;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    flex: 1;
-    min-width: 120px;
-  }
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px 55px 8px 8px;
+  overflow: hidden;
 `;
 
-const WorkflowTitle = styled.h2`
-  margin: 0 0 3px 0;
+const SimpleHeader = styled.div`
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 4px 0 8px 0;
+`;
+
+const WorkflowName = styled.h1`
+  margin: 0;
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  font-weight: 600;
   line-height: 1.1;
   word-break: break-word;
-  font-weight: 600;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    text-align: center;
-    margin: 0 0 8px 0;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-    margin: 0 0 1px 0;
-  }
 `;
 
-const StepTitle = styled.h3`
-  margin: 0;
-  line-height: 1.1;
-  opacity: 0.8;
-  font-weight: 500;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    text-align: center;
-    margin: 0 0 5px 0;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    font-size: clamp(0.8rem, 2vw, 1rem);
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    font-size: 0.65rem;
-  }
+const MainSection = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(16px, 4vh, 32px);
+  padding: 0;
 `;
 
-const CenterSection = styled.div`
+const TimerArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    width: 100%;
-    gap: 20px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    flex: 2;
-    min-width: 150px;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    flex: 1;
-    min-width: 100px;
-  }
+  gap: clamp(8px, 2vh, 16px);
 `;
 
-const CompactProgressContainer = styled.div`
-  width: 100%;
-  background: ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
-  border-radius: 3px;
-  overflow: hidden;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    max-width: 500px;
-    height: 8px;
-    margin: 15px 0;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    max-width: 300px;
-    height: 5px;
-    margin-top: 5px;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    max-width: 120px;
-    height: 3px;
-    margin-top: 2px;
-  }
-`;
-
-const RightSection = styled.div`
+const InfoRow = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    gap: 20px;
-    margin-top: 10px;
+  justify-content: space-between;
+  width: 100%;
+  max-width: clamp(280px, 80vw, 500px);
+  gap: clamp(16px, 4vw, 24px);
+`;
+
+const ProgressCircle = styled.div`
+  position: relative;
+  width: clamp(50px, 12vw, 70px);
+  height: clamp(50px, 12vw, 70px);
+  flex-shrink: 0;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
   }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    gap: 8px;
-    margin-top: 8px;
+
+  .circle-bg {
+    fill: none;
+    stroke: ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
+    stroke-width: 3;
   }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    gap: 4px;
-    margin-top: 4px;
-    justify-content: space-around;
-    flex: 1;
+
+  .circle-progress {
+    fill: none;
+    stroke: ${(props) => 
+      props.theme.buttonActive?.backgroundColor || 
+      props.theme.primaryColor || "#ff6b35"
+    };
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease;
   }
 `;
 
-const ProgressBar = styled.div`
-  height: 100%;
-  background: ${(props) => {
-    // Dramatic color progression for fan operations
-    if (props.isDramatic && props.timeRemaining <= 5) {
-      const remaining = props.timeRemaining || 0;
-      if (remaining <= 1) return "#ff0000"; // Critical red
-      if (remaining <= 3) return "#ff6b35"; // Warning red
-      if (remaining <= 5) return "#ff9500"; // Orange warning
+const ProgressNumber = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  text-align: center;
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+  line-height: 1;
+  color: ${(props) => props.theme.primaryFontColor};
+`;
+
+const StepDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+`;
+
+const CurrentStep = styled.div`
+  font-weight: 600;
+  font-size: clamp(0.8rem, 2.8vw, 1rem);
+  line-height: 1.2;
+  word-break: break-word;
+  hyphens: auto;
+`;
+
+const LoopIndicator = styled.div`
+  font-size: clamp(0.6rem, 2vw, 0.75rem);
+  opacity: 0.7;
+  font-weight: 500;
+`;
+
+const TemperatureDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.5vh, 12px);
+  flex: 1;
+  min-width: 0;
+
+  & > div {
+    font-size: clamp(1rem, 3vw, 1.3rem) !important;
+    margin-bottom: 0 !important;
+    line-height: 1.1 !important;
+
+    div {
+      font-size: clamp(1rem, 3vw, 1.3rem) !important;
+      line-height: 1.1 !important;
     }
-    return props.theme.buttonActive?.backgroundColor || 
-           props.theme.primaryColor || 
-           props.theme.primaryFontColor || "#ff6b35";
-  }};
-  width: ${(props) => props.progress}%;
-  transition: width 0.1s ease, background 0.2s ease;
-  border-radius: 4px;
-  
-  ${(props) => props.isDramatic && props.timeRemaining <= 1 && `
-    box-shadow: 0 0 10px #ff000080;
-    animation: progressPulse 0.5s ease-in-out infinite alternate;
-  `}
-  
-  @keyframes progressPulse {
-    from {
-      box-shadow: 0 0 10px #ff000080;
-    }
-    to {
-      box-shadow: 0 0 20px #ff0000ff;
+
+    span {
+      font-size: clamp(0.7rem, 2.2vw, 0.9rem) !important;
+      line-height: 1.1 !important;
     }
   }
 `;
@@ -309,22 +227,42 @@ const TimerDisplay = styled.div`
   text-align: center;
   margin: 0;
   font-family: ${(props) => props.theme.digitalFontFamily || "'Courier New', monospace"};
+  line-height: 0.85;
+  letter-spacing: 0.05em;
+  
+  /* Small horizontal screens - smaller timer */
+  @media (max-height: 500px) and (min-width: 600px) {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+  
+  /* All other screens */
+  @media not ((max-height: 500px) and (min-width: 600px)) {
+    font-size: clamp(2rem, 10vw, 4rem);
+  }
   color: ${(props) => {
-    // Dramatic color changes for final countdown
-    if (props.isDramatic && props.timeRemaining <= 5 && props.timeRemaining > 3) {
-      return "#ff9500"; // Orange warning
-    } else if (props.isDramatic && props.timeRemaining <= 3 && props.timeRemaining > 1) {
-      return "#ff6b35"; // Red warning  
-    } else if (props.isDramatic && props.timeRemaining <= 1) {
-      return "#ff0000"; // Critical red
+    // When counting up (elapsed time), always use normal theme colors
+    if (props.isCountingUp) {
+      return props.theme.primaryFontColor;
+    }
+    // Only apply dramatic colors to actual countdowns
+    if (props.hasCountdown && props.timeRemaining <= 5 && props.timeRemaining > 3) {
+      return "#ff9500";
+    } else if (props.hasCountdown && props.timeRemaining <= 3 && props.timeRemaining > 1) {
+      return "#ff6b35";
+    } else if (props.hasCountdown && props.timeRemaining <= 1) {
+      return "#ff0000";
     }
     return props.theme.buttonActive?.backgroundColor || 
            props.theme.primaryColor || 
            props.theme.primaryFontColor;
   }};
   text-shadow: ${(props) => {
-    // Enhanced glow effect for dramatic countdown
-    if (props.isDramatic && props.timeRemaining <= 5) {
+    // When counting up (elapsed time), use subtle theme-based glow
+    if (props.isCountingUp) {
+      return `0 0 8px ${props.theme.primaryColor || props.theme.primaryFontColor}20`;
+    }
+    // Only apply dramatic glow to actual countdowns
+    if (props.hasCountdown && props.timeRemaining <= 5) {
       const intensity = props.timeRemaining <= 1 ? "15px" : "10px";
       const color = props.timeRemaining <= 1 ? "#ff0000" : "#ff6b35";
       return `0 0 ${intensity} ${color}80, 0 0 20px ${color}40`;
@@ -332,10 +270,9 @@ const TimerDisplay = styled.div`
     return `0 0 8px ${props.theme.buttonActive?.backgroundColor || 
                       props.theme.primaryColor || "#ff6b35"}40`;
   }};
-  letter-spacing: 0.1em;
   transition: all 0.1s ease-out;
   
-  ${(props) => props.isDramatic && props.timeRemaining <= 1 && `
+  ${(props) => props.hasCountdown && !props.isCountingUp && props.timeRemaining <= 1 && `
     animation: criticalPulse 0.5s ease-in-out infinite alternate;
   `}
   
@@ -349,109 +286,8 @@ const TimerDisplay = styled.div`
       text-shadow: 0 0 20px #ff0000ff, 0 0 30px #ff000080;
     }
   }
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin: 10px 0;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    font-size: 0.9rem;
-    margin: 2px 0;
-  }
 `;
 
-const CompactInfoCard = styled.div`
-  text-align: center;
-  background: ${(props) => props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
-  border: 1px solid ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    padding: 15px 20px;
-    min-width: 100px;
-    border-radius: 8px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    padding: 6px 10px;
-    min-width: 65px;
-    flex-shrink: 0;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    padding: 3px 4px;
-    min-width: 50px;
-    border-radius: 3px;
-    flex: 1;
-    max-width: 70px;
-    height: 32px;
-    font-size: 0.75rem;
-  }
-`;
-
-const CompactLabel = styled.div`
-  opacity: 0.7;
-  margin-bottom: 1px;
-  font-weight: 500;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    font-size: 0.65rem;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    font-size: 0.55rem;
-    margin-bottom: 0px;
-  }
-`;
-
-const CompactValue = styled.div`
-  font-weight: 600;
-  line-height: 1;
-  font-family: ${(props) => props.theme.digitalFontFamily || "'Courier New', monospace"};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* Desktop/Large screens */
-  @media (min-width: 769px) {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    min-width: 80px;
-  }
-  
-  /* Medium screens */
-  @media (max-width: 768px) and (min-width: 481px) {
-    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
-    min-width: 55px;
-  }
-  
-  /* Small/Mobile screens */
-  @media (max-width: 480px) {
-    font-size: 0.6rem;
-    min-width: 40px;
-  }
-`;
 
 // Removed unused styled components (ActionButtons, ActionButton)
 
@@ -647,14 +483,14 @@ export default function ActiveWorkflowDisplay({ isVisible, onClose }) {
       stepDisplayName = "Processing...";
   }
 
-  // Format timer display with dramatic precision for fan operations
+  // Format timer display with dramatic precision for all countdowns
   const formatTime = (seconds, showDecimals = false) => {
     const mins = Math.floor(seconds / 60);
     const wholeSecs = Math.floor(seconds % 60);
     const decimals = Math.floor((seconds % 1) * 10);
     
     if (showDecimals) {
-      // Dramatic countdown format: "0:05.3"
+      // Dramatic countdown format with decimals: "0:05.3"
       return `${mins.toString().padStart(2, "0")}:${wholeSecs
         .toString()
         .padStart(2, "0")}.${decimals}`;
@@ -665,10 +501,6 @@ export default function ActiveWorkflowDisplay({ isVisible, onClose }) {
         .padStart(2, "0")}`;
     }
   };
-  
-  // Determine if we should show dramatic decimal countdown
-  const isFanOperation = stepType === WorkflowItemTypes.FAN_ON || 
-                        stepType === WorkflowItemTypes.FAN_ON_GLOBAL;
 
   // Calculate countdown (for timed steps only)
   const hasCountdown = stepDurationSeconds !== null && stepDurationSeconds > 0;
@@ -706,73 +538,77 @@ export default function ActiveWorkflowDisplay({ isVisible, onClose }) {
       
 
       <ContentContainer>
-        {/* Left Section - Workflow Info */}
-        <LeftSection>
-          <WorkflowTitle>
+        {/* Simple Header */}
+        <SimpleHeader>
+          <WorkflowName>
             <PrideText text={workflowName} />
-          </WorkflowTitle>
-          <StepTitle>
-            <PrideText text={stepDisplayName} />
-          </StepTitle>
-          <div style={{ 
-            fontSize: "0.7rem", 
-            opacity: 0.7, 
-            marginTop: "2px"
-          }}>
-            <PrideText text={`Step ${currentStepId}/${totalSteps}`} />
-            {hasLoop && <span style={{ marginLeft: "6px" }}>🔄 Loop</span>}
-          </div>
-        </LeftSection>
+          </WorkflowName>
+        </SimpleHeader>
 
-        {/* Center Section - Timer, Progress & Info Cards */}
-        <CenterSection>
-          {hasCountdown && (
+        {/* Main Section */}
+        <MainSection>
+          {/* Timer Display */}
+          <TimerArea>
             <TimerDisplay 
-              isDramatic={isFanOperation} 
-              timeRemaining={timeRemaining}
+              hasCountdown={hasCountdown}
+              timeRemaining={hasCountdown ? timeRemaining : null}
+              isCountingUp={!hasCountdown}
             >
-              <PrideText text={formatTime(timeRemaining, isFanOperation)} />
+              <PrideText text={
+                hasCountdown 
+                  ? formatTime(timeRemaining, hasCountdown)
+                  : formatTime(currentTimeInSeconds, false)
+              } />
             </TimerDisplay>
-          )}
-          
-          <CompactProgressContainer>
-            <ProgressBar 
-              progress={progress} 
-              isDramatic={isFanOperation} 
-              timeRemaining={timeRemaining}
-            />
-          </CompactProgressContainer>
+          </TimerArea>
 
-          {/* Info Cards below progress bar */}
-          <RightSection>
-            <CompactInfoCard>
-              <CompactLabel>
-                <PrideText text="Current" />
-              </CompactLabel>
-              <CompactValue>
-                <PrideText text={`${displayCurrentTemp}${tempSuffix}`} />
-              </CompactValue>
-            </CompactInfoCard>
-
-            <CompactInfoCard>
-              <CompactLabel>
-                <PrideText text="Target" />
-              </CompactLabel>
-              <CompactValue>
-                <PrideText text={`${displayTargetTemp}${tempSuffix}`} />
-              </CompactValue>
-            </CompactInfoCard>
-
-            <CompactInfoCard>
-              <CompactLabel>
-                <PrideText text="Elapsed" />
-              </CompactLabel>
-              <CompactValue>
-                <PrideText text={formatTime(currentTimeInSeconds, isFanOperation)} />
-              </CompactValue>
-            </CompactInfoCard>
-          </RightSection>
-        </CenterSection>
+          {/* Info Row */}
+          <InfoRow>
+            <ProgressCircle>
+              <svg viewBox="0 0 36 36">
+                <path
+                  className="circle-bg"
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="circle-progress"
+                  strokeDasharray={`${progress}, 100`}
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <ProgressNumber>
+                <PrideText text={hasLoop ? "∞" : `${currentStepId}`} />
+              </ProgressNumber>
+            </ProgressCircle>
+            
+            <StepDetails>
+              <CurrentStep>
+                <PrideText text={stepDisplayName} />
+              </CurrentStep>
+              {hasLoop && (
+                <LoopIndicator>
+                  <PrideText text="∞ Loop Mode" />
+                </LoopIndicator>
+              )}
+            </StepDetails>
+            
+            <TemperatureDisplay>
+              <CurrentTemperature
+                currentTemperature={displayCurrentTemp}
+                temperatureSuffix={tempSuffix}
+              />
+              
+              <CurrentTargetTemperature
+                currentTargetTemperature={displayTargetTemp}
+                temperatureSuffix={tempSuffix}
+              />
+            </TemperatureDisplay>
+          </InfoRow>
+        </MainSection>
       </ContentContainer>
     </FullScreenOverlay>
   );

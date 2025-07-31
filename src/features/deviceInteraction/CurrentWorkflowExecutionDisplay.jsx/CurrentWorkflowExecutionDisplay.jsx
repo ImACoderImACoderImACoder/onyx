@@ -730,7 +730,9 @@ export default function CurrentWorkflowExecutionDisplay() {
             {isWorkflowExecuting
               ? hasLoop
                 ? "∞"
-                : `${currentStepId}/${totalSteps}`
+                : showTimer && stepType === WorkflowItemTypes.FAN_ON || stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                  ? `${currentTimeInSeconds.toFixed(0)}s`
+                  : `${currentStepId}/${totalSteps}`
               : ""}
           </CircularProgressText>
         </CircularProgress>
@@ -757,16 +759,19 @@ export default function CurrentWorkflowExecutionDisplay() {
 
           <div
             style={{
-              fontSize: "0.8rem",
-              opacity: "0.8",
-              marginTop: "4px",
+              fontSize: "0.85rem",
+              opacity: "0.9",
+              marginTop: "6px",
+              marginBottom: "8px",
               display: "flex",
               justifyContent: "space-between",
+              alignItems: "center",
               color: "inherit",
+              fontWeight: "600"
             }}
           >
             <PrideText text={stepDisplayName} />
-            {hasLoop && <LoopIndicator>(Loop Mode 🔄)</LoopIndicator>}
+            {hasLoop && <LoopIndicator>(∞ Loop)</LoopIndicator>}
           </div>
 
           <ExpandedDetails isExpanded={true}>
@@ -830,32 +835,49 @@ export default function CurrentWorkflowExecutionDisplay() {
               </DetailValue>
             </DetailRow>
 
-            <WidgetActions>
+            {/* Show timer for current step */}
+            {showTimer && (
+              <DetailRow>
+                <DetailLabel>
+                  <PrideText text="Timer:" />
+                </DetailLabel>
+                <DetailValue>
+                  <PrideText
+                    text={
+                      stepType === WorkflowItemTypes.FAN_ON || 
+                      stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                        ? `${currentTimeInSeconds.toFixed(1)}s`
+                        : `${Math.floor(currentTimeInSeconds)}s`
+                    }
+                  />
+                </DetailValue>
+              </DetailRow>
+            )}
+            
+            <WidgetActions style={{ marginTop: "12px", gap: "8px" }}>
               <MiniButton
                 onClick={(e) => {
                   e.stopPropagation();
                   cancelCurrentWorkflow();
                 }}
+                style={{ 
+                  background: "linear-gradient(145deg, rgba(220, 53, 69, 0.8), rgba(220, 53, 69, 0.6))",
+                  borderColor: "rgba(220, 53, 69, 0.6)",
+                  color: "#ffffff"
+                }}
               >
                 <PrideText text="Cancel" />
               </MiniButton>
+              <MiniButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(false);
+                }}
+              >
+                <PrideText text="−" />
+              </MiniButton>
             </WidgetActions>
           </ExpandedDetails>
-          
-          <div style={{ 
-            position: 'absolute', 
-            bottom: '8px', 
-            left: '8px' 
-          }}>
-            <MiniButton
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExpanded(false);
-              }}
-            >
-              <PrideText text="−" />
-            </MiniButton>
-          </div>
         </ExpandedTooltip>
       )}
     </WorkflowWidget>

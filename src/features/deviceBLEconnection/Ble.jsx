@@ -235,7 +235,7 @@ export default function Ble(props) {
     "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
     'Mini mode available now! Just click "Mini Mode" in the nav menu!',
     "If you don't have any workflows saved mini mode will display a grid of temperatures.",
-    `Tap the temperature display to toggle between ${DEGREE_SYMBOL}C and ${DEGREE_SYMBOL}F`,
+    `Tap or click the temperature display to toggle between ${DEGREE_SYMBOL}C and ${DEGREE_SYMBOL}F`,
   ];
 
   const [currentTipIndex, setCurrentTipIndex] = useState(
