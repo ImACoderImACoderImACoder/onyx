@@ -49,8 +49,7 @@ export default function CurrentTargetTemperatureContainer() {
     <CurrentTargetTemperature
       style={{ 
         opacity: isHeatOn ? "1" : "0", 
-        transition: "all 0.35s",
-        cursor: "pointer"
+        transition: "all 0.35s"
       }}
       currentTargetTemperature={temperature}
       temperatureSuffix={temperatureSuffix}

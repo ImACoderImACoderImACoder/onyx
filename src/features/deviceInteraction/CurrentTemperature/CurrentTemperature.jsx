@@ -11,6 +11,13 @@ const Div = styled.div`
   margin-bottom: -1.75rem;
 `;
 
+const ClickableWrapper = styled.span`
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 const Span = styled.span`
   font-size: 2rem;
   margin-left: 4px;
@@ -24,14 +31,14 @@ const StyledSpinner = styled(Spinner)`
 
 const CurrentTemperature = (props) => {
   return (
-    <Div style={props.style} onClick={props.onClick}>
+    <Div style={props.style}>
       {(props.currentTemperature && (
-        <div>
+        <ClickableWrapper onClick={props.onClick}>
           <PrideText text={`${props.currentTemperature}`} />
           <Span>
             <PrideText text={`${props.temperatureSuffix}`} />
           </Span>
-        </div>
+        </ClickableWrapper>
       )) || <StyledSpinner animation="border" variant="dark" />}
     </Div>
   );
