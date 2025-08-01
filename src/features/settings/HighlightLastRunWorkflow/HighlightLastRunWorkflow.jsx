@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
-import Div from "../Shared/StyledComponents/Div";
-import PrideText, { PrideTextWithDiv } from "../../../themes/PrideText";
+import SettingsItem from "../SettingsItem";
+import { PrideTextWithDiv } from "../../../themes/PrideText";
 import { useDispatch } from "react-redux";
 import {
   ReadConfigFromLocalStorage,
@@ -23,17 +23,16 @@ export default function HighlightLastRunWorkflow() {
   };
 
   return (
-    <Div>
-      <h2>
-        <PrideText text="Highlight last run workflow" />
-      </h2>
-      <div onClick={onChange}>
-        <StyledToggleSwitch
-          onText="On"
-          offText={<PrideTextWithDiv text="Off" />}
-          isToggleOn={highlightLastRunWorkflow}
-        />
-      </div>
-    </Div>
+    <SettingsItem
+      title="Highlight Recent Workflow"
+      description="Visually highlight the most recently executed workflow on the app controls screen."
+    >
+      <StyledToggleSwitch
+        onText="On"
+        offText={<PrideTextWithDiv text="Off" />}
+        isToggleOn={highlightLastRunWorkflow}
+        onChange={onChange}
+      />
+    </SettingsItem>
   );
 }

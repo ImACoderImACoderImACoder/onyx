@@ -10,6 +10,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -27,3 +28,5 @@ Roadmap.txt
 Developer Documentation.*
 !Developer Documentation.tex
 !Developer Documentation.pdf
+
+dev-dist/

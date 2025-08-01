@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint)",
+      "Bash(rm:*)",
+      "Bash(timeout 10s npm run dev)",
+      "Bash(true)",
+      "Bash(npm view:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(timeout 8 npm run dev)",
+      "Bash(npm run dev:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(node:*)",
+      "Bash(find:*)",
+      "Bash(powershell:*)",
+      "Bash(timeout 5 npm run dev)",
+      "Bash(npx eslint:*)",
+      "Bash(TASKKILL /F /IM node.exe)",
+      "Bash(git checkout:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install:*)"
+    ],
+    "deny": []
+  }
+}

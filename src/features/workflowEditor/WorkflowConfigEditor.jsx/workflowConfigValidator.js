@@ -1,4 +1,4 @@
-import isPayloadValid from "../shared/WorkflowItemValidator";
+import workflowItemValidor from "../shared/WorkflowItemValidator";
 
 export default function WorkflowConfigValidator(workflowConfig, isF) {
   if (!Array.isArray(workflowConfig.items)) {
@@ -18,7 +18,7 @@ export default function WorkflowConfigValidator(workflowConfig, isF) {
 
       if (
         currentWorkflow.payload.some((item) => {
-          if (!isPayloadValid(item, isF)) {
+          if (!workflowItemValidor(item, isF)) {
             return true;
           }
           return false;

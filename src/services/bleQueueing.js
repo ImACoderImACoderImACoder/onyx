@@ -108,7 +108,10 @@ export function AddToWorkflowQueue(func) {
 function ProcessWorkflowQueue() {
   let currentFunc;
 
-  const next = () => {
+  const next = (resetIndex) => {
+    if (resetIndex) {
+      currentWorkflowIndex = -1;
+    }
     if (currentWorkflowIndex + 1 >= workflowFunctions.length) {
       store.dispatch(setCurrentWorkflow());
       store.dispatch(setCurrentWorkflowStepId());

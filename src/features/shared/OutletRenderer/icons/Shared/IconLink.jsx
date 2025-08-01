@@ -8,6 +8,7 @@ const StyledRouterIconLink = styled(Link)`
   text-align: center;
   margin-bottom: 10px;
   text-decoration: none;
+  gap: 8px;
 `;
 
 export { StyledRouterIconLink };

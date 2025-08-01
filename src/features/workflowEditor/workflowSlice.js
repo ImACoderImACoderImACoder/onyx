@@ -11,6 +11,7 @@ export const workflowSlice = createSlice({
     currentWorkflow: undefined,
     currentWorkflowStepId: undefined,
     currentStepEllapsedTimeInSeconds: 0,
+    currentStepStartTimestamp: null,
     lastWorkflowRunId:
       ReadConfigFromLocalStorage().workflows?.lastWorkflowRunId,
   },
@@ -29,9 +30,13 @@ export const workflowSlice = createSlice({
     setCurrentWorkflowStepId: (state, action) => {
       state.currentWorkflowStepId = action.payload;
       state.currentStepEllapsedTimeInSeconds = 0;
+      state.currentStepStartTimestamp = Date.now();
     },
     setCurrentStepEllapsedTimeInSeconds: (state, action) => {
       state.currentStepEllapsedTimeInSeconds = action.payload;
+    },
+    setCurrentStepStartTimestamp: (state, action) => {
+      state.currentStepStartTimestamp = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -40,6 +45,7 @@ export const workflowSlice = createSlice({
         currentWorkflow: undefined,
         currentWorkflowStepId: undefined,
         currentStepEllapsedTimeInSeconds: 0,
+        currentStepStartTimestamp: null,
         lastWorkflowRunId:
           ReadConfigFromLocalStorage().workflows?.lastWorkflowRunId,
       };
@@ -51,6 +57,7 @@ export const {
   setCurrentWorkflow,
   setCurrentWorkflowStepId,
   setCurrentStepEllapsedTimeInSeconds,
+  setCurrentStepStartTimestamp,
 } = workflowSlice.actions;
 
 export default workflowSlice.reducer;

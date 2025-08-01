@@ -1,3 +1,8 @@
 {
-  "splashMessage": "Tap anywhere to connect."
+  "connectTitle": "Connect to Volcano",
+  "connectDescription": "Ready to take control of your Volcano Hybrid? Tap here to establish a Bluetooth connection and unlock all the advanced features.",
+  "connectInstruction": "Make sure your Volcano is powered on and nearby",
+  "proTipLabel": "Pro Tip",
+  "proTipPrevious": "Previous tip",
+  "proTipNext": "Next tip"
 }

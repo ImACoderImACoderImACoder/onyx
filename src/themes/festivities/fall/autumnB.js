@@ -24,12 +24,12 @@ const autumnB = {
   iconTextColor: primaryLight,
   temperatureRange: {
     background: `linear-gradient(90deg, rgba(211,84,0,1) 20%, rgba(229,152,102,1) 57%, rgba(255,102,0,1) 87%, rgba(160,64,0,1) 100%)`,
-
+    backgroundVertical: `linear-gradient(to top, rgba(160,64,0,1) 0%, rgba(255,102,0,1) 13%, rgba(229,152,102,1) 43%, rgba(211,84,0,1) 80%)`,
     rangeBackground: `linear-gradient(45deg, #D35400, #E59866, #A04000)`,
     rangeBoxBorderColor: primaryLight,
   },
   workflowEditor: {
-    accordianExpandedColor: "#146B3A",
+    accordionExpandedColor: "#146B3A",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: primaryLight,

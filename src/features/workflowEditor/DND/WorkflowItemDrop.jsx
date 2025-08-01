@@ -62,11 +62,37 @@ export default function WorkflowItemDrop(props) {
     <div
       ref={drop}
       style={{
-        height: isOver && canDrop ? "70px" : "25px",
-        backgroundColor: isOver && canDrop && `${theme.buttonColorMain}`,
+        height: isOver && canDrop ? "70px" : "12px",
+        backgroundColor: isOver && canDrop ? theme.buttonActive.backgroundColor : 'transparent',
+        border: isOver && canDrop ? `2px dashed ${theme.buttonActive.borderColor}` : '1px dashed transparent',
+        borderRadius: "8px",
         flexGrow: "1",
-        transition: "height 0.2s ease",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        margin: "6px 0",
+        ...(isOver && canDrop && {
+          boxShadow: `0 2px 12px ${theme.buttonActive.borderColor}30`,
+          transform: "scale(1.01)",
+        }),
       }}
-    ></div>
+    >
+      {isOver && canDrop && (
+        <div style={{
+          color: theme.buttonActive.color,
+          fontSize: "0.8rem",
+          fontWeight: "500",
+          opacity: "0.8",
+          pointerEvents: "none",
+          display: "flex",
+          alignItems: "center",
+          gap: "6px"
+        }}>
+          ⬇️ Drop action here
+        </div>
+      )}
+    </div>
   );
 }

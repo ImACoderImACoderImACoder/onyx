@@ -24,11 +24,12 @@ const flamingo = {
   },
   temperatureRange: {
     background: "linear-gradient(315deg, #e79fec 0%, #fccddf 74%)",
+    backgroundVertical: "linear-gradient(to top, #fccddf, #e79fec)",
     rangeBoxColor: "white",
     rangeBoxBorderColor: "#fccddf",
   },
   workflowEditor: {
-    accordianExpandedColor: "darkgray",
+    accordionExpandedColor: "darkgray",
   },
   ToggleButtons: {
     sliderBackgroundColorOn: "white",

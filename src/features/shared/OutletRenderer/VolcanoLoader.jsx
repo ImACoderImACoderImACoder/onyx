@@ -30,7 +30,7 @@ import {
   setIsHeatOn,
   setIsFanOn,
 } from "../../deviceInteraction/deviceInteractionSlice";
-import { setIsF } from "../../settings/settingsSlice";
+import { setIsF, setIsMinimalistMode } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
@@ -39,8 +39,29 @@ import AutoOff from "../../deviceInteraction/AutoOff/AutoOff";
 
 const ScrollingDiv = withScrolling("div");
 
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const ContentWrapper = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledNavBar = styled(Navbar)`
   background: ${(props) => props.theme.backgroundColor};
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 `;
 
 const StyledNavBarToggle = styled(Navbar.Toggle)`
@@ -51,12 +72,41 @@ const StyledNavBarToggle = styled(Navbar.Toggle)`
 `;
 
 const StyledNav = styled(Nav)`
-  justify-content: space-evenly;
+  justify-content: flex-end;
   flex-grow: 1;
+  margin-left: auto;
+  width: 100%;
+  text-align: right;
+  
+  & > * {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+  
+  @media (max-width: 991.98px) {
+    align-items: flex-end;
+    
+    & > * {
+      align-self: flex-end;
+      text-align: right;
+    }
+  }
 `;
 
 const StyledHeaderNavDiv = styled(StyledRouterIconLink)`
   color: ${(props) => props.theme.iconColor};
+`;
+
+const WhiteMenuIconWrapper = styled.div`
+  color: ${(props) => props.theme.primaryFontColor};
+  
+  & > div {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
+  
+  & svg {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
 `;
 
 export default function VolcanoLoader(props) {
@@ -80,6 +130,11 @@ export default function VolcanoLoader(props) {
     navigate("/");
   };
 
+  const onMinimalistModeClick = () => {
+    dispatch(setIsMinimalistMode(true));
+    setExpanded(false);
+  };
+
   const theme = useTheme();
 
   /* eslint-disable no-unused-vars */
@@ -91,6 +146,7 @@ export default function VolcanoLoader(props) {
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
   );
+
   /* eslint-enable no-unused-vars */
 
   useEffect(() => {
@@ -222,84 +278,84 @@ export default function VolcanoLoader(props) {
     flexGrow: "1",
   };
 
-  const currentExecutingWorkflowStyling = { ...outletStyling, flexGrow: "0" };
   return (
-    <ScrollingDiv className="main-div">
-      {
-        <StyledNavBar
-          expand="lg"
-          expanded={expanded}
-          onToggle={navBarToggleOnClick}
-        >
-          <Container>
-            <Navbar.Brand>
+    <MainWrapper>
+      <StyledNavBar
+        expand="lg"
+        expanded={expanded}
+        onToggle={navBarToggleOnClick}
+      >
+        <Container>
+          <Navbar.Brand>
+            <div style={{ display: "flex" }}>
               <StyledHeaderNavDiv onClick={onLinkClick} to="/Volcano/App">
                 <PrideTextWithDiv text="Project Onyx" />
-                <AutoOff style={{ marginLeft: "10px" }} />
               </StyledHeaderNavDiv>
-            </Navbar.Brand>
+              <AutoOff style={{ marginLeft: "10px" }} />
+              <CurrentWorkflowExecutionDisplay />
+            </div>
+          </Navbar.Brand>
 
-            <StyledNavBarToggle
-              onClick={navBarToggleOnClick}
-              aria-controls="basic-navbar-nav"
-            >
-              <div
-                style={{ color: theme.primaryFontColor }}
-                onClick={navBarToggleOnClick}
+          <StyledNavBarToggle
+            onClick={navBarToggleOnClick}
+            aria-controls="basic-navbar-nav"
+          >
+            <WhiteMenuIconWrapper onClick={navBarToggleOnClick}>
+              <MenuBarIcon />
+            </WhiteMenuIconWrapper>
+          </StyledNavBarToggle>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <StyledNav>
+              <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
+                {<ControlsIcon />}
+                {<PrideTextWithDiv text="Controls" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                as="div"
+                onClick={onMinimalistModeClick}
+                style={{ cursor: "pointer" }}
               >
                 <MenuBarIcon />
-              </div>
-            </StyledNavBarToggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <StyledNav className="me-auto">
-                <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
-                  {<ControlsIcon />}
-                  {<PrideTextWithDiv text="Controls" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/WorkflowEditor"
-                >
-                  {<WorkflowEditorIcon />}
-                  {<PrideTextWithDiv text="Workflow Editor" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/DeviceInformation"
-                >
-                  {<InformationIcon />}
-                  {<PrideTextWithDiv text="Device Info" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/Settings"
-                >
-                  {<SettingsIcon />}
-                  {<PrideTextWithDiv text="Settings" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink
-                  onClick={onLinkClick}
-                  to="/Volcano/ContactMe"
-                >
-                  {<ContactMeIcon />}
-                  {<PrideTextWithDiv text="Contact Me" />}
-                </StyledRouterIconLink>
-                <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
-                  <BluetoothDisconnectIcon />
-                  <PrideTextWithDiv text="Disconnect" />
-                </StyledRouterIconLink>
-              </StyledNav>
-            </Navbar.Collapse>
-          </Container>
-        </StyledNavBar>
-      }
+                <PrideTextWithDiv text="Mini Mode" />
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/WorkflowEditor"
+              >
+                {<WorkflowEditorIcon />}
+                {<PrideTextWithDiv text="Workflow Editor" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/ContactMe"
+              >
+                {<ContactMeIcon />}
+                {<PrideTextWithDiv text="Contact Me" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                onClick={onLinkClick}
+                to="/Volcano/Settings"
+              >
+                {<SettingsIcon />}
+                {<PrideTextWithDiv text="Settings" />}
+              </StyledRouterIconLink>
 
-      <div style={currentExecutingWorkflowStyling}>
-        <CurrentWorkflowExecutionDisplay />
-      </div>
-      <div style={outletStyling}>
-        <Outlet {...props} />
-      </div>
-    </ScrollingDiv>
+              <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
+                <BluetoothDisconnectIcon />
+                <PrideTextWithDiv text="Disconnect" />
+              </StyledRouterIconLink>
+            </StyledNav>
+          </Navbar.Collapse>
+        </Container>
+      </StyledNavBar>
+
+      <ContentWrapper>
+        <ScrollingDiv className="main-div">
+          <div style={outletStyling}>
+            <Outlet {...props} />
+          </div>
+        </ScrollingDiv>
+      </ContentWrapper>
+    </MainWrapper>
   );
 }

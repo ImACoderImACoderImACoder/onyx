@@ -6,7 +6,7 @@ import Button from "./shared/WorkflowFooterButtons";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
 const StyledButton = styled(Button)`
-  width: fit-content;
+  min-width: fit-content;
   margin-top: 0px;
 `;
 export default function CreateWorkflowButton(props) {
@@ -30,7 +30,7 @@ export default function CreateWorkflowButton(props) {
 
   return (
     <StyledButton onClick={createWorkflow}>
-      <PrideText text="Create New Workflow" />
+      <PrideText text="➕ Create New Workflow" />
     </StyledButton>
   );
 }

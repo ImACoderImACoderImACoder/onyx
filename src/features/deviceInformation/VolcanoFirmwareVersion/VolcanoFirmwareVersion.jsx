@@ -1,7 +1,15 @@
 import proptypes from "prop-types";
+import DeviceInfoCard from "../DeviceInfoCard";
 
 function VolcanoFirmwareVersion(props) {
-  return <div>Volcano firmware: {props.volcanoFirmwareVersion}</div>;
+  return (
+    <DeviceInfoCard
+      icon="🌋"
+      title="Volcano Firmware"
+      value={props.volcanoFirmwareVersion}
+      description="Main device software version"
+    />
+  );
 }
 
 VolcanoFirmwareVersion.propTypes = {

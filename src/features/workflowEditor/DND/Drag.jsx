@@ -32,10 +32,17 @@ export default function Drag(props) {
           width: "fit-content",
           margin: "-15px",
           padding: "15px",
+          display: "flex",
+          alignItems: "center",
         }}
-        ref={drag}
       >
-        <span>
+        <span
+          ref={drag}
+          style={{
+            marginRight: "10px",
+            display: "inline-block",
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -46,8 +53,6 @@ export default function Drag(props) {
               fontSize: 25,
               fontWeight: "bold",
               cursor: "move",
-              marginLeft: "0",
-              marginRight: "10",
               borderRadius: "1rem",
             }}
           >
@@ -57,7 +62,9 @@ export default function Drag(props) {
             />
           </svg>
         </span>
-        {props.children}
+        <div style={{ cursor: "default" }}>
+          {props.children}
+        </div>
       </div>
     </div>
   );

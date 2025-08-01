@@ -24,6 +24,7 @@ const base = () => {
       lowTemperatureColor: "#f53803",
       highTemperatureColor: "#f5d020",
       background: "linear-gradient(315deg, #f53803 0%, #f5d020 74%)",
+      backgroundVertical: "linear-gradient(to top, #f5d020, #f53803)",
       rangeBoxColor: "black",
       rangeBoxBorderColor: "orange",
       rangeBackground: undefined,
@@ -31,7 +32,7 @@ const base = () => {
       rangeBoxBorderWidth: "3px",
     },
     workflowEditor: {
-      accordianExpandedColor: "#D2D2D2",
+      accordionExpandedColor: "#D2D2D2",
     },
     ToggleButtons: {
       sliderBackgroundColorOn: "gray",
