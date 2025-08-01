@@ -217,7 +217,8 @@
       "default": "Predeterminado (Idioma del Navegador)",
       "english": "English",
       "french": "Français",
-      "spanish": "Español"
+      "spanish": "Español",
+      "german": "Deutsch"
     },
     "system": {
       "title": "Sistema",

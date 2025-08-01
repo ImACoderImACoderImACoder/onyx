@@ -217,7 +217,8 @@
       "default": "Default (Browser Language)",
       "english": "English",
       "french": "Français",
-      "spanish": "Español"
+      "spanish": "Español",
+      "german": "Deutsch"
     },
     "system": {
       "title": "System",

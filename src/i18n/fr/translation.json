@@ -190,7 +190,8 @@
       "default": "Par Défaut (Langue du Navigateur)",
       "english": "English",
       "french": "Français",
-      "spanish": "Español"
+      "spanish": "Español",
+      "german": "Deutsch"
     },
     "system": {
       "title": "Système",

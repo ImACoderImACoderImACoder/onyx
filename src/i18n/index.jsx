@@ -5,12 +5,14 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import translationEN from "./en/translation.json";
 import translationFR from "./fr/translation.json";
 import translationES from "./es/translation.json";
+import translationDE from "./de/translation.json";
 import { ReadConfigFromLocalStorage, SUPPORTED_LANGUAGES } from "../services/utils";
 
 const resources = {
   en: { translation: translationEN },
   fr: { translation: translationFR },
   es: { translation: translationES },
+  de: { translation: translationDE },
 };
 
 // Get stored language preference

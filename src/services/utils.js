@@ -16,7 +16,7 @@ import {
 import { aSuperSpecialAutoThemeSettingsId } from "../constants/themeIds";
 
 // Language configuration
-export const SUPPORTED_LANGUAGES = ['en', 'fr', 'es'];
+export const SUPPORTED_LANGUAGES = ['en', 'fr', 'es', 'de'];
 
 export function convertToUInt8BLE(val) {
   const buffer = new ArrayBuffer(1);
