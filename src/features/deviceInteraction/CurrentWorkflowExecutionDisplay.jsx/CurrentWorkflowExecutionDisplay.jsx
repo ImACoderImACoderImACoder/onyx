@@ -904,10 +904,8 @@ export default function CurrentWorkflowExecutionDisplay() {
                           }
                         }
 
-                        // Use monospace font for countdowns, regular font for elapsed time
-                        return isCountdown
-                          ? "digital-mono, monospace"
-                          : "inherit";
+                        // Use monospace font for all timer displays
+                        return "digital-mono, monospace";
                       })(),
                       fontSize: (() => {
                         // Use local elapsed time for smooth display
@@ -947,8 +945,8 @@ export default function CurrentWorkflowExecutionDisplay() {
                           }
                         }
 
-                        // Use larger font for countdowns
-                        return isCountdown ? "1.4rem" : "inherit";
+                        // Use same font size for all timer displays
+                        return "1.4rem";
                       })(),
                     }}
                   >
