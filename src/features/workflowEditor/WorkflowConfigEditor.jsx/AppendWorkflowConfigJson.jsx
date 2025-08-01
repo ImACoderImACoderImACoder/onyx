@@ -13,6 +13,7 @@ import Button from "../shared/WorkflowFooterButtons";
 import PrideText from "../../../themes/PrideText";
 import { defaultGlobalFanOnTimeInSeconds } from "../../../constants/constants";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const ModalSection = styled.div`
   background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
@@ -61,6 +62,7 @@ const InstructionText = styled.div`
 `;
 
 export default function AppendWorkflowConfigJson() {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
@@ -129,7 +131,7 @@ export default function AppendWorkflowConfigJson() {
           <PrideText text="📥 Import Additional Workflows" />
         }
         handleClose={handleClose}
-        confirmButtonText="Add Workflows"
+        confirmButtonText={t("workflowButtons.addWorkflows")}
         handleConfirm={handleConfirm}
       >
         <ModalSection>

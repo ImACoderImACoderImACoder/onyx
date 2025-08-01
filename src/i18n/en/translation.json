@@ -228,7 +228,8 @@
       "temperatureRange": "Temperature must be between {{range}}",
       "invalidTemperature": "Invalid temperature value.",
       "temperatureIn": "Temperature in {{unit}}",
-      "submit": "Submit"
+      "submit": "Submit",
+      "addTemperatureControls": "Add Temperature Controls"
     },
     "items": {
       "fanVibrationAlert": {
@@ -283,6 +284,19 @@
     "workflowEditor": "Workflow Editor",
     "contactMe": "Contact Me",
     "settings": "Settings",
-    "disconnect": "Disconnect"
+    "disconnect": "Disconnect",
+    "miniMode": "Mini Mode"
+  },
+  "contactPage": {
+    "title": "📞 Contact Me"
+  },
+  "connection": {
+    "connecting": "🔗 Connecting to Volcano",
+    "initializing": "Initializing device communication"
+  },
+  "workflowButtons": {
+    "createNewWorkflow": "➕ Create New Workflow",
+    "createPremadeWorkflows": "➕ Create Premade Workflows",
+    "addWorkflows": "Add Workflows"
   }
 }

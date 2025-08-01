@@ -153,6 +153,13 @@
       "displayTemperatureWhenCooling": {
         "title": "Afficher la température lors du refroidissement",
         "description": "Afficher les informations de température pendant que l'appareil se refroidit"
+      },
+      "temperatureControl": {
+        "temperatureRange": "La température doit être entre {{range}}",
+        "invalidTemperature": "Valeur de température invalide.",
+        "temperatureIn": "Température en {{unit}}",
+        "submit": "Soumettre",
+        "addTemperatureControls": "Ajouter des contrôles de température"
       }
     }
   },
@@ -161,7 +168,20 @@
     "workflowEditor": "Éditeur de flux de travail",
     "contactMe": "Me contacter",
     "settings": "Paramètres",
-    "disconnect": "Déconnecter"
+    "disconnect": "Déconnecter",
+    "miniMode": "Mode Mini"
+  },
+  "contactPage": {
+    "title": "📞 Me Contacter"
+  },
+  "connection": {
+    "connecting": "🔗 Connexion au Volcano",
+    "initializing": "Initialisation de la communication avec l'appareil"
+  },
+  "workflowButtons": {
+    "createNewWorkflow": "➕ Créer un nouveau Workflow",
+    "createPremadeWorkflows": "➕ Créer des Workflows prédéfinis",
+    "addWorkflows": "Ajouter des Workflows"
   },
   "workflow": {
     "stepNames": {

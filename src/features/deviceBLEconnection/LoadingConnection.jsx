@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -172,13 +173,15 @@ const StepIcon = styled.span`
 `;
 
 export default function LoadingConnection() {
+  const { t } = useTranslation();
+  
   return (
     <Container>
       <LoadingCard>
         <LoadingIcon />
 
         <LoadingTitle>
-          <PrideText text="🔗 Connecting to Volcano" />
+          <PrideText text={t("connection.connecting")} />
         </LoadingTitle>
 
         <LoadingDescription>
@@ -203,7 +206,7 @@ export default function LoadingConnection() {
           </StepItem>
           <StepItem>
             <StepIcon>⚡</StepIcon>
-            Initializing device communication
+            {t("connection.initializing")}
           </StepItem>
         </ConnectionSteps>
       </LoadingCard>

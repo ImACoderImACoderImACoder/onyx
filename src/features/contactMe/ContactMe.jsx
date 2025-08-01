@@ -3,6 +3,7 @@ import Div from "../shared/styledComponents/RootNonAppOutletDiv";
 import Socials from "./Meta/Socials";
 import PrideText from "../../themes/PrideText";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const ContactHeaderContainer = styled.div`
   text-align: center;
@@ -50,11 +51,13 @@ const ContactSectionsContainer = styled.div`
 `;
 
 export default function ContactMe() {
+  const { t } = useTranslation();
+  
   return (
     <Div>
       <ContactHeaderContainer>
         <h1>
-          <PrideText text="📞 Contact Me" />
+          <PrideText text={t("contactPage.title")} />
         </h1>
         <ContactDescription>
           Get in touch! Whether you have feature requests, feedback, or just want to say hello, 
