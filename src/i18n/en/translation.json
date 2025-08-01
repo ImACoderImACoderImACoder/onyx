@@ -4,5 +4,285 @@
   "connectInstruction": "Make sure your Volcano is powered on and nearby",
   "proTipLabel": "Pro Tip",
   "proTipPrevious": "Previous tip",
-  "proTipNext": "Next tip"
+  "proTipNext": "Next tip",
+  "tips": {
+    "spacebar": "Spacebar toggles the fan",
+    "brightness": "Setting the screen to 0 brightness turns it off",
+    "clean": "Don't forget to clean your herb chamber :D",
+    "filter": "Remember to check your Volcano's air filter",
+    "themes": "You can change the look of the app by changing themes in the settings page",
+    "workflows": "Use workflows to take full control of your Volcano",
+    "temperatures": "You can add or remove temperatures in the settings page",
+    "bagReplace": "Frequent users should replace bags every 2-4 weeks for optimal flavor",
+    "bagTime": "10 minutes or less is the ideal time for a bag to store vapor",
+    "preheat": "For best results preheat the chamber for 2-5 seconds before attaching the bag",
+    "dragDrop": "Drag and drop can be used to reorder workflows and workflow items on all devices",
+    "highlight": "If you want to visually see the last workflow run you can enable highlight last run workflow in settings",
+    "autoSeasonal": "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
+    "newCommands": "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
+    "miniMode": "Mini mode available now! Just click \"Mini Mode\" in the nav menu!",
+    "miniModeGrid": "If you don't have any workflows saved mini mode will display a grid of temperatures.",
+    "tempToggle": "Tap or click the temperature display to toggle between °C and °F"
+  },
+  "contact": {
+    "title": "💬 Send Me a Message",
+    "description": "It's always nice to hear from users! Whether you have a feature request, feedback, or just want to say hi, I read every message. Include your contact information if you'd like a response - I reply to every message that includes it.",
+    "contactInfoLabel": "Contact Info",
+    "contactInfoPlaceholder": "Your email, Discord, etc.",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your message here...",
+    "optional": "(Optional)",
+    "required": "(Required)",
+    "sendButton": "📤 Send Message",
+    "important": "Important:",
+    "spamNotice": "If you provided contact info and don't hear back within a few days, please check your spam/junk folder as my replies sometimes end up there.",
+    "submitWithoutContactTitle": "Submit without Contact Info",
+    "submitWithoutContactBody": "You did not provide any contact info for me to respond to you. Click \"Close\" to provide contact info or click \"Submit\" to continue without providing contact info. I cannot respond if you do not provide your contact info.",
+    "submitButton": "Submit",
+    "successMessage": "Success!"
+  },
+  "workflowEditor": {
+    "title": "🔥 Workflow Editor",
+    "description": "Create, customize, and manage your vaporizer workflows. Build precise temperature routines, timing sequences, and fan controls for the perfect vaping experience.",
+    "createNewTitle": "➕ Create New Workflows",
+    "createNewDescription": "Start building your vaporizer routines by creating custom workflows or choosing from our premade templates.",
+    "customWorkflowTitle": "Custom Workflow",
+    "customWorkflowDescription": "Build a workflow from scratch with your preferred temperature settings and timing.",
+    "templatesTitle": "Workflow Templates",
+    "templatesDescription": "Quick start with expertly crafted workflows designed for different vaping styles.",
+    "configEditorTitle": "⚙️ Config Editor",
+    "configEditorDescription": "Backup and manage your workflow configurations. Export your workflows as JSON to save them, or import configurations from others to expand your collection.",
+    "exportTitle": "Export & Edit",
+    "exportDescription": "View and modify your current workflow configuration, or export it for backup.",
+    "importTitle": "Import Workflows",
+    "importDescription": "Add new workflows from JSON configuration files shared by others.",
+    "actionName": "Action {{index}}",
+    "actionType": "Action Type",
+    "actionTypes": {
+      "heatOn": "🔥 Heat On",
+      "fanOn": "🌪️ Fan On",
+      "fanOnGlobal": "🌍 Fan On Global",
+      "pauseWait": "⏸️ Pause/Wait",
+      "heatOff": "❄️ Heat Off",
+      "setLedBrightness": "💡 Set LED Brightness",
+      "exitWhenTargetTemp": "🚪 Exit When Target Temperature",
+      "conditionalTempSet": "🎯 Conditional Temperature Set",
+      "startWorkflowFromBeginning": "🔄 Start Workflow From Beginning"
+    },
+    "payloadLabels": {
+      "seconds": "Seconds",
+      "brightness": "Brightness (0-100)",
+      "exitWorkflowUntilTemp": "Exit workflow until when target temperature is"
+    },
+    "conditionalHeat": {
+      "defaultSettings": "Default Settings",
+      "defaultTemp": "Default Temp",
+      "defaultWait": "Default Wait",
+      "optional": "Optional",
+      "heatConditions": "Heat Conditions",
+      "ifTemp": "If Temp",
+      "thenSet": "Then Set",
+      "wait": "Wait",
+      "optionalShort": "(opt)",
+      "deleteCondition": "Delete condition {{index}}",
+      "addCondition": "Add Condition",
+      "deleteConditionTitle": "Delete Condition",
+      "deleteConditionConfirm": "Are you sure you want to delete this condition? This action cannot be undone",
+      "delete": "Delete"
+    },
+    "validation": {
+      "mustBeValidNumber": "Must be a valid number",
+      "temperatureRange": "Must be between {{min}}{{unit}} and {{max}}{{unit}}",
+      "mustBeGreaterOrEqualZero": "Must be >= 0"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize the look of your app"
+    },
+    "behavior": {
+      "title": "App Behavior",
+      "description": "Control how the app behaves and displays information"
+    },
+    "system": {
+      "title": "System",
+      "description": "System settings and app installation"
+    },
+    "volcano": {
+      "title": "Volcano Controls",
+      "description": "Configure your Volcano's settings"
+    },
+    "device": {
+      "title": "Device Information",
+      "description": "View details about your connected Volcano device"
+    },
+    "temperatureControl": {
+      "temperatureRange": "Temperature must be between {{range}}",
+      "invalidTemperature": "Invalid temperature value.",
+      "temperatureIn": "Temperature in {{unit}}",
+      "submit": "Submit"
+    }
+  },
+  "workflowTips": {
+    "title": "💡 Workflow Tips & Tricks",
+    "fanOnGlobal": {
+      "title": "Fan On Global",
+      "content": "\"Fan On Global\" is a single value across all workflows. Use this to adjust your main fan time for all workflows."
+    },
+    "ledDisplay": {
+      "title": "LED Display Control",
+      "content": "If you set the LED brightness to 0 it completely turns off the display."
+    },
+    "infiniteFan": {
+      "title": "Infinite Fan Mode",
+      "content": "If you set fan on to 0 it will keep the fan on indefinitely. To turn the fan off use another fan on command with a small value (e.g. 0.1)."
+    },
+    "manualPause": {
+      "title": "Manual Pause",
+      "content": "Set the pause/wait flow to 0 and it will wait until you click \"okay\" to resume the workflow execution."
+    },
+    "dragDrop": {
+      "title": "Drag & Drop",
+      "content": "You can re-order workflows by dragging the move icon (✛) to another position in the list."
+    },
+    "backgroundMode": {
+      "title": "Background Mode",
+      "content": "If you are using workflows on a phone or tablet they may not run in the background. If they stop running they will resume when the app is opened."
+    }
+  },
+  "workflow": {
+    "clickOkayToResume": "Click okay to resume the workflow!",
+    "tapToCancel": "Tap to Cancel",
+    "stepNames": {
+      "fanOn": "Fan On",
+      "fanOnGlobal": "Fan On (Global)",
+      "turningHeatOff": "Turning Heat Off",
+      "heatOn": "Heat On",
+      "heatingTo": "Heating to {{temp}}{{unit}}",
+      "setLedBrightness": "Set LED Brightness to {{brightness}}",
+      "waiting": "Waiting",
+      "waitingAt": "Waiting at {{temp}}{{unit}}",
+      "conditionalHeat": "Conditional Heat",
+      "loopingToStart": "Looping to Start",
+      "checkingExitCondition": "Checking Exit Condition",
+      "processing": "Processing..."
+    }
+  },
+  "deviceInformation": {
+    "title": "Device Information",
+    "clipboardFailed": "Clipboard access failed. Please use Ctrl+V (or Cmd+V on Mac) to paste into the text area.",
+    "pasteStates": {
+      "failed": "❌ Failed",
+      "pasted": "✓ Pasted",
+      "paste": "📋 {{label}}"
+    }
+  },
+  "social": {
+    "connectWithMe": "🌐 Connect With Me",
+    "github": "GitHub",
+    "reddit": "Reddit",
+    "x": "X",
+    "instagram": "Instagram",
+    "cashApp": "Cash App",
+    "patreon": "Patreon"
+  },
+  "accessibility": {
+    "plusOneTemperature": "Plus one temperature",
+    "minusOneTemperature": "Minus one temperature",
+    "decreaseTemperature": "Decrease temperature",
+    "increaseTemperature": "Increase temperature"
+  },
+  "common": {
+    "loading": "Loading",
+    "on": "On",
+    "off": "Off",
+    "cancel": "Cancel",
+    "celsius": "Celsius",
+    "fahrenheit": "Fahrenheit"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize the look of your app"
+    },
+    "behavior": {
+      "title": "App Behavior",
+      "description": "Control how the app behaves and displays information"
+    },
+    "system": {
+      "title": "System",
+      "description": "System settings and app installation"
+    },
+    "volcano": {
+      "title": "Volcano Controls",
+      "description": "Configure your Volcano's settings"
+    },
+    "device": {
+      "title": "Device Information",
+      "description": "View details about your connected Volcano device"
+    },
+    "temperatureControl": {
+      "temperatureRange": "Temperature must be between {{range}}",
+      "invalidTemperature": "Invalid temperature value.",
+      "temperatureIn": "Temperature in {{unit}}",
+      "submit": "Submit"
+    },
+    "items": {
+      "fanVibrationAlert": {
+        "title": "Fan Vibration Alert",
+        "description": "The fan will briefly vibrate when your Volcano reaches the target temperature, letting you know it's ready to use."
+      },
+      "autoStartHeating": {
+        "title": "Auto-Start Heating",
+        "description": "Automatically turn on the heater when you connect to your Volcano device, saving you a step."
+      },
+      "temperatureScale": {
+        "title": "Temperature Scale",
+        "description": "Currently using {{current}}. Switch between Fahrenheit and Celsius.",
+        "changeTo": "Change To: {{scale}}"
+      },
+      "bluetoothFirmware": {
+        "title": "Bluetooth Firmware",
+        "description": "Bluetooth communication module version"
+      },
+      "hoursOfOperation": {
+        "title": "Hours of Operation",
+        "description": "Total operating time of your Volcano device"
+      },
+      "volcanoFirmware": {
+        "title": "Volcano Firmware",
+        "description": "Main device firmware version"
+      },
+      "serialNumber": {
+        "title": "Serial Number",
+        "description": "Unique device identifier"
+      },
+      "highlightLastRunWorkflow": {
+        "title": "Highlight Recent Workflow",
+        "description": "Visually highlight the most recently executed workflow for easy identification."
+      },
+      "ledDisplayBrightness": {
+        "title": "LED Display Brightness",
+        "description": "Adjust the brightness of your Volcano's display"
+      },
+      "autoShutoffTimer": {
+        "title": "Auto Shutoff Timer",
+        "description": "Set how long before your Volcano automatically turns off"
+      },
+      "displayTemperatureWhenCooling": {
+        "title": "Display Temperature When Cooling",
+        "description": "Show temperature information while the device is cooling down"
+      }
+    }
+  },
+  "navigation": {
+    "controls": "Controls",
+    "workflowEditor": "Workflow Editor",
+    "contactMe": "Contact Me",
+    "settings": "Settings",
+    "disconnect": "Disconnect"
+  }
 }

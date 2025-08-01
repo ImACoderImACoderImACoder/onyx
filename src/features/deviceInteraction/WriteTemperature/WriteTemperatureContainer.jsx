@@ -17,10 +17,12 @@ import { useDispatch } from "react-redux";
 import WriteTemperature from "./WriteTemperature";
 import { getDisplayTemperature } from "../../../services/utils";
 import PrideText from "../../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 import store from "../../../store";
 
 export default function WriteTemperatureContainer() {
+  const { t } = useTranslation();
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
   );
@@ -167,7 +169,7 @@ export default function WriteTemperatureContainer() {
   temperatureButtons.unshift(
     <PlusMinusButton
       key="incrementTemperatureButton"
-      aria-label="Plus one temperature"
+      aria-label={t('accessibility.plusOneTemperature')}
       onClick={onClickIncrement(1)}
       buttonText={
         <svg
@@ -192,7 +194,7 @@ export default function WriteTemperatureContainer() {
   temperatureButtons.unshift(
     <PlusMinusButton
       key="decrementTemperatureButton"
-      aria-label="Minus one temperature"
+      aria-label={t('accessibility.minusOneTemperature')}
       onClick={onClickIncrement(-1)}
       buttonText={
         <svg

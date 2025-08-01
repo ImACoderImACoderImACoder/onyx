@@ -12,8 +12,10 @@ import { setLEDbrightness } from "../settingsSlice";
 import { useEffect } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
 import SettingsItem from "../SettingsItem";
+import { useTranslation } from "react-i18next";
 
 export default function AdjustLEDbrightnessContainer() {
+  const { t } = useTranslation();
   const LEDbrightness = useSelector((state) => state.settings.LEDbrightness);
 
   const dispatch = useDispatch();
@@ -44,8 +46,8 @@ export default function AdjustLEDbrightnessContainer() {
 
   return (
     <SettingsItem
-      title="LED Display Brightness"
-      description="Adjust the brightness of your Volcano's LED display. Set to 0 to turn off the display completely."
+      title={t('settings.items.ledDisplayBrightness.title')}
+      description={t('settings.items.ledDisplayBrightness.description')}
     >
       <div>
         Current Level: {LEDbrightness}

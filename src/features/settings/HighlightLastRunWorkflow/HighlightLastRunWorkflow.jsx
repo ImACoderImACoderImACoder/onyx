@@ -8,8 +8,10 @@ import {
   WriteNewConfigToLocalStorage,
 } from "../../../services/utils";
 import { setHighlightLastRunWorkflow } from "../settingsSlice";
+import { useTranslation } from "react-i18next";
 
 export default function HighlightLastRunWorkflow() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const highlightLastRunWorkflow = useSelector(
     (state) => state.settings.config.highlightLastRunWorkflow
@@ -24,12 +26,12 @@ export default function HighlightLastRunWorkflow() {
 
   return (
     <SettingsItem
-      title="Highlight Recent Workflow"
-      description="Visually highlight the most recently executed workflow on the app controls screen."
+      title={t('settings.items.highlightLastRunWorkflow.title')}
+      description={t('settings.items.highlightLastRunWorkflow.description')}
     >
       <StyledToggleSwitch
-        onText="On"
-        offText={<PrideTextWithDiv text="Off" />}
+        onText={t('common.on')}
+        offText={<PrideTextWithDiv text={t('common.off')} />}
         isToggleOn={highlightLastRunWorkflow}
         onChange={onChange}
       />

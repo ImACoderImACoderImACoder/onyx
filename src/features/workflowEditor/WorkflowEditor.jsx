@@ -16,6 +16,7 @@ import WorkflowTips from "./WorkflowTips";
 import PrideText from "../../themes/PrideText";
 import Container from "react-bootstrap/Container";
 import CreatePremadeWorkflowButtonContainer from "./CreatePremadeWorkflowButtonContainer";
+import { useTranslation } from "react-i18next";
 
 const StyledAccordionBody = styled(Accordion.Body)`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -335,6 +336,7 @@ const WorkflowDescription = styled.p`
 `;
 
 export default function WorkflowEditor() {
+  const { t } = useTranslation();
   const [currentAccordionId, setCurrentAccordionId] = useState("0");
 
   const workflows = useSelector(
@@ -413,12 +415,10 @@ export default function WorkflowEditor() {
     <Div>
       <WorkflowHeaderContainer>
         <h1>
-          <PrideText text="🔥 Workflow Editor" />
+          <PrideText text={t("workflowEditor.title")} />
         </h1>
         <WorkflowDescription>
-          Create, customize, and manage your vaporizer workflows. Build precise
-          temperature routines, timing sequences, and fan controls for the
-          perfect vaping experience.
+          {t("workflowEditor.description")}
         </WorkflowDescription>
       </WorkflowHeaderContainer>
 
@@ -429,11 +429,10 @@ export default function WorkflowEditor() {
       <WorkflowCreationSection>
         <WorkflowCreationHeader>
           <h2>
-            <PrideText text="➕ Create New Workflows" />
+            <PrideText text={t("workflowEditor.createNewTitle")} />
           </h2>
           <WorkflowCreationDescription>
-            Start building your vaporizer routines by creating custom workflows
-            or choosing from our premade templates.
+            {t("workflowEditor.createNewDescription")}
           </WorkflowCreationDescription>
         </WorkflowCreationHeader>
         <WorkflowCreationButtonsContainer>
@@ -441,12 +440,11 @@ export default function WorkflowEditor() {
             <WorkflowCreationCardHeader>
               <WorkflowCreationCardIcon>🎨</WorkflowCreationCardIcon>
               <WorkflowCreationCardTitle>
-                Custom Workflow
+                {t("workflowEditor.customWorkflowTitle")}
               </WorkflowCreationCardTitle>
             </WorkflowCreationCardHeader>
             <WorkflowCreationCardDescription>
-              Build a workflow from scratch with your preferred temperature
-              settings and timing.
+              {t("workflowEditor.customWorkflowDescription")}
             </WorkflowCreationCardDescription>
             <CreateWorkflowButton onClick={onCreateWorkflow} />
           </WorkflowCreationCard>
@@ -454,12 +452,11 @@ export default function WorkflowEditor() {
             <WorkflowCreationCardHeader>
               <WorkflowCreationCardIcon>📋</WorkflowCreationCardIcon>
               <WorkflowCreationCardTitle>
-                Workflow Templates
+                {t("workflowEditor.templatesTitle")}
               </WorkflowCreationCardTitle>
             </WorkflowCreationCardHeader>
             <WorkflowCreationCardDescription>
-              Quick start with expertly crafted workflows designed for different
-              vaping styles.
+              {t("workflowEditor.templatesDescription")}
             </WorkflowCreationCardDescription>
             <CreatePremadeWorkflowButtonContainer />
           </WorkflowCreationCard>
@@ -472,33 +469,30 @@ export default function WorkflowEditor() {
       <ConfigEditorSection>
         <ConfigEditorHeader>
           <h2>
-            <PrideText text="⚙️ Config Editor" />
+            <PrideText text={t("workflowEditor.configEditorTitle")} />
           </h2>
           <ConfigDescription>
-            Backup and manage your workflow configurations. Export your
-            workflows as JSON to save them, or import configurations from others
-            to expand your collection.
+            {t("workflowEditor.configEditorDescription")}
           </ConfigDescription>
         </ConfigEditorHeader>
         <ConfigButtonsContainer>
           <ConfigCard>
             <ConfigCardHeader>
               <ConfigCardIcon>📤</ConfigCardIcon>
-              <ConfigCardTitle>Export & Edit</ConfigCardTitle>
+              <ConfigCardTitle>{t("workflowEditor.exportTitle")}</ConfigCardTitle>
             </ConfigCardHeader>
             <ConfigCardDescription>
-              View and modify your current workflow configuration, or export it
-              for backup.
+              {t("workflowEditor.exportDescription")}
             </ConfigCardDescription>
             <WorkflowConfigEdtior />
           </ConfigCard>
           <ConfigCard>
             <ConfigCardHeader>
               <ConfigCardIcon>📥</ConfigCardIcon>
-              <ConfigCardTitle>Import Workflows</ConfigCardTitle>
+              <ConfigCardTitle>{t("workflowEditor.importTitle")}</ConfigCardTitle>
             </ConfigCardHeader>
             <ConfigCardDescription>
-              Add new workflows from JSON configuration files shared by others.
+              {t("workflowEditor.importDescription")}
             </ConfigCardDescription>
             <AppendWorkflowConfigJson />
           </ConfigCard>

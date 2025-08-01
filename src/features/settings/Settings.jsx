@@ -14,28 +14,30 @@ import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRu
 import PWAInstall, { usePWAInstallAvailable } from "./InstallPWA/PWAInstall";
 import SettingsSection from "./SettingsSection";
 import DeviceInformation from "../deviceInformation/DeviceInformation";
+import { useTranslation } from "react-i18next";
 
 export default function Settings() {
+  const { t } = useTranslation();
   const isPWAAvailable = usePWAInstallAvailable();
   return (
     <Div>
       <h1>
-        <PrideText text="Settings" />
+        <PrideText text={t("settings.title")} />
       </h1>
 
       <SettingsSection
-        title="Appearance"
+        title={t("settings.appearance.title")}
         icon="🎨"
-        description="Customize the look of your app"
+        description={t("settings.appearance.description")}
         defaultExpanded={true}
       >
         <ThemesContainer />
       </SettingsSection>
 
       <SettingsSection
-        title="App Behavior"
+        title={t("settings.behavior.title")}
         icon="⚙️"
-        description="Control how the app behaves and displays information"
+        description={t("settings.behavior.description")}
       >
         <TurnHeatOnWhenConnectionIsEstablished />
         <HighlightLastRunWorkflow />
@@ -44,18 +46,18 @@ export default function Settings() {
 
       {isPWAAvailable && (
         <SettingsSection
-          title="System"
+          title={t("settings.system.title")}
           icon="📱"
-          description="System settings and app installation"
+          description={t("settings.system.description")}
         >
           <PWAInstall />
         </SettingsSection>
       )}
 
       <SettingsSection
-        title="Volcano Controls"
+        title={t("settings.volcano.title")}
         icon="🌋"
-        description="Configure your Volcano's settings"
+        description={t("settings.volcano.description")}
         defaultExpanded={false}
       >
         <AdjustAutoShutoffTimeContainer />
@@ -67,9 +69,9 @@ export default function Settings() {
         </FOrCLoader>
       </SettingsSection>
       <SettingsSection
-        title="Device Information"
+        title={t("settings.device.title")}
         icon="📋"
-        description="View details about your connected Volcano device"
+        description={t("settings.device.description")}
         defaultExpanded={false}
       >
         <DeviceInformation />

@@ -22,7 +22,9 @@
       "Bash(TASKKILL /F /IM node.exe)",
       "Bash(git checkout:*)",
       "Bash(npm run build:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run lint)"
     ],
     "deny": []
   }

@@ -1,13 +1,16 @@
 import proptypes from "prop-types";
 import DeviceInfoCard from "../DeviceInfoCard";
+import { useTranslation } from "react-i18next";
 
 function BleFirmwareVersion(props) {
+  const { t } = useTranslation();
+
   return (
     <DeviceInfoCard
       icon="📡"
-      title="Bluetooth Firmware"
+      title={t('settings.items.bluetoothFirmware.title')}
       value={props.bleFirmwareVersion}
-      description="Bluetooth communication module version"
+      description={t('settings.items.bluetoothFirmware.description')}
     />
   );
 }
