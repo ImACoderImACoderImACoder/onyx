@@ -14,6 +14,7 @@ import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRu
 import PWAInstall, { usePWAInstallAvailable } from "./InstallPWA/PWAInstall";
 import SettingsSection from "./SettingsSection";
 import DeviceInformation from "../deviceInformation/DeviceInformation";
+import LanguageSelector from "./LanguageSelector/LanguageSelector";
 import { useTranslation } from "react-i18next";
 
 export default function Settings() {
@@ -39,6 +40,7 @@ export default function Settings() {
         icon="⚙️"
         description={t("settings.behavior.description")}
       >
+        <LanguageSelector />
         <TurnHeatOnWhenConnectionIsEstablished />
         <HighlightLastRunWorkflow />
         <TemperatureControlSettings />

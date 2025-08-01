@@ -211,6 +211,14 @@
       "title": "App Behavior",
       "description": "Control how the app behaves and displays information"
     },
+    "language": {
+      "title": "Language",
+      "description": "Select your preferred language for the application",
+      "default": "Default (Browser Language)",
+      "english": "English",
+      "french": "Français",
+      "spanish": "Español"
+    },
     "system": {
       "title": "System",
       "description": "System settings and app installation",

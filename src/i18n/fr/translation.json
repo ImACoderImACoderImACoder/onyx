@@ -184,6 +184,14 @@
       "title": "Comportement de l'App",
       "description": "Contrôlez comment l'app se comporte et affiche les informations"
     },
+    "language": {
+      "title": "Langue",
+      "description": "Sélectionnez votre langue préférée pour l'application",
+      "default": "Par Défaut (Langue du Navigateur)",
+      "english": "English",
+      "french": "Français",
+      "spanish": "Español"
+    },
     "system": {
       "title": "Système",
       "description": "Paramètres système et installation de l'app",
