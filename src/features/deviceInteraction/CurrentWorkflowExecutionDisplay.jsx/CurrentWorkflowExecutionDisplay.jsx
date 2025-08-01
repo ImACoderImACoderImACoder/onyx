@@ -216,6 +216,7 @@ const LoopIndicator = styled.span`
 const CircularProgress = styled.div`
   width: 50px;
   position: relative;
+  margin-top: 10px;
 
   .circular-chart {
     display: block;
@@ -602,7 +603,7 @@ export default function CurrentWorkflowExecutionDisplay() {
 
           setTooltipPosition({
             top: `${rect.bottom + 8}px`,
-            left: `${rect.left + rect.width / 2}px`,
+            left: `${rect.left + rect.width / 2 + 5}px`,
             arrowLeft: "50%",
             transform: "translateX(-50%)",
           });
@@ -653,7 +654,7 @@ export default function CurrentWorkflowExecutionDisplay() {
 
         setTooltipPosition({
           top: `${rect.bottom + 8}px`,
-          left: `${rect.left + rect.width / 2}px`,
+          left: `${rect.left + rect.width / 2 + 5}px`,
           arrowLeft: "50%",
           transform: "translateX(-50%)",
         });
@@ -684,7 +685,7 @@ export default function CurrentWorkflowExecutionDisplay() {
 
       setTooltipPosition({
         top: `${rect.bottom + 8}px`,
-        left: `${rect.left + rect.width / 2}px`,
+        left: `${rect.left + rect.width / 2 + 5}px`,
         arrowLeft: "50%",
         transform: "translateX(-50%)",
       });
