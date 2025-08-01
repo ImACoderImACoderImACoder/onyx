@@ -50,7 +50,7 @@ export default function AdjustLEDbrightnessContainer() {
       description={t('settings.items.ledDisplayBrightness.description')}
     >
       <div>
-        Current Level: {LEDbrightness}
+        {t('settings.items.ledDisplayBrightness.currentLevel')} {LEDbrightness}
         <SettingsRange
           values={[LEDbrightness || 0]}
           step={10}

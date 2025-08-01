@@ -185,8 +185,7 @@ export default function LoadingConnection() {
         </LoadingTitle>
 
         <LoadingDescription>
-          Establishing secure Bluetooth connection with your Volcano Hybrid.
-          This may take a few moments...
+          {t("connection.establishingConnection")}
         </LoadingDescription>
 
         <StatusIndicator>
@@ -198,11 +197,11 @@ export default function LoadingConnection() {
         <ConnectionSteps>
           <StepItem>
             <StepIcon>🔒</StepIcon>
-            Establishing secure connection
+            {t("connection.securingConnection")}
           </StepItem>
           <StepItem>
             <StepIcon>📡</StepIcon>
-            Scanning for Volcano device characteristics
+            {t("connection.scanningDevice")}
           </StepItem>
           <StepItem>
             <StepIcon>⚡</StepIcon>

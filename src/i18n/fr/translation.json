@@ -27,6 +27,7 @@
   "contact": {
     "title": "💬 Envoyez-moi un message",
     "description": "C'est toujours agréable d'avoir des nouvelles des utilisateurs ! Que vous ayez une demande de fonctionnalité, des commentaires, ou que vous vouliez simplement dire bonjour, je lis chaque message. Incluez vos informations de contact si vous souhaitez une réponse - je réponds à chaque message qui les inclut.",
+    "getInTouch": "Prenez contact ! Que vous ayez des demandes de fonctionnalités, des commentaires, ou que vous vouliez simplement dire bonjour, j'aimerais avoir de vos nouvelles. Connectez-vous via les réseaux sociaux ou envoyez un message direct.",
     "contactInfoLabel": "Informations de contact",
     "contactInfoPlaceholder": "Votre email, Discord, etc.",
     "messageLabel": "Message",
@@ -55,7 +56,65 @@
     "exportTitle": "Exporter et Modifier",
     "exportDescription": "Visualisez et modifiez votre configuration de workflow actuelle, ou exportez-la pour sauvegarde.",
     "importTitle": "Importer des Workflows",
-    "importDescription": "Ajoutez de nouveaux workflows à partir de fichiers de configuration JSON partagés par d'autres."
+    "importDescription": "Ajoutez de nouveaux workflows à partir de fichiers de configuration JSON partagés par d'autres.",
+    "editCopyWorkflowJSON": "Modifier/Copier JSON du Workflow",
+    "appendWorkflowJSON": "Ajouter JSON du Workflow",
+    "exportAndEditConfiguration": "📤 Exporter et Modifier la Configuration du Workflow",
+    "copyConfigIcon": "📋",
+    "currentConfiguration": "Configuration Actuelle",
+    "currentConfigDescription": "Votre configuration de workflow actuelle est affichée ci-dessous. Vous pouvez la copier pour sauvegarde ou la modifier directement.",
+    "copyConfiguration": "📋 Copier la Configuration",
+    "editIcon": "✏️",
+    "editConfiguration": "Modifier la Configuration",
+    "editConfigTip": "💡 Astuce : Utilisez \"[]\" pour créer une configuration vide, ou collez un JSON de workflow valide ci-dessous",
+    "close": "Fermer",
+    "saveChanges": "Enregistrer les modifications",
+    "importAdditionalWorkflows": "📥 Importer des Workflows Additionnels",
+    "aboutImportIcon": "ℹ️",
+    "aboutImport": "À propos de l'Import",
+    "aboutImportDescription": "Importez des workflows à partir de fichiers de configuration JSON partagés par d'autres. Ils seront ajoutés à vos workflows existants sans les remplacer.",
+    "pasteConfigIcon": "📝",
+    "pasteConfiguration": "Coller la Configuration",
+    "pasteConfigTip": "💡 Collez la configuration JSON du workflow ci-dessous. Tous les workflows seront ajoutés à votre collection actuelle.",
+    "actionName": "Action {{index}}",
+    "actionType": "Type d'Action",
+    "actionTypes": {
+      "heatOn": "🔥 Chauffage Activé",
+      "fanOn": "🌪️ Ventilateur Activé",
+      "fanOnGlobal": "🌍 Ventilateur Global Activé",
+      "pauseWait": "⏸️ Pause/Attente",
+      "heatOff": "❄️ Chauffage Désactivé",
+      "setLedBrightness": "💡 Définir Luminosité LED",
+      "exitWhenTargetTemp": "🙪 Sortir à la Température Cible",
+      "conditionalTempSet": "🎯 Définition Température Conditionnelle",
+      "startWorkflowFromBeginning": "🔄 Redémarrer Workflow"
+    },
+    "payloadLabels": {
+      "seconds": "Secondes",
+      "brightness": "Luminosité (0-100)",
+      "exitWorkflowUntilTemp": "Sortir du workflow jusqu'à ce que la température cible soit"
+    },
+    "conditionalHeat": {
+      "defaultSettings": "Paramètres par Défaut",
+      "defaultTemp": "Température par Défaut",
+      "defaultWait": "Attente par Défaut",
+      "optional": "Optionnel",
+      "heatConditions": "Conditions de Chauffage",
+      "ifTemp": "Si Température",
+      "thenSet": "Alors Définir",
+      "wait": "Attendre",
+      "optionalShort": "(opt)",
+      "deleteCondition": "Supprimer condition {{index}}",
+      "addCondition": "Ajouter Condition",
+      "deleteConditionTitle": "Supprimer Condition",
+      "deleteConditionConfirm": "Êtes-vous sûr de vouloir supprimer cette condition ? Cette action ne peut pas être annulée",
+      "delete": "Supprimer"
+    },
+    "validation": {
+      "mustBeValidNumber": "Doit être un nombre valide",
+      "temperatureRange": "Doit être entre {{min}}{{unit}} et {{max}}{{unit}}",
+      "mustBeGreaterOrEqualZero": "Doit être >= 0"
+    }
   },
   "workflowTips": {
     "title": "💡 Conseils et Astuces de Workflow",
@@ -107,7 +166,50 @@
     "celsius": "Celsius",
     "fahrenheit": "Fahrenheit"
   },
+  "deviceControls": {
+    "heatOn": "Chauffage Activé",
+    "heatOff": "Chauffage Désactivé",
+    "fanOn": "Ventilateur Activé",
+    "fanOff": "Ventilateur Désactivé"
+  },
   "settings": {
+    "title": "Paramètres",
+    "appearance": {
+      "title": "Apparence",
+      "description": "Personnalisez l'apparence de votre application",
+      "selectTheme": "Sélectionner un Thème",
+      "themeBy": "Thème par :"
+    },
+    "behavior": {
+      "title": "Comportement de l'App",
+      "description": "Contrôlez comment l'app se comporte et affiche les informations"
+    },
+    "system": {
+      "title": "Système",
+      "description": "Paramètres système et installation de l'app",
+      "installPWA": "Installer l'App PWA sur l'Appareil",
+      "installApp": "📱 Installer l'App",
+      "restoreDefaults": "Restaurer les paramètres par défaut"
+    },
+    "volcano": {
+      "title": "Contrôles Volcano",
+      "description": "Configurez les paramètres de votre Volcano"
+    },
+    "device": {
+      "title": "Informations sur l'Appareil",
+      "description": "Visualisez les détails de votre appareil Volcano connecté"
+    },
+    "temperatureControl": {
+      "temperatureRange": "La température doit être entre {{range}}",
+      "invalidTemperature": "Valeur de température invalide.",
+      "temperatureIn": "Température en {{unit}}",
+      "submit": "Soumettre",
+      "addTemperatureControls": "Ajouter des Contrôles de Température",
+      "restoreDefaults": "Restaurer les Paramètres par Défaut",
+      "restoreDefaultTemperatures": "Restaurer les Températures par Défaut",
+      "restoreDefaultsConfirm": "Êtes-vous sûr de vouloir restaurer les paramètres par défaut ? Cette action ne peut pas être annulée",
+      "saveChanges": "Enregistrer les Modifications"
+    },
     "items": {
       "fanVibrationAlert": {
         "title": "Alerte de vibration du ventilateur",
@@ -144,7 +246,8 @@
       },
       "ledDisplayBrightness": {
         "title": "Luminosité de l'écran LED",
-        "description": "Ajuster la luminosité de l'écran de votre Volcano"
+        "description": "Ajuster la luminosité de l'écran de votre Volcano",
+        "currentLevel": "Niveau Actuel :"
       },
       "autoShutoffTimer": {
         "title": "Minuterie d'arrêt automatique",
@@ -153,13 +256,6 @@
       "displayTemperatureWhenCooling": {
         "title": "Afficher la température lors du refroidissement",
         "description": "Afficher les informations de température pendant que l'appareil se refroidit"
-      },
-      "temperatureControl": {
-        "temperatureRange": "La température doit être entre {{range}}",
-        "invalidTemperature": "Valeur de température invalide.",
-        "temperatureIn": "Température en {{unit}}",
-        "submit": "Soumettre",
-        "addTemperatureControls": "Ajouter des contrôles de température"
       }
     }
   },
@@ -176,7 +272,10 @@
   },
   "connection": {
     "connecting": "🔗 Connexion au Volcano",
-    "initializing": "Initialisation de la communication avec l'appareil"
+    "initializing": "Initialisation de la communication avec l'appareil",
+    "establishingConnection": "Établissement d'une connexion Bluetooth sécurisée avec votre Volcano Hybrid. Cela peut prendre quelques instants...",
+    "securingConnection": "Établissement d'une connexion sécurisée",
+    "scanningDevice": "Recherche des caractéristiques de l'appareil Volcano"
   },
   "workflowButtons": {
     "createNewWorkflow": "➕ Créer un nouveau Workflow",
@@ -184,6 +283,8 @@
     "addWorkflows": "Ajouter des Workflows"
   },
   "workflow": {
+    "clickOkayToResume": "Cliquez sur OK pour reprendre le workflow !",
+    "tapToCancel": "Appuyez pour Annuler",
     "stepNames": {
       "fanOn": "Ventilateur activé",
       "fanOnGlobal": "Ventilateur activé (Global)",
@@ -200,6 +301,12 @@
     }
   },
   "deviceInformation": {
-    "title": "Informations sur l'appareil"
+    "title": "Informations sur l'appareil",
+    "clipboardFailed": "L'accès au presse-papiers a échoué. Veuillez utiliser Ctrl+V (ou Cmd+V sur Mac) pour coller dans la zone de texte.",
+    "pasteStates": {
+      "failed": "❌ Échoué",
+      "pasted": "✓ Collé",
+      "paste": "📋 {{label}}"
+    }
   }
 }

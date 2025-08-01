@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { WriteNewConfigToLocalStorage } from "../../../services/utils";
 import { setTemperatureControls } from "../settingsSlice";
 import { defaultTemperatureArray } from "../../../constants/constants";
@@ -7,6 +8,7 @@ import ModalWrapper from "../../shared/styledComponents/Modal";
 import Button from "../../shared/styledComponents/Button";
 
 export default function RestoreDefaultTemperature() {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const config = useSelector((state) => state.settings.config);
   const handleClose = () => setShow(false);
@@ -29,11 +31,11 @@ export default function RestoreDefaultTemperature() {
   };
   return (
     <>
-      <Button onClick={handleShow}>Restore Defaults</Button>
+      <Button onClick={handleShow}>{t("settings.temperatureControl.restoreDefaults")}</Button>
       <ModalWrapper
-        headerText="Restore Default Temperatures"
-        bodyText="Are you sure you want to restore defaults? This action cannot be undone"
-        confirmButtonText="Save Changes"
+        headerText={t("settings.temperatureControl.restoreDefaultTemperatures")}
+        bodyText={t("settings.temperatureControl.restoreDefaultsConfirm")}
+        confirmButtonText={t("settings.temperatureControl.saveChanges")}
         handleClose={handleClose}
         handleConfirm={handleSave}
         show={show}

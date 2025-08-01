@@ -27,6 +27,7 @@
   "contact": {
     "title": "💬 Send Me a Message",
     "description": "It's always nice to hear from users! Whether you have a feature request, feedback, or just want to say hi, I read every message. Include your contact information if you'd like a response - I reply to every message that includes it.",
+    "getInTouch": "Get in touch! Whether you have feature requests, feedback, or just want to say hello, I'd love to hear from you. Connect through social media or send a direct message.",
     "contactInfoLabel": "Contact Info",
     "contactInfoPlaceholder": "Your email, Discord, etc.",
     "messageLabel": "Message",
@@ -56,6 +57,25 @@
     "exportDescription": "View and modify your current workflow configuration, or export it for backup.",
     "importTitle": "Import Workflows",
     "importDescription": "Add new workflows from JSON configuration files shared by others.",
+    "editCopyWorkflowJSON": "Edit/Copy Workflow JSON",
+    "appendWorkflowJSON": "Append Workflow JSON",
+    "exportAndEditConfiguration": "📤 Export & Edit Workflow Configuration",
+    "copyConfigIcon": "📋",
+    "currentConfiguration": "Current Configuration",
+    "currentConfigDescription": "Your current workflow configuration is displayed below. You can copy it for backup or modify it directly.",
+    "copyConfiguration": "📋 Copy Configuration",
+    "editIcon": "✏️",
+    "editConfiguration": "Edit Configuration",
+    "editConfigTip": "💡 Tip: Use \"[]\" to create an empty configuration, or paste a valid workflow JSON below",
+    "close": "Close",
+    "saveChanges": "Save Changes",
+    "importAdditionalWorkflows": "📥 Import Additional Workflows",
+    "aboutImportIcon": "ℹ️",
+    "aboutImport": "About Import",
+    "aboutImportDescription": "Import workflows from JSON configuration files shared by others. These will be added to your existing workflows without replacing them.",
+    "pasteConfigIcon": "📝",
+    "pasteConfiguration": "Paste Configuration",
+    "pasteConfigTip": "💡 Paste the workflow JSON configuration below. All workflows will be added to your current collection.",
     "actionName": "Action {{index}}",
     "actionType": "Action Type",
     "actionTypes": {
@@ -94,35 +114,6 @@
       "mustBeValidNumber": "Must be a valid number",
       "temperatureRange": "Must be between {{min}}{{unit}} and {{max}}{{unit}}",
       "mustBeGreaterOrEqualZero": "Must be >= 0"
-    }
-  },
-  "settings": {
-    "title": "Settings",
-    "appearance": {
-      "title": "Appearance",
-      "description": "Customize the look of your app"
-    },
-    "behavior": {
-      "title": "App Behavior",
-      "description": "Control how the app behaves and displays information"
-    },
-    "system": {
-      "title": "System",
-      "description": "System settings and app installation"
-    },
-    "volcano": {
-      "title": "Volcano Controls",
-      "description": "Configure your Volcano's settings"
-    },
-    "device": {
-      "title": "Device Information",
-      "description": "View details about your connected Volcano device"
-    },
-    "temperatureControl": {
-      "temperatureRange": "Temperature must be between {{range}}",
-      "invalidTemperature": "Invalid temperature value.",
-      "temperatureIn": "Temperature in {{unit}}",
-      "submit": "Submit"
     }
   },
   "workflowTips": {
@@ -202,11 +193,19 @@
     "celsius": "Celsius",
     "fahrenheit": "Fahrenheit"
   },
+  "deviceControls": {
+    "heatOn": "Heat On",
+    "heatOff": "Heat Off",
+    "fanOn": "Fan On",
+    "fanOff": "Fan Off"
+  },
   "settings": {
     "title": "Settings",
     "appearance": {
       "title": "Appearance",
-      "description": "Customize the look of your app"
+      "description": "Customize the look of your app",
+      "selectTheme": "Select a Theme",
+      "themeBy": "Theme by:"
     },
     "behavior": {
       "title": "App Behavior",
@@ -214,7 +213,10 @@
     },
     "system": {
       "title": "System",
-      "description": "System settings and app installation"
+      "description": "System settings and app installation",
+      "installPWA": "Install PWA App to Device",
+      "installApp": "📱 Install App",
+      "restoreDefaults": "Restore defaults"
     },
     "volcano": {
       "title": "Volcano Controls",
@@ -229,7 +231,11 @@
       "invalidTemperature": "Invalid temperature value.",
       "temperatureIn": "Temperature in {{unit}}",
       "submit": "Submit",
-      "addTemperatureControls": "Add Temperature Controls"
+      "addTemperatureControls": "Add Temperature Controls",
+      "restoreDefaults": "Restore Defaults",
+      "restoreDefaultTemperatures": "Restore Default Temperatures",
+      "restoreDefaultsConfirm": "Are you sure you want to restore defaults? This action cannot be undone",
+      "saveChanges": "Save Changes"
     },
     "items": {
       "fanVibrationAlert": {
@@ -267,7 +273,8 @@
       },
       "ledDisplayBrightness": {
         "title": "LED Display Brightness",
-        "description": "Adjust the brightness of your Volcano's display"
+        "description": "Adjust the brightness of your Volcano's display",
+        "currentLevel": "Current Level:"
       },
       "autoShutoffTimer": {
         "title": "Auto Shutoff Timer",
@@ -292,7 +299,10 @@
   },
   "connection": {
     "connecting": "🔗 Connecting to Volcano",
-    "initializing": "Initializing device communication"
+    "initializing": "Initializing device communication",
+    "establishingConnection": "Establishing secure Bluetooth connection with your Volcano Hybrid. This may take a few moments...",
+    "securingConnection": "Establishing secure connection",
+    "scanningDevice": "Scanning for Volcano device characteristics"
   },
   "workflowButtons": {
     "createNewWorkflow": "➕ Create New Workflow",
