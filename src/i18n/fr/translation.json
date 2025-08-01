@@ -291,6 +291,15 @@
     "createPremadeWorkflows": "➕ Créer des Workflows prédéfinis",
     "addWorkflows": "Ajouter des Workflows"
   },
+  "workflowExecution": {
+    "currentTemp": "Temp. Actuelle :",
+    "targetTemp": "Temp. Cible :",
+    "timeRemaining": "Temps Restant :",
+    "elapsedTime": "Temps Écoulé :",
+    "errorLoadingWorkflow": "Erreur lors du chargement des détails du workflow",
+    "loopMode": "Mode Boucle",
+    "loopModeActive": "Mode Boucle Actif"
+  },
   "workflow": {
     "clickOkayToResume": "Cliquez sur OK pour reprendre le workflow !",
     "tapToCancel": "Appuyez pour Annuler",

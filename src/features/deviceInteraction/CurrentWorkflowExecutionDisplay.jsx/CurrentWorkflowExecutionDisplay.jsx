@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled, { keyframes, useTheme } from "styled-components";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 
 const slideDown = keyframes`
   from {
@@ -261,6 +262,7 @@ const MinimizedContent = styled.div`
 `;
 
 export default function CurrentWorkflowExecutionDisplay() {
+  const { t } = useTranslation();
   const executingWorkflow = useSelector((state) => state.workflow);
   const targetTemperature = useSelector(
     (state) => state.deviceInteraction.targetTemperature
@@ -321,37 +323,38 @@ export default function CurrentWorkflowExecutionDisplay() {
     );
     switch (stepType) {
       case WorkflowItemTypes.FAN_ON:
-        stepDisplayName = "Fan on";
+        stepDisplayName = t("workflow.stepNames.fanOn");
         break;
       case WorkflowItemTypes.FAN_ON_GLOBAL:
-        stepDisplayName = "Fan on global";
+        stepDisplayName = t("workflow.stepNames.fanOnGlobal");
         break;
       case WorkflowItemTypes.HEAT_OFF:
-        stepDisplayName = "Turning heat Off";
+        stepDisplayName = t("workflow.stepNames.turningHeatOff");
         break;
 
       case WorkflowItemTypes.HEAT_ON:
         if (payload > 0) {
-          stepDisplayName = `Heating to ${
-            isF
-              ? `${convertToFahrenheitFromCelsius(payload)}${DEGREE_SYMBOL}F`
-              : `${payload}${DEGREE_SYMBOL}C`
-          }`;
+          stepDisplayName = t("workflow.stepNames.heatingTo", {
+            temp: isF
+              ? convertToFahrenheitFromCelsius(payload)
+              : payload,
+            unit: isF ? "°F" : "°C"
+          });
         } else {
-          stepDisplayName = "Heat On";
+          stepDisplayName = t("workflow.stepNames.heatOn");
         }
         break;
       case WorkflowItemTypes.SET_LED_BRIGHTNESS:
-        stepDisplayName = `Set LED Brightness to ${payload}`;
+        stepDisplayName = t("workflow.stepNames.setLedBrightness", { brightness: payload });
         break;
       case WorkflowItemTypes.WAIT:
-        stepDisplayName = `Wait`;
+        stepDisplayName = t("workflow.stepNames.waiting");
         break;
       case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS:
-        stepDisplayName = "Check exit condition";
+        stepDisplayName = t("workflow.stepNames.checkingExitCondition");
         break;
       case WorkflowItemTypes.LOOP_FROM_BEGINNING:
-        stepDisplayName = "Loop";
+        stepDisplayName = t("workflow.stepNames.loopingToStart");
         break;
       case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
         const heatStep = payload.conditions.find(
@@ -373,9 +376,15 @@ export default function CurrentWorkflowExecutionDisplay() {
           const targetTempC = heatStep.nextTemp;
 
           if (currentTempC >= targetTempC && heatStep.wait > 0) {
-            stepDisplayName = `Waiting at ${nextHeat}°${isF ? "F" : "C"}`;
+            stepDisplayName = t("workflow.stepNames.waitingAt", {
+              temp: nextHeat,
+              unit: isF ? "°F" : "°C"
+            });
           } else {
-            stepDisplayName = `Heating to ${nextHeat}°${isF ? "F" : "C"}`;
+            stepDisplayName = t("workflow.stepNames.heatingTo", {
+              temp: nextHeat,
+              unit: isF ? "°F" : "°C"
+            });
           }
         } else {
           const defaultTemp = isF
@@ -389,9 +398,15 @@ export default function CurrentWorkflowExecutionDisplay() {
           const targetTempC = payload.default.temp;
 
           if (currentTempC >= targetTempC && payload.default.wait > 0) {
-            stepDisplayName = `Waiting at ${defaultTemp}°${isF ? "F" : "C"}`;
+            stepDisplayName = t("workflow.stepNames.waitingAt", {
+              temp: defaultTemp,
+              unit: isF ? "°F" : "°C"
+            });
           } else {
-            stepDisplayName = `Heating to ${defaultTemp}`;
+            stepDisplayName = t("workflow.stepNames.heatingTo", {
+              temp: defaultTemp,
+              unit: isF ? "°F" : "°C"
+            });
           }
         }
 
@@ -794,7 +809,7 @@ export default function CurrentWorkflowExecutionDisplay() {
               <PrideText text={stepDisplayName} />
               {hasLoop && (
                 <LoopIndicator>
-                  Loop Mode
+                  {t("workflowExecution.loopMode")}
                   <svg
                     width="14"
                     height="14"
@@ -811,7 +826,7 @@ export default function CurrentWorkflowExecutionDisplay() {
             <ExpandedDetails isExpanded={true}>
               <DetailRow>
                 <DetailLabel>
-                  <PrideText text="Current Temp:" />
+                  <PrideText text={t("workflowExecution.currentTemp")} />
                 </DetailLabel>
                 <DetailValue>
                   <span
@@ -833,7 +848,7 @@ export default function CurrentWorkflowExecutionDisplay() {
 
               <DetailRow>
                 <DetailLabel>
-                  <PrideText text="Target Temp:" />
+                  <PrideText text={t("workflowExecution.targetTemp")} />
                 </DetailLabel>
                 <DetailValue>
                   <span
@@ -858,8 +873,8 @@ export default function CurrentWorkflowExecutionDisplay() {
                   <PrideText
                     text={
                       showTimer && expectedTime !== "N/A"
-                        ? "Time Remaining:"
-                        : "Elapsed Time:"
+                        ? t("workflowExecution.timeRemaining")
+                        : t("workflowExecution.elapsedTime")
                     }
                   />
                 </DetailLabel>
@@ -1023,7 +1038,7 @@ export default function CurrentWorkflowExecutionDisplay() {
                     cancelCurrentWorkflow();
                   }}
                 >
-                  <PrideText text="Cancel" />
+                  <PrideText text={t("common.cancel")} />
                 </MiniButton>
               </WidgetActions>
             </ExpandedDetails>

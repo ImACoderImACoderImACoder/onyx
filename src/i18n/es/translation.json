@@ -317,5 +317,14 @@
     "createNewWorkflow": "➕ Crear Nuevo Flujo de Trabajo",
     "createPremadeWorkflows": "➕ Crear Flujos de Trabajo Prediseñados",
     "addWorkflows": "Agregar Flujos de Trabajo"
+  },
+  "workflowExecution": {
+    "currentTemp": "Temp. Actual:",
+    "targetTemp": "Temp. Objetivo:",
+    "timeRemaining": "Tiempo Restante:",
+    "elapsedTime": "Tiempo Transcurrido:",
+    "errorLoadingWorkflow": "Error al cargar los detalles del flujo de trabajo",
+    "loopMode": "Modo Bucle",
+    "loopModeActive": "Modo Bucle Activo"
   }
 }

@@ -317,5 +317,14 @@
     "createNewWorkflow": "➕ Create New Workflow",
     "createPremadeWorkflows": "➕ Create Premade Workflows",
     "addWorkflows": "Add Workflows"
+  },
+  "workflowExecution": {
+    "currentTemp": "Current Temp:",
+    "targetTemp": "Target Temp:",
+    "timeRemaining": "Time Remaining:",
+    "elapsedTime": "Elapsed Time:",
+    "errorLoadingWorkflow": "Error loading workflow details",
+    "loopMode": "Loop Mode",
+    "loopModeActive": "Loop Mode Active"
   }
 }

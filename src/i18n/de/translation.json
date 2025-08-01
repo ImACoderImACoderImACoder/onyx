@@ -317,5 +317,14 @@
     "createNewWorkflow": "➕ Neuen Arbeitsablauf erstellen",
     "createPremadeWorkflows": "➕ Vorgefertigte Arbeitsabläufe erstellen",
     "addWorkflows": "Arbeitsabläufe hinzufügen"
+  },
+  "workflowExecution": {
+    "currentTemp": "Aktuelle Temp:",
+    "targetTemp": "Zieltemperatur:",
+    "timeRemaining": "Verbleibende Zeit:",
+    "elapsedTime": "Verstrichene Zeit:",
+    "errorLoadingWorkflow": "Fehler beim Laden der Arbeitsablaufdetails",
+    "loopMode": "Schleifenmodus",
+    "loopModeActive": "Schleifenmodus aktiv"
   }
 }

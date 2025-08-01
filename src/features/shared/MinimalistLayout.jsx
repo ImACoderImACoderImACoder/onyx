@@ -1960,32 +1960,31 @@ export default function MinimalistLayout() {
                             let stepDisplayName = "N/A";
                             switch (stepType) {
                               case WorkflowItemTypes.FAN_ON:
-                                stepDisplayName = "Fan On";
+                                stepDisplayName = t("workflow.stepNames.fanOn");
                                 break;
                               case WorkflowItemTypes.FAN_ON_GLOBAL:
-                                stepDisplayName = "Fan On (Global)";
+                                stepDisplayName = t("workflow.stepNames.fanOnGlobal");
                                 break;
                               case WorkflowItemTypes.HEAT_OFF:
-                                stepDisplayName = "Turning Heat Off";
+                                stepDisplayName = t("workflow.stepNames.turningHeatOff");
                                 break;
                               case WorkflowItemTypes.HEAT_ON:
                                 if (payload && payload > 0) {
-                                  stepDisplayName = `Heating to ${
-                                    isF
-                                      ? `${convertToFahrenheitFromCelsius(
-                                          payload
-                                        )}${DEGREE_SYMBOL}F`
-                                      : `${payload}${DEGREE_SYMBOL}C`
-                                  }`;
+                                  stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                    temp: isF
+                                      ? convertToFahrenheitFromCelsius(payload)
+                                      : payload,
+                                    unit: isF ? "°F" : "°C"
+                                  });
                                 } else {
-                                  stepDisplayName = "Heat On";
+                                  stepDisplayName = t("workflow.stepNames.heatOn");
                                 }
                                 break;
                               case WorkflowItemTypes.SET_LED_BRIGHTNESS:
-                                stepDisplayName = `Set LED Brightness to ${payload}`;
+                                stepDisplayName = t("workflow.stepNames.setLedBrightness", { brightness: payload });
                                 break;
                               case WorkflowItemTypes.WAIT:
-                                stepDisplayName = "Waiting";
+                                stepDisplayName = t("workflow.stepNames.waiting");
                                 break;
                               case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
                                 try {
@@ -2017,13 +2016,15 @@ export default function MinimalistLayout() {
                                         currentTempC >= targetTempC - 1 &&
                                         heatStep.wait > 0;
                                       if (shouldWait) {
-                                        stepDisplayName = `Waiting at ${nextHeat}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.waitingAt", {
+                                          temp: nextHeat,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       } else {
-                                        stepDisplayName = `Heating to ${nextHeat}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                          temp: nextHeat,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       }
                                     } else if (
                                       payload.default &&
@@ -2048,16 +2049,18 @@ export default function MinimalistLayout() {
                                         currentTempC >= targetTempC - 1 &&
                                         payload.default.wait > 0
                                       ) {
-                                        stepDisplayName = `Waiting at ${defaultTemp}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.waitingAt", {
+                                          temp: defaultTemp,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       } else {
-                                        stepDisplayName = `Heating to ${defaultTemp}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                          temp: defaultTemp,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       }
                                     } else {
-                                      stepDisplayName = "Conditional Heat";
+                                      stepDisplayName = t("workflow.stepNames.conditionalHeat");
                                     }
                                   } else {
                                     stepDisplayName = "Conditional Heat";
@@ -2470,7 +2473,7 @@ export default function MinimalistLayout() {
                                   justifyContent: "center",
                                 }}
                               >
-                                Error loading workflow details
+                                {t("workflowExecution.errorLoadingWorkflow")}
                               </div>
                             );
                           }
