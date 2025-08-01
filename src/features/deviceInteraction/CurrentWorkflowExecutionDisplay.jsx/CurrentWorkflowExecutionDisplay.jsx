@@ -214,46 +214,37 @@ const LoopIndicator = styled.span`
 `;
 
 const CircularProgress = styled.div`
-  position: relative;
   width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 
-  svg {
-    position: absolute;
+  .circular-chart {
+    display: block;
     width: 100%;
     height: 100%;
-    transform: rotate(-90deg); // Start from top
   }
 
-  .progress-bg {
+  .circle-bg {
     fill: none;
-    stroke: ${(props) =>
-      props.theme.primaryColor || props.theme.primaryFontColor};
+    stroke: ${(props) => props.theme.iconColor};
     stroke-width: 3.8;
   }
 
-  .progress-fill {
+  .circle {
     fill: none;
-    stroke: ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.2)"};
-    stroke-width: 3.8;
-    stroke-dasharray: ${(props) => {
-      const circumference = 2 * Math.PI * 21; // radius = 21 (25 - 3.8/2)
-      const progress = (props.progress / 100) * circumference;
-      return `${progress} ${circumference}`;
-    }};
-    stroke-dashoffset: 0;
-    transition: stroke-dasharray 0.3s ease;
+    stroke: ${(props) => props.theme.backgroundColor};
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-dasharray: 100, 100;
+    stroke-dashoffset: ${(props) => props.progress * -1 || 0};
+    transition: stroke-dashoffset 0.75s ease;
   }
-`;
 
-const CircularProgressText = styled.div`
-  font-size: 12px;
-  font-weight: 600;
-  color: ${(props) => props.theme.primaryFontColor};
-  z-index: 1;
+  .percentage {
+    font-size: 0.675em;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    fill: ${(props) => props.theme.iconColor};
+  }
 `;
 
 const MinimizedContent = styled.div`
@@ -893,17 +884,23 @@ export default function CurrentWorkflowExecutionDisplay() {
           data-widget-button="true"
         >
           <CircularProgress progress={(currentStepId / totalSteps) * 100}>
-            <svg viewBox="0 0 50 50">
-              <circle className="progress-bg" cx="25" cy="25" r="21" />
-              <circle className="progress-fill" cx="25" cy="25" r="21" />
+            <svg viewBox="0 0 36 36" className="circular-chart">
+              <path
+                className="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                className="circle"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <text x="18" y="19" className="percentage">
+                {isWorkflowExecuting ? (hasLoop ? "∞" : currentStepId) : ""}
+              </text>
             </svg>
-            <CircularProgressText>
-              {isWorkflowExecuting
-                ? hasLoop
-                  ? "∞"
-                  : `${currentStepId}/${totalSteps}`
-                : ""}
-            </CircularProgressText>
           </CircularProgress>
         </MinimizedButton>
       </WorkflowWidget>
