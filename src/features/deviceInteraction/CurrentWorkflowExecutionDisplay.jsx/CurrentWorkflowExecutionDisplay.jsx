@@ -208,9 +208,12 @@ const WorkflowIcon = styled.span`
 `;
 
 const LoopIndicator = styled.span`
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.primaryFontColor};
   font-size: 0.85em;
   opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 const CircularProgress = styled.div`
@@ -241,7 +244,6 @@ const CircularProgress = styled.div`
   }
 
   .percentage {
-    font-size: 0.675em;
     text-anchor: middle;
     dominant-baseline: middle;
     fill: ${(props) => props.theme.iconColor};
@@ -275,6 +277,7 @@ export default function CurrentWorkflowExecutionDisplay() {
     arrowLeft: "50%",
     transform: "translateX(-50%)",
   });
+  const [localElapsedTime, setLocalElapsedTime] = useState(0);
   const containerRef = useRef();
   const buttonRef = useRef();
   const timerStartRef = useRef();
@@ -498,17 +501,25 @@ export default function CurrentWorkflowExecutionDisplay() {
     }
   }
 
-  // Timer logic using stored timestamp for persistence
+  // Timer logic using stored timestamp for persistence with smooth updates
   useEffect(() => {
-    if (!isWorkflowExecuting || !currentStepStartTimestamp) return;
+    if (!isWorkflowExecuting || !currentStepStartTimestamp) {
+      setLocalElapsedTime(0);
+      return;
+    }
 
+    // Update local elapsed time every 50ms for smoother countdown
     const interval = setInterval(() => {
       const now = Date.now();
-      const elapsedSeconds = Math.round(
-        (now - currentStepStartTimestamp) / 1000
-      );
-      dispatch(setCurrentStepEllapsedTimeInSeconds(elapsedSeconds));
-    }, 1000);
+      const elapsed = (now - currentStepStartTimestamp) / 1000;
+      setLocalElapsedTime(elapsed);
+
+      // Update Redux state every second
+      const elapsedSeconds = Math.round(elapsed);
+      if (elapsedSeconds !== Math.round(localElapsedTime)) {
+        dispatch(setCurrentStepEllapsedTimeInSeconds(elapsedSeconds));
+      }
+    }, 50);
 
     return () => {
       clearInterval(interval);
@@ -553,6 +564,7 @@ export default function CurrentWorkflowExecutionDisplay() {
         const now = Date.now();
         dispatch(setCurrentStepStartTimestamp(now));
         dispatch(setCurrentStepEllapsedTimeInSeconds(0));
+        setLocalElapsedTime(0);
       }
 
       setWasWaiting(isCurrentlyWaiting);
@@ -780,7 +792,20 @@ export default function CurrentWorkflowExecutionDisplay() {
               }}
             >
               <PrideText text={stepDisplayName} />
-              {hasLoop && <LoopIndicator>(Loop Mode 🔄)</LoopIndicator>}
+              {hasLoop && (
+                <LoopIndicator>
+                  Loop Mode
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    style={{ fill: theme.iconColor || theme.primaryFontColor }}
+                  >
+                    <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4Z" />
+                    <path d="M12 18V21L16 17L12 13V16C8.69 16 6 13.31 6 10C6 8.99 6.25 8.03 6.7 7.2L5.24 5.74C4.46 6.97 4 8.43 4 10C4 14.42 7.58 18 12 18Z" />
+                  </svg>
+                </LoopIndicator>
+              )}
             </div>
 
             <ExpandedDetails isExpanded={true}>
@@ -789,13 +814,20 @@ export default function CurrentWorkflowExecutionDisplay() {
                   <PrideText text="Current Temp:" />
                 </DetailLabel>
                 <DetailValue>
-                  <PrideText
-                    text={`${
-                      isF
-                        ? convertToFahrenheitFromCelsius(currentTemperature)
-                        : currentTemperature
-                    }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
-                  />
+                  <span
+                    style={{
+                      fontFamily: "digital-mono, monospace",
+                      fontSize: "1.4rem",
+                    }}
+                  >
+                    <PrideText
+                      text={`${
+                        isF
+                          ? convertToFahrenheitFromCelsius(currentTemperature)
+                          : currentTemperature
+                      }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
+                    />
+                  </span>
                 </DetailValue>
               </DetailRow>
 
@@ -804,42 +836,185 @@ export default function CurrentWorkflowExecutionDisplay() {
                   <PrideText text="Target Temp:" />
                 </DetailLabel>
                 <DetailValue>
-                  <PrideText
-                    text={`${
-                      isF
-                        ? convertToFahrenheitFromCelsius(targetTemperature)
-                        : targetTemperature
-                    }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
-                  />
+                  <span
+                    style={{
+                      fontFamily: "digital-mono, monospace",
+                      fontSize: "1.4rem",
+                    }}
+                  >
+                    <PrideText
+                      text={`${
+                        isF
+                          ? convertToFahrenheitFromCelsius(targetTemperature)
+                          : targetTemperature
+                      }${DEGREE_SYMBOL}${isF ? "F" : "C"}`}
+                    />
+                  </span>
                 </DetailValue>
               </DetailRow>
 
               <DetailRow>
                 <DetailLabel>
-                  <PrideText text="Expected Time:" />
-                </DetailLabel>
-                <DetailValue>
-                  <PrideText text={expectedTime || "N/A"} />
-                </DetailValue>
-              </DetailRow>
-
-              <DetailRow>
-                <DetailLabel>
-                  <PrideText text="Elapsed Time:" />
-                </DetailLabel>
-                <DetailValue>
                   <PrideText
-                    text={(() => {
-                      const mins = Math.floor(currentTimeInSeconds / 60);
-                      const secs = Math.floor(currentTimeInSeconds % 60);
-                      const deciseconds = Math.floor(
-                        (currentTimeInSeconds % 1) * 10
-                      );
-                      return `${mins.toString().padStart(2, "0")}:${secs
-                        .toString()
-                        .padStart(2, "0")}`;
-                    })()}
+                    text={
+                      showTimer && expectedTime !== "N/A"
+                        ? "Time Remaining:"
+                        : "Elapsed Time:"
+                    }
                   />
+                </DetailLabel>
+                <DetailValue>
+                  <span
+                    style={{
+                      fontFamily: (() => {
+                        // Use local elapsed time for smooth display
+                        const displayTime =
+                          localElapsedTime || currentTimeInSeconds;
+
+                        // Determine if we should show countdown
+                        let isCountdown = false;
+                        let totalDuration = 0;
+
+                        if (isWorkflowExecuting && currentWorkflow) {
+                          const currentStepPayload =
+                            currentWorkflow.payload[currentStepId - 1]?.payload;
+
+                          if (stepType === WorkflowItemTypes.FAN_ON) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                          ) {
+                            isCountdown = true;
+                            totalDuration = fanOnGlobalValue;
+                          } else if (stepType === WorkflowItemTypes.WAIT) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType ===
+                              WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS &&
+                            stepDisplayName.includes("Waiting")
+                          ) {
+                            // Extract wait time from expectedTime string
+                            const match = expectedTime.match(/(\d+)\s+Second/);
+                            if (match) {
+                              isCountdown = true;
+                              totalDuration = parseInt(match[1]);
+                            }
+                          }
+                        }
+
+                        // Use monospace font for countdowns, regular font for elapsed time
+                        return isCountdown
+                          ? "digital-mono, monospace"
+                          : "inherit";
+                      })(),
+                      fontSize: (() => {
+                        // Use local elapsed time for smooth display
+                        const displayTime =
+                          localElapsedTime || currentTimeInSeconds;
+
+                        // Determine if we should show countdown
+                        let isCountdown = false;
+                        let totalDuration = 0;
+
+                        if (isWorkflowExecuting && currentWorkflow) {
+                          const currentStepPayload =
+                            currentWorkflow.payload[currentStepId - 1]?.payload;
+
+                          if (stepType === WorkflowItemTypes.FAN_ON) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                          ) {
+                            isCountdown = true;
+                            totalDuration = fanOnGlobalValue;
+                          } else if (stepType === WorkflowItemTypes.WAIT) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType ===
+                              WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS &&
+                            stepDisplayName.includes("Waiting")
+                          ) {
+                            // Extract wait time from expectedTime string
+                            const match = expectedTime.match(/(\d+)\s+Second/);
+                            if (match) {
+                              isCountdown = true;
+                              totalDuration = parseInt(match[1]);
+                            }
+                          }
+                        }
+
+                        // Use larger font for countdowns
+                        return isCountdown ? "1.4rem" : "inherit";
+                      })(),
+                    }}
+                  >
+                    <PrideText
+                      text={(() => {
+                        // Use local elapsed time for smooth display
+                        const displayTime =
+                          localElapsedTime || currentTimeInSeconds;
+
+                        // Determine if we should show countdown
+                        let isCountdown = false;
+                        let totalDuration = 0;
+
+                        if (isWorkflowExecuting && currentWorkflow) {
+                          const currentStepPayload =
+                            currentWorkflow.payload[currentStepId - 1]?.payload;
+
+                          if (stepType === WorkflowItemTypes.FAN_ON) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType === WorkflowItemTypes.FAN_ON_GLOBAL
+                          ) {
+                            isCountdown = true;
+                            totalDuration = fanOnGlobalValue;
+                          } else if (stepType === WorkflowItemTypes.WAIT) {
+                            isCountdown = true;
+                            totalDuration = currentStepPayload;
+                          } else if (
+                            stepType ===
+                              WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS &&
+                            stepDisplayName.includes("Waiting")
+                          ) {
+                            // Extract wait time from expectedTime string
+                            const match = expectedTime.match(/(\d+)\s+Second/);
+                            if (match) {
+                              isCountdown = true;
+                              totalDuration = parseInt(match[1]);
+                            }
+                          }
+                        }
+
+                        // Calculate time to display
+                        let timeToShow = displayTime;
+                        if (isCountdown && totalDuration > 0) {
+                          timeToShow = Math.max(0, totalDuration - displayTime);
+                        }
+
+                        const mins = Math.floor(timeToShow / 60);
+                        const secs = Math.floor(timeToShow % 60);
+                        const deciseconds = Math.floor((timeToShow % 1) * 10);
+
+                        // Show deciseconds for timed operations
+                        if (isCountdown) {
+                          return `${mins.toString().padStart(2, "0")}:${secs
+                            .toString()
+                            .padStart(2, "0")}.${deciseconds}`;
+                        }
+
+                        // Regular elapsed time display without deciseconds
+                        return `${mins.toString().padStart(2, "0")}:${secs
+                          .toString()
+                          .padStart(2, "0")}`;
+                      })()}
+                    />
+                  </span>
                 </DetailValue>
               </DetailRow>
 
@@ -898,8 +1073,13 @@ export default function CurrentWorkflowExecutionDisplay() {
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
-              <text x="18" y="19" className="percentage">
-                {isWorkflowExecuting ? (hasLoop ? "∞" : currentStepId) : ""}
+              <text
+                x="18"
+                y="19"
+                className="percentage"
+                style={{ fontSize: totalSteps > 9 ? "0.5em" : ".750em" }}
+              >
+                {isWorkflowExecuting ? `${currentStepId}/${totalSteps}` : ""}
               </text>
             </svg>
           </CircularProgress>
