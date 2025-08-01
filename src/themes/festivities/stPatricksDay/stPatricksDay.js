@@ -24,6 +24,8 @@ const feastOfSaintPatrick = {
   temperatureRange: {
     background:
       "linear-gradient(90deg,#009A49 33.33%, #FFF 0, #FFF 66.66%, #FF7900 0)",
+    backgroundVertical:
+      "linear-gradient(to top,#FF7900 33.33%, #FFF 0, #FFF 66.66%, #009A49 0)",
     rangeBoxColor: `linear-gradient(to right, #009A49 33.33%, #fff 0, #fff 66.66%, #FF7900 0)`,
     rangeBoxBorderColor: "#D9DF1D",
   },

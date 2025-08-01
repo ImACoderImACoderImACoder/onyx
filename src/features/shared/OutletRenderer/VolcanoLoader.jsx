@@ -30,7 +30,7 @@ import {
   setIsHeatOn,
   setIsFanOn,
 } from "../../deviceInteraction/deviceInteractionSlice";
-import { setIsF } from "../../settings/settingsSlice";
+import { setIsF, setIsMinimalistMode } from "../../settings/settingsSlice";
 import { AddToQueue } from "../../../services/bleQueueing";
 import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
@@ -72,12 +72,41 @@ const StyledNavBarToggle = styled(Navbar.Toggle)`
 `;
 
 const StyledNav = styled(Nav)`
-  justify-content: space-evenly;
+  justify-content: flex-end;
   flex-grow: 1;
+  margin-left: auto;
+  width: 100%;
+  text-align: right;
+  
+  & > * {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+  
+  @media (max-width: 991.98px) {
+    align-items: flex-end;
+    
+    & > * {
+      align-self: flex-end;
+      text-align: right;
+    }
+  }
 `;
 
 const StyledHeaderNavDiv = styled(StyledRouterIconLink)`
   color: ${(props) => props.theme.iconColor};
+`;
+
+const WhiteMenuIconWrapper = styled.div`
+  color: ${(props) => props.theme.primaryFontColor};
+  
+  & > div {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
+  
+  & svg {
+    color: ${(props) => props.theme.primaryFontColor};
+  }
 `;
 
 export default function VolcanoLoader(props) {
@@ -101,6 +130,11 @@ export default function VolcanoLoader(props) {
     navigate("/");
   };
 
+  const onMinimalistModeClick = () => {
+    dispatch(setIsMinimalistMode(true));
+    setExpanded(false);
+  };
+
   const theme = useTheme();
 
   /* eslint-disable no-unused-vars */
@@ -112,6 +146,7 @@ export default function VolcanoLoader(props) {
   const currentTemperature = useSelector(
     (state) => state.deviceInteraction.currentTemperature
   );
+
   /* eslint-enable no-unused-vars */
 
   useEffect(() => {
@@ -265,18 +300,23 @@ export default function VolcanoLoader(props) {
             onClick={navBarToggleOnClick}
             aria-controls="basic-navbar-nav"
           >
-            <div
-              style={{ color: theme.primaryFontColor }}
-              onClick={navBarToggleOnClick}
-            >
+            <WhiteMenuIconWrapper onClick={navBarToggleOnClick}>
               <MenuBarIcon />
-            </div>
+            </WhiteMenuIconWrapper>
           </StyledNavBarToggle>
           <Navbar.Collapse id="basic-navbar-nav">
-            <StyledNav className="me-auto">
+            <StyledNav>
               <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
                 {<ControlsIcon />}
                 {<PrideTextWithDiv text="Controls" />}
+              </StyledRouterIconLink>
+              <StyledRouterIconLink
+                as="div"
+                onClick={onMinimalistModeClick}
+                style={{ cursor: "pointer" }}
+              >
+                <MenuBarIcon />
+                <PrideTextWithDiv text="Mini Mode" />
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
@@ -287,10 +327,10 @@ export default function VolcanoLoader(props) {
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
-                to="/Volcano/DeviceInformation"
+                to="/Volcano/ContactMe"
               >
-                {<InformationIcon />}
-                {<PrideTextWithDiv text="Device Info" />}
+                {<ContactMeIcon />}
+                {<PrideTextWithDiv text="Contact Me" />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
@@ -299,13 +339,7 @@ export default function VolcanoLoader(props) {
                 {<SettingsIcon />}
                 {<PrideTextWithDiv text="Settings" />}
               </StyledRouterIconLink>
-              <StyledRouterIconLink
-                onClick={onLinkClick}
-                to="/Volcano/ContactMe"
-              >
-                {<ContactMeIcon />}
-                {<PrideTextWithDiv text="Contact Me" />}
-              </StyledRouterIconLink>
+
               <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
                 <BluetoothDisconnectIcon />
                 <PrideTextWithDiv text="Disconnect" />

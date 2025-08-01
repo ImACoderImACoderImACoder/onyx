@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import PrideText from '../../themes/PrideText';
 
 const SectionContainer = styled.div`
@@ -32,10 +32,21 @@ const SectionTitle = styled.h2`
   gap: 10px;
 `;
 
-const ExpandIcon = styled.span`
+const ExpandIcon = styled.div`
   font-size: 1.2rem;
   transition: transform 0.3s ease;
   transform: ${props => props.isExpanded ? 'rotate(90deg)' : 'rotate(0deg)'};
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  color: ${props => props.theme.iconColor || props.theme.primaryFontColor} !important;
+  width: 2rem;
+  height: 2rem;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1;
 `;
 
 const SectionContent = styled.div`
@@ -56,6 +67,7 @@ const SectionDescription = styled.p`
 
 export default function SettingsSection({ title, description, children, icon, defaultExpanded = false }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const theme = useTheme();
 
   return (
     <SectionContainer>
@@ -64,7 +76,11 @@ export default function SettingsSection({ title, description, children, icon, de
           {icon && <span>{icon}</span>}
           <PrideText text={title} />
         </SectionTitle>
-        <ExpandIcon isExpanded={isExpanded}>▶</ExpandIcon>
+        <ExpandIcon isExpanded={isExpanded} theme={theme}>
+          <svg width="16" height="16" viewBox="0 0 12 12" style={{ fill: theme.iconColor || theme.primaryFontColor }}>
+            <path d="M3 2L9 6L3 10V2Z" />
+          </svg>
+        </ExpandIcon>
       </SectionHeader>
       <SectionContent isExpanded={isExpanded}>
         {description && <SectionDescription>{description}</SectionDescription>}

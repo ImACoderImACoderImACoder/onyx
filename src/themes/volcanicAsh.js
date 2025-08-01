@@ -29,6 +29,7 @@ const volcanicAsh = {
     lowTemperatureColor: "#f53803",
     highTemperatureColor: "#f5d020",
     background: "linear-gradient(315deg, #f53803 0%, #f5d020 74%)",
+    backgroundVertical: "linear-gradient(to top, #f5d020, #f53803)",
     rangeBoxColor: "black",
     rangeBoxBorderColor: "orange",
   },

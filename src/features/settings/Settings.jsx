@@ -13,6 +13,7 @@ import TurnHeatOnWhenConnectionIsEstablished from "./TurnHeatOnWhenConnectionIsE
 import HighlightLastRunWorkflow from "./HighlightLastRunWorkflow/HighlightLastRunWorkflow";
 import PWAInstall, { usePWAInstallAvailable } from "./InstallPWA/PWAInstall";
 import SettingsSection from "./SettingsSection";
+import DeviceInformation from "../deviceInformation/DeviceInformation";
 
 export default function Settings() {
   const isPWAAvailable = usePWAInstallAvailable();
@@ -29,21 +30,6 @@ export default function Settings() {
         defaultExpanded={true}
       >
         <ThemesContainer />
-      </SettingsSection>
-
-      <SettingsSection
-        title="Volcano Controls"
-        icon="🌋"
-        description="Configure your Volcano's settings"
-        defaultExpanded={false}
-      >
-        <AdjustAutoShutoffTimeContainer />
-        <AdjustLEDbrightnessContainer />
-        <VibrationToggleContainer />
-        <DisplayOnCoolingToggleContainer />
-        <FOrCLoader useSpinnerToShowLoader>
-          <FOrC />
-        </FOrCLoader>
       </SettingsSection>
 
       <SettingsSection
@@ -65,6 +51,29 @@ export default function Settings() {
           <PWAInstall />
         </SettingsSection>
       )}
+
+      <SettingsSection
+        title="Volcano Controls"
+        icon="🌋"
+        description="Configure your Volcano's settings"
+        defaultExpanded={false}
+      >
+        <AdjustAutoShutoffTimeContainer />
+        <AdjustLEDbrightnessContainer />
+        <VibrationToggleContainer />
+        <DisplayOnCoolingToggleContainer />
+        <FOrCLoader useSpinnerToShowLoader>
+          <FOrC />
+        </FOrCLoader>
+      </SettingsSection>
+      <SettingsSection
+        title="Device Information"
+        icon="📋"
+        description="View details about your connected Volcano device"
+        defaultExpanded={false}
+      >
+        <DeviceInformation />
+      </SettingsSection>
     </Div>
   );
 }

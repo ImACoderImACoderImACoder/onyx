@@ -15,7 +15,11 @@
       "Bash(ls:*)",
       "Bash(node:*)",
       "Bash(find:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(timeout 5 npm run dev)",
+      "Bash(npx eslint:*)",
+      "Bash(TASKKILL /F /IM node.exe)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }

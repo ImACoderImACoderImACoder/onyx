@@ -24,6 +24,7 @@ const valentinesDay = {
   iconTextColor: "#ed75b3",
   temperatureRange: {
     background: "linear-gradient(315deg, red 0%, #ff5d7a 74%)",
+    backgroundVertical: "linear-gradient(to top, #ff5d7a, red)",
     rangeBoxColor: "#ea379d",
     rangeBoxBorderColor: "white",
   },
