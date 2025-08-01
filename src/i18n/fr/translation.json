@@ -326,5 +326,10 @@
       "pasted": "✓ Collé",
       "paste": "📋 {{label}}"
     }
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Déposer l'action ici",
+    "dropWorkflowHere": "Déposer le workflow ici",
+    "dropZone": "Zone de dépôt"
   }
 }

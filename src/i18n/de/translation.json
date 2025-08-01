@@ -326,5 +326,10 @@
     "errorLoadingWorkflow": "Fehler beim Laden der Arbeitsablaufdetails",
     "loopMode": "Schleifenmodus",
     "loopModeActive": "Schleifenmodus aktiv"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Aktion hier ablegen",
+    "dropWorkflowHere": "Arbeitsablauf hier ablegen",
+    "dropZone": "Ablegebereich"
   }
 }

@@ -326,5 +326,10 @@
     "errorLoadingWorkflow": "Error loading workflow details",
     "loopMode": "Loop Mode",
     "loopModeActive": "Loop Mode Active"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Drop action here",
+    "dropWorkflowHere": "Drop workflow here",
+    "dropZone": "Drop zone"
   }
 }

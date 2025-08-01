@@ -326,5 +326,10 @@
     "errorLoadingWorkflow": "Error al cargar los detalles del flujo de trabajo",
     "loopMode": "Modo Bucle",
     "loopModeActive": "Modo Bucle Activo"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Soltar acción aquí",
+    "dropWorkflowHere": "Soltar flujo de trabajo aquí",
+    "dropZone": "Zona de soltar"
   }
 }
