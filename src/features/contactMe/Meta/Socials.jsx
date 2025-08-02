@@ -7,6 +7,7 @@ import InstagramIcon from "../../shared/OutletRenderer/icons/brands/InstagramIco
 import PatreonIcon from "../../shared/OutletRenderer/icons/brands/PatreonIcon";
 import RedditIcon from "../../shared/OutletRenderer/icons/brands/RedditIcon";
 import TwitterIcon from "../../shared/OutletRenderer/icons/brands/TwitterIcon";
+import { useTranslation } from "react-i18next";
 
 const SocialsContainer = styled.div`
   background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
@@ -73,48 +74,50 @@ const SocialDiv = styled.div`
 `;
 
 export default function Socials() {
+  const { t } = useTranslation();
+
   return (
     <SocialsContainer>
       <SocialsHeader>
         <h2>
-          <PrideText text="🌐 Connect With Me" />
+          <PrideText text={t('social.connectWithMe')} />
         </h2>
       </SocialsHeader>
       <SocialsList>
         <StyledA href={links.githubLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <GithubIcon />
-            <span>GitHub</span>
+            <span>{t('social.github')}</span>
           </SocialDiv>
         </StyledA>
         <StyledA href={links.redditLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <RedditIcon />
-            <span>Reddit</span>
+            <span>{t('social.reddit')}</span>
           </SocialDiv>
         </StyledA>
         <StyledA href={links.twitterLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <TwitterIcon />
-            <span>X</span>
+            <span>{t('social.x')}</span>
           </SocialDiv>
         </StyledA>
         <StyledA href={links.instagramLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <InstagramIcon />
-            <span>Instagram</span>
+            <span>{t('social.instagram')}</span>
           </SocialDiv>
         </StyledA>
         <StyledA href={links.cashAppLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <CashAppIcon />
-            <span>Cash App</span>
+            <span>{t('social.cashApp')}</span>
           </SocialDiv>
         </StyledA>
         <StyledA href={links.patreonLink} target="_blank" rel="noreferrer">
           <SocialDiv>
             <PatreonIcon />
-            <span>Patreon</span>
+            <span>{t('social.patreon')}</span>
           </SocialDiv>
         </StyledA>
       </SocialsList>

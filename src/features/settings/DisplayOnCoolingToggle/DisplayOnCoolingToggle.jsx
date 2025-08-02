@@ -1,16 +1,19 @@
 import StyledToggleSwitch from "../Shared/StyledComponents/StyledToggleDiv";
 import SettingsItem from "../SettingsItem";
 import { PrideTextWithDiv } from "../../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 export default function DisplayOnCoolingToggle(props) {
+  const { t } = useTranslation();
+
   return (
     <SettingsItem
-      title="Display Temperature When Cooling"
-      description="Keep the current temperature display active when cooling down."
+      title={t('settings.items.displayTemperatureWhenCooling.title')}
+      description={t('settings.items.displayTemperatureWhenCooling.description')}
     >
       <StyledToggleSwitch
-        onText="On"
-        offText={<PrideTextWithDiv text="Off" />}
+        onText={t('common.on')}
+        offText={<PrideTextWithDiv text={t('common.off')} />}
         isToggleOn={props.isDisplayOnCooling}
         onChange={props.onChange}
       />

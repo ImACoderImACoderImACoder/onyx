@@ -1,13 +1,16 @@
 import propTypes from "prop-types";
 import DeviceInfoCard from "../DeviceInfoCard";
+import { useTranslation } from "react-i18next";
 
 function SerialNumber(props) {
+  const { t } = useTranslation();
+
   return (
     <DeviceInfoCard
       icon="🔢"
-      title="Serial Number"
+      title={t('settings.items.serialNumber.title')}
       value={props.serialNumber}
-      description="Unique identifier for your Volcano device"
+      description={t('settings.items.serialNumber.description')}
     />
   );
 }

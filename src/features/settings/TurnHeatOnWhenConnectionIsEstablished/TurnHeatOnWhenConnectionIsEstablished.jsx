@@ -6,8 +6,10 @@ import {
   ReadConfigFromLocalStorage,
   WriteNewConfigToLocalStorage,
 } from "../../../services/utils";
+import { useTranslation } from "react-i18next";
 
 export default function TurnHeatOnWhenConnectionIsEstablished() {
+  const { t } = useTranslation();
   const onConnectTurnHeatOn = useSelector(
     (state) => state.settings.config.onConnectTurnHeatOn
   );
@@ -20,12 +22,12 @@ export default function TurnHeatOnWhenConnectionIsEstablished() {
 
   return (
     <SettingsItem
-      title="Auto-Start Heating"
-      description="Automatically turn on the heater when you connect to your Volcano device, saving you a step."
+      title={t('settings.items.autoStartHeating.title')}
+      description={t('settings.items.autoStartHeating.description')}
     >
       <StyledToggleSwitch
-        onText="On"
-        offText={<PrideTextWithDiv text="Off" />}
+        onText={t('common.on')}
+        offText={<PrideTextWithDiv text={t('common.off')} />}
         isToggleOn={onConnectTurnHeatOn}
         onChange={onChange}
       />

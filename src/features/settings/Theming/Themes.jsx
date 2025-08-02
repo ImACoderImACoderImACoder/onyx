@@ -1,5 +1,6 @@
 import Select from "react-bootstrap/FormSelect";
 import styled, { useTheme } from "styled-components";
+import { useTranslation } from "react-i18next";
 import PrideText from "../../../themes/PrideText";
 import Div from "../Shared/StyledComponents/Div";
 
@@ -11,17 +12,18 @@ const StyledSelect = styled(Select)`
 `;
 
 export default function Themes(props) {
+  const { t } = useTranslation();
   const theme = useTheme();
   return (
     <Div>
       <h2>
-        <PrideText text="Select a Theme" />
+        <PrideText text={t("settings.appearance.selectTheme")} />
       </h2>
       <StyledSelect value={props.currentTheme} onChange={props.onChange}>
         {props.options}
       </StyledSelect>
       <span>
-        <i>Theme by: {theme.author}</i>
+        <i>{t("settings.appearance.themeBy")} {theme.author}</i>
       </span>
     </Div>
   );

@@ -6,11 +6,13 @@ import { WriteNewConfigToLocalStorage } from "../../../services/utils";
 import { useDispatch } from "react-redux";
 import { setCurrentWorkflows } from "../../settings/settingsSlice";
 import { useTheme } from "styled-components";
+import { useTranslation } from "react-i18next";
 
 export default function WorkflowItemDrop(props) {
   const config = useSelector((state) => state.settings.config);
   const dispatch = useDispatch();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const [{ isOver, item }, drop] = useDrop(
     () => ({
@@ -90,7 +92,7 @@ export default function WorkflowItemDrop(props) {
           alignItems: "center",
           gap: "6px"
         }}>
-          ⬇️ Drop action here
+          ⬇️ {t("dragAndDrop.dropActionHere")}
         </div>
       )}
     </div>

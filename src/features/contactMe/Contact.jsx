@@ -3,6 +3,7 @@ import PrideText from "../../themes/PrideText";
 import Button from "../shared/styledComponents/Button";
 import { useState } from "react";
 import ModalWrapper from "../shared/styledComponents/Modal";
+import { useTranslation } from "react-i18next";
 
 const ContactFormContainer = styled.div`
   background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
@@ -135,6 +136,7 @@ const SpamNotice = styled.div`
 `;
 
 export default function Contact() {
+  const { t } = useTranslation();
   const [message, setMessage] = useState("");
   const [contactInfo, setContactInfo] = useState("");
 
@@ -183,7 +185,7 @@ export default function Contact() {
       body: encode({ "form-name": "contact", ...formValues }),
     })
       .then(() => {
-        alert("Success!");
+        alert(t("contact.successMessage"));
         setMessage("");
         setContactInfo("");
       })
@@ -196,14 +198,12 @@ export default function Contact() {
     <ContactFormContainer>
       <ContactFormHeader>
         <h2>
-          <PrideText text="💬 Send Me a Message" />
+          <PrideText text={t("contact.title")} />
         </h2>
       </ContactFormHeader>
       
       <ContactFormDescription>
-        It's always nice to hear from users! Whether you have a feature request, 
-        feedback, or just want to say hi, I read every message. Include your contact 
-        information if you'd like a response - I reply to every message that includes it.
+        {t("contact.description")}
       </ContactFormDescription>
       
       <form name="contact" method="post" onSubmit={handleSubmit}>
@@ -211,14 +211,14 @@ export default function Contact() {
         
         <FormField>
           <StyledLabel>
-            Contact Info <OptionalText>(Optional)</OptionalText>
+            {t("contact.contactInfoLabel")} <OptionalText>{t("contact.optional")}</OptionalText>
           </StyledLabel>
           <StyleContactInfo
             value={contactInfo}
             onChange={onContactInfoChange}
             name="contactInfo"
             type="text"
-            placeholder="Your email, Discord, etc."
+            placeholder={t("contact.contactInfoPlaceholder")}
             onKeyDown={(e) => {
               e.key === "Enter" && e.preventDefault();
             }}
@@ -227,33 +227,33 @@ export default function Contact() {
         
         <FormField>
           <StyledLabel>
-            Message <RequiredText>(Required)</RequiredText>
+            {t("contact.messageLabel")} <RequiredText>{t("contact.required")}</RequiredText>
           </StyledLabel>
           <StyledTextArea
             value={message}
             onChange={onChange}
             name="message"
-            placeholder="Your message here..."
+            placeholder={t("contact.messagePlaceholder")}
           />
         </FormField>
         
         <SubmitButtonContainer>
           <Button onClick={onClick} type="submit">
-            📤 Send Message
+            {t("contact.sendButton")}
           </Button>
         </SubmitButtonContainer>
         
         <SpamNotice>
           <div className="icon">📬</div>
           <div className="content">
-            <strong>Important:</strong> If you provided contact info and don't hear back within a few days, please check your spam/junk folder as my replies sometimes end up there.
+            <strong>{t("contact.important")}</strong> {t("contact.spamNotice")}
           </div>
         </SpamNotice>
         
         <ModalWrapper
-          headerText={<PrideText text={`Submit without Contact Info`} />}
-          bodyText='You did not provide any contact info for me to respond to you. Click "Close" to provide contact info or click "Submit" to continue without providing contact info. I cannot respond if you do not provide your contact info.'
-          confirmButtonText="Submit"
+          headerText={<PrideText text={t("contact.submitWithoutContactTitle")} />}
+          bodyText={t("contact.submitWithoutContactBody")}
+          confirmButtonText={t("contact.submitButton")}
           handleClose={handleClose}
           handleConfirm={handleConfirm}
           show={show}

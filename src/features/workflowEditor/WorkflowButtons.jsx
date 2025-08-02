@@ -36,7 +36,9 @@ import {
   clearTimeouts,
 } from "../../services/bleQueueing";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 export default function WorkFlow() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const fanOnGlobal = useSelector(
     (state) => state.settings.config.workflows.fanOnGlobal
@@ -307,7 +309,7 @@ export default function WorkFlow() {
                     clearTimeouts();
 
                     if (nextWait === 0) {
-                      alert("Click okay to resume the workflow!");
+                      alert(t('workflow.clickOkayToResume'));
                       executeWithManagedSetTimeout(next);
                       return;
                     }
@@ -344,7 +346,7 @@ export default function WorkFlow() {
             dispatch(setCurrentWorkflowStepId(index + 1));
 
             if (item.payload === 0) {
-              alert("Click okay to resume the workflow!");
+              alert(t('workflow.clickOkayToResume'));
             }
 
             executeWithManagedSetTimeout(next, item.payload * 1000);
@@ -381,7 +383,7 @@ export default function WorkFlow() {
       {workflows.map((item, index) => {
         const isActive = currentWorkflow?.id === item.id;
         const isLastRunWorkflow = item.id === lastWorkflowRunId && !isActive;
-        const buttonText = isActive ? "Tap to Cancel" : item.name;
+        const buttonText = isActive ? t('workflow.tapToCancel') : item.name;
         return (
           <WriteTemperature
             key={index}

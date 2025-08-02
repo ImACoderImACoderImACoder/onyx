@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -172,18 +173,19 @@ const StepIcon = styled.span`
 `;
 
 export default function LoadingConnection() {
+  const { t } = useTranslation();
+  
   return (
     <Container>
       <LoadingCard>
         <LoadingIcon />
 
         <LoadingTitle>
-          <PrideText text="🔗 Connecting to Volcano" />
+          <PrideText text={t("connection.connecting")} />
         </LoadingTitle>
 
         <LoadingDescription>
-          Establishing secure Bluetooth connection with your Volcano Hybrid.
-          This may take a few moments...
+          {t("connection.establishingConnection")}
         </LoadingDescription>
 
         <StatusIndicator>
@@ -195,15 +197,15 @@ export default function LoadingConnection() {
         <ConnectionSteps>
           <StepItem>
             <StepIcon>🔒</StepIcon>
-            Establishing secure connection
+            {t("connection.securingConnection")}
           </StepItem>
           <StepItem>
             <StepIcon>📡</StepIcon>
-            Scanning for Volcano device characteristics
+            {t("connection.scanningDevice")}
           </StepItem>
           <StepItem>
             <StepIcon>⚡</StepIcon>
-            Initializing device communication
+            {t("connection.initializing")}
           </StepItem>
         </ConnectionSteps>
       </LoadingCard>

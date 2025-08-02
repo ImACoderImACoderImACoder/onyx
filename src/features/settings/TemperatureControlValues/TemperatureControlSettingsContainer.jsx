@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setTemperatureControls } from "../settingsSlice";
 import styled from "styled-components";
 import PrideText from "../../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const StyledDiv = styled.div`
 `;
 
 export default function TemperatureControlSettingsContainer() {
+  const { t } = useTranslation();
   const config = useSelector((state) => state.settings.config);
   const isF = useSelector((state) => state.settings.isF);
   const currentTemperatureContorls = config.temperatureControlValues;
@@ -45,7 +47,7 @@ export default function TemperatureControlSettingsContainer() {
   return (
     <StyledDiv>
       <h2>
-        <PrideText text="Add Temperature Controls" />
+        <PrideText text={t("settings.temperatureControl.addTemperatureControls")} />
       </h2>
       {temperatures}
       <AddTemperatureControl />

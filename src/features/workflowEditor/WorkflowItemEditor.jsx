@@ -9,6 +9,7 @@ import DeleteWorkflowItem from "./DeleteWorkflowItem";
 import MoveWorkflowItemDownOneIndex from "./SwapWorkflowItemTowardsBeginning";
 import MoveWorkflowItemUpOneIndex from "./SwapWorkflowItemTowardsEnd";
 import { setCurrentWorkflows, setFanOnGlobal } from "../settings/settingsSlice";
+import { useTranslation } from "react-i18next";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
@@ -89,6 +90,7 @@ const ActionControlsContainer = styled.div`
 `;
 
 export default function WorkflowItemEditor(props) {
+  const { t } = useTranslation();
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const fanOnGlobal = useSelector(
@@ -140,7 +142,7 @@ export default function WorkflowItemEditor(props) {
       case WorkflowItemTypes.WAIT:
       case WorkflowItemTypes.FAN_ON_GLOBAL:
       case WorkflowItemTypes.FAN_ON: {
-        return "Seconds";
+        return t('workflowEditor.payloadLabels.seconds');
       }
       case WorkflowItemTypes.HEAT_ON: {
         return `${DEGREE_SYMBOL}${isF ? "F" : "C"} `;
@@ -150,10 +152,10 @@ export default function WorkflowItemEditor(props) {
         return undefined;
       }
       case WorkflowItemTypes.SET_LED_BRIGHTNESS: {
-        return "Brightness (0-100)";
+        return t('workflowEditor.payloadLabels.brightness');
       }
       case WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS: {
-        return "Exit workflow until when target temperature is";
+        return t('workflowEditor.payloadLabels.exitWorkflowUntilTemp');
       }
       default: {
         return undefined;
@@ -282,7 +284,7 @@ export default function WorkflowItemEditor(props) {
     dispatch(setCurrentWorkflows(newConfig.workflows.items));
   };
 
-  const name = `Action ${props.itemIndex + 1}`;
+  const name = t('workflowEditor.actionName', { index: props.itemIndex + 1 });
 
   return (
     <>
@@ -328,28 +330,28 @@ export default function WorkflowItemEditor(props) {
         </StyledActionTypeHeader>
         
         <ActionTypeContainer>
-          <StyledLabel>Action Type</StyledLabel>
+          <StyledLabel>{t('workflowEditor.actionType')}</StyledLabel>
           <StyledSelect defaultValue={props.item.type} onChange={onChange}>
-            <option value={WorkflowItemTypes.HEAT_ON}>🔥 Heat On</option>
-            <option value={WorkflowItemTypes.FAN_ON}>🌪️ Fan On</option>
+            <option value={WorkflowItemTypes.HEAT_ON}>{t('workflowEditor.actionTypes.heatOn')}</option>
+            <option value={WorkflowItemTypes.FAN_ON}>{t('workflowEditor.actionTypes.fanOn')}</option>
             <option value={WorkflowItemTypes.FAN_ON_GLOBAL}>
-              🌍 Fan On Global
+              {t('workflowEditor.actionTypes.fanOnGlobal')}
             </option>
-            <option value={WorkflowItemTypes.WAIT}>⏸️ Pause/Wait</option>
-            <option value={WorkflowItemTypes.HEAT_OFF}>❄️ Heat Off</option>
+            <option value={WorkflowItemTypes.WAIT}>{t('workflowEditor.actionTypes.pauseWait')}</option>
+            <option value={WorkflowItemTypes.HEAT_OFF}>{t('workflowEditor.actionTypes.heatOff')}</option>
             <option value={WorkflowItemTypes.SET_LED_BRIGHTNESS}>
-              💡 Set LED Brightness
+              {t('workflowEditor.actionTypes.setLedBrightness')}
             </option>
             <option
               value={WorkflowItemTypes.EXIT_WORKFLOW_WHEN_TARGET_TEMPERATURE_IS}
             >
-              🚪 Exit When Target Temperature
+              {t('workflowEditor.actionTypes.exitWhenTargetTemp')}
             </option>
             <option value={WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS}>
-              🎯 Conditional Temperature Set
+              {t('workflowEditor.actionTypes.conditionalTempSet')}
             </option>
             <option value={WorkflowItemTypes.LOOP_FROM_BEGINNING}>
-              🔄 Start Workflow From Beginning
+              {t('workflowEditor.actionTypes.startWorkflowFromBeginning')}
             </option>
           </StyledSelect>
         </ActionTypeContainer>

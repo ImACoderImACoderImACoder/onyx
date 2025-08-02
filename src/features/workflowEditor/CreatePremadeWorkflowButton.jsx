@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import styled from "styled-components";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 
 const StyledDropdownButton = styled(Dropdown.Toggle)`
   background-color: ${(props) => props.theme.buttonColorMain};
@@ -60,6 +61,7 @@ const StyledDropdownDivider = styled(Dropdown.Divider)`
 `;
 
 export default function CreatePremadeWorkflowButton(props) {
+  const { t } = useTranslation();
   const onClick = (eventKey) => {
     const id = parseInt(eventKey);
     const newWorkflow = props.premadeWorkflows.filter(
@@ -74,7 +76,7 @@ export default function CreatePremadeWorkflowButton(props) {
         variant="none"
         id="create-premade-workflows-dropdown"
       >
-        <PrideText text="➕ Create Premade Workflows" />
+        <PrideText text={t("workflowButtons.createPremadeWorkflows")} />
       </StyledDropdownButton>
 
       <StyledDropDownMenu>

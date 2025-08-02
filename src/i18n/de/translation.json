@@ -1,0 +1,337 @@
+{
+  "connectTitle": "Mit Volcano verbinden",
+  "connectDescription": "Bereit, die Kontrolle über Ihren Volcano Hybrid zu übernehmen? Tippen Sie hier, um eine Bluetooth-Verbindung herzustellen und alle erweiterten Funktionen freizuschalten.",
+  "connectInstruction": "Stellen Sie sicher, dass Ihr Volcano eingeschaltet und in der Nähe ist",
+  "proTipLabel": "Profi-Tipp",
+  "proTipPrevious": "Vorheriger Tipp",
+  "proTipNext": "Nächster Tipp",
+  "tips": {
+    "spacebar": "Die Leertaste schaltet den Lüfter ein/aus",
+    "brightness": "Die Helligkeit des Bildschirms auf 0 zu setzen schaltet ihn aus",
+    "clean": "Vergessen Sie nicht, Ihre Kräuterkammer zu reinigen :D",
+    "filter": "Denken Sie daran, den Luftfilter Ihres Volcano zu überprüfen",
+    "themes": "Sie können das Aussehen der App ändern, indem Sie Designs in den Einstellungen ändern",
+    "workflows": "Verwenden Sie Arbeitsabläufe, um die vollständige Kontrolle über Ihren Volcano zu übernehmen",
+    "temperatures": "Sie können Temperaturen in den Einstellungen hinzufügen oder entfernen",
+    "bagReplace": "Häufige Nutzer sollten Beutel alle 2-4 Wochen für optimalen Geschmack ersetzen",
+    "bagTime": "10 Minuten oder weniger ist die ideale Zeit für einen Beutel, um Dampf zu speichern",
+    "preheat": "Für beste Ergebnisse heizen Sie die Kammer 2-5 Sekunden vor dem Anbringen des Beutels vor",
+    "dragDrop": "Drag & Drop kann verwendet werden, um Arbeitsabläufe und Arbeitsablaufelemente auf allen Geräten neu zu ordnen",
+    "highlight": "Wenn Sie den letzten ausgeführten Arbeitsablauf visuell sehen möchten, können Sie die Hervorhebung des letzten ausgeführten Arbeitsablaufs in den Einstellungen aktivieren",
+    "autoSeasonal": "Das Auto-Saisonale Rotations-Design wählt ein festliches Design aus, wenn möglich, und greift auf ein halb-zufälliges Design zurück",
+    "newCommands": "Neue Arbeitsablauf-Befehle jetzt verfügbar! Schleifen Sie Ihre Arbeitsabläufe und stellen Sie die Temperatur basierend auf der aktuellen Zieltemperatur ein!",
+    "miniMode": "Mini-Modus jetzt verfügbar! Klicken Sie einfach auf \"Mini-Modus\" im Navigationsmenü!",
+    "miniModeGrid": "Wenn Sie keine Arbeitsabläufe gespeichert haben, zeigt der Mini-Modus ein Temperaturraster an.",
+    "tempToggle": "Tippen oder klicken Sie auf die Temperaturanzeige, um zwischen °C und °F zu wechseln"
+  },
+  "contact": {
+    "title": "💬 Senden Sie mir eine Nachricht",
+    "description": "Es ist immer schön, von Benutzern zu hören! Ob Sie eine Funktionsanfrage haben, Feedback oder einfach nur Hallo sagen möchten, ich lese jede Nachricht. Geben Sie Ihre Kontaktinformationen an, wenn Sie eine Antwort möchten - ich antworte auf jede Nachricht, die sie enthält.",
+    "getInTouch": "Nehmen Sie Kontakt auf! Ob Sie Funktionsanfragen haben, Feedback oder einfach nur Hallo sagen möchten, ich würde gerne von Ihnen hören. Verbinden Sie sich über soziale Medien oder senden Sie eine direkte Nachricht.",
+    "contactInfoLabel": "Kontaktinformationen",
+    "contactInfoPlaceholder": "Ihre E-Mail, Discord, etc.",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Ihre Nachricht hier...",
+    "optional": "(Optional)",
+    "required": "(Erforderlich)",
+    "sendButton": "📤 Nachricht senden",
+    "important": "Wichtig:",
+    "spamNotice": "Wenn Sie Kontaktinformationen angegeben haben und innerhalb weniger Tage keine Antwort erhalten, überprüfen Sie bitte Ihren Spam-/Junk-Ordner, da meine Antworten manchmal dort landen.",
+    "submitWithoutContactTitle": "Ohne Kontaktinformationen absenden",
+    "submitWithoutContactBody": "Sie haben keine Kontaktinformationen angegeben, damit ich Ihnen antworten kann. Klicken Sie auf \"Schließen\", um Kontaktinformationen anzugeben, oder klicken Sie auf \"Absenden\", um ohne Kontaktinformationen fortzufahren. Ich kann nicht antworten, wenn Sie Ihre Kontaktinformationen nicht angeben.",
+    "submitButton": "Absenden",
+    "successMessage": "Erfolgreich!"
+  },
+  "workflowEditor": {
+    "title": "🔥 Arbeitsablauf-Editor",
+    "description": "Erstellen, anpassen und verwalten Sie Ihre Vaporizer-Arbeitsabläufe. Erstellen Sie präzise Temperatur-Routinen, Timing-Sequenzen und Lüftersteuerungen für die perfekte Verdampfungserfahrung.",
+    "createNewTitle": "➕ Neue Arbeitsabläufe erstellen",
+    "createNewDescription": "Beginnen Sie mit dem Aufbau Ihrer Vaporizer-Routinen, indem Sie benutzerdefinierte Arbeitsabläufe erstellen oder aus unseren vorgefertigten Vorlagen wählen.",
+    "customWorkflowTitle": "Benutzerdefinierter Arbeitsablauf",
+    "customWorkflowDescription": "Erstellen Sie einen Arbeitsablauf von Grund auf mit Ihren bevorzugten Temperatur- und Timing-Einstellungen.",
+    "templatesTitle": "Arbeitsablauf-Vorlagen",
+    "templatesDescription": "Schnellstart mit fachmännisch gestalteten Arbeitsabläufen für verschiedene Verdampfungsstile.",
+    "configEditorTitle": "⚙️ Konfigurations-Editor",
+    "configEditorDescription": "Sichern und verwalten Sie Ihre Arbeitsablauf-Konfigurationen. Exportieren Sie Ihre Arbeitsabläufe als JSON zum Speichern oder importieren Sie Konfigurationen von anderen, um Ihre Sammlung zu erweitern.",
+    "exportTitle": "Exportieren & Bearbeiten",
+    "exportDescription": "Anzeigen und ändern Sie Ihre aktuelle Arbeitsablauf-Konfiguration oder exportieren Sie sie zur Sicherung.",
+    "importTitle": "Arbeitsabläufe importieren",
+    "importDescription": "Fügen Sie neue Arbeitsabläufe aus JSON-Konfigurationsdateien hinzu, die von anderen geteilt wurden.",
+    "editCopyWorkflowJSON": "Arbeitsablauf-JSON bearbeiten/kopieren",
+    "appendWorkflowJSON": "Arbeitsablauf-JSON anhängen",
+    "exportAndEditConfiguration": "📤 Arbeitsablauf-Konfiguration exportieren & bearbeiten",
+    "copyConfigIcon": "📋",
+    "currentConfiguration": "Aktuelle Konfiguration",
+    "currentConfigDescription": "Ihre aktuelle Arbeitsablauf-Konfiguration wird unten angezeigt. Sie können sie zur Sicherung kopieren oder direkt ändern.",
+    "copyConfiguration": "📋 Konfiguration kopieren",
+    "editIcon": "✏️",
+    "editConfiguration": "Konfiguration bearbeiten",
+    "editConfigTip": "💡 Tipp: Verwenden Sie \"[]\" um eine leere Konfiguration zu erstellen, oder fügen Sie unten ein gültiges Arbeitsablauf-JSON ein",
+    "close": "Schließen",
+    "saveChanges": "Änderungen speichern",
+    "importAdditionalWorkflows": "📥 Zusätzliche Arbeitsabläufe importieren",
+    "aboutImportIcon": "ℹ️",
+    "aboutImport": "Über Import",
+    "aboutImportDescription": "Importieren Sie Arbeitsabläufe aus JSON-Konfigurationsdateien, die von anderen geteilt wurden. Diese werden zu Ihren bestehenden Arbeitsabläufen hinzugefügt, ohne sie zu ersetzen.",
+    "pasteConfigIcon": "📝",
+    "pasteConfiguration": "Konfiguration einfügen",
+    "pasteConfigTip": "💡 Fügen Sie die Arbeitsablauf-JSON-Konfiguration unten ein. Alle Arbeitsabläufe werden zu Ihrer aktuellen Sammlung hinzugefügt.",
+    "actionName": "Aktion {{index}}",
+    "actionType": "Aktionstyp",
+    "actionTypes": {
+      "heatOn": "🔥 Heizung Ein",
+      "fanOn": "🌪️ Lüfter Ein",
+      "fanOnGlobal": "🌍 Lüfter Global Ein",
+      "pauseWait": "⏸️ Pause/Warten",
+      "heatOff": "❄️ Heizung Aus",
+      "setLedBrightness": "💡 LED-Helligkeit einstellen",
+      "exitWhenTargetTemp": "🚪 Beenden bei Zieltemperatur",
+      "conditionalTempSet": "🎯 Bedingte Temperatureinstellung",
+      "startWorkflowFromBeginning": "🔄 Arbeitsablauf von Anfang starten"
+    },
+    "payloadLabels": {
+      "seconds": "Sekunden",
+      "brightness": "Helligkeit (0-100)",
+      "exitWorkflowUntilTemp": "Arbeitsablauf beenden bis Zieltemperatur ist"
+    },
+    "conditionalHeat": {
+      "defaultSettings": "Standardeinstellungen",
+      "defaultTemp": "Standardtemperatur",
+      "defaultWait": "Standard-Wartezeit",
+      "optional": "Optional",
+      "heatConditions": "Heizbedingungen",
+      "ifTemp": "Wenn Temperatur",
+      "thenSet": "Dann setzen",
+      "wait": "Warten",
+      "optionalShort": "(opt)",
+      "deleteCondition": "Bedingung {{index}} löschen",
+      "addCondition": "Bedingung hinzufügen",
+      "deleteConditionTitle": "Bedingung löschen",
+      "deleteConditionConfirm": "Sind Sie sicher, dass Sie diese Bedingung löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden",
+      "delete": "Löschen"
+    },
+    "validation": {
+      "mustBeValidNumber": "Muss eine gültige Zahl sein",
+      "temperatureRange": "Muss zwischen {{min}}{{unit}} und {{max}}{{unit}} liegen",
+      "mustBeGreaterOrEqualZero": "Muss >= 0 sein"
+    }
+  },
+  "workflowTips": {
+    "title": "💡 Arbeitsablauf-Tipps & Tricks",
+    "fanOnGlobal": {
+      "title": "Lüfter Global Ein",
+      "content": "\"Lüfter Global Ein\" ist ein einzelner Wert für alle Arbeitsabläufe. Verwenden Sie dies, um Ihre Hauptlüfterzeit für alle Arbeitsabläufe anzupassen."
+    },
+    "ledDisplay": {
+      "title": "LED-Display-Steuerung",
+      "content": "Wenn Sie die LED-Helligkeit auf 0 setzen, wird das Display vollständig ausgeschaltet."
+    },
+    "infiniteFan": {
+      "title": "Unendlicher Lüftermodus",
+      "content": "Wenn Sie den Lüfter auf 0 setzen, bleibt der Lüfter unbegrenzt eingeschaltet. Um den Lüfter auszuschalten, verwenden Sie einen anderen Lüfter-Ein-Befehl mit einem kleinen Wert (z.B. 0.1)."
+    },
+    "manualPause": {
+      "title": "Manuelle Pause",
+      "content": "Setzen Sie den Pause/Warte-Ablauf auf 0 und er wartet, bis Sie auf \"OK\" klicken, um die Arbeitsablauf-Ausführung fortzusetzen."
+    },
+    "dragDrop": {
+      "title": "Drag & Drop",
+      "content": "Sie können Arbeitsabläufe neu ordnen, indem Sie das Verschieben-Symbol (✛) an eine andere Position in der Liste ziehen."
+    },
+    "backgroundMode": {
+      "title": "Hintergrundmodus",
+      "content": "Wenn Sie Arbeitsabläufe auf einem Telefon oder Tablet verwenden, werden sie möglicherweise nicht im Hintergrund ausgeführt. Wenn sie stoppen, werden sie fortgesetzt, wenn die App geöffnet wird."
+    }
+  },
+  "workflow": {
+    "clickOkayToResume": "Klicken Sie auf OK, um den Arbeitsablauf fortzusetzen!",
+    "tapToCancel": "Zum Abbrechen tippen",
+    "stepNames": {
+      "fanOn": "Lüfter Ein",
+      "fanOnGlobal": "Lüfter Ein (Global)",
+      "turningHeatOff": "Heizung ausschalten",
+      "heatOn": "Heizung Ein",
+      "heatingTo": "Aufheizen auf {{temp}}{{unit}}",
+      "setLedBrightness": "LED-Helligkeit auf {{brightness}} setzen",
+      "waiting": "Warten",
+      "waitingAt": "Warten bei {{temp}}{{unit}}",
+      "conditionalHeat": "Bedingte Heizung",
+      "loopingToStart": "Zurück zum Start",
+      "checkingExitCondition": "Ausstiegsbedingung prüfen",
+      "processing": "Verarbeitung..."
+    }
+  },
+  "deviceInformation": {
+    "title": "Geräteinformationen",
+    "clipboardFailed": "Zwischenablage-Zugriff fehlgeschlagen. Bitte verwenden Sie Strg+V (oder Cmd+V auf Mac), um in das Textfeld einzufügen.",
+    "pasteStates": {
+      "failed": "❌ Fehlgeschlagen",
+      "pasted": "✓ Eingefügt",
+      "paste": "📋 {{label}}"
+    }
+  },
+  "social": {
+    "connectWithMe": "🌐 Verbinden Sie sich mit mir",
+    "github": "GitHub",
+    "reddit": "Reddit",
+    "x": "X",
+    "instagram": "Instagram",
+    "cashApp": "Cash App",
+    "patreon": "Patreon"
+  },
+  "accessibility": {
+    "plusOneTemperature": "Plus eine Temperatur",
+    "minusOneTemperature": "Minus eine Temperatur",
+    "decreaseTemperature": "Temperatur verringern",
+    "increaseTemperature": "Temperatur erhöhen"
+  },
+  "common": {
+    "loading": "Laden",
+    "on": "Ein",
+    "off": "Aus",
+    "cancel": "Abbrechen",
+    "celsius": "Celsius",
+    "fahrenheit": "Fahrenheit"
+  },
+  "deviceControls": {
+    "heatOn": "Heizung Ein",
+    "heatOff": "Heizung Aus",
+    "fanOn": "Lüfter Ein",
+    "fanOff": "Lüfter Aus"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "appearance": {
+      "title": "Erscheinungsbild",
+      "description": "Passen Sie das Aussehen Ihrer App an",
+      "selectTheme": "Ein Design auswählen",
+      "themeBy": "Design von:"
+    },
+    "behavior": {
+      "title": "App-Verhalten",
+      "description": "Steuern Sie, wie sich die App verhält und Informationen anzeigt"
+    },
+    "language": {
+      "title": "Sprache",
+      "description": "Wählen Sie Ihre bevorzugte Sprache für die Anwendung",
+      "default": "Standard (Browser-Sprache)",
+      "english": "English",
+      "french": "Français",
+      "spanish": "Español",
+      "german": "Deutsch",
+      "binary": "Binär",
+      "elvish": "Elbisch"
+    },
+    "system": {
+      "title": "System",
+      "description": "Systemeinstellungen und App-Installation",
+      "installPWA": "PWA-App auf Gerät installieren",
+      "installApp": "📱 App installieren",
+      "restoreDefaults": "Standardwerte wiederherstellen"
+    },
+    "volcano": {
+      "title": "Volcano-Steuerung",
+      "description": "Konfigurieren Sie die Einstellungen Ihres Volcano"
+    },
+    "device": {
+      "title": "Geräteinformationen",
+      "description": "Details über Ihr verbundenes Volcano-Gerät anzeigen"
+    },
+    "temperatureControl": {
+      "temperatureRange": "Temperatur muss zwischen {{range}} liegen",
+      "invalidTemperature": "Ungültiger Temperaturwert.",
+      "temperatureIn": "Temperatur in {{unit}}",
+      "submit": "Absenden",
+      "addTemperatureControls": "Temperatursteuerungen hinzufügen",
+      "restoreDefaults": "Standardwerte wiederherstellen",
+      "restoreDefaultTemperatures": "Standard-Temperaturen wiederherstellen",
+      "restoreDefaultsConfirm": "Sind Sie sicher, dass Sie die Standardwerte wiederherstellen möchten? Diese Aktion kann nicht rückgängig gemacht werden",
+      "saveChanges": "Änderungen speichern"
+    },
+    "items": {
+      "fanVibrationAlert": {
+        "title": "Lüfter-Vibrationsalarm",
+        "description": "Der Lüfter vibriert kurz, wenn Ihr Volcano die Zieltemperatur erreicht und Sie wissen lässt, dass er bereit ist."
+      },
+      "autoStartHeating": {
+        "title": "Automatisches Aufheizen starten",
+        "description": "Schalten Sie die Heizung automatisch ein, wenn Sie sich mit Ihrem Volcano-Gerät verbinden, um einen Schritt zu sparen."
+      },
+      "temperatureScale": {
+        "title": "Temperaturskala",
+        "description": "Verwendet derzeit {{current}}. Zwischen Fahrenheit und Celsius wechseln.",
+        "changeTo": "Wechseln zu: {{scale}}"
+      },
+      "bluetoothFirmware": {
+        "title": "Bluetooth-Firmware",
+        "description": "Version des Bluetooth-Kommunikationsmoduls"
+      },
+      "hoursOfOperation": {
+        "title": "Betriebsstunden",
+        "description": "Gesamtbetriebszeit Ihres Volcano-Geräts"
+      },
+      "volcanoFirmware": {
+        "title": "Volcano-Firmware",
+        "description": "Hauptgeräte-Firmware-Version"
+      },
+      "serialNumber": {
+        "title": "Seriennummer",
+        "description": "Eindeutige Gerätekennung"
+      },
+      "highlightLastRunWorkflow": {
+        "title": "Letzten Arbeitsablauf hervorheben",
+        "description": "Heben Sie den zuletzt ausgeführten Arbeitsablauf visuell zur einfachen Identifizierung hervor."
+      },
+      "ledDisplayBrightness": {
+        "title": "LED-Display-Helligkeit",
+        "description": "Passen Sie die Helligkeit des Displays Ihres Volcano an",
+        "currentLevel": "Aktuelles Level:"
+      },
+      "autoShutoffTimer": {
+        "title": "Automatischer Abschalt-Timer",
+        "description": "Stellen Sie ein, wie lange es dauert, bis Ihr Volcano automatisch ausschaltet"
+      },
+      "displayTemperatureWhenCooling": {
+        "title": "Temperatur beim Abkühlen anzeigen",
+        "description": "Temperaturinformationen anzeigen, während das Gerät abkühlt"
+      }
+    }
+  },
+  "navigation": {
+    "controls": "Steuerung",
+    "workflowEditor": "Arbeitsablauf-Editor",
+    "contactMe": "Kontaktieren Sie mich",
+    "settings": "Einstellungen",
+    "disconnect": "Trennen",
+    "miniMode": "Mini-Modus"
+  },
+  "contactPage": {
+    "title": "📞 Kontaktieren Sie mich"
+  },
+  "connection": {
+    "connecting": "🔗 Verbindung mit Volcano",
+    "initializing": "Gerätekommunikation initialisieren",
+    "establishingConnection": "Sichere Bluetooth-Verbindung mit Ihrem Volcano Hybrid wird hergestellt. Dies kann einige Momente dauern...",
+    "securingConnection": "Sichere Verbindung herstellen",
+    "scanningDevice": "Volcano-Geräteeigenschaften scannen"
+  },
+  "workflowButtons": {
+    "createNewWorkflow": "➕ Neuen Arbeitsablauf erstellen",
+    "createPremadeWorkflows": "➕ Vorgefertigte Arbeitsabläufe erstellen",
+    "addWorkflows": "Arbeitsabläufe hinzufügen"
+  },
+  "workflowExecution": {
+    "currentTemp": "Aktuelle Temp:",
+    "targetTemp": "Zieltemperatur:",
+    "timeRemaining": "Verbleibende Zeit:",
+    "elapsedTime": "Verstrichene Zeit:",
+    "errorLoadingWorkflow": "Fehler beim Laden der Arbeitsablaufdetails",
+    "loopMode": "Schleifenmodus",
+    "loopModeActive": "Schleifenmodus aktiv"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Aktion hier ablegen",
+    "dropWorkflowHere": "Arbeitsablauf hier ablegen",
+    "dropZone": "Ablegebereich"
+  }
+}

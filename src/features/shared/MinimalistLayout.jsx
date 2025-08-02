@@ -10,6 +10,7 @@ import ContactMeIcon from "./OutletRenderer/icons/ContactMeIcon";
 import WorkflowEditorIcon from "./OutletRenderer/icons/WorkflowEditorIcon";
 import WorkFlow from "../workflowEditor/WorkflowButtons";
 import CurrentWorkflowExecutionDisplay from "../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
+import { useTranslation } from "react-i18next";
 import {
   setIsHeatOn,
   setIsFanOn,
@@ -953,6 +954,7 @@ const WorkflowActionButton = styled.button`
 `;
 
 export default function MinimalistLayout() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const workflows = useSelector(
@@ -1930,7 +1932,7 @@ export default function MinimalistLayout() {
                                     justifyContent: "center",
                                   }}
                                 >
-                                  <div>Loading</div>
+                                  <div>{t('common.loading')}</div>
                                 </div>
                               );
 
@@ -1947,7 +1949,7 @@ export default function MinimalistLayout() {
                                     justifyContent: "center",
                                   }}
                                 >
-                                  <div>Loading</div>
+                                  <div>{t('common.loading')}</div>
                                 </div>
                               );
 
@@ -1958,32 +1960,31 @@ export default function MinimalistLayout() {
                             let stepDisplayName = "N/A";
                             switch (stepType) {
                               case WorkflowItemTypes.FAN_ON:
-                                stepDisplayName = "Fan On";
+                                stepDisplayName = t("workflow.stepNames.fanOn");
                                 break;
                               case WorkflowItemTypes.FAN_ON_GLOBAL:
-                                stepDisplayName = "Fan On (Global)";
+                                stepDisplayName = t("workflow.stepNames.fanOnGlobal");
                                 break;
                               case WorkflowItemTypes.HEAT_OFF:
-                                stepDisplayName = "Turning Heat Off";
+                                stepDisplayName = t("workflow.stepNames.turningHeatOff");
                                 break;
                               case WorkflowItemTypes.HEAT_ON:
                                 if (payload && payload > 0) {
-                                  stepDisplayName = `Heating to ${
-                                    isF
-                                      ? `${convertToFahrenheitFromCelsius(
-                                          payload
-                                        )}${DEGREE_SYMBOL}F`
-                                      : `${payload}${DEGREE_SYMBOL}C`
-                                  }`;
+                                  stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                    temp: isF
+                                      ? convertToFahrenheitFromCelsius(payload)
+                                      : payload,
+                                    unit: isF ? "°F" : "°C"
+                                  });
                                 } else {
-                                  stepDisplayName = "Heat On";
+                                  stepDisplayName = t("workflow.stepNames.heatOn");
                                 }
                                 break;
                               case WorkflowItemTypes.SET_LED_BRIGHTNESS:
-                                stepDisplayName = `Set LED Brightness to ${payload}`;
+                                stepDisplayName = t("workflow.stepNames.setLedBrightness", { brightness: payload });
                                 break;
                               case WorkflowItemTypes.WAIT:
-                                stepDisplayName = "Waiting";
+                                stepDisplayName = t("workflow.stepNames.waiting");
                                 break;
                               case WorkflowItemTypes.HEAT_ON_WITH_CONDITIONS:
                                 try {
@@ -2015,13 +2016,15 @@ export default function MinimalistLayout() {
                                         currentTempC >= targetTempC - 1 &&
                                         heatStep.wait > 0;
                                       if (shouldWait) {
-                                        stepDisplayName = `Waiting at ${nextHeat}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.waitingAt", {
+                                          temp: nextHeat,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       } else {
-                                        stepDisplayName = `Heating to ${nextHeat}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                          temp: nextHeat,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       }
                                     } else if (
                                       payload.default &&
@@ -2046,16 +2049,18 @@ export default function MinimalistLayout() {
                                         currentTempC >= targetTempC - 1 &&
                                         payload.default.wait > 0
                                       ) {
-                                        stepDisplayName = `Waiting at ${defaultTemp}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.waitingAt", {
+                                          temp: defaultTemp,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       } else {
-                                        stepDisplayName = `Heating to ${defaultTemp}°${
-                                          isF ? "F" : "C"
-                                        }`;
+                                        stepDisplayName = t("workflow.stepNames.heatingTo", {
+                                          temp: defaultTemp,
+                                          unit: isF ? "°F" : "°C"
+                                        });
                                       }
                                     } else {
-                                      stepDisplayName = "Conditional Heat";
+                                      stepDisplayName = t("workflow.stepNames.conditionalHeat");
                                     }
                                   } else {
                                     stepDisplayName = "Conditional Heat";
@@ -2105,7 +2110,7 @@ export default function MinimalistLayout() {
                                     height: "auto",
                                   }}
                                 >
-                                  <PrideText text="Cancel" />
+                                  <PrideText text={t('common.cancel')} />
                                 </WorkflowActionButton>
 
                                 <div
@@ -2468,7 +2473,7 @@ export default function MinimalistLayout() {
                                   justifyContent: "center",
                                 }}
                               >
-                                Error loading workflow details
+                                {t("workflowExecution.errorLoadingWorkflow")}
                               </div>
                             );
                           }
@@ -2522,7 +2527,7 @@ export default function MinimalistLayout() {
 
         <PlusMinusSection>
           <MinimalistPlusMinusButton
-            aria-label="Decrease temperature"
+            aria-label={t('accessibility.decreaseTemperature')}
             onClick={onTemperatureIncrement(-1)}
             buttonText={
               <svg
@@ -2543,7 +2548,7 @@ export default function MinimalistLayout() {
             }
           />
           <MinimalistPlusMinusButton
-            aria-label="Increase temperature"
+            aria-label={t('accessibility.increaseTemperature')}
             onClick={onTemperatureIncrement(1)}
             buttonText={
               <svg
@@ -2558,7 +2563,7 @@ export default function MinimalistLayout() {
               >
                 <path
                   fill="currentColor"
-                  d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+                  d="M416 208H272V64c0-17.67 14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
                 ></path>
               </svg>
             }
@@ -2593,7 +2598,7 @@ export default function MinimalistLayout() {
             }
             style={{ cursor: "pointer" }}
           >
-            <PrideText text="Controls" />
+            <PrideText text={t('navigation.controls')} />
             <ControlsIcon />
           </NavigationItem>
           <NavigationItem
@@ -2605,7 +2610,7 @@ export default function MinimalistLayout() {
             }
             style={{ cursor: "pointer" }}
           >
-            <PrideText text="Workflow Editor" />
+            <PrideText text={t('navigation.workflowEditor')} />
             <WorkflowEditorIcon />
           </NavigationItem>
           <NavigationItem
@@ -2615,7 +2620,7 @@ export default function MinimalistLayout() {
             }
             style={{ cursor: "pointer" }}
           >
-            <PrideText text="Contact Me" />
+            <PrideText text={t('navigation.contactMe')} />
             <ContactMeIcon />
           </NavigationItem>
           <NavigationItem
@@ -2625,7 +2630,7 @@ export default function MinimalistLayout() {
             }
             style={{ cursor: "pointer" }}
           >
-            <PrideText text="Settings" />
+            <PrideText text={t('navigation.settings')} />
             <SettingsIcon />
           </NavigationItem>
           <NavigationItem
@@ -2636,7 +2641,7 @@ export default function MinimalistLayout() {
             }}
             style={{ cursor: "pointer" }}
           >
-            <PrideText text="Disconnect" />
+            <PrideText text={t('navigation.disconnect')} />
             <BluetoothDisconnectIcon />
           </NavigationItem>
         </NavigationMenu>

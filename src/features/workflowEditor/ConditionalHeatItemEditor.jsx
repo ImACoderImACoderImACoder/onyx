@@ -8,6 +8,7 @@ import ModalWrapper from "../shared/styledComponents/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "../shared/OutletRenderer/icons/DeleteIcon";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 import {
   WriteNewConfigToLocalStorage,
   convertToCelsiusFromFahrenheit,
@@ -48,6 +49,7 @@ const WideStyledControl = styled(StyledControl)`
 `;
 
 export default function ConditionalHeatItemEditor({ workflowId, item }) {
+  const { t } = useTranslation();
   const [errors, setErrors] = useState({ default: {}, conditions: {} });
   const [show, setShow] = useState(false);
   const [deleteConditionId, setDeleteConditionId] = useState(null);
@@ -174,7 +176,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         ...prev,
         default: {
           ...prev.default,
-          [field]: `Must be a valid number`,
+          [field]: t('workflowEditor.validation.mustBeValidNumber'),
         },
       }));
       return;
@@ -201,7 +203,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         ...prev,
         default: {
           ...prev.default,
-          [field]: `Must be between ${displayMin}${unit} and ${displayMax}${unit}`,
+          [field]: t('workflowEditor.validation.temperatureRange', { min: displayMin, max: displayMax, unit }),
         },
       }));
       return;
@@ -210,7 +212,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         ...prev,
         default: {
           ...prev.default,
-          [field]: `Must be >= 0`,
+          [field]: t('workflowEditor.validation.mustBeGreaterOrEqualZero'),
         },
       }));
       return;
@@ -262,7 +264,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         const newErrors = { ...prev.conditions };
         newErrors[index] = {
           ...(newErrors[index] || {}),
-          [field]: `Must be a valid number`,
+          [field]: t('workflowEditor.validation.mustBeValidNumber'),
         };
         return { ...prev, conditions: newErrors };
       });
@@ -292,7 +294,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         const newErrors = { ...prev.conditions };
         newErrors[index] = {
           ...(newErrors[index] || {}),
-          [field]: `Must be between ${displayMin}${unit} and ${displayMax}${unit}`,
+          [field]: t('workflowEditor.validation.temperatureRange', { min: displayMin, max: displayMax, unit }),
         };
         return { ...prev, conditions: newErrors };
       });
@@ -302,7 +304,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
         const newErrors = { ...prev.conditions };
         newErrors[index] = {
           ...(newErrors[index] || {}),
-          [field]: `Must be >= 0`,
+          [field]: t('workflowEditor.validation.mustBeGreaterOrEqualZero'),
         };
         return { ...prev, conditions: newErrors };
       });
@@ -382,10 +384,10 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
 
   return (
     <>
-      <h4>Default Settings</h4>
+      <h4>{t('workflowEditor.conditionalHeat.defaultSettings')}</h4>
       <Row className="mb-3">
         <Col>
-          <StyledLabel>Default Temp</StyledLabel>
+          <StyledLabel>{t('workflowEditor.conditionalHeat.defaultTemp')}</StyledLabel>
           <StyledControl
             type="number"
             inputMode="decimal"
@@ -405,12 +407,12 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
           </StyledControl.Feedback>
         </Col>
         <Col>
-          <StyledLabel>Default Wait</StyledLabel>
+          <StyledLabel>{t('workflowEditor.conditionalHeat.defaultWait')}</StyledLabel>
           <StyledControl
             type="number"
             inputMode="decimal"
             step="1"
-            placeholder="Optional"
+            placeholder={t('workflowEditor.conditionalHeat.optional')}
             value={
               displayValues.default.wait !== undefined
                 ? displayValues.default.wait
@@ -434,11 +436,11 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
 
       <hr className="my-4" />
 
-      <h4>Heat Conditions</h4>
+      <h4>{t('workflowEditor.conditionalHeat.heatConditions')}</h4>
       {data.conditions.map((cond, idx) => (
         <div className="d-flex gap-2 mb-3" key={cond.id || idx}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <StyledLabel>If Temp</StyledLabel>
+            <StyledLabel>{t('workflowEditor.conditionalHeat.ifTemp')}</StyledLabel>
             <WideStyledControl
               type="number"
               inputMode="decimal"
@@ -461,7 +463,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             </WideStyledControl.Feedback>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <StyledLabel>Then Set</StyledLabel>
+            <StyledLabel>{t('workflowEditor.conditionalHeat.thenSet')}</StyledLabel>
             <WideStyledControl
               type="number"
               inputMode="decimal"
@@ -487,12 +489,12 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
             </WideStyledControl.Feedback>
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <StyledLabel>Wait</StyledLabel>
+            <StyledLabel>{t('workflowEditor.conditionalHeat.wait')}</StyledLabel>
             <WideStyledControl
               type="number"
               inputMode="decimal"
               step="1"
-              placeholder="(opt)"
+              placeholder={t('workflowEditor.conditionalHeat.optionalShort')}
               value={
                 displayValues.conditions[idx]?.wait !== undefined
                   ? displayValues.conditions[idx]?.wait
@@ -521,7 +523,7 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
               onKeyDown={handler(cond.id)}
               tabIndex={0}
               role="button"
-              aria-label={`Delete condition ${idx + 1}`}
+              aria-label={t('workflowEditor.conditionalHeat.deleteCondition', { index: idx + 1 })}
             >
               <DeleteIcon />
             </DeleteIconWrapper>
@@ -530,13 +532,13 @@ export default function ConditionalHeatItemEditor({ workflowId, item }) {
       ))}
 
       <Button onClick={addCondition}>
-        <PrideText text="Add Condition" />
+        <PrideText text={t('workflowEditor.conditionalHeat.addCondition')} />
       </Button>
 
       <ModalWrapper
-        headerText={<PrideText text="Delete Condition" />}
-        bodyText="Are you sure you want to delete this condition? This action cannot be undone"
-        confirmButtonText="Delete"
+        headerText={<PrideText text={t('workflowEditor.conditionalHeat.deleteConditionTitle')} />}
+        bodyText={t('workflowEditor.conditionalHeat.deleteConditionConfirm')}
+        confirmButtonText={t('workflowEditor.conditionalHeat.delete')}
         handleClose={handleClose}
         handleConfirm={handleConfirm}
         show={show}

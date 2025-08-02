@@ -15,8 +15,10 @@ import {
 } from "../../../constants/temperature";
 import RestoreDefaultTemperature from "./RestoreDefaultTemperature";
 import StyledFormControl from "../../shared/styledComponents/FormControl";
+import { useTranslation } from "react-i18next";
 
 export default function AddTemperatureControl() {
+  const { t } = useTranslation();
   const config = useSelector((state) => state.settings.config);
   const isF = useSelector((state) => state.settings.isF);
   const dispatch = useDispatch();
@@ -26,7 +28,7 @@ export default function AddTemperatureControl() {
         MIN_CELSIUS_TEMP
       )}-${convertToFahrenheitFromCelsius(MAX_CELSIUS_TEMP)} ${DEGREE_SYMBOL}F`
     : `${MIN_CELSIUS_TEMP}-${MAX_CELSIUS_TEMP} ${DEGREE_SYMBOL}C`;
-  const inputHelperText = `Temperature must be between ${fOrCMessage}`;
+  const inputHelperText = t('settings.temperatureControl.temperatureRange', { range: fOrCMessage });
   const fOrC = `${DEGREE_SYMBOL}${isF ? "F" : "C"}`;
   return (
     <Form
@@ -34,7 +36,7 @@ export default function AddTemperatureControl() {
         e.preventDefault();
         const parsedValue = parseInt(e.target[0].value);
         if (isNaN(parsedValue)) {
-          alert("Invalid temperature value.");
+          alert(t('settings.temperatureControl.invalidTemperature'));
           return;
         }
 
@@ -62,12 +64,12 @@ export default function AddTemperatureControl() {
           });
           dispatch(setTemperatureControls(newTemperatures));
         } else {
-          alert(`${inputHelperText}`);
+          alert(inputHelperText);
         }
       }}
     >
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>{`Temperature in ${fOrC}`}</Form.Label>
+        <Form.Label>{t('settings.temperatureControl.temperatureIn', { unit: fOrC })}</Form.Label>
         <StyledFormControl
           style={{ maxWidth: "250px" }}
           type="number"
@@ -76,7 +78,7 @@ export default function AddTemperatureControl() {
         />
         <Form.Text>{inputHelperText}</Form.Text>
       </Form.Group>
-      <Button type="submit">Submit</Button> <RestoreDefaultTemperature />
+      <Button type="submit">{t('settings.temperatureControl.submit')}</Button> <RestoreDefaultTemperature />
     </Form>
   );
 }

@@ -1,5 +1,6 @@
 import PrideText from "../../themes/PrideText";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const TipsContainer = styled.div`
   background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
@@ -79,36 +80,38 @@ const TipContent = styled.p`
 `;
 
 export default function WorkflowTips() {
+  const { t } = useTranslation();
+  
   const tips = [
     {
       icon: "🌪️",
-      title: "Fan On Global",
-      content: "\"Fan On Global\" is a single value across all workflows. Use this to adjust your main fan time for all workflows."
+      title: t("workflowTips.fanOnGlobal.title"),
+      content: t("workflowTips.fanOnGlobal.content")
     },
     {
       icon: "💡",
-      title: "LED Display Control",
-      content: "If you set the LED brightness to 0 it completely turns off the display."
+      title: t("workflowTips.ledDisplay.title"),
+      content: t("workflowTips.ledDisplay.content")
     },
     {
       icon: "♾️",
-      title: "Infinite Fan Mode",
-      content: "If you set fan on to 0 it will keep the fan on indefinitely. To turn the fan off use another fan on command with a small value (e.g. 0.1)."
+      title: t("workflowTips.infiniteFan.title"),
+      content: t("workflowTips.infiniteFan.content")
     },
     {
       icon: "⏸️",
-      title: "Manual Pause",
-      content: "Set the pause/wait flow to 0 and it will wait until you click \"okay\" to resume the workflow execution."
+      title: t("workflowTips.manualPause.title"),
+      content: t("workflowTips.manualPause.content")
     },
     {
       icon: "📱",
-      title: "Drag & Drop",
-      content: "You can re-order workflows by dragging the move icon (✛) to another position in the list."
+      title: t("workflowTips.dragDrop.title"),
+      content: t("workflowTips.dragDrop.content")
     },
     {
       icon: "🔄",
-      title: "Background Mode",
-      content: "If you are using workflows on a phone or tablet they may not run in the background. If they stop running they will resume when the app is opened."
+      title: t("workflowTips.backgroundMode.title"),
+      content: t("workflowTips.backgroundMode.content")
     }
   ];
 
@@ -116,7 +119,7 @@ export default function WorkflowTips() {
     <TipsContainer>
       <TipsHeader>
         <h2>
-          <PrideText text="💡 Workflow Tips & Tricks" />
+          <PrideText text={t("workflowTips.title")} />
         </h2>
       </TipsHeader>
       <TipsGrid>

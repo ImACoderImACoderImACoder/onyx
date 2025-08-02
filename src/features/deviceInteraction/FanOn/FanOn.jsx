@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { PrideTextWithDiv } from "../../../themes/PrideText";
 import ToggleSwitch from "../../shared/styledComponents/Switch";
 export default React.forwardRef((props, ref) => {
+  const { t } = useTranslation();
   const enterKeyCode = 13;
   const handler = (e) => {
     if (e.keyCode === enterKeyCode) {
@@ -20,8 +22,8 @@ export default React.forwardRef((props, ref) => {
     >
       <ToggleSwitch
         isToggleOn={props.isFanOn}
-        onText="Fan On"
-        offText={<PrideTextWithDiv text="Fan Off" />}
+        onText={t("deviceControls.fanOn")}
+        offText={<PrideTextWithDiv text={t("deviceControls.fanOff")} />}
         onChange={props.onChange}
         ref={ref}
       />

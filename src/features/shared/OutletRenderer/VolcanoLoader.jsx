@@ -36,6 +36,7 @@ import { feastOfSaintPatrickId } from "../../../constants/themeIds";
 import CurrentWorkflowExecutionDisplay from "../../deviceInteraction/CurrentWorkflowExecutionDisplay.jsx/CurrentWorkflowExecutionDisplay";
 import withScrolling from "react-dnd-scrolling";
 import AutoOff from "../../deviceInteraction/AutoOff/AutoOff";
+import { useTranslation } from "react-i18next";
 
 const ScrollingDiv = withScrolling("div");
 
@@ -110,6 +111,7 @@ const WhiteMenuIconWrapper = styled.div`
 `;
 
 export default function VolcanoLoader(props) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
 
   const dispatch = useDispatch();
@@ -308,7 +310,7 @@ export default function VolcanoLoader(props) {
             <StyledNav>
               <StyledRouterIconLink onClick={onLinkClick} to="/Volcano/App">
                 {<ControlsIcon />}
-                {<PrideTextWithDiv text="Controls" />}
+                {<PrideTextWithDiv text={t("navigation.controls")} />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 as="div"
@@ -316,33 +318,33 @@ export default function VolcanoLoader(props) {
                 style={{ cursor: "pointer" }}
               >
                 <MenuBarIcon />
-                <PrideTextWithDiv text="Mini Mode" />
+                <PrideTextWithDiv text={t("navigation.miniMode")} />
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/WorkflowEditor"
               >
                 {<WorkflowEditorIcon />}
-                {<PrideTextWithDiv text="Workflow Editor" />}
+                {<PrideTextWithDiv text={t("navigation.workflowEditor")} />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/ContactMe"
               >
                 {<ContactMeIcon />}
-                {<PrideTextWithDiv text="Contact Me" />}
+                {<PrideTextWithDiv text={t("navigation.contactMe")} />}
               </StyledRouterIconLink>
               <StyledRouterIconLink
                 onClick={onLinkClick}
                 to="/Volcano/Settings"
               >
                 {<SettingsIcon />}
-                {<PrideTextWithDiv text="Settings" />}
+                {<PrideTextWithDiv text={t("navigation.settings")} />}
               </StyledRouterIconLink>
 
               <StyledRouterIconLink to="/" onClick={OnDisconnectClick}>
                 <BluetoothDisconnectIcon />
-                <PrideTextWithDiv text="Disconnect" />
+                <PrideTextWithDiv text={t("navigation.disconnect")} />
               </StyledRouterIconLink>
             </StyledNav>
           </Navbar.Collapse>

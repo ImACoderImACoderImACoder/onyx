@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const PasteBtn = styled.button`
   background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.1)'};
@@ -33,6 +34,7 @@ const PasteBtn = styled.button`
 `;
 
 export default function PasteButton({ onPaste, label = 'Paste' }) {
+  const { t } = useTranslation();
   const [pasted, setPasted] = useState(false);
   const [error, setError] = useState(false);
 
@@ -56,7 +58,7 @@ export default function PasteButton({ onPaste, label = 'Paste' }) {
       setTimeout(() => setError(false), 3000);
       
       // Show instructions to user
-      alert('Clipboard access failed. Please use Ctrl+V (or Cmd+V on Mac) to paste into the text area.');
+      alert(t('deviceInformation.clipboardFailed'));
     }
   };
 
@@ -64,15 +66,15 @@ export default function PasteButton({ onPaste, label = 'Paste' }) {
     <PasteBtn onClick={handlePaste}>
       {error ? (
         <>
-          ❌ Failed
+          {t('deviceInformation.pasteStates.failed')}
         </>
       ) : pasted ? (
         <>
-          ✓ Pasted
+          {t('deviceInformation.pasteStates.pasted')}
         </>
       ) : (
         <>
-          📋 {label}
+          {t('deviceInformation.pasteStates.paste', { label })}
         </>
       )}
     </PasteBtn>
