@@ -17,6 +17,7 @@ import PrideText from "../../../themes/PrideText";
 import { defaultGlobalFanOnTimeInSeconds } from "../../../constants/constants";
 import CopyButton from "../../deviceInformation/CopyButton";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const CopyButtonContainer = styled.div`
   display: flex;
@@ -25,8 +26,10 @@ const CopyButtonContainer = styled.div`
 `;
 
 const ModalSection = styled.div`
-  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  background: ${(props) =>
+    props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0;
@@ -48,26 +51,28 @@ const ModalSectionTitle = styled.h4`
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryColor || props.theme.primaryFontColor};
 `;
 
 const ModalDescription = styled.p`
   margin: 0 0 16px 0;
   font-size: 0.9rem;
   line-height: 1.4;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   opacity: 0.8;
 `;
 
 const InstructionText = styled.div`
   font-size: 0.85rem;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   opacity: 0.7;
   margin-bottom: 12px;
   padding: 8px 12px;
-  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
+  background: ${(props) =>
+    props.theme.buttonColorMain || "rgba(255, 255, 255, 0.05)"};
   border-radius: 4px;
-  border-left: 3px solid ${props => props.theme.primaryColor || 'rgba(255, 255, 255, 0.3)'};
+  border-left: 3px solid
+    ${(props) => props.theme.primaryColor || "rgba(255, 255, 255, 0.3)"};
 `;
 
 export default function WorkflowConfigEdtior() {
@@ -83,6 +88,7 @@ export default function WorkflowConfigEdtior() {
   );
 
   const config = useSelector((state) => state.settings.config);
+  const { t } = useTranslation();
 
   const handleConfirm = () => {
     let uploadedConfig;
@@ -133,11 +139,13 @@ export default function WorkflowConfigEdtior() {
   return (
     <>
       <Button onClick={handleShow}>
-        <PrideText text="Edit/Copy Workflow JSON" />
+        <PrideText text={t("workflowEditor.editCopyWorkflowJSON")} />
       </Button>
       <ModalWrapper
         show={show}
-        headerText={<PrideText text="📤 Export & Edit Workflow Configuration" />}
+        headerText={
+          <PrideText text="📤 Export & Edit Workflow Configuration" />
+        }
         handleClose={handleClose}
         confirmButtonText="Save Changes"
         handleConfirm={handleConfirm}
@@ -148,7 +156,8 @@ export default function WorkflowConfigEdtior() {
             <ModalSectionTitle>Current Configuration</ModalSectionTitle>
           </ModalSectionHeader>
           <ModalDescription>
-            Your current workflow configuration is displayed below. You can copy it for backup or modify it directly.
+            Your current workflow configuration is displayed below. You can copy
+            it for backup or modify it directly.
           </ModalDescription>
           <CopyButtonContainer>
             <CopyButton text={configString} label="Copy Configuration" />
@@ -161,7 +170,8 @@ export default function WorkflowConfigEdtior() {
             <ModalSectionTitle>Edit Configuration</ModalSectionTitle>
           </ModalSectionHeader>
           <InstructionText>
-            💡 Tip: Use "[]" to create an empty configuration, or paste a valid workflow JSON below
+            💡 Tip: Use "[]" to create an empty configuration, or paste a valid
+            workflow JSON below
           </InstructionText>
           <ControlWrapper
             value={configString}

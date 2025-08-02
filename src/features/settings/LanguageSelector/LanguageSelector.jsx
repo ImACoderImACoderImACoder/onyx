@@ -62,6 +62,8 @@ export default function LanguageSelector() {
         <option value="fr">{t('settings.language.french')}</option>
         <option value="es">{t('settings.language.spanish')}</option>
         <option value="de">{t('settings.language.german')}</option>
+        <option value="binary">{t('settings.language.binary')}</option>
+        <option value="elvish">{t('settings.language.elvish')}</option>
       </StyledSelect>
     </SettingsItem>
   );

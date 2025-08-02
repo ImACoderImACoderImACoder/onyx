@@ -191,7 +191,9 @@
       "english": "English",
       "french": "Français",
       "spanish": "Español",
-      "german": "Deutsch"
+      "german": "Deutsch",
+      "binary": "Binaire",
+      "elvish": "Elfique"
     },
     "system": {
       "title": "Système",

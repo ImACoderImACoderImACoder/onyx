@@ -218,7 +218,9 @@
       "english": "English",
       "french": "Français",
       "spanish": "Español",
-      "german": "Deutsch"
+      "german": "Deutsch",
+      "binary": "Binario",
+      "elvish": "Élfico"
     },
     "system": {
       "title": "Sistema",

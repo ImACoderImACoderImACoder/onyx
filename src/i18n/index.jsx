@@ -6,6 +6,8 @@ import translationEN from "./en/translation.json";
 import translationFR from "./fr/translation.json";
 import translationES from "./es/translation.json";
 import translationDE from "./de/translation.json";
+import translationBinary from "./binary/translation.json";
+import translationElvish from "./elvish/translation.json";
 import { ReadConfigFromLocalStorage, SUPPORTED_LANGUAGES } from "../services/utils";
 
 const resources = {
@@ -13,6 +15,8 @@ const resources = {
   fr: { translation: translationFR },
   es: { translation: translationES },
   de: { translation: translationDE },
+  binary: { translation: translationBinary },
+  elvish: { translation: translationElvish },
 };
 
 // Get stored language preference

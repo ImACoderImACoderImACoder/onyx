@@ -1,0 +1,337 @@
+{
+  "connectTitle": "Connect to Mount Doom",
+  "connectDescription": "Ready to command your Volcano? Forge a connection through the ancient arts of Bluetooth.",
+  "connectInstruction": "Ensure your Volcano burns with power nearby",
+  "proTipLabel": "Wisdom of the Eldar",
+  "proTipPrevious": "Previous wisdom",
+  "proTipNext": "Next wisdom",
+  "tips": {
+    "spacebar": "The spacebar commands the winds",
+    "brightness": "Setting brightness to naught extinguishes the light",
+    "clean": "Keep thy chamber pure as Lothlórien :D",
+    "filter": "Check thy air filter as one tends the gardens",
+    "themes": "Change thy realm's appearance in the Hall of Settings",
+    "workflows": "Use workflows to master the Flame of Anor",
+    "temperatures": "Add or remove heat levels in the settings forge",
+    "bagReplace": "Replace thy vapor pouches every fortnight for finest essence",
+    "bagTime": "Ten minutes or less to preserve the sacred vapors",
+    "preheat": "Warm the chamber briefly ere the bag joins",
+    "dragDrop": "Move workflows as Gandalf moves his pieces",
+    "highlight": "Mark thy last journey with elven light",
+    "autoSeasonal": "The seasons change thy theme as in Rivendell",
+    "newCommands": "New powers of command are granted!",
+    "miniMode": "Behold! The compact viewing stone!",
+    "miniModeGrid": "Without workflows, see the grid of temperatures",
+    "tempToggle": "Touch the heat runes to switch between realms"
+  },
+  "contact": {
+    "title": "💬 Send a Message",
+    "description": "Well met! I welcome all messages from fellow travelers. Share thy thoughts freely.",
+    "getInTouch": "Hail and well met! Connect through social paths or send word directly.",
+    "contactInfoLabel": "Contact Runes",
+    "contactInfoPlaceholder": "Your email, Discord, etc.",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Speak, friend, and enter...",
+    "optional": "(Optional)",
+    "required": "(Required)",
+    "sendButton": "📤 Send Raven",
+    "important": "Mark well:",
+    "spamNotice": "Check thy spam folder, for replies may wander there.",
+    "submitWithoutContactTitle": "Send Without Return Path",
+    "submitWithoutContactBody": "No contact runes provided. I cannot send reply scrolls without them.",
+    "submitButton": "Send Forth",
+    "successMessage": "Message sent!"
+  },
+  "workflowEditor": {
+    "title": "🔥 Forge of Workflows",
+    "description": "Create, customize, and command thy vapor rituals. Craft precise heat sequences as the smiths of old.",
+    "createNewTitle": "➕ Forge New Workflows",
+    "createNewDescription": "Begin crafting thy rituals from scratch or use ancient templates.",
+    "customWorkflowTitle": "Custom Ritual",
+    "customWorkflowDescription": "Build thy own path with chosen temperatures and timings.",
+    "templatesTitle": "Ancient Templates",
+    "templatesDescription": "Quick rituals passed down by master vapers.",
+    "configEditorTitle": "⚙️ Rune Editor",
+    "configEditorDescription": "Backup and manage thy ritual scrolls. Export to JSON runes.",
+    "exportTitle": "Export & Inscribe",
+    "exportDescription": "View and modify thy current ritual configuration.",
+    "importTitle": "Import Rituals",
+    "importDescription": "Add new rituals from JSON scrolls shared by others.",
+    "editCopyWorkflowJSON": "Edit/Copy Ritual Runes",
+    "appendWorkflowJSON": "Add Ritual Runes",
+    "exportAndEditConfiguration": "📤 Export & Edit Sacred Scrolls",
+    "copyConfigIcon": "📋",
+    "currentConfiguration": "Current Scrolls",
+    "currentConfigDescription": "Thy ritual configuration lies below. Copy for safekeeping.",
+    "copyConfiguration": "📋 Copy Scrolls",
+    "editIcon": "✏️",
+    "editConfiguration": "Edit Scrolls",
+    "editConfigTip": "💡 Wisdom: Use \"[]\" to clear all",
+    "close": "Close",
+    "saveChanges": "Save Changes",
+    "importAdditionalWorkflows": "📥 Import More Rituals",
+    "aboutImportIcon": "ℹ️",
+    "aboutImport": "About Import",
+    "aboutImportDescription": "Import rituals from JSON scrolls shared by fellow travelers.",
+    "pasteConfigIcon": "📝",
+    "pasteConfiguration": "Paste Configuration",
+    "pasteConfigTip": "💡 Paste thy ritual JSON below.",
+    "actionName": "Step {{index}}",
+    "actionType": "Action Type",
+    "actionTypes": {
+      "heatOn": "🔥 Kindle the Flame",
+      "fanOn": "🌪️ Summon the Winds",
+      "fanOnGlobal": "🌍 Global Wind Setting",
+      "pauseWait": "⏸️ Pause/Wait",
+      "heatOff": "❄️ Extinguish Flame",
+      "setLedBrightness": "💡 Set Light Brightness",
+      "exitWhenTargetTemp": "🚪 Exit at Target Heat",
+      "conditionalTempSet": "🎯 Conditional Heat",
+      "startWorkflowFromBeginning": "🔄 Begin Anew"
+    },
+    "payloadLabels": {
+      "seconds": "Seconds",
+      "brightness": "Brightness (0-100)",
+      "exitWorkflowUntilTemp": "Exit workflow when temperature reaches"
+    },
+    "conditionalHeat": {
+      "defaultSettings": "Default Settings",
+      "defaultTemp": "Default Temp",
+      "defaultWait": "Default Wait",
+      "optional": "Optional",
+      "heatConditions": "Heat Conditions",
+      "ifTemp": "If Temp",
+      "thenSet": "Then Set",
+      "wait": "Wait",
+      "optionalShort": "(opt)",
+      "deleteCondition": "Remove condition {{index}}",
+      "addCondition": "Add Condition",
+      "deleteConditionTitle": "Remove Condition",
+      "deleteConditionConfirm": "Art thou certain? This cannot be undone.",
+      "delete": "Remove"
+    },
+    "validation": {
+      "mustBeValidNumber": "Baur naun neder",
+      "temperatureRange": "Baur naun erin {{min}}{{unit}} a {{max}}{{unit}}",
+      "mustBeGreaterOrEqualZero": "Baur naun >= 0"
+    }
+  },
+  "workflowTips": {
+    "title": "💡 Gûr Path",
+    "fanOnGlobal": {
+      "title": "Gwelu Ardhon",
+      "content": "\"Gwelu Ardhon\" naun eneg tâl mi bân path. Anno sen an pennad în baur gwelu-lû."
+    },
+    "ledDisplay": {
+      "title": "Calad Pant",
+      "content": "Ai le pedo i calad na 0 bêd i pant tîn."
+    },
+    "infiniteFan": {
+      "title": "Uireb Gwelu",
+      "content": "Ai le pedo gwelu na 0 garo i gwelu uireb. An bedad gwelu anno uin gwelu govad na tithen tâl."
+    },
+    "manualPause": {
+      "title": "Dartha Maed",
+      "content": "Pedo i dartha/daro na 0 a dartho pan le tabo \"mae\" an edlennad."
+    },
+    "dragDrop": {
+      "title": "Rîw & Dad",
+      "content": "Pennadathach path na rîw i peng-rîw na uin sîdh."
+    },
+    "backgroundMode": {
+      "title": "Taur Dad",
+      "content": "Path ú-chîr reviad mi taur dad. Edlennar pan i sennas pada."
+    }
+  },
+  "workflow": {
+    "clickOkayToResume": "Click to continue thy journey!",
+    "tapToCancel": "Tap to Abandon Quest",
+    "stepNames": {
+      "fanOn": "Winds Blow",
+      "fanOnGlobal": "Winds Blow (Global)",
+      "turningHeatOff": "Quenching Flame",
+      "heatOn": "Kindling Fire",
+      "heatingTo": "Heating to {{temp}}{{unit}}",
+      "setLedBrightness": "Setting Light to {{brightness}}",
+      "waiting": "Waiting",
+      "waitingAt": "Dwelling at {{temp}}{{unit}}",
+      "conditionalHeat": "Conditional Heat",
+      "loopingToStart": "Returning to Beginning",
+      "checkingExitCondition": "Checking Exit Rune",
+      "processing": "Working..."
+    }
+  },
+  "deviceInformation": {
+    "title": "Device Lore",
+    "clipboardFailed": "Clipboard magic failed. Use Ctrl+V to paste.",
+    "pasteStates": {
+      "failed": "❌ Failed",
+      "pasted": "✓ Inscribed",
+      "paste": "📋 {{label}}"
+    }
+  },
+  "social": {
+    "connectWithMe": "🌐 Join My Fellowship",
+    "github": "GitHub",
+    "reddit": "Reddit",
+    "x": "X",
+    "instagram": "Instagram",
+    "cashApp": "Gold Pouch",
+    "patreon": "Patreon"
+  },
+  "accessibility": {
+    "plusOneTemperature": "Edlenna nêl gwanûn",
+    "minusOneTemperature": "Nego nêl gwanûn",
+    "decreaseTemperature": "Nego gwanûn",
+    "increaseTemperature": "Edlenna gwanûn"
+  },
+  "common": {
+    "loading": "Forging...",
+    "on": "Lit",
+    "off": "Unlit",
+    "cancel": "Abandon",
+    "celsius": "Celsius",
+    "fahrenheit": "Fahrenheit"
+  },
+  "deviceControls": {
+    "heatOn": "Naur Pedo",
+    "heatOff": "Naur Bedo",
+    "fanOn": "Gwelu Pedo",
+    "fanOff": "Gwelu Bedo"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize thy realm's visage",
+      "selectTheme": "Choose Theme",
+      "themeBy": "Theme crafted by:"
+    },
+    "behavior": {
+      "title": "App Behavior",
+      "description": "Command how the app behaves"
+    },
+    "language": {
+      "title": "Tongue",
+      "description": "Choose thy preferred tongue",
+      "default": "Default (Browser Tongue)",
+      "english": "Common Speech",
+      "french": "Tongue of Gondor",
+      "spanish": "Tongue of the South",
+      "german": "Tongue of the North",
+      "binary": "Dwarvish Runes",
+      "elvish": "Elvish"
+    },
+    "system": {
+      "title": "Thangol",
+      "description": "Nestadren thangol a nestago sennas",
+      "installPWA": "Nestago Sennas na Ranc",
+      "installApp": "📱 Nestago Sennas",
+      "restoreDefaults": "Edlenno thîr"
+    },
+    "volcano": {
+      "title": "Mount Doom Controls",
+      "description": "Configure thy Volcano's power"
+    },
+    "device": {
+      "title": "Device Information",
+      "description": "View details of thy connected Volcano"
+    },
+    "temperatureControl": {
+      "temperatureRange": "Temperature must be between {{range}}",
+      "invalidTemperature": "Invalid temperature value.",
+      "temperatureIn": "Temperature in {{unit}}",
+      "submit": "Submit",
+      "addTemperatureControls": "Add Temperature Controls",
+      "restoreDefaults": "Restore Defaults",
+      "restoreDefaultTemperatures": "Restore Default Temperatures",
+      "restoreDefaultsConfirm": "Art thou certain? This deed cannot be undone.",
+      "saveChanges": "Save Changes"
+    },
+    "items": {
+      "fanVibrationAlert": {
+        "title": "Gwelu Critha Canath",
+        "description": "I gwelu critha pan în Orodruin tangad i aníra gwanûn."
+      },
+      "autoStartHeating": {
+        "title": "Thangado Naur Uireb",
+        "description": "Uireb pedo i naur pan le gwedho na în Orodruin."
+      },
+      "temperatureScale": {
+        "title": "Raed Gwanûn",
+        "description": "Sí annad {{current}}. Penio erin Fahrenheit a Celsius.",
+        "changeTo": "Penio Na: {{scale}}"
+      },
+      "bluetoothFirmware": {
+        "title": "Gwedh-Govestas",
+        "description": "Gwedh govad path parf"
+      },
+      "hoursOfOperation": {
+        "title": "Iûl Cared",
+        "description": "Pân lû cared în Orodruin"
+      },
+      "volcanoFirmware": {
+        "title": "Orodruin Govestas",
+        "description": "Baur ranc govestas parf"
+      },
+      "serialNumber": {
+        "title": "Neder Eneth",
+        "description": "Erui ranc eneth"
+      },
+      "highlightLastRunWorkflow": {
+        "title": "Calad Vedui Path",
+        "description": "Calad tíro i vedui reviannen path."
+      },
+      "ledDisplayBrightness": {
+        "title": "Calad Pant",
+        "description": "Penio calad în Orodruin pant",
+        "currentLevel": "Sí Tâl:"
+      },
+      "autoShutoffTimer": {
+        "title": "Uireb Bedad Lû",
+        "description": "Pedo mîn lû aen în Orodruin uireb bedad"
+      },
+      "displayTemperatureWhenCooling": {
+        "title": "Tíro Gwanûn vi Puiad",
+        "description": "Tíro gwanûn govestas pan i ranc puiad"
+      }
+    }
+  },
+  "navigation": {
+    "controls": "Controls",
+    "workflowEditor": "Workflow Forge",
+    "contactMe": "Send Word",
+    "settings": "Settings",
+    "disconnect": "Sever Bond",
+    "miniMode": "Compact View"
+  },
+  "contactPage": {
+    "title": "📞 Pedo na Nin"
+  },
+  "connection": {
+    "connecting": "🔗 Forging Bond with Mount Doom",
+    "initializing": "Awakening the ancient device",
+    "establishingConnection": "Establishing mystical Bluetooth connection with thy Volcano. This may take a moment...",
+    "securingConnection": "Securing the bond",
+    "scanningDevice": "Searching for Volcano's essence"
+  },
+  "workflowButtons": {
+    "createNewWorkflow": "➕ Forge New Ritual",
+    "createPremadeWorkflows": "➕ Use Ancient Templates",
+    "addWorkflows": "Add Rituals"
+  },
+  "workflowExecution": {
+    "currentTemp": "Current Heat:",
+    "targetTemp": "Target Heat:",
+    "timeRemaining": "Time Remaining:",
+    "elapsedTime": "Time Passed:",
+    "errorLoadingWorkflow": "Failed to summon ritual details",
+    "loopMode": "Endless Circle",
+    "loopModeActive": "The Circle Continues"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Dad cared sí",
+    "dropWorkflowHere": "Dad path sí",
+    "dropZone": "Dad sîdh"
+  }
+}

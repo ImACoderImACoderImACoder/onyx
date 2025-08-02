@@ -16,8 +16,10 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 const ModalSection = styled.div`
-  background: ${props => props.theme.settingsSectionBg || 'rgba(255, 255, 255, 0.02)'};
-  border: 1px solid ${props => props.theme.borderColor || 'rgba(255, 255, 255, 0.1)'};
+  background: ${(props) =>
+    props.theme.settingsSectionBg || "rgba(255, 255, 255, 0.02)"};
+  border: 1px solid
+    ${(props) => props.theme.borderColor || "rgba(255, 255, 255, 0.1)"};
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0;
@@ -39,26 +41,28 @@ const ModalSectionTitle = styled.h4`
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: ${props => props.theme.primaryColor || props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryColor || props.theme.primaryFontColor};
 `;
 
 const ModalDescription = styled.p`
   margin: 0 0 16px 0;
   font-size: 0.9rem;
   line-height: 1.4;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   opacity: 0.8;
 `;
 
 const InstructionText = styled.div`
   font-size: 0.85rem;
-  color: ${props => props.theme.primaryFontColor};
+  color: ${(props) => props.theme.primaryFontColor};
   opacity: 0.7;
   margin-bottom: 12px;
   padding: 8px 12px;
-  background: ${props => props.theme.buttonColorMain || 'rgba(255, 255, 255, 0.05)'};
+  background: ${(props) =>
+    props.theme.buttonColorMain || "rgba(255, 255, 255, 0.05)"};
   border-radius: 4px;
-  border-left: 3px solid ${props => props.theme.primaryColor || 'rgba(255, 255, 255, 0.3)'};
+  border-left: 3px solid
+    ${(props) => props.theme.primaryColor || "rgba(255, 255, 255, 0.3)"};
 `;
 
 export default function AppendWorkflowConfigJson() {
@@ -123,13 +127,11 @@ export default function AppendWorkflowConfigJson() {
   return (
     <>
       <Button onClick={handleShow}>
-        <PrideText text="Append Workflow JSON" />
+        <PrideText text={t("workflowEditor.appendWorkflowJSON")} />
       </Button>
       <ModalWrapper
         show={show}
-        headerText={
-          <PrideText text="📥 Import Additional Workflows" />
-        }
+        headerText={<PrideText text="📥 Import Additional Workflows" />}
         handleClose={handleClose}
         confirmButtonText={t("workflowButtons.addWorkflows")}
         handleConfirm={handleConfirm}
@@ -140,7 +142,9 @@ export default function AppendWorkflowConfigJson() {
             <ModalSectionTitle>About Import</ModalSectionTitle>
           </ModalSectionHeader>
           <ModalDescription>
-            Import workflows from JSON configuration files shared by others. These will be added to your existing workflows without replacing them.
+            Import workflows from JSON configuration files shared by others.
+            These will be added to your existing workflows without replacing
+            them.
           </ModalDescription>
         </ModalSection>
 
@@ -150,7 +154,8 @@ export default function AppendWorkflowConfigJson() {
             <ModalSectionTitle>Paste Configuration</ModalSectionTitle>
           </ModalSectionHeader>
           <InstructionText>
-            💡 Paste the workflow JSON configuration below. All workflows will be added to your current collection.
+            💡 Paste the workflow JSON configuration below. All workflows will
+            be added to your current collection.
           </InstructionText>
           <ControlWrapper
             value={configString}
