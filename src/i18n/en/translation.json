@@ -22,7 +22,8 @@
     "newCommands": "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
     "miniMode": "Mini mode available now! Just click \"Mini Mode\" in the nav menu!",
     "miniModeGrid": "If you don't have any workflows saved mini mode will display a grid of temperatures.",
-    "tempToggle": "Tap or click the temperature display to toggle between °C and °F"
+    "tempToggle": "Tap or click the temperature display to toggle between °C and °F",
+    "translation": "Translations are AI-generated and may not be perfect. Want to add a new language or improve existing ones? Reach out!"
   },
   "contact": {
     "title": "💬 Send Me a Message",

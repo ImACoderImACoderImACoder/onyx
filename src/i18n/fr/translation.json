@@ -22,7 +22,8 @@
     "newCommands": "Nouvelles commandes de workflow disponibles ! Bouclez vos workflows et définissez la température basée sur la température cible actuelle !",
     "miniMode": "Mode mini maintenant disponible ! Cliquez simplement sur \"Mode Mini\" dans le menu de navigation !",
     "miniModeGrid": "Si vous n'avez aucun workflow sauvegardé, le mode mini affichera une grille de températures.",
-    "tempToggle": "Appuyez ou cliquez sur l'affichage de température pour basculer entre °C et °F"
+    "tempToggle": "Appuyez ou cliquez sur l'affichage de température pour basculer entre °C et °F",
+    "translation": "Les traductions sont générées par IA et peuvent ne pas être parfaites. Vous voulez ajouter une nouvelle langue ou améliorer les existantes ? Contactez-nous !"
   },
   "contact": {
     "title": "💬 Envoyez-moi un message",

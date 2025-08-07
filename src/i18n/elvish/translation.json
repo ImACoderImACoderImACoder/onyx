@@ -22,7 +22,8 @@
     "newCommands": "New powers of command are granted!",
     "miniMode": "Behold! The compact viewing stone!",
     "miniModeGrid": "Without workflows, see the grid of temperatures",
-    "tempToggle": "Touch the heat runes to switch between realms"
+    "tempToggle": "Touch the heat runes to switch between realms",
+    "translation": "These words are wrought by machine-spirits and may lack true wisdom. Seek to add new tongues or better our speech? Send word to me!"
   },
   "contact": {
     "title": "💬 Send a Message",

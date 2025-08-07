@@ -22,7 +22,8 @@
     "newCommands": "¡Nuevos comandos de flujo de trabajo disponibles ahora! ¡Haz bucles en tus flujos de trabajo y establece la temperatura basada en la temperatura objetivo actual!",
     "miniMode": "¡Modo mini disponible ahora! ¡Solo haz clic en \"Modo Mini\" en el menú de navegación!",
     "miniModeGrid": "Si no tienes flujos de trabajo guardados, el modo mini mostrará una cuadrícula de temperaturas.",
-    "tempToggle": "Toca o haz clic en la pantalla de temperatura para alternar entre °C y °F"
+    "tempToggle": "Toca o haz clic en la pantalla de temperatura para alternar entre °C y °F",
+    "translation": "Las traducciones son generadas por IA y pueden no ser perfectas. ¿Quieres agregar un nuevo idioma o mejorar los existentes? ¡Contáctanos!"
   },
   "contact": {
     "title": "💬 Envíame un Mensaje",

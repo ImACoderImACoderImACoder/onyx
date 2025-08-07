@@ -22,7 +22,8 @@
     "newCommands": "Neue Arbeitsablauf-Befehle jetzt verfügbar! Schleifen Sie Ihre Arbeitsabläufe und stellen Sie die Temperatur basierend auf der aktuellen Zieltemperatur ein!",
     "miniMode": "Mini-Modus jetzt verfügbar! Klicken Sie einfach auf \"Mini-Modus\" im Navigationsmenü!",
     "miniModeGrid": "Wenn Sie keine Arbeitsabläufe gespeichert haben, zeigt der Mini-Modus ein Temperaturraster an.",
-    "tempToggle": "Tippen oder klicken Sie auf die Temperaturanzeige, um zwischen °C und °F zu wechseln"
+    "tempToggle": "Tippen oder klicken Sie auf die Temperaturanzeige, um zwischen °C und °F zu wechseln",
+    "translation": "Übersetzungen sind KI-generiert und möglicherweise nicht perfekt. Möchten Sie eine neue Sprache hinzufügen oder bestehende verbessern? Melden Sie sich!"
   },
   "contact": {
     "title": "💬 Senden Sie mir eine Nachricht",

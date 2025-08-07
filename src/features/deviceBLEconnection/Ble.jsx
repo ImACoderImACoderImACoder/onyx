@@ -239,6 +239,7 @@ export default function Ble(props) {
     t("tips.miniMode"),
     t("tips.miniModeGrid"),
     t("tips.tempToggle"),
+    t("tips.translation"),
   ];
 
   const [currentTipIndex, setCurrentTipIndex] = useState(
