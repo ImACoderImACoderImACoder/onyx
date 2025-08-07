@@ -1,7 +1,9 @@
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import ToggleSwitch from "../../../features/shared/styledComponents/Switch";
 import { PrideTextWithDiv } from "../../../themes/PrideText";
 export default function HeatOn(props) {
+  const { t } = useTranslation();
   const ref = useRef(null);
   const enterKeyCode = 13;
   const handler = (e) => {
@@ -21,8 +23,8 @@ export default function HeatOn(props) {
     >
       <ToggleSwitch
         isToggleOn={props.isHeatOn}
-        onText="Heat On"
-        offText={<PrideTextWithDiv text="Heat Off" />}
+        onText={t("deviceControls.heatOn")}
+        offText={<PrideTextWithDiv text={t("deviceControls.heatOff")} />}
         ref={ref}
         onChange={props.onChange}
       />

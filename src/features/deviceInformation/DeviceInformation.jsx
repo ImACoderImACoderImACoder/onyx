@@ -7,6 +7,7 @@ import PrideText from "../../themes/PrideText";
 import HeatOn from "../deviceInteraction/HeatOn/HeatOnContainer";
 import FanOn from "../deviceInteraction/FanOn/FanOnContainer";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const PageHeader = styled.div`
   text-align: center;
@@ -52,11 +53,13 @@ const ControlsContainer = styled.div`
 `;
 
 export default function DeviceInformation() {
+  const { t } = useTranslation();
+
   return (
     <Div>
       <PageHeader>
         <h1>
-          <PrideText text="Device Information" />
+          <PrideText text={t('deviceInformation.title')} />
         </h1>
       </PageHeader>
       <InfoGrid>
@@ -70,12 +73,14 @@ export default function DeviceInformation() {
 }
 
 export function DeviceInformationWithToggleControls() {
+  const { t } = useTranslation();
+
   return (
     <div style={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
       <Div>
         <PageHeader>
           <h1>
-            <PrideText text="Device Information" />
+            <PrideText text={t('deviceInformation.title')} />
           </h1>
         </PageHeader>
         <InfoGrid>

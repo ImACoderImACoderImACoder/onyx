@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import PrideText from "../../themes/PrideText";
+import { useTranslation } from "react-i18next";
 import { DEGREE_SYMBOL } from "../../constants/temperature";
 
 const Container = styled.div`
@@ -218,24 +219,27 @@ const ProTipContent = styled.div`
 `;
 
 export default function Ble(props) {
+  const { t } = useTranslation();
+  
   const tips = [
-    "Spacebar toggles the fan",
-    "Setting the screen to 0 brightness turns it off",
-    "Don't forget to clean your herb chamber :D",
-    "Remember to check your Volcano's air filter",
-    "You can change the look of the app by changing themes in the settings page",
-    "Use workflows to take full control of your Volcano",
-    "You can add or remove temperatures in the settings page",
-    "Frequent users should replace bags every 2-4 weeks for optimal flavor",
-    "10 minutes or less is the ideal time for a bag to store vapor",
-    "For best results preheat the chamber for 2-5 seconds before attaching the bag",
-    "Drag and drop can be used to reorder workflows and workflow items on all devices",
-    "If you want to visually see the last workflow run you can enable highlight last run workflow in settings",
-    "The Auto Seasonal Rotate theme selects a festive theme when it can and falls back on a semi-random theme",
-    "New workflow commands out now! Loop your workflows and set the temperature based off the current target temp!",
-    'Mini mode available now! Just click "Mini Mode" in the nav menu!',
-    "If you don't have any workflows saved mini mode will display a grid of temperatures.",
-    `Tap or click the temperature display to toggle between ${DEGREE_SYMBOL}C and ${DEGREE_SYMBOL}F`,
+    t("tips.spacebar"),
+    t("tips.brightness"),
+    t("tips.clean"),
+    t("tips.filter"),
+    t("tips.themes"),
+    t("tips.workflows"),
+    t("tips.temperatures"),
+    t("tips.bagReplace"),
+    t("tips.bagTime"),
+    t("tips.preheat"),
+    t("tips.dragDrop"),
+    t("tips.highlight"),
+    t("tips.autoSeasonal"),
+    t("tips.newCommands"),
+    t("tips.miniMode"),
+    t("tips.miniModeGrid"),
+    t("tips.tempToggle"),
+    t("tips.translation"),
   ];
 
   const [currentTipIndex, setCurrentTipIndex] = useState(
@@ -255,15 +259,10 @@ export default function Ble(props) {
       <MainContent>
         <LargeConnectButton onClick={props.onClick}>
           <ConnectTitle>
-            <PrideText text="🔗 Connect to Volcano" />
+            <PrideText text={`🔗  ${t("connectTitle")}`} />
           </ConnectTitle>
-          <ConnectDescription>
-            Ready to take control of your Volcano Hybrid? Tap here to establish
-            a Bluetooth connection and unlock all the advanced features.
-          </ConnectDescription>
-          <ConnectInstruction>
-            Make sure your Volcano is powered on and nearby
-          </ConnectInstruction>
+          <ConnectDescription>{t("connectDescription")}</ConnectDescription>
+          <ConnectInstruction>{t("connectInstruction")}</ConnectInstruction>
         </LargeConnectButton>
 
         <ProTipCard>
@@ -271,17 +270,17 @@ export default function Ble(props) {
             <ProTipLeft>
               <ProTipIcon>💡</ProTipIcon>
               <ProTipTitle>
-                <PrideText text="Pro Tip" />
+                <PrideText text={t("proTipLabel")} />
               </ProTipTitle>
             </ProTipLeft>
             <ProTipNavigation>
-              <NavButton onClick={prevTip} title="Previous tip">
+              <NavButton onClick={prevTip} title={t("proTipPrevious")}>
                 ←
               </NavButton>
               <TipCounter>
                 {currentTipIndex + 1}/{tips.length}
               </TipCounter>
-              <NavButton onClick={nextTip} title="Next tip">
+              <NavButton onClick={nextTip} title={t("proTipNext")}>
                 →
               </NavButton>
             </ProTipNavigation>

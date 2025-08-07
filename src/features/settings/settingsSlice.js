@@ -14,6 +14,7 @@ export const settingsSlice = createSlice({
     isDisplayOnCooling: undefined,
     LEDbrightness: undefined,
     autoShutoffTime: undefined,
+    language: undefined,
   },
   reducers: {
     setIsF: (state, action) => {
@@ -50,6 +51,11 @@ export const settingsSlice = createSlice({
       state.config.isMinimalistMode = action.payload;
       WriteNewConfigToLocalStorage(state.config);
     },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+      state.config.language = action.payload;
+      WriteNewConfigToLocalStorage(state.config);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(RE_INITIALIZE_STORE, (state) => {
@@ -60,6 +66,7 @@ export const settingsSlice = createSlice({
         LEDbrightness: undefined,
         config: ReadConfigFromLocalStorage(),
         autoShutoffTime: undefined,
+        language: undefined,
       };
     });
   },
@@ -78,6 +85,7 @@ export const {
   setFanOnGlobal,
   setHighlightLastRunWorkflow,
   setIsMinimalistMode,
+  setLanguage,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

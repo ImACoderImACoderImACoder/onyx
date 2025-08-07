@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store";
 import { Provider } from "react-redux";
+import "./i18n"; // 🔥 must be imported before rendering App
 
 const container = document.getElementById("root");
 const root = createRoot(container);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 import Div from "../Shared/StyledComponents/Div";
 import PrideText from "../../../themes/PrideText";
 
@@ -42,6 +43,7 @@ const InstallButton = styled.button`
 `;
 
 const PWAInstall = () => {
+  const { t } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
 
@@ -105,13 +107,13 @@ const PWAInstall = () => {
   return (
     <Div>
       <h2>
-        <PrideText text="Install PWA App to Device" />
+        <PrideText text={t("settings.system.installPWA")} />
       </h2>
       <div
         style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}
       >
         <InstallButton onClick={handleInstallClick}>
-          📱 Install App
+          {t("settings.system.installApp")}
         </InstallButton>
       </div>
     </Div>

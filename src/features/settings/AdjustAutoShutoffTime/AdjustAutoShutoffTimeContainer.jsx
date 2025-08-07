@@ -13,8 +13,10 @@ import { useEffect, useState } from "react";
 import SettingsRange from "../Shared/SettingsRange/SettingsRange";
 import SettingsItem from "../SettingsItem";
 import { setIsHeatOn } from "../../deviceInteraction/deviceInteractionSlice";
+import { useTranslation } from "react-i18next";
 
 export default function AdjustAutoShutoffTimeContainer() {
+  const { t } = useTranslation();
   const autoShutoffTime = useSelector(
     (state) => state.settings.autoShutoffTime
   );
@@ -70,8 +72,8 @@ export default function AdjustAutoShutoffTimeContainer() {
 
   return (
     <SettingsItem
-      title="Auto Shutoff Timer"
-      description="Set how long the heater stays on before automatically turning off for safety. The circle with a number on the controls screen shows the countdown. Adjusting this will temporarily turn off the heat."
+      title={t('settings.items.autoShutoffTimer.title')}
+      description={t('settings.items.autoShutoffTimer.description')}
     >
       <div>
         Current Time: {autoShutoffTime} minutes
