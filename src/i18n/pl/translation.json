@@ -6,29 +6,29 @@
   "proTipPrevious": "Poprzednia porada",
   "proTipNext": "Następna porada",
   "tips": {
-    "spacebar": "Spacja przełącza wentylator",
+    "spacebar": "Spacja włącza/wyłącza wentylator",
     "brightness": "Ustawienie jasności ekranu na 0 wyłącza go",
     "clean": "Nie zapomnij wyczyścić komory na zioła :D",
     "filter": "Pamiętaj o sprawdzeniu filtra powietrza w swoim Volcano",
-    "themes": "Możesz zmienić wygląd aplikacji, zmieniając motywy na stronie ustawień",
+    "themes": "Możesz zmienić wygląd aplikacji, wybierając motyw na stronie ustawień",
     "workflows": "Użyj przepływów pracy, aby przejąć pełną kontrolę nad swoim Volcano",
     "temperatures": "Możesz dodawać lub usuwać temperatury na stronie ustawień",
-    "bagReplace": "Części użytkownicy powinni wymieniać worki co 2-4 tygodnie dla optymalnego smaku",
+    "bagReplace": "Regularni użytkownicy powinni wymieniać worki co 2-4 tygodnie dla optymalnego smaku",
     "bagTime": "10 minut lub mniej to idealny czas przechowywania pary w worku",
-    "preheat": "Dla najlepszych rezultatów podgrzej komorę przez 2-5 sekund przed założeniem worka",
+    "preheat": "Dla najlepszych rezultatów podgrzewaj komorę przez 2-5 sekund przed założeniem worka",
     "dragDrop": "Przeciąganie i upuszczanie może być używane do zmiany kolejności przepływów pracy i ich elementów na wszystkich urządzeniach",
     "highlight": "Jeśli chcesz wizualnie zobaczyć ostatnio uruchomiony przepływ pracy, możesz włączyć podświetlanie ostatniego przepływu w ustawieniach",
-    "autoSeasonal": "Motyw Automatycznej Rotacji Sezonowej wybiera świąteczny motyw, gdy to możliwe, i wraca do semi-losowego motywu",
-    "newCommands": "Nowe polecenia przepływu pracy dostępne teraz! Zapętlaj swoje przepływy pracy i ustawiaj temperaturę na podstawie bieżącej temperatury docelowej!",
-    "miniMode": "Tryb mini dostępny teraz! Po prostu kliknij \"Tryb Mini\" w menu nawigacji!",
+    "autoSeasonal": "Motyw Automatycznej Rotacji Sezonowej wybiera świąteczny motyw, gdy to możliwe, i wraca do semi-losowego trybu",
+    "newCommands": "Nowe polecenia przepływu pracy już dostępne! Zapętlaj swoje przepływy pracy i ustawiaj temperaturę na podstawie bieżącej temperatury docelowej!",
+    "miniMode": "Tryb mini już dostępny! Po prostu kliknij \"Tryb Mini\" w menu nawigacji!",
     "miniModeGrid": "Jeśli nie masz zapisanych przepływów pracy, tryb mini wyświetli siatkę temperatur.",
     "tempToggle": "Dotknij lub kliknij wyświetlacz temperatury, aby przełączać między °C i °F",
     "translation": "Tłumaczenia są generowane przez AI i mogą nie być idealne. Chcesz dodać nowy język lub poprawić istniejące? Skontaktuj się!"
   },
   "contact": {
     "title": "💬 Wyślij mi wiadomość",
-    "description": "Zawsze miło jest słyszeć od użytkowników! Niezależnie od tego, czy masz prośbę o funkcję, opinię, czy po prostu chcesz się przywitać, czytam każdą wiadomość. Dołącz swoje dane kontaktowe, jeśli chcesz otrzymać odpowiedź - odpowiadam na każdą wiadomość, która je zawiera.",
-    "getInTouch": "Skontaktuj się! Niezależnie od tego, czy masz prośby o funkcje, opinie, czy po prostu chcesz się przywitać, chętnie od Ciebie usłyszę. Połącz się przez media społecznościowe lub wyślij bezpośrednią wiadomość.",
+    "description": "Zawsze miło jest usłyszeć użytkowników! Niezależnie od tego, czy masz prośbę o dodanie funkcji, opinię, czy po prostu chcesz się przywitać, czytam każdą wiadomość. Dołącz swoje dane kontaktowe, jeśli chcesz otrzymać odpowiedź - odpowiadam na każdą wiadomość, która je zawiera.",
+    "getInTouch": "Skontaktuj się! Niezależnie od tego, czy masz prośbę o dodanie funkcji, opinie, czy po prostu chcesz się przywitać, chętnie od Ciebie usłyszę. Połącz się przez media społecznościowe lub wyślij bezpośrednią wiadomość.",
     "contactInfoLabel": "Informacje kontaktowe",
     "contactInfoPlaceholder": "Twój email, Discord, itp.",
     "messageLabel": "Wiadomość",
@@ -195,10 +195,10 @@
     "fahrenheit": "Fahrenheit"
   },
   "deviceControls": {
-    "heatOn": "Włącz grzanie",
-    "heatOff": "Wyłącz grzanie",
-    "fanOn": "Włącz wentylator",
-    "fanOff": "Wyłącz wentylator"
+    "heatOn": "Grzanie ON",
+    "heatOff": "Grzanie OFF",
+    "fanOn": "Wentylator ON",
+    "fanOff": "Wentylator OFF"
   },
   "settings": {
     "title": "Ustawienia",
@@ -261,7 +261,7 @@
       },
       "temperatureScale": {
         "title": "Skala temperatury",
-        "description": "Obecnie używa {{current}}. Przełączaj między Fahrenheitem a Celsjuszem.",
+        "description": "Obecnie używasz {{current}}. Przełączaj między Fahrenheitem a Celsjuszem.",
         "changeTo": "Zmień na: {{scale}}"
       },
       "bluetoothFirmware": {
@@ -291,7 +291,7 @@
       },
       "autoShutoffTimer": {
         "title": "Timer automatycznego wyłączania",
-        "description": "Ustaw, jak długo trwa, zanim Twoje Volcano automatycznie się wyłączy"
+        "description": "Ustaw czas, po którym Twoje Volcano automatycznie się wyłączy"
       },
       "displayTemperatureWhenCooling": {
         "title": "Wyświetlaj temperaturę podczas chłodzenia",
@@ -302,7 +302,7 @@
   "navigation": {
     "controls": "Sterowanie",
     "workflowEditor": "Edytor przepływów pracy",
-    "contactMe": "Skontaktuj się ze mną",
+    "contactMe": "Kontakt",
     "settings": "Ustawienia",
     "disconnect": "Rozłącz",
     "miniMode": "Tryb mini"
