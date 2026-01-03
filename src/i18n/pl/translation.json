@@ -1,0 +1,339 @@
+{
+  "connectTitle": "Połącz z Volcano",
+  "connectDescription": "Gotowy do przejęcia kontroli nad swoim Volcano Hybrid? Dotknij tutaj, aby nawiązać połączenie Bluetooth i odblokować wszystkie zaawansowane funkcje.",
+  "connectInstruction": "Upewnij się, że Twoje Volcano jest włączone i w pobliżu",
+  "proTipLabel": "Porada",
+  "proTipPrevious": "Poprzednia porada",
+  "proTipNext": "Następna porada",
+  "tips": {
+    "spacebar": "Spacja włącza/wyłącza wentylator",
+    "brightness": "Ustawienie jasności ekranu na 0 wyłącza go",
+    "clean": "Nie zapomnij wyczyścić komory na zioła :D",
+    "filter": "Pamiętaj o sprawdzeniu filtra powietrza w swoim Volcano",
+    "themes": "Możesz zmienić wygląd aplikacji, wybierając motyw na stronie ustawień",
+    "workflows": "Użyj przepływów pracy, aby przejąć pełną kontrolę nad swoim Volcano",
+    "temperatures": "Możesz dodawać lub usuwać temperatury na stronie ustawień",
+    "bagReplace": "Regularni użytkownicy powinni wymieniać worki co 2-4 tygodnie dla optymalnego smaku",
+    "bagTime": "10 minut lub mniej to idealny czas przechowywania pary w worku",
+    "preheat": "Dla najlepszych rezultatów podgrzewaj komorę przez 2-5 sekund przed założeniem worka",
+    "dragDrop": "Przeciąganie i upuszczanie może być używane do zmiany kolejności przepływów pracy i ich elementów na wszystkich urządzeniach",
+    "highlight": "Jeśli chcesz wizualnie zobaczyć ostatnio uruchomiony przepływ pracy, możesz włączyć podświetlanie ostatniego przepływu w ustawieniach",
+    "autoSeasonal": "Motyw Automatycznej Rotacji Sezonowej wybiera świąteczny motyw, gdy to możliwe, i wraca do semi-losowego trybu",
+    "newCommands": "Nowe polecenia przepływu pracy już dostępne! Zapętlaj swoje przepływy pracy i ustawiaj temperaturę na podstawie bieżącej temperatury docelowej!",
+    "miniMode": "Tryb mini już dostępny! Po prostu kliknij \"Tryb Mini\" w menu nawigacji!",
+    "miniModeGrid": "Jeśli nie masz zapisanych przepływów pracy, tryb mini wyświetli siatkę temperatur.",
+    "tempToggle": "Dotknij lub kliknij wyświetlacz temperatury, aby przełączać między °C i °F",
+    "translation": "Tłumaczenia są generowane przez AI i mogą nie być idealne. Chcesz dodać nowy język lub poprawić istniejące? Skontaktuj się!"
+  },
+  "contact": {
+    "title": "💬 Wyślij mi wiadomość",
+    "description": "Zawsze miło jest usłyszeć użytkowników! Niezależnie od tego, czy masz prośbę o dodanie funkcji, opinię, czy po prostu chcesz się przywitać, czytam każdą wiadomość. Dołącz swoje dane kontaktowe, jeśli chcesz otrzymać odpowiedź - odpowiadam na każdą wiadomość, która je zawiera.",
+    "getInTouch": "Skontaktuj się! Niezależnie od tego, czy masz prośbę o dodanie funkcji, opinie, czy po prostu chcesz się przywitać, chętnie od Ciebie usłyszę. Połącz się przez media społecznościowe lub wyślij bezpośrednią wiadomość.",
+    "contactInfoLabel": "Informacje kontaktowe",
+    "contactInfoPlaceholder": "Twój email, Discord, itp.",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Twoja wiadomość tutaj...",
+    "optional": "(Opcjonalne)",
+    "required": "(Wymagane)",
+    "sendButton": "📤 Wyślij wiadomość",
+    "important": "Ważne:",
+    "spamNotice": "Jeśli podałeś dane kontaktowe i nie otrzymasz odpowiedzi w ciągu kilku dni, sprawdź folder spam/wiadomości-śmieci, ponieważ moje odpowiedzi czasami tam trafiają.",
+    "submitWithoutContactTitle": "Wyślij bez danych kontaktowych",
+    "submitWithoutContactBody": "Nie podałeś żadnych danych kontaktowych, abym mógł Ci odpowiedzieć. Kliknij \"Zamknij\", aby podać dane kontaktowe, lub kliknij \"Wyślij\", aby kontynuować bez podawania danych kontaktowych. Nie mogę odpowiedzieć, jeśli nie podasz swoich danych kontaktowych.",
+    "submitButton": "Wyślij",
+    "successMessage": "Sukces!"
+  },
+  "workflowEditor": {
+    "title": "🔥 Edytor przepływów pracy",
+    "description": "Twórz, dostosowuj i zarządzaj swoimi przepływami pracy waporyzatora. Buduj precyzyjne rutyny temperaturowe, sekwencje czasowe i sterowanie wentylatorem dla idealnego doświadczenia waporyzacji.",
+    "createNewTitle": "➕ Utwórz nowe przepływy pracy",
+    "createNewDescription": "Rozpocznij budowanie swoich rutyn waporyzatora, tworząc niestandardowe przepływy pracy lub wybierając z naszych gotowych szablonów.",
+    "customWorkflowTitle": "Niestandardowy przepływ pracy",
+    "customWorkflowDescription": "Zbuduj przepływ pracy od podstaw z preferowanymi ustawieniami temperatury i czasem.",
+    "templatesTitle": "Szablony przepływów pracy",
+    "templatesDescription": "Szybki start z fachowo opracowanymi przepływami pracy zaprojektowanymi dla różnych stylów waporyzacji.",
+    "configEditorTitle": "⚙️ Edytor konfiguracji",
+    "configEditorDescription": "Twórz kopie zapasowe i zarządzaj swoimi konfiguracjami przepływów pracy. Eksportuj swoje przepływy pracy jako JSON, aby je zapisać, lub importuj konfiguracje od innych, aby rozszerzyć swoją kolekcję.",
+    "exportTitle": "Eksportuj i edytuj",
+    "exportDescription": "Wyświetl i modyfikuj swoją bieżącą konfigurację przepływu pracy lub wyeksportuj ją do kopii zapasowej.",
+    "importTitle": "Importuj przepływy pracy",
+    "importDescription": "Dodaj nowe przepływy pracy z plików konfiguracyjnych JSON udostępnionych przez innych.",
+    "editCopyWorkflowJSON": "Edytuj/Kopiuj JSON przepływu pracy",
+    "appendWorkflowJSON": "Dołącz JSON przepływu pracy",
+    "exportAndEditConfiguration": "📤 Eksportuj i edytuj konfigurację przepływu pracy",
+    "copyConfigIcon": "📋",
+    "currentConfiguration": "Bieżąca konfiguracja",
+    "currentConfigDescription": "Twoja bieżąca konfiguracja przepływu pracy jest wyświetlana poniżej. Możesz ją skopiować do kopii zapasowej lub zmodyfikować bezpośrednio.",
+    "copyConfiguration": "📋 Kopiuj konfigurację",
+    "editIcon": "✏️",
+    "editConfiguration": "Edytuj konfigurację",
+    "editConfigTip": "💡 Wskazówka: Użyj \"[]\" aby utworzyć pustą konfigurację lub wklej prawidłowy JSON przepływu pracy poniżej",
+    "close": "Zamknij",
+    "saveChanges": "Zapisz zmiany",
+    "importAdditionalWorkflows": "📥 Importuj dodatkowe przepływy pracy",
+    "aboutImportIcon": "ℹ️",
+    "aboutImport": "O imporcie",
+    "aboutImportDescription": "Importuj przepływy pracy z plików konfiguracyjnych JSON udostępnionych przez innych. Zostaną one dodane do Twoich istniejących przepływów pracy bez ich zastępowania.",
+    "pasteConfigIcon": "📝",
+    "pasteConfiguration": "Wklej konfigurację",
+    "pasteConfigTip": "💡 Wklej konfigurację JSON przepływu pracy poniżej. Wszystkie przepływy pracy zostaną dodane do Twojej bieżącej kolekcji.",
+    "actionName": "Akcja {{index}}",
+    "actionType": "Typ akcji",
+    "actionTypes": {
+      "heatOn": "🔥 Włącz grzanie",
+      "fanOn": "🌪️ Włącz wentylator",
+      "fanOnGlobal": "🌍 Włącz wentylator globalnie",
+      "pauseWait": "⏸️ Pauza/Czekaj",
+      "heatOff": "❄️ Wyłącz grzanie",
+      "setLedBrightness": "💡 Ustaw jasność LED",
+      "exitWhenTargetTemp": "🚪 Wyjdź przy temperaturze docelowej",
+      "conditionalTempSet": "🎯 Warunkowe ustawienie temperatury",
+      "startWorkflowFromBeginning": "🔄 Rozpocznij przepływ pracy od początku"
+    },
+    "payloadLabels": {
+      "seconds": "Sekundy",
+      "brightness": "Jasność (0-100)",
+      "exitWorkflowUntilTemp": "Wyjdź z przepływu pracy, gdy temperatura docelowa wynosi"
+    },
+    "conditionalHeat": {
+      "defaultSettings": "Ustawienia domyślne",
+      "defaultTemp": "Temperatura domyślna",
+      "defaultWait": "Domyślne oczekiwanie",
+      "optional": "Opcjonalne",
+      "heatConditions": "Warunki grzania",
+      "ifTemp": "Jeśli temperatura",
+      "thenSet": "Wtedy ustaw",
+      "wait": "Czekaj",
+      "optionalShort": "(opc)",
+      "deleteCondition": "Usuń warunek {{index}}",
+      "addCondition": "Dodaj warunek",
+      "deleteConditionTitle": "Usuń warunek",
+      "deleteConditionConfirm": "Czy na pewno chcesz usunąć ten warunek? Ta akcja nie może zostać cofnięta",
+      "delete": "Usuń"
+    },
+    "validation": {
+      "mustBeValidNumber": "Musi być prawidłową liczbą",
+      "temperatureRange": "Musi być między {{min}}{{unit}} a {{max}}{{unit}}",
+      "mustBeGreaterOrEqualZero": "Musi być >= 0"
+    }
+  },
+  "workflowTips": {
+    "title": "💡 Wskazówki i sztuczki dotyczące przepływów pracy",
+    "fanOnGlobal": {
+      "title": "Włącz wentylator globalnie",
+      "content": "\"Włącz wentylator globalnie\" to pojedyncza wartość dla wszystkich przepływów pracy. Użyj tego, aby dostosować główny czas wentylatora dla wszystkich przepływów pracy."
+    },
+    "ledDisplay": {
+      "title": "Sterowanie wyświetlaczem LED",
+      "content": "Jeśli ustawisz jasność LED na 0, całkowicie wyłączy to wyświetlacz."
+    },
+    "infiniteFan": {
+      "title": "Nieskończony tryb wentylatora",
+      "content": "Jeśli ustawisz wentylator na 0, będzie on działał w nieskończoność. Aby wyłączyć wentylator, użyj kolejnego polecenia włączenia wentylatora z małą wartością (np. 0.1)."
+    },
+    "manualPause": {
+      "title": "Pauza ręczna",
+      "content": "Ustaw przepływ pauzy/oczekiwania na 0, a będzie czekał, aż klikniesz \"ok\", aby wznowić wykonywanie przepływu pracy."
+    },
+    "dragDrop": {
+      "title": "Przeciągnij i upuść",
+      "content": "Możesz zmienić kolejność przepływów pracy, przeciągając ikonę przesuwania (✛) do innej pozycji na liście."
+    },
+    "backgroundMode": {
+      "title": "Tryb tła",
+      "content": "Jeśli używasz przepływów pracy na telefonie lub tablecie, mogą one nie działać w tle. Jeśli przestaną działać, wznowią się po otwarciu aplikacji."
+    }
+  },
+  "workflow": {
+    "clickOkayToResume": "Kliknij ok, aby wznowić przepływ pracy!",
+    "tapToCancel": "Dotknij, aby anulować",
+    "stepNames": {
+      "fanOn": "Włącz wentylator",
+      "fanOnGlobal": "Włącz wentylator (Globalnie)",
+      "turningHeatOff": "Wyłączanie grzania",
+      "heatOn": "Włącz grzanie",
+      "heatingTo": "Nagrzewanie do {{temp}}{{unit}}",
+      "setLedBrightness": "Ustaw jasność LED na {{brightness}}",
+      "waiting": "Oczekiwanie",
+      "waitingAt": "Oczekiwanie przy {{temp}}{{unit}}",
+      "conditionalHeat": "Warunkowe grzanie",
+      "loopingToStart": "Zapętlanie do początku",
+      "checkingExitCondition": "Sprawdzanie warunku wyjścia",
+      "processing": "Przetwarzanie..."
+    }
+  },
+  "deviceInformation": {
+    "title": "Informacje o urządzeniu",
+    "clipboardFailed": "Dostęp do schowka nie powiódł się. Użyj Ctrl+V (lub Cmd+V na Mac), aby wkleić do obszaru tekstowego.",
+    "pasteStates": {
+      "failed": "❌ Nieudane",
+      "pasted": "✓ Wklejone",
+      "paste": "📋 {{label}}"
+    }
+  },
+  "social": {
+    "connectWithMe": "🌐 Połącz się ze mną",
+    "github": "GitHub",
+    "reddit": "Reddit",
+    "x": "X",
+    "instagram": "Instagram",
+    "cashApp": "Cash App",
+    "patreon": "Patreon"
+  },
+  "accessibility": {
+    "plusOneTemperature": "Plus jedna temperatura",
+    "minusOneTemperature": "Minus jedna temperatura",
+    "decreaseTemperature": "Zmniejsz temperaturę",
+    "increaseTemperature": "Zwiększ temperaturę"
+  },
+  "common": {
+    "loading": "Ładowanie",
+    "on": "On",
+    "off": "Off",
+    "cancel": "Anuluj",
+    "celsius": "Celsjusz",
+    "fahrenheit": "Fahrenheit"
+  },
+  "deviceControls": {
+    "heatOn": "Grzanie ON",
+    "heatOff": "Grzanie OFF",
+    "fanOn": "Wentylator ON",
+    "fanOff": "Wentylator OFF"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "appearance": {
+      "title": "Wygląd",
+      "description": "Dostosuj wygląd swojej aplikacji",
+      "selectTheme": "Wybierz motyw",
+      "themeBy": "Motyw autorstwa:"
+    },
+    "behavior": {
+      "title": "Zachowanie aplikacji",
+      "description": "Kontroluj, jak aplikacja się zachowuje i wyświetla informacje"
+    },
+    "language": {
+      "title": "Język",
+      "description": "Wybierz preferowany język aplikacji",
+      "default": "Domyślny (język przeglądarki)",
+      "english": "English",
+      "french": "Français",
+      "spanish": "Español",
+      "german": "Deutsch",
+      "binary": "Binarny",
+      "elvish": "Elfi",
+      "polish": "Polski"
+    },
+    "system": {
+      "title": "System",
+      "description": "Ustawienia systemowe i instalacja aplikacji",
+      "installPWA": "Zainstaluj aplikację PWA na urządzeniu",
+      "installApp": "📱 Zainstaluj aplikację",
+      "restoreDefaults": "Przywróć ustawienia domyślne"
+    },
+    "volcano": {
+      "title": "Sterowanie Volcano",
+      "description": "Skonfiguruj ustawienia swojego Volcano"
+    },
+    "device": {
+      "title": "Informacje o urządzeniu",
+      "description": "Wyświetl szczegóły dotyczące podłączonego urządzenia Volcano"
+    },
+    "temperatureControl": {
+      "temperatureRange": "Temperatura musi być między {{range}}",
+      "invalidTemperature": "Nieprawidłowa wartość temperatury.",
+      "temperatureIn": "Temperatura w {{unit}}",
+      "submit": "Wyślij",
+      "addTemperatureControls": "Dodaj sterowanie temperaturą",
+      "restoreDefaults": "Przywróć domyślne",
+      "restoreDefaultTemperatures": "Przywróć domyślne temperatury",
+      "restoreDefaultsConfirm": "Czy na pewno chcesz przywrócić ustawienia domyślne? Ta akcja nie może zostać cofnięta",
+      "saveChanges": "Zapisz zmiany"
+    },
+    "items": {
+      "fanVibrationAlert": {
+        "title": "Alert wibracyjny wentylatora",
+        "description": "Wentylator krótko zawibruje, gdy Twoje Volcano osiągnie temperaturę docelową, informując Cię, że jest gotowe do użycia."
+      },
+      "autoStartHeating": {
+        "title": "Automatyczne rozpoczęcie grzania",
+        "description": "Automatycznie włącz grzałkę po podłączeniu do urządzenia Volcano, oszczędzając krok."
+      },
+      "temperatureScale": {
+        "title": "Skala temperatury",
+        "description": "Obecnie używasz {{current}}. Przełączaj między Fahrenheitem a Celsjuszem.",
+        "changeTo": "Zmień na: {{scale}}"
+      },
+      "bluetoothFirmware": {
+        "title": "Oprogramowanie Bluetooth",
+        "description": "Wersja modułu komunikacji Bluetooth"
+      },
+      "hoursOfOperation": {
+        "title": "Godziny pracy",
+        "description": "Całkowity czas pracy Twojego urządzenia Volcano"
+      },
+      "volcanoFirmware": {
+        "title": "Oprogramowanie Volcano",
+        "description": "Wersja głównego oprogramowania urządzenia"
+      },
+      "serialNumber": {
+        "title": "Numer seryjny",
+        "description": "Unikalny identyfikator urządzenia"
+      },
+      "highlightLastRunWorkflow": {
+        "title": "Podświetl ostatni przepływ pracy",
+        "description": "Wizualnie podświetl ostatnio wykonany przepływ pracy dla łatwej identyfikacji."
+      },
+      "ledDisplayBrightness": {
+        "title": "Jasność wyświetlacza LED",
+        "description": "Dostosuj jasność wyświetlacza swojego Volcano",
+        "currentLevel": "Bieżący poziom:"
+      },
+      "autoShutoffTimer": {
+        "title": "Timer automatycznego wyłączania",
+        "description": "Ustaw czas, po którym Twoje Volcano automatycznie się wyłączy"
+      },
+      "displayTemperatureWhenCooling": {
+        "title": "Wyświetlaj temperaturę podczas chłodzenia",
+        "description": "Pokazuj informacje o temperaturze podczas chłodzenia urządzenia"
+      }
+    }
+  },
+  "navigation": {
+    "controls": "Sterowanie",
+    "workflowEditor": "Edytor przepływów pracy",
+    "contactMe": "Kontakt",
+    "settings": "Ustawienia",
+    "disconnect": "Rozłącz",
+    "miniMode": "Tryb mini"
+  },
+  "contactPage": {
+    "title": "📞 Skontaktuj się ze mną"
+  },
+  "connection": {
+    "connecting": "🔗 Łączenie z Volcano",
+    "initializing": "Inicjowanie komunikacji z urządzeniem",
+    "establishingConnection": "Nawiązywanie bezpiecznego połączenia Bluetooth z Twoim Volcano Hybrid. To może chwilę potrwać...",
+    "securingConnection": "Nawiązywanie bezpiecznego połączenia",
+    "scanningDevice": "Skanowanie charakterystyk urządzenia Volcano"
+  },
+  "workflowButtons": {
+    "createNewWorkflow": "➕ Utwórz nowy przepływ pracy",
+    "createPremadeWorkflows": "➕ Utwórz gotowe przepływy pracy",
+    "addWorkflows": "Dodaj przepływy pracy"
+  },
+  "workflowExecution": {
+    "currentTemp": "Bieżąca temp.:",
+    "targetTemp": "Temp. docelowa:",
+    "timeRemaining": "Pozostały czas:",
+    "elapsedTime": "Upłynął czas:",
+    "errorLoadingWorkflow": "Błąd ładowania szczegółów przepływu pracy",
+    "loopMode": "Tryb pętli",
+    "loopModeActive": "Tryb pętli aktywny"
+  },
+  "dragAndDrop": {
+    "dropActionHere": "Upuść akcję tutaj",
+    "dropWorkflowHere": "Upuść przepływ pracy tutaj",
+    "dropZone": "Strefa upuszczania"
+  }
+}
