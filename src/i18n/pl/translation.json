@@ -188,8 +188,8 @@
   },
   "common": {
     "loading": "Ładowanie",
-    "on": "Włączone",
-    "off": "Wyłączone",
+    "on": "On",
+    "off": "Off",
     "cancel": "Anuluj",
     "celsius": "Celsjusz",
     "fahrenheit": "Fahrenheit"
